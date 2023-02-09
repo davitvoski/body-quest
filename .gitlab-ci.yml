@@ -13,6 +13,7 @@ build-frontend:
         - main
         - staging
         - merge_requests
+        - setup-vite
     cache:
         key:
             prefix: 'frontend'
@@ -35,6 +36,7 @@ build-backend:
         - main
         - staging
         - merge_requests
+        - setup-vite
     cache:
         key:
             prefix: 'server'
