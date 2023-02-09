@@ -1,0 +1,26 @@
+{
+  "name": "body-quest",
+  "engines": {
+    "npm": "= 9.3.1",
+    "node": "= 18.14.0"
+  },
+  "version": "1.0.0",
+  "description": "An application where users track their gym progress",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd server && npm install && npm run build && cd ../client && npm install && npm run build",
+    "start": "cd server && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/dawson2223/620-w23/s01/TeamC/body-quest.git"
+  },
+  "author": "Davit,Raphael,Santiago,Wanting,Sophia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/dawson2223/620-w23/s01/TeamC/body-quest/issues"
+  },
+  "homepage": "https://gitlab.com/dawson2223/620-w23/s01/TeamC/body-quest#readme",
+  "devDependencies": {
+  }
+}
