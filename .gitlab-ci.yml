@@ -1,87 +1,87 @@
-# # Official framework image. Look for the different tagged releases at:
-# # https://hub.docker.com/r/library/node/tags/
-# image: node:latest
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
 
-# stages: 
-#     - build
-#     - test
-#     - deploy
+stages: 
+    - build
+    - test
+    - deploy
 
-# build-frontend:
-#     stage: build
-#     only:
-#         - main
-#         - staging
-#         - merge_requests
-#     cache:
-#         key:
-#             prefix: 'frontend'
-#             files: 
-#                 - 'client/package-lock.json'
-#         paths:
-#             - 'client/node_modules/'
-#     script:
-#         - cd client && npm install && CI=false npm run build
-#     artifacts:
-#         expire_in: 5 mins
-#         when: on_success
-#         paths:
-#             - client/build
-#             - client/node_modules
+build-frontend:
+    stage: build
+    only:
+        - main
+        - staging
+        - merge_requests
+    cache:
+        key:
+            prefix: 'frontend'
+            files: 
+                - 'client/package-lock.json'
+        paths:
+            - 'client/node_modules/'
+    script:
+        - cd client && npm install && CI=false npm run build
+    artifacts:
+        expire_in: 5 mins
+        when: on_success
+        paths:
+            - client/build
+            - client/node_modules
 
-# build-backend:
-#     stage: build
-#     only:
-#         - main
-#         - staging
-#         - merge_requests
-#     cache:
-#         key:
-#             prefix: 'server'
-#             files:
-#                 - 'server/package-lock.json'
-#         paths:
-#             - 'server/node_modules'
-#     script:
-#         - cd server && npm install && CI=false npm run build
-#     artifacts:
-#         expire_in: 5 mins
-#         when: on_success
-#         paths:
-#             - server/node_modules
-#             - server/build
+build-backend:
+    stage: build
+    only:
+        - main
+        - staging
+        - merge_requests
+    cache:
+        key:
+            prefix: 'server'
+            files:
+                - 'server/package-lock.json'
+        paths:
+            - 'server/node_modules'
+    script:
+        - cd server && npm install && CI=false npm run build
+    artifacts:
+        expire_in: 5 mins
+        when: on_success
+        paths:
+            - server/node_modules
+            - server/build
      
-# test:
-#     stage: test
-#     only:
-#         - main
-#         - staging
-#         - branches
-#         - merge_requests
-#     dependencies:
-#         - build-backend
-#     script:
-#         - cd server && npm install && npm run test
+test:
+    stage: test
+    only:
+        - main
+        - staging
+        - branches
+        - merge_requests
+    dependencies:
+        - build-backend
+    script:
+        - cd server && npm install && npm run test
 
-# deploy:
-#     stage: deploy
-#     image: mcr.microsoft.com/azure-cli
-#     dependencies:
-#         - build-frontend
-#         - build-backend
-#     only:
-#         - main
-#         - setup-vite
-#     before_script:
-#         - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
-#     script:
-#         # - zip -r deploy.zip client/build ./server ./package.json ./server/node_modules ./client/node_modules
-#         - zip -r deploy.zip ./package.json ./client/build ./client/package.json ./server/build ./server/package.json 
-#         # - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
-#         - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1' ATLAS_URI=$ATLAS_URI REACT_APP_AZURE_STORAGE_SAS_TOKEN=$REACT_APP_AZURE_STORAGE_SAS_TOKEN REACT_APP_AZURE_STORAGE_RESOURCE_NAME=$REACT_APP_AZURE_STORAGE_RESOURCE_NAME "
-#         - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
-#     artifacts:
-#         expire_in: 5 mins
-#         when: on_success
-#         paths:
-#             - deploy.zip
+deploy:
+    stage: deploy
+    image: mcr.microsoft.com/azure-cli
+    dependencies:
+        - build-frontend
+        - build-backend
+    only:
+        - main
+        - setup-vite
+    before_script:
+        - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
+    script:
+        # - zip -r deploy.zip client/build ./server ./package.json ./server/node_modules ./client/node_modules
+        - zip -r deploy.zip ./package.json ./client/build ./client/package.json ./server/build ./server/package.json 
+        # - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
+        - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1' ATLAS_URI=$ATLAS_URI REACT_APP_AZURE_STORAGE_SAS_TOKEN=$REACT_APP_AZURE_STORAGE_SAS_TOKEN REACT_APP_AZURE_STORAGE_RESOURCE_NAME=$REACT_APP_AZURE_STORAGE_RESOURCE_NAME "
+        - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
+    artifacts:
+        expire_in: 5 mins
+        when: on_success
+        paths:
+            - deploy.zip
