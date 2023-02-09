@@ -79,8 +79,7 @@ deploy:
     script:
         # - zip -r deploy.zip client/build ./server ./package.json ./server/node_modules ./client/node_modules
         - zip -r deploy.zip ./package.json ./client/build ./client/package.json ./server/build ./server/package.json 
-        # - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
-        - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1' ATLAS_URI=$ATLAS_URI REACT_APP_AZURE_STORAGE_SAS_TOKEN=$REACT_APP_AZURE_STORAGE_SAS_TOKEN REACT_APP_AZURE_STORAGE_RESOURCE_NAME=$REACT_APP_AZURE_STORAGE_RESOURCE_NAME "
+        - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
         - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
     artifacts:
         expire_in: 5 mins
