@@ -13,7 +13,6 @@ build-frontend:
         - main
         - staging
         - merge_requests
-        - setup-vite
     cache:
         key:
             prefix: 'frontend'
@@ -24,7 +23,7 @@ build-frontend:
     script:
         - cd client && npm install && CI=false npm run build
     artifacts:
-        expire_in: 5 mins
+        expire_in: 12h
         when: on_success
         paths:
             - client/build
@@ -36,7 +35,6 @@ build-backend:
         - main
         - staging
         - merge_requests
-        - setup-vite
     cache:
         key:
             prefix: 'server'
@@ -47,7 +45,7 @@ build-backend:
     script:
         - cd server && npm install && CI=false npm run build
     artifacts:
-        expire_in: 5 mins
+        expire_in: 12h
         when: on_success
         paths:
             - server/node_modules
@@ -73,7 +71,6 @@ deploy:
         - build-backend
     only:
         - main
-        - setup-vite
     before_script:
         - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
     script:
@@ -82,7 +79,7 @@ deploy:
         - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
         - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
     artifacts:
-        expire_in: 5 mins
+        expire_in: 1h
         when: on_success
         paths:
             - deploy.zip
