@@ -13,7 +13,7 @@ import org.bson.Document;
 import java.util.List;
 
 public class Main {
-    static String URL = "mongodb+srv://Davit:davit@cluster0.ktirqdm.mongodb.net/?retryWrites=true&w=majority";
+    static String URL = "mongodb+srv://" + Variables.USER +":" + Variables.PASSWORD + "@cluster0.ktirqdm.mongodb.net/?retryWrites=true&w=majority";
     public static void main(String[] args) {
         ConnectionString connectionString = new ConnectionString(URL);
         MongoClientSettings settings = MongoClientSettings.builder()
@@ -25,7 +25,7 @@ public class Main {
         MongoClient mongoClient = MongoClients.create(settings);
         MongoDatabase database = mongoClient.getDatabase("body-quest");
 
-        MongoCollection<Document> colExercises = database.getCollection("exercises");
+        MongoCollection<Exercise> colExercises = database.getCollection("exercises", Exercise.class);
         colExercises.drop();
         database.createCollection("exercises");
     }
