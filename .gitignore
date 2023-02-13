@@ -1,3 +1,9 @@
 node_modules
 .env
 build
+
+# Java + IntellJ
+target
+.idea
+*.iml
+*.iws
