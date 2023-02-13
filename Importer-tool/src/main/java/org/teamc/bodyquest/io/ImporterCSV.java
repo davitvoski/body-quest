@@ -17,13 +17,26 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class imports the dataset from a CSV file into an ArrayList of Exercise objects.
+ */
 public class ImporterCSV {
     private String fileName = "fitness-exercises.csv";
 
+    /**
+     * Constructor for the ImporterCSV class with a file name
+     * @param fileName The name of the file to be imported
+     */
     public ImporterCSV(String fileName){
         this.fileName = fileName;
     }
 
+    /**
+     * This method loads the CSV file and returns a list of Exercise objects
+     * @return List of Exercise objects
+     * @throws URISyntaxException if the file is not found
+     * @throws IOException if the file could not be read
+     */
     public List<Exercise> loadCSV() throws URISyntaxException, IOException {
         List<String> lines = readCSV();
         ArrayList<Exercise> exercises = new ArrayList<>();
@@ -32,15 +45,15 @@ public class ImporterCSV {
             String[] splitLine = line.split(",");
             exercises.add(new Exercise(splitLine[0],splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5]));
         }
-
-        for (Exercise exercise:
-             exercises) {
-            System.out.println(exercise);
-        }
-
         return exercises;
     }
 
+    /**
+     * Reads the CSV file and returns a list of lines
+     * @return List of lines
+     * @throws URISyntaxException if the file is not found
+     * @throws IOException if the file could not be read
+     */
     private List<String> readCSV() throws URISyntaxException, IOException {
         var url = getClass().getClassLoader().getResource(this.fileName);
         assert url != null;
