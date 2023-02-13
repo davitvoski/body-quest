@@ -73,3 +73,16 @@ button:focus-visible {
   flex-direction: row;
   justify-content:space-between;
 }
+
+.homePage{
+  /* width: 100%; */
+  border: #1a1a1a solid 2px;
+}
+
+footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-size: 10px;
+  text-align: start;
+}
