@@ -25,7 +25,6 @@ public class Main {
         // Save to MongoDB
         try {
             MongoDB db = new MongoDB("body-quest");
-//            MongoDatabase database = db.getDatabase();
 
             // Delete Collection
             MongoCollection<Exercise> colExercises = db.getCollection(Exercise.class,"exercises");
@@ -39,31 +38,6 @@ public class Main {
             colExercises.createIndex(Indexes.ascending("name"));
             colExercises.createIndex(Indexes.ascending("target"));
             colExercises.createIndex(Indexes.ascending("body_part"));
-            // Drop the Database
-            db.deleteDatabase();
-            // Aggregate Query which groups all exercises by taget
-//            /**
-//             * _id: The id of the group.
-//             * fieldN: The first field name.
-//             */
-//            {
-//                _id: "$target",
-//                        exercises: {
-//                $addToSet: {
-//                    name: "$name",
-//                            body_part: "$body_part",
-//                            gifUrl: "$gifUrl",
-//                            equipment: "$equipment"
-//                }
-//            }
-//
-//            }
-            // Create an aggegation pipeline
-//            var groupByTraget = group("$target",
-//                    addToSet("name", "$name"),
-//                    addToSet("body_part","$body_part"),
-//                    addToSet("gifUrl","$gifUrl"),
-//                    addToSet("equipment","$equipment"));
 
             db.closeConnection();
         } catch (Exception e) {
