@@ -2,6 +2,7 @@ package org.teamc.bodyquest.io;
 
 import com.mongodb.lang.NonNull;
 import com.mongodb.lang.Nullable;
+import org.bson.types.ObjectId;
 import org.teamc.bodyquest.Exercise;
 
 import java.io.File;
@@ -41,10 +42,15 @@ public class ImporterCSV {
         List<String> lines = readCSV();
         ArrayList<Exercise> exercises = new ArrayList<>();
         for (String line: lines) {
-            if(lines.get(0).equals(line)) continue;
             String[] splitLine = line.split(",");
-            exercises.add(new Exercise(splitLine[0],splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5]));
+            Exercise exercise = new Exercise().setBodyPart(splitLine[0])
+                    .setEquipment(splitLine[1])
+                    .setGifUrl(splitLine[2])
+                    .setName(splitLine[4])
+                    .setTarget(splitLine[5]);
+            exercises.add(exercise);
         }
+
         return exercises;
     }
 
