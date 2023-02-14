@@ -1,7 +1,6 @@
 package org.teamc.bodyquest.io;
 
 import org.junit.jupiter.api.Test;
-import org.teamc.bodyquest.Exercise;
 
 import static org.junit.jupiter.api.Assertions.*;
 

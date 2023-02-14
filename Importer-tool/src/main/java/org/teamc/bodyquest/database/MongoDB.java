@@ -2,6 +2,7 @@ package org.teamc.bodyquest.database;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCommandException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -17,10 +18,18 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
  * This Class Interfaces with the MongoDB
  */
 public class MongoDB {
+    /**
+     * NEEDED: USER and PASSWORD from Variables.java
+     */
     public static String URL = "mongodb+srv://" + Variables.USER + ":" + Variables.PASSWORD + "@cluster0.ktirqdm.mongodb.net/?retryWrites=true&w=majority";
 
     private final MongoDatabase database;
     private final MongoClient mongoClient;
+
+    /**
+     * Creates a MongoDB Object
+     * @param databaseName Name of the Database to connect to
+     */
     public MongoDB(String databaseName){
         this.mongoClient = createConnection();
         this.database = this.mongoClient.getDatabase(databaseName);
@@ -78,6 +87,18 @@ public class MongoDB {
      */
     public void closeConnection(){
         this.mongoClient.close();
+    }
+
+    /**
+     * Drops the Database
+     */
+    public void deleteDatabase() {
+        try{
+            this.database.drop();
+        }catch (MongoCommandException e){
+            System.out.println(e.getMessage());
+            System.out.println("You are not allowed to perform to drop a database. ");
+        }
     }
 
     public MongoDatabase getDatabase() {

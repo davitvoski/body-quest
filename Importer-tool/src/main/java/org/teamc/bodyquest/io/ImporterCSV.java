@@ -1,6 +1,6 @@
 package org.teamc.bodyquest.io;
 
-import org.teamc.bodyquest.Exercise;
+import org.teamc.bodyquest.schema.Exercise;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
