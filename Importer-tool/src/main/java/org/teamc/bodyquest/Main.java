@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.teamc.bodyquest.database.MongoDB;
 import org.teamc.bodyquest.io.ImporterCSV;
 
 import java.io.IOException;
@@ -35,35 +36,37 @@ public class Main {
             e.printStackTrace();
             System.out.println("Error while importing CSV file");
         }
-
-        for (Exercise exer :
-                exercises) {
-            System.out.println(exer.toString());
-        }
-        // Register Codec
-        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
-        CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                pojoCodecRegistry);
-
-        // MongoDb Settings
-        ConnectionString connectionString = new ConnectionString(URL);
-        MongoClientSettings clientSettings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .codecRegistry(codecRegistry)
-                .build();
-        // Connect to mongo
-        try (MongoClient mongoClient = MongoClients.create(clientSettings)) {
-            MongoDatabase database = mongoClient.getDatabase("body-quest");
+        // Save to MongoDB
+        try {
+            MongoDB db = new MongoDB("body-quest");
+            MongoDatabase database = db.getDatabase();
 
             // Delete Collection
-            MongoCollection<Exercise> colExercises = database.getCollection("exercises", Exercise.class);
-            //        MongoCollection<Book> colExercises = database.getCollection("exercises", Book.class)  ;
+            MongoCollection<Exercise> colExercises = db.getCollection(Exercise.class,"exercises");
+            db.dropCollection(colExercises);
 
-            colExercises.drop();
             // Create and Replace collection
-            database.createCollection("exercises");
-            colExercises = database.getCollection("exercises", Exercise.class);
+            db.createCollection("exercises");
+            colExercises = db.getCollection(Exercise.class,"exercises");
             colExercises.insertMany(exercises);
+            // Aggregate Query which groups all exercises by taget
+//            /**
+//             * _id: The id of the group.
+//             * fieldN: The first field name.
+//             */
+//            {
+//                _id: "$target",
+//                        exercises: {
+//                $addToSet: {
+//                    name: "$name",
+//                            body_part: "$body_part",
+//                            gifUrl: "$gifUrl",
+//                            equipment: "$equipment"
+//                }
+//            }
+//
+//            }
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error while loading data into MongoDB");
