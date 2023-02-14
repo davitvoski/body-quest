@@ -1,10 +1,7 @@
-package org.teamc.bodyquest;
+package org.teamc.bodyquest.schema;
 
-import org.bson.codecs.DocumentCodec;
 import org.bson.codecs.pojo.annotations.BsonProperty;
-import org.bson.*;
 import org.bson.types.*;
-import java.util.*;
 
 /**
  * This class represents the structure of an Exercise to be stored.
