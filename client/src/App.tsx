@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route  path='/' element={<Home/>}/>
         <Route  path='Login' element={<Login/>}/>
-        <Route  path='Profile' element={<Profile/>}/>
+        <Route  path='Profile' element={<Profile username={'sophia'} email={'email@email.com'}/>}/>
       </Routes>
     </div>
   )
