@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+html, body,#root,.App, .App>div {
+  /* height: 100%; */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.homePage{
+  margin: 0;
+  padding: 0;
+}
+
+.searchBar{
+  flex-direction: row;
+  justify-content: end;
+}

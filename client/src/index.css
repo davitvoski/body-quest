@@ -58,7 +58,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #fcfcfc;
   }
   a:hover {
     color: #747bff;
@@ -72,11 +72,6 @@ button:focus-visible {
   display: flex;
   flex-direction: row;
   justify-content:space-between;
-}
-
-.homePage{
-  /* width: 100%; */
-  border: #1a1a1a solid 2px;
 }
 
 footer{

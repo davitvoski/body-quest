@@ -6,28 +6,31 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import SearchIcon from '@mui/icons-material/Search';
-import { Search, Shop } from '@mui/icons-material';
+import { Shop } from '@mui/icons-material';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import NavBar from '../NavBar/Nav';
+import { Filter } from './Filter';
+import { Search } from './Search';
+import { useState } from 'react';
+import { ExerciseList } from '../Exercise/ExerciseList';
 
 type HomeProps = {
 
 }
 
 export const Home = () => {
+    const [exercises, setExercise] = useState([{ 'namw': '2', 'target': '3' }]);
+
     return (
-        <div>
-            <div className='homePage'>
-                <h1>Home page is here</h1>
+        <div className='homePage'>
+            <Toolbar className='searchBar'>
+                <Search />
+                <Filter />
+            </Toolbar>
+            <div className='exercisesBox'>
+                <ExerciseList exercises={exercises} />
             </div>
-            <footer>
-                Davit Voskerchyan <br />
-                Raphael Canciani <br />
-                Santiago Luna <br />
-                Sophia Marshment<br />
-                Wanting Huang <br />
-            </footer>
         </div>
     )
 }

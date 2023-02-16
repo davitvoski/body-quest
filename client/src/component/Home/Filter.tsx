@@ -5,27 +5,29 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 
 export const Filter = () => {
-    const [type, setType] = React.useState('');
+    const [type, setType] = React.useState('Any');
     const handleChange = (event: SelectChangeEvent) => {
         setType(event.target.value);
+        console.log(type);
+
     };
 
     return (
         <div>
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="demo-select-small">Age</InputLabel>
+                <InputLabel id="filter-options">Any</InputLabel>
                 <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
+                    labelId="filter-options"
+                    id="filter-options"
                     value={type}
+                    label="Any"
                     onChange={handleChange}
                 >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem>Any</MenuItem>
-                    <MenuItem>Name</MenuItem>
-                    <MenuItem>Thirty</MenuItem>
+                    <MenuItem value="Any">Any</MenuItem>
+                    <MenuItem value="Target">Target</MenuItem>
+                    <MenuItem value="Favorite">Favorite</MenuItem>
+                    <MenuItem value="Equipment">Equipment</MenuItem>
+                    <MenuItem value="Body Part">Body Part</MenuItem>
                 </Select>
             </FormControl>
         </div>
