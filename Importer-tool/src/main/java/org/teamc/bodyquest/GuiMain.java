@@ -5,14 +5,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 /**
  * JavaFX App
  */
-public class Gui extends Application {
+public class GuiMain extends Application {
 
     public static Stage primaryStage;
 
@@ -28,7 +27,7 @@ public class Gui extends Application {
 
 
     public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Gui.class.getResource( fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GuiMain.class.getResource( fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

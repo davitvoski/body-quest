@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class ScriptMain {
     public static void main(String[] args) {
         // Load File
         ImporterCSV importer = new ImporterCSV("fitness_exercises.csv");
