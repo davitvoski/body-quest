@@ -7,7 +7,7 @@ export const ExerciseList = (props:ExerciseListProps) => {
     return(
         <div>
             {props.exercises.map((exrecise, i)=>(
-                <Exercise />
+                <Exercise name={exrecise.name} key={i}/>
             ))}
         </div>
     )

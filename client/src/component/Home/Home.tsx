@@ -14,13 +14,10 @@ import { Filter } from './Filter';
 import { Search } from './Search';
 import { useState } from 'react';
 import { ExerciseList } from '../Exercise/ExerciseList';
-
-type HomeProps = {
-
-}
+import { exercisesData } from '../../Data/testData';
 
 export const Home = () => {
-    const [exercises, setExercise] = useState([{ 'namw': '2', 'target': '3' }]);
+    const [exercises, setExercise] = useState(exercisesData);
 
     return (
         <div className='homePage'>
