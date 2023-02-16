@@ -1,34 +1,39 @@
 package org.teamc.bodyquest;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
+/**
+ * JavaFX App
+ */
 public class Gui extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
+
+    public static Stage primaryStage;
 
     @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+    public void start(final Stage stage) throws IOException {
+        primaryStage = stage;
 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+        Scene scene = new Scene(loadFXML("primary"), 780, 480);
+        stage.setScene(scene);
+        stage.setTitle("BodyQuest - Dataset Importer");
+        stage.show();
     }
+
+
+    public static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Gui.class.getResource( fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+
 }
