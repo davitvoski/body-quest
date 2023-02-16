@@ -90,6 +90,13 @@ public class MongoDB {
     }
 
     /**
+     * This method drops a collection from the database
+     * @param collectionName Name of the Collection to drop
+     */
+    public void dropCollection(String collectionName){
+        this.database.getCollection(collectionName).drop();
+    }
+    /**
      * Drops the Database
      */
     public void deleteDatabase() {
