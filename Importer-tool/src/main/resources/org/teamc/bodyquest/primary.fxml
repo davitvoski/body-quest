@@ -89,6 +89,11 @@
                   </Button>
                </children>
             </VBox>
+            <Label layoutX="219.0" layoutY="14.0" text="Note - Ensure that the database is created." textFill="#ff9409">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
     </AnchorPane>
   </children>
