@@ -7,9 +7,13 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Indexes;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.teamc.bodyquest.Variables;
+
+import java.util.List;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
@@ -35,6 +39,11 @@ public class MongoDB {
         this.database = this.mongoClient.getDatabase(databaseName);
     }
 
+    public CodecRegistry getCodecRegistry(){
+        // Register Codec
+        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        return fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
+    }
     /**
      * Creates a connection to the MongoDB
      * @return MongoClient
@@ -96,8 +105,10 @@ public class MongoDB {
     public void dropCollection(String collectionName){
         this.database.getCollection(collectionName).drop();
     }
+
     /**
      * Drops the Database
+     * NOTE: Owner Permission is needed to drop a database
      */
     public void deleteDatabase() {
         try{
@@ -108,6 +119,24 @@ public class MongoDB {
         }
     }
 
+    /**
+     * Creates an Ascending Index on a Collection and Field
+     * @param collectionName Name of the Collection
+     * @param field Field to create the Index on
+     */
+    public void indexAscending(String collectionName, String field){
+        this.database.getCollection(collectionName).createIndex(Indexes.ascending(field));
+    }
+
+    /**
+     * Creates an Descending Index on a Collection and Field
+     * @param collectionName Name of the Collection
+     * @param field Field to create the Index on
+     */
+    public void indexDescending(String collectionName, String field){
+        this.database.getCollection(collectionName).createIndex(Indexes.descending(field));
+    }
+
     public MongoDatabase getDatabase() {
         return database;
     }
@@ -115,4 +144,5 @@ public class MongoDB {
     public MongoClient getMongoClient() {
         return mongoClient;
     }
+
 }
