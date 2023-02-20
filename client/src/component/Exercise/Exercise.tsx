@@ -1,19 +1,15 @@
 import { Card, CardContent, Typography } from "@mui/material"
 
 type ExerciseProps = {
-    bodyPart: String,
-    equipment: String,
-    gifUrl:String,
-    name:String,
-    target:String
+    exercise: any
 }
 export const Exercise=(props:ExerciseProps)=>{
     return (
         <div className="exerciseArea">
-            <Card variant="outlined">
+            <Card className="cardExecise" variant="outlined">
                 <CardContent>
-                    <Typography variant='caption'>{props.name}</Typography>
-                    <Typography> </Typography>
+                    <Typography>{props.exercise.name}</Typography>
+                    <Typography>{props.exercise.body_part}</Typography>
                 </CardContent>
             </Card>
         </div>

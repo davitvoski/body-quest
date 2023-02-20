@@ -15,14 +15,17 @@ import { Search } from './Search';
 import { useState } from 'react';
 import { ExerciseList } from '../Exercise/ExerciseList';
 import { exercisesData } from '../../Data/testData';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export const Home = () => {
+    const [allExercises, setAllExercise] = useState(exercisesData);
     const [exercises, setExercise] = useState(exercisesData);
-
+    
     return (
         <div className='homePage'>
+            <h2>WORKOUT OF THE DAY</h2>
             <Toolbar className='searchBar'>
-                <Search />
+                <Search allExercises={allExercises} setExercise={setExercise}/>
                 <Filter />
             </Toolbar>
             <div className='exercisesBox'>

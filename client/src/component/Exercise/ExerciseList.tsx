@@ -5,9 +5,9 @@ type ExerciseListProps = {
 }
 export const ExerciseList = (props:ExerciseListProps) => {
     return(
-        <div>
-            {props.exercises.map((exrecise, i)=>(
-                <Exercise name={exrecise.name} key={i}/>
+        <div className="exerciseList">
+            {props.exercises.map((exercise, i)=>(
+                <Exercise exercise={exercise} key={i}/>
             ))}
         </div>
     )
