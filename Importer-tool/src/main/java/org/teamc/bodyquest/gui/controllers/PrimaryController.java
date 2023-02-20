@@ -1,5 +1,7 @@
 package org.teamc.bodyquest.gui.controllers;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -24,6 +26,7 @@ public class PrimaryController {
             exercisesCollection = new ExercisesCollection(new MongoDB("body-quest"));
         } catch (Exception e) {
             e.printStackTrace();
+            this.setNotificationLabel("Error while connecting to the database");
         }
     }
 
@@ -34,9 +37,11 @@ public class PrimaryController {
      */
     @FXML
     void createExerciseCollection(ActionEvent event) {
-        setNotificationLabel("Loading...");
-        exercisesCollection.createCollection();
-        setNotificationLabel("Collection created");
+        Platform.runLater(() -> notificationLabel.setText("Loading..."));
+        new Thread(() ->{
+            exercisesCollection.createCollection();
+            Platform.runLater(() -> setNotificationLabel("Collection created"));
+        }).start();
     }
 
     /**
@@ -45,10 +50,11 @@ public class PrimaryController {
      */
     @FXML
     void deleteExerciseCollection(ActionEvent event) {
-        setNotificationLabel("Loading...");
-        exercisesCollection.dropCollection();
-        setNotificationLabel("Collection deleted");
-
+        Platform.runLater(() -> notificationLabel.setText("Loading..."));
+        new Thread(() ->{
+            exercisesCollection.dropCollection();
+            Platform.runLater(() -> setNotificationLabel("Collection deleted"));
+        }).start();
     }
 
     /**
@@ -57,11 +63,13 @@ public class PrimaryController {
      */
     @FXML
     void indexAllFields(ActionEvent event) {
-        setNotificationLabel("Loading...");
-        exercisesCollection.indexField("equipment", rb_ascending_index.isSelected());
-        exercisesCollection.indexField("name", rb_ascending_index.isSelected());
-        exercisesCollection.indexField("target", rb_ascending_index.isSelected());
-        setNotificationLabel("All fields indexed");
+        Platform.runLater(() -> notificationLabel.setText("Loading..."));
+        new Thread(() ->{
+            exercisesCollection.indexField("equipment", rb_ascending_index.isSelected());
+            exercisesCollection.indexField("name", rb_ascending_index.isSelected());
+            exercisesCollection.indexField("target", rb_ascending_index.isSelected());
+            Platform.runLater(() ->  setNotificationLabel("All fields indexed"));
+        }).start();
         }
 
     /**
@@ -70,9 +78,9 @@ public class PrimaryController {
      */
     @FXML
     void indexEquipmentField(ActionEvent event) {
-        setNotificationLabel("Loading...");
-        exercisesCollection.indexField("equipment", rb_ascending_index.isSelected());
-        setNotificationLabel("Equipment field indexed");
+        Platform.runLater(() -> notificationLabel.setText("Loading..."));
+            exercisesCollection.indexField("equipment", rb_ascending_index.isSelected());
+            Platform.runLater(() ->  setNotificationLabel("Equipment field indexed"));
     }
 
     /**
@@ -81,9 +89,9 @@ public class PrimaryController {
      */
     @FXML
     void indexNameField(ActionEvent event) {
-        setNotificationLabel("Loading...");
+        Platform.runLater(() -> notificationLabel.setText("Loading..."));
         exercisesCollection.indexField("name", rb_ascending_index.isSelected());
-        setNotificationLabel("Name field indexed");
+        Platform.runLater(() ->  setNotificationLabel("Name field indexed"));
     }
 
     /**
@@ -92,9 +100,9 @@ public class PrimaryController {
      */
     @FXML
     void indexTargetField(ActionEvent event) {
-        setNotificationLabel("Loading...");
+        Platform.runLater(() -> notificationLabel.setText("Loading..."));
         exercisesCollection.indexField("target", rb_ascending_index.isSelected());
-        setNotificationLabel("Target field indexed");
+        Platform.runLater(() ->  setNotificationLabel("Target field indexed"));
     }
 
     /**
