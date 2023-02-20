@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import { getAllExercises } from "../controllers/exercise.controller";
 const exerciseRouter = express.Router()
 
-// Create a swagger comment for this route using JSDoc
 /**
  * This function gets all exercises from the database
  * It can be limited by a query parameter limit
