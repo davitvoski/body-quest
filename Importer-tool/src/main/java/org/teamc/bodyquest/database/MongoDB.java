@@ -137,12 +137,4 @@ public class MongoDB {
         this.database.getCollection(collectionName).createIndex(Indexes.descending(field));
     }
 
-    public MongoDatabase getDatabase() {
-        return database;
-    }
-
-    public MongoClient getMongoClient() {
-        return mongoClient;
-    }
-
 }
