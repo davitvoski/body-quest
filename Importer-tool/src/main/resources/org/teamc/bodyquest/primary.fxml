@@ -99,7 +99,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="notificationLabel" alignment="CENTER" layoutX="197.0" layoutY="296.0" prefHeight="75.0" prefWidth="382.0" text="Notifications in here." textFill="#ef0f0f">
+            <Label fx:id="notificationLabel" alignment="CENTER" layoutX="197.0" layoutY="296.0" prefHeight="90.0" prefWidth="382.0" text="Notifications in here." textFill="#ef0f0f">
                <font>
                   <Font size="18.0" />
                </font>
