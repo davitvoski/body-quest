@@ -94,12 +94,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="219.0" layoutY="50.0" text="Please Verify your user's database permissions" textFill="#ff9409">
+            <Label layoutX="243.0" layoutY="52.0" text="Please Verify your database permissions" textFill="#ff9409">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="notificationLabel" alignment="CENTER" layoutX="211.0" layoutY="298.0" prefHeight="75.0" prefWidth="382.0" text="Notifications in here." textFill="#ff9409">
+            <Label fx:id="notificationLabel" alignment="CENTER" layoutX="197.0" layoutY="296.0" prefHeight="75.0" prefWidth="382.0" text="Notifications in here." textFill="#ef0f0f">
                <font>
                   <Font size="18.0" />
                </font>
