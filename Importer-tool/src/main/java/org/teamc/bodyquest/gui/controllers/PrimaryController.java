@@ -34,6 +34,7 @@ public class PrimaryController {
      */
     @FXML
     void createExerciseCollection(ActionEvent event) {
+        setNotificationLabel("Loading...");
         exercisesCollection.createCollection();
         setNotificationLabel("Collection created");
     }
@@ -44,6 +45,7 @@ public class PrimaryController {
      */
     @FXML
     void deleteExerciseCollection(ActionEvent event) {
+        setNotificationLabel("Loading...");
         exercisesCollection.dropCollection();
         setNotificationLabel("Collection deleted");
 
@@ -55,6 +57,7 @@ public class PrimaryController {
      */
     @FXML
     void indexAllFields(ActionEvent event) {
+        setNotificationLabel("Loading...");
         exercisesCollection.indexField("equipment", rb_ascending_index.isSelected());
         exercisesCollection.indexField("name", rb_ascending_index.isSelected());
         exercisesCollection.indexField("target", rb_ascending_index.isSelected());
@@ -67,6 +70,7 @@ public class PrimaryController {
      */
     @FXML
     void indexEquipmentField(ActionEvent event) {
+        setNotificationLabel("Loading...");
         exercisesCollection.indexField("equipment", rb_ascending_index.isSelected());
         setNotificationLabel("Equipment field indexed");
     }
@@ -77,6 +81,7 @@ public class PrimaryController {
      */
     @FXML
     void indexNameField(ActionEvent event) {
+        setNotificationLabel("Loading...");
         exercisesCollection.indexField("name", rb_ascending_index.isSelected());
         setNotificationLabel("Name field indexed");
     }
@@ -87,6 +92,7 @@ public class PrimaryController {
      */
     @FXML
     void indexTargetField(ActionEvent event) {
+        setNotificationLabel("Loading...");
         exercisesCollection.indexField("target", rb_ascending_index.isSelected());
         setNotificationLabel("Target field indexed");
     }
