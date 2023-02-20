@@ -10,6 +10,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the collection of exercises in the database
+ */
 public class ExercisesCollection {
     public final static String EXERCISES_COLLECTION = "exercises";
     private MongoDB db;
@@ -48,10 +51,9 @@ public class ExercisesCollection {
     public void createCollection(){
         dropCollection();
         // Create and Replace collection
-        db.createCollection("exercises");
         db.dropCollection(colExercises);
-        // Create and Replace collection
         db.createCollection("exercises");
+        // Create and Replace collection
         this.colExercises = db.getCollection(Exercise.class,"exercises");
         this.colExercises.insertMany(exercises);
     }
