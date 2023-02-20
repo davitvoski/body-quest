@@ -89,7 +89,17 @@
                   </Button>
                </children>
             </VBox>
-            <Label layoutX="219.0" layoutY="14.0" text="Note - Ensure that the database is created." textFill="#ff9409">
+            <Label layoutX="233.0" layoutY="14.0" text="Note - Ensure that the database is created." textFill="#ff9409">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="219.0" layoutY="50.0" text="Please Verify your user's database permissions" textFill="#ff9409">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="notificationLabel" alignment="CENTER" layoutX="211.0" layoutY="298.0" prefHeight="75.0" prefWidth="382.0" text="Notifications in here." textFill="#ff9409">
                <font>
                   <Font size="18.0" />
                </font>
