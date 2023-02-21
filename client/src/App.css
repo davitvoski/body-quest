@@ -126,3 +126,12 @@ h2 {
   color: white;
   border-radius: 10px;
 }
+
+
+/* targetOptions */
+#targetOptions{
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 25%;
+}
+
