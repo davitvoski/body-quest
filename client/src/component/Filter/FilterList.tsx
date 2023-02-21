@@ -30,7 +30,7 @@ export const FilterList = (props: FilterList) => {
                         {props.filterName}
                     </Typography>
                 </AccordionSummary>
-                <AccordionDetails id="targetOptions">
+                <AccordionDetails className="targetOptions">
                     {props.filterList.map((filter, i) => (
                         <Filter option={filter} key={i} />
                     ))}
@@ -39,3 +39,4 @@ export const FilterList = (props: FilterList) => {
         </div>
     )
 }
+

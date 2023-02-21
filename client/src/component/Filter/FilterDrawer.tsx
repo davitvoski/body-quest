@@ -34,9 +34,9 @@ export const FilterDrawer = (props: FilterDrawer) => {
         getOptions();
     }, []);
 
-    return (
-        <div>
-            <Drawer anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
+    return ( 
+        <div id='filterDrawer'>
+            <Drawer  anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
                 <p>Filter options</p>
                 <FilterList filterName="Target" filterList={targetList} />
                 <FilterList filterName="Equipement" filterList={equipments} />
