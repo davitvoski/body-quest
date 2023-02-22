@@ -1,17 +1,7 @@
 import { Avatar, Grid, Paper, styled } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
-
-/**
- * Styling for grid items
- */
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body1,
-    padding: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-  }));
+import { Item } from "../Item";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level

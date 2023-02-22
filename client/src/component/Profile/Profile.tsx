@@ -7,8 +7,8 @@ import { ProfileView } from "./ProfileView";
  * @returns Profile Page
  */
 export const Profile = () => {
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("username here")
+    const [email, setEmail] = useState("email here")
     const [experience, setExperience] = useState(0)
 
     return(
