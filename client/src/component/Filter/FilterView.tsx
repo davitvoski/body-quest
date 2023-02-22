@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useState } from "react";
 import { Button, Drawer, TextField } from '@mui/material';
 import { FilterDrawer } from './FilterDrawer';
+import { IExercise } from '../../../../shared';
 
 type FilterViewProps = {
-    allExercises: any
+    allExercises: IExercise[]
 }
 
 export const FilterView = (props: FilterViewProps) => {

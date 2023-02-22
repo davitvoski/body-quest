@@ -5,10 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { SelectInputProps } from "@mui/material/Select/SelectInput";
 import { TextField } from "@mui/material";
+import { IExercise } from "../../../../shared";
 
 type searchProps = {
     setExercise: Function
-    allExercises: any
+    allExercises: IExercise[]
 }
 export const Search = (props: searchProps) => {
     const getSearchValue = (event: any) => {
