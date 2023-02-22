@@ -78,7 +78,13 @@ export default function NavBar() {
                         <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/Login' }>
-                            Login 
+                            Login
+                        </Link>
+
+                        <Link
+                            style={{ textDecoration: "none", color: "white" }}
+                            to={'/Profile' }>
+                            Profile 
                         </Link>
                     </Typography>
                 </Toolbar>
