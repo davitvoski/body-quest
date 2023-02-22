@@ -32,7 +32,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
 
     useEffect(() => {
         getOptions();
-    }, []);
+    }, [props.allExercises]);
 
     return ( 
         <div id='filterDrawer'>
