@@ -30,7 +30,7 @@ public class ImporterCSV {
      * @throws URISyntaxException if the file is not found
      * @throws IOException if the file could not be read
      */
-    public List<Exercise> loadCSV() throws URISyntaxException, IOException {
+    public ArrayList<Exercise> loadCSV() throws URISyntaxException, IOException {
         List<String> lines = readCSV();
         ArrayList<Exercise> exercises = new ArrayList<>();
         for (String line: lines) {

@@ -8,17 +8,9 @@ The users will be able to post images of themselves when a goal was completed fo
 
 In the future, there will also be a feed where users are able to post whatever images they want which is available to all users.
 
-### Set Up Database
-<p>
-To set up the database, open the Importer-tool in an IDE. <br>
-Add a Variables.java in org.teamc.bodyquest to setup the database URL string for connecting. <br>
-- Add a static String USER : which is the username for the MongoDB database user
-- Add a static String PASSWORD : which is the password of the user for the MongoDB database user
-
-Run Main.java. <br>
-NOTE: Ensure your user has the correct permissions.
-<p>
-
+## Set Up The Importer Tool
+Follow the ReadMe in Importer-tool folder for more infomration. <br>
+###  [ReadMe](./Importer-tool/ReadMe.md)
 
 ## Authors
 - Davit Voskerchyan
