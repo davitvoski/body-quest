@@ -1,6 +1,10 @@
 import { Avatar, Grid, Paper, styled } from "@mui/material";
+import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 
+/**
+ * Styling for grid items
+ */
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body1,
@@ -9,13 +13,28 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
+/**
+ * A view containing a user's details, such as username, email, experience, and level
+ * @param props username, email, experience
+ * @returns ProfileView
+ */
 export const ProfileView = (props: { username: string; email: string; experience: number;}) => {
+    /**
+     * Calculates the current level of a user based on XP
+     * @param xp 
+     * @returns Current level
+     */
     const getLevelFromXP = (xp: number) => {
         return Math.floor((-5 + Math.sqrt(25+20 * xp)) / 10 + 1)
     }
 
     const currentLevel = getLevelFromXP(props.experience)
 
+    /**
+     * Calculates how much XP is needed to reach the next level 
+     * @param xp 
+     * @returns XP until next level
+     */
     const nextLevel = (xp: number) => {
         return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 )
     } 
