@@ -1,7 +1,8 @@
 import { Exercise } from "./Exercise"
+import { IExercise } from "./IExercises"
 
 type ExerciseListProps = {
-    exercises: Array<Object>
+    exercises: IExercise[]
 }
 export const ExerciseList = (props:ExerciseListProps) => {
     return(

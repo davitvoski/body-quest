@@ -16,10 +16,11 @@ import { useState } from 'react';
 import { ExerciseList } from '../Exercise/ExerciseList';
 import { exercisesData } from '../../Data/testData';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { IExercise } from '../Exercise/IExercises';
 
 export const Home = () => {
-    const [allExercises, setAllExercise] = useState(exercisesData);
-    const [exercises, setExercise] = useState(exercisesData);
+    const [allExercises, setAllExercise] = useState<IExercise[]>([]);
+    const [exercises, setExercise] = useState<IExercise[]>([]);
     
     return (
         <div className='homePage'>
