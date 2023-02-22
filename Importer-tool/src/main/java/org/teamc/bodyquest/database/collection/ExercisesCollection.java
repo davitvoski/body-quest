@@ -54,7 +54,7 @@ public class ExercisesCollection {
         db.dropCollection(colExercises);
         db.createCollection("exercises");
         // Create and Replace collection
-        this.colExercises = db.getCollection(Exercise.class,"exercises");
+        this.colExercises = db.getCollection(Exercise.class,EXERCISES_COLLECTION);
         this.colExercises.insertMany(exercises);
     }
 
