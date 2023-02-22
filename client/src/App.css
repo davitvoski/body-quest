@@ -137,17 +137,21 @@ h2 {
 /* targetOptions */
 .targetOptions{
   display: grid;
-  height: 50%;
-  grid-template-columns: repeat(3, 33.33%);
-  grid-template-rows: repeat(3, 33.33%);
+  /* grid-auto-flow: column;
+  grid-template-columns: repeat(2, 45%);
+  grid-template-rows: repeat(2, 45%);  */
+  /* overflow: auto; */
+  /* height: 200px; */
+  /* display: grid; */
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.targetOptions > span:hover{
-  /* border:solid 1px gray; */
+.targetOptions > span{
+  border:solid 1px rgb(177, 174, 174);
+  text-align: center;
   height: 50px;
-  width: 80px;
-  margin: 1%;
-  background-color: #9db2c2;
-  flex-wrap: nowrap;
-}
+  width: 100px;
+  margin: 2%;
+  flex-wrap: wrap;
+} 
 
