@@ -3,7 +3,8 @@ import express from 'express'
 import compression from 'compression'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJSDoc from 'swagger-jsdoc'
-import { allRoutes } from './routes/allroutes.route'
+import allRoutes from './routes/allroutes.route'
+import Database from './database/db'
 dotenv.config()
 
 const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
@@ -15,7 +16,7 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
     },
     servers: [
         {
-            url: "http://localhost:3000",
+            url: "http://localhost:3001",
             description: "Development server"
         },
         {
@@ -32,6 +33,9 @@ const options: swaggerJSDoc.Options = {
 
 const swaggerSpec = swaggerJSDoc(options)
 
+// Create database connection
+const db = new Database()
+// Configure Express
 const app = express()
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
