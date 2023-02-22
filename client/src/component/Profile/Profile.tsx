@@ -13,11 +13,11 @@ const Item = styled(Paper)(({ theme }) => ({
 export const Profile = () => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
-    const [level, setLevel] = useState()
+    const [experience, setExperience] = useState(10)
 
     return(
         <div className="profile">
-            <ProfileView username={username} email={email}></ProfileView>
+            <ProfileView username={username} email={email} experience={experience}></ProfileView>
         </div>
     )
 }

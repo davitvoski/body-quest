@@ -9,7 +9,17 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-export const ProfileView = (props: { username: string; email: string; }) => {
+export const ProfileView = (props: { username: string; email: string; experience: number;}) => {
+    const getLevelFromXP = (xp: number) => {
+        return Math.floor((-5 + Math.sqrt(25+20 * xp)) / 10 + 1)
+    }
+
+    const currentLevel = getLevelFromXP(props.experience)
+
+    const nextLevel = (xp: number) => {
+        return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 )
+    } 
+
     return(
         <Grid container spacing={4} sx={{ padding: "5%" }}>
             <Grid item xs={4}>
@@ -35,7 +45,7 @@ export const ProfileView = (props: { username: string; email: string; }) => {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Item>this will be the xp bar</Item>
+                <Item>LVL { currentLevel }: { props.experience }/{ nextLevel(props.experience) } XP until LVL { currentLevel + 1 } </Item>
             </Grid>
         </Grid>
     )
