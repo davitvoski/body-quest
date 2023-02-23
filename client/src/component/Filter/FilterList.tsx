@@ -5,13 +5,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 
 type FilterList = {
     filterName: string,
     filterList: string[],
-    listDataByOption:Function,
-    keyExerercise:string
+    listDataByOption: Function,
+    keyExerercise: string
     // setExercise:Function
 }
 
@@ -21,7 +22,7 @@ export const FilterList = (props: FilterList) => {
         (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
         };
-        
+
     return (
         <div>
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -34,10 +35,22 @@ export const FilterList = (props: FilterList) => {
                         {props.filterName}
                     </Typography>
                 </AccordionSummary>
-                <AccordionDetails className="targetOptions">
-                    {props.filterList.map((filter, i) => (
-                        <Filter  listDataByOption={props.listDataByOption} option={filter} keyExerercise={props.keyExerercise} key={i}/>
-                    ))}
+                <AccordionDetails>
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="female"
+                        name="radio-buttons-group"
+                        className="targetOptions"
+                    >
+                        {props.filterList.map((filter, i) => (
+                            <FormControlLabel onClick={() => {
+                                props.listDataByOption(props.keyExerercise, filter);
+                            }}
+                                value={filter}
+                                control={<Radio />}
+                                label={filter} />
+                        ))}
+                    </RadioGroup>
                 </AccordionDetails>
             </Accordion>
         </div>
