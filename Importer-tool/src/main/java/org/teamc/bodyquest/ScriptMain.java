@@ -11,7 +11,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+/**
+ * Run this class to load the dataset into the MongoDB database
+ * This main method is a quick setup to load the dataset into the database
+ * If you want more control use the GUIMain class.
+ */
+public class ScriptMain{
     public static void main(String[] args) {
         // Load File
         ImporterCSV importer = new ImporterCSV("fitness_exercises.csv");
