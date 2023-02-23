@@ -42,7 +42,7 @@ export const GoalView = () => {
         <div>
             { tempGoals.filter(isIncomplete).map(goal => 
                 <Item sx={{ m: "1% 0 1% 0", p:2}}>
-                    <Checkbox sx={{ color: "white"}} />
+                    <Checkbox sx={{ color: "white"}} onChange={() => goal.completed = true} inputProps={{ 'aria-label': 'controlled' }} />
                     { goal.reps } reps: { goal.name }
                 </Item>
             )}
@@ -54,4 +54,8 @@ export const GoalView = () => {
             )}
         </div>
     )
+}
+
+function setChecked(checked: boolean) {
+    throw new Error("Function not implemented.");
 }
