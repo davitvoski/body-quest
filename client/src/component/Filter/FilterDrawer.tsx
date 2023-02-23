@@ -16,7 +16,6 @@ export const FilterDrawer = (props: FilterDrawer) => {
     const [targetList, setTargetList] = useState<string[]>([]);
     const [equipments, setEquipements] = useState<string[]>([]);
     const [bodyPart, setBodyPart] = useState<string[]>([]);
-    const [listKey, setListKey] = useState([])
 
     function getOptions() {
         let tempTarget: string[] = [];

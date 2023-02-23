@@ -11,6 +11,7 @@ type FilterViewProps = {
 
 export const FilterView = (props: FilterViewProps) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
+ 
     return (
         <div>
             <Button onClick={() => { setIsFormOpen(true) }}>

@@ -2,7 +2,6 @@ import Toolbar from '@mui/material/Toolbar';
 import { Search } from './Search';
 import { useState, useEffect } from 'react';
 import { ExerciseList } from '../Exercise/ExerciseList';
-import { exercisesData } from '../../Data/testData';
 import { FilterView } from '../Filter/FilterView';
 import { IExercise } from '../../../../shared';
 

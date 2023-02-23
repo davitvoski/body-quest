@@ -4,8 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
 
 
 
@@ -23,10 +21,16 @@ export default function NavBar() {
                     </Typography>
 
                     <Typography color="inherit">
-                        <Link
+                        {/* <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/Login'}>
                             Login
+                        </Link> */}
+
+                        <Link
+                            style={{ textDecoration: "none", color: "white" }}
+                            to={'/Profile'}>
+                            Profile
                         </Link>
                     </Typography>
                 </Toolbar>
