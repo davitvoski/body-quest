@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from "react";
 import { Button, Drawer, TextField } from '@mui/material';
+import { FilterDrawer } from './FilterDrawer';
 import { IExercise } from '../Exercise/IExercises';
 import { FormControl, IconButton, InputLabel, MenuItem } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -26,24 +27,11 @@ export const FilterView = (props: FilterViewProps) => {
                 <p>Filter</p>
             </Button>
 
-            <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="filter-options-label">Any</InputLabel>
-                <Select
-                    labelId="filter-options-label"
-                    id="filter-options"
-                    value={type}
-                    label= "type"
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="Target">Target</MenuItem>
-                    <MenuItem value="Favorite">Favorite</MenuItem>
-                    <MenuItem value="Equipment">Equipment</MenuItem>
-                    <MenuItem value="Body Part">Body Part</MenuItem>
-                </Select>
-            </FormControl>
+            <FilterDrawer
+                allExercises={props.allExercises}
+                open={isFormOpen}
+                onClose={() => setIsFormOpen(false)} />
+
         </div>
     )
 }   

@@ -16,11 +16,12 @@ export const Search = (props: searchProps) => {
         event.preventDefault();
         const searchExercise = event.target.value;
         let isBlank = /^\s*$/;
-        
+
         if (searchExercise.length == 0 || searchExercise.match(isBlank)) {
             props.setExercise(props.allExercises);
         } else {
-            const exercises = props.allExercises.filter(exercise => exercise.name.includes(searchExercise) || exercise.body_part.includes(searchExercise)
+            const exercises = props.allExercises.filter(exercise => exercise.name.includes(searchExercise) 
+                                                        || exercise.body_part.includes(searchExercise)
             )
             if (exercises != undefined) {
                 props.setExercise(exercises);
