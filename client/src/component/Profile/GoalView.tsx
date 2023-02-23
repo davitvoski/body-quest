@@ -47,8 +47,8 @@ export const GoalView = () => {
                 </Item>
             )}
             { tempGoals.filter(isCompleted).map(goal => 
-                <Item sx={{ m: "1% 0 1% 0", p:2, color: "text.disabled"}}>
-                    <Checkbox sx={{ color: "white"}} disabled checked />
+                <Item sx={{ m: "1% 0 1% 0", p:2 }}>
+                    <Checkbox sx={{ color: "white" }} checked />
                     { goal.reps } reps: { goal.name }
                 </Item>
             )}
