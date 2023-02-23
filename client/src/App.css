@@ -136,22 +136,9 @@ h2 {
 
 /* targetOptions */
 .targetOptions{
-  display: grid;
-  /* grid-auto-flow: column;
-  grid-template-columns: repeat(2, 45%);
-  grid-template-rows: repeat(2, 45%);  */
-  /* overflow: auto; */
-  /* height: 200px; */
-  /* display: grid; */
-  grid-template-columns: repeat(2, 1fr);
+  /* display: grid;
+  grid-template-columns: 200px auto; */
 }
 
-.targetOptions > span{
-  border:solid 1px rgb(177, 174, 174);
-  text-align: center;
-  height: 50px;
-  width: 100px;
-  margin: 2%;
-  flex-wrap: wrap;
-} 
+
 

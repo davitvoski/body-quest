@@ -18,6 +18,7 @@ type FilterList = {
 
 export const FilterList = (props: FilterList) => {
     const [expanded, setExpanded] = React.useState<string | false>(false);
+
     const handleChange =
         (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
@@ -48,7 +49,8 @@ export const FilterList = (props: FilterList) => {
                             }}
                                 value={filter}
                                 control={<Radio />}
-                                label={filter} />
+                                label={filter}
+                                key={i} />
                         ))}
                     </RadioGroup>
                 </AccordionDetails>
