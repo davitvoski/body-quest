@@ -9,7 +9,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type FilterList = {
     filterName: string,
-    filterList: string[]
+    filterList: string[],
+    listDataByOption:Function,
+    keyExerercise:string
+    // setExercise:Function
 }
 
 export const FilterList = (props: FilterList) => {
@@ -18,6 +21,7 @@ export const FilterList = (props: FilterList) => {
         (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
         };
+        
     return (
         <div>
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -32,7 +36,7 @@ export const FilterList = (props: FilterList) => {
                 </AccordionSummary>
                 <AccordionDetails className="targetOptions">
                     {props.filterList.map((filter, i) => (
-                        <Filter option={filter} key={i} />
+                        <Filter  listDataByOption={props.listDataByOption} option={filter} keyExerercise={props.keyExerercise} key={i}/>
                     ))}
                 </AccordionDetails>
             </Accordion>

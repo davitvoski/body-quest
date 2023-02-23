@@ -33,7 +33,7 @@ export const Home = () => {
             <h2>WORKOUT OF THE DAY</h2>
             <Toolbar className='searchBar'>
                 <Search allExercises={allExercises} setExercise={setExercise} />
-                <FilterView allExercises={allExercises} />
+                <FilterView allExercises={allExercises} setExercise={setExercise} />
             </Toolbar>
             <div className='exercisesBox'>
                 <ExerciseList exercises={exercises} />

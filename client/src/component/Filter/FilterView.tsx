@@ -5,7 +5,8 @@ import { FilterDrawer } from './FilterDrawer';
 import { IExercise } from '../../../../shared';
 
 type FilterViewProps = {
-    allExercises: IExercise[]
+    allExercises: IExercise[],
+    setExercise:Function
 }
 
 export const FilterView = (props: FilterViewProps) => {
@@ -19,8 +20,8 @@ export const FilterView = (props: FilterViewProps) => {
             <FilterDrawer
                 allExercises={props.allExercises}
                 open={isFormOpen}
-                onClose={() => setIsFormOpen(false)} />
-
+                onClose={() => setIsFormOpen(false)} 
+                setExercise={props.setExercise} />
         </div>
     )
 }   
