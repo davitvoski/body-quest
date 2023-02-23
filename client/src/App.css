@@ -11,9 +11,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +24,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -39,4 +42,87 @@
 
 .read-the-docs {
   color: #888;
+}
+
+body {
+  background-image: linear-gradient(to bottom, #09203f 0%, #537895 100%);
+}
+
+html,
+body,
+#root,
+.App,
+.App>div {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+
+}
+
+.toolbar {
+  background-color: black;
+
+}
+
+.homePage {
+  margin: 0;
+  padding: 0;
+  /* background-image: linear-gradient(to top, #09203f 0%, #537895 100%); */
+}
+
+h2 {
+  color: white;
+}
+
+.exerciseList {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+}
+
+.exerciseArea {
+  background-color: rgba(1, 112, 167, 0.6);
+  margin: 1%;
+  height: 50px;
+  margin-bottom: 5%;
+  flex: 0 0 25%;
+  padding: 0;
+}
+
+
+/*   for serach box */
+.searchBar {
+  flex-direction: row;
+  justify-content: end;
+}
+
+#filter-options {
+  color: white;
+}
+
+#searchForm {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+}
+
+#searchInput{
+  margin: 0;
+  padding-bottom: 10px;
+  color: white;
+  border: solid 1px white;
+  border-radius: 10px;
+}
+
+#searchInput:hover{
+  margin: 0;
+  padding-bottom: 10px;
+  background-color: #1c242c;
+  color: white;
+  border-radius: 10px;
 }

@@ -6,19 +6,32 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import SearchIcon from '@mui/icons-material/Search';
-import {Search, Shop } from '@mui/icons-material';
+import { Shop } from '@mui/icons-material';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
-import NavBar from './Nav';
-
-type HomeProps = {
-
-}
+import NavBar from '../NavBar/Nav';
+import { Filter } from './Filter';
+import { Search } from './Search';
+import { useState } from 'react';
+import { ExerciseList } from '../Exercise/ExerciseList';
+import { exercisesData } from '../../Data/testData';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { IExercise } from '../Exercise/IExercises';
 
 export const Home = () => {
+    const [allExercises, setAllExercise] = useState<IExercise[]>([]);
+    const [exercises, setExercise] = useState<IExercise[]>([]);
+    
     return (
         <div className='homePage'>
-            <h1>Home page is here</h1>
+            <h2>WORKOUT OF THE DAY</h2>
+            <Toolbar className='searchBar'>
+                <Search allExercises={allExercises} setExercise={setExercise}/>
+                <Filter />
+            </Toolbar>
+            <div className='exercisesBox'>
+                <ExerciseList exercises={exercises} />
+            </div>
         </div>
     )
 }
