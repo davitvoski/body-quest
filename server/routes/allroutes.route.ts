@@ -1,53 +1,70 @@
 import express from "express";
 import { OAuth2Client } from 'google-auth-library'
-import session from "express-session";
+import session from 'express-session';
+import { User, Database } from "../database/db";
+import dotenv from 'dotenv'
+dotenv.config()
+
 declare module 'express-session' {
   export interface SessionData {
-    user: { [key: string]: any };
+    user: User;
   }
 }
 
-import dotenv from 'dotenv'
-dotenv.config()
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const router = express.Router()
+const db = new Database();
 
-function isAuthenticated(req: express.Request, res: express.Response, next: any) {
+router.post("/auth", async (req, res) => {
+  //TODO: should validate that the token was sent first
+  const {token} = req.body;    
+
+  const ticket = await client.verifyIdToken({
+      idToken: token.credential,
+      audience: process.env.GOOGLE_CLIENT_ID
+  });
+  
+  if (!ticket) 
+    return res.sendStatus(401); //unauthorized (token invalid)
+  
+  const payLoad = ticket.getPayload();
+  
+  // TODO: you may want to upsert (update or insert if new) the user's name, email and picture in the database - step 4
+  // do database stuff here 
+  const user = {"Username" : payLoad ? payLoad.name : "", "Email":  payLoad ? payLoad.email : "", "Picture": payLoad ? payLoad.picture : ""};
+
+  const isSignedUp = await db.userIsSignedUp(user.Email);
+    
+  if (!isSignedUp){
+    await db.addUser(user);
+    console.log("Added a user to the db");
+  }
+  else {
+    console.log("User is already signed up");
+  }
+  
+
+  //TODO: create a session cookie send it back to the client - step 5
+  req.session.regenerate(function(err) {
+    if (err) {
+      return res.sendStatus(500); //server error, couldn't create the session
+    }
+    //store the user's info in the session
+    req.session.user = user;
+    console.log(req.session);
+  
+    res.json({user: user});
+  });
+});
+
+function isAuthenticated(req: any, res: any, next: any) {
+  console.log(req.session);
+  
   if (!req.session.user){
     return res.sendStatus(401); //unauthorized
   }
   next();
 }
-
-router.post("/auth", async (req, res) => {
-    //TODO: should validate that the token was sent first
-    const {token} = req.body;    
-
-    const ticket = await client.verifyIdToken({
-        idToken: token.credential,
-        audience: process.env.GOOGLE_CLIENT_ID
-    });
-    
-    if (!ticket) 
-      return res.sendStatus(401); //unauthorized (token invalid)
-    
-    const payLoad = ticket.getPayload();
-    
-    // TODO: you may want to upsert (update or insert if new) the user's name, email and picture in the database - step 4
-    // do database stuff here 
-    const user = {"name" : payLoad?.name, "email":  payLoad?.email, "picture": payLoad?.picture};
-
-
-    //TODO: create a session cookie send it back to the client - step 5
-    req.session.regenerate(function(err) {
-      if (err) {
-        return res.sendStatus(500); //server error, couldn't create the session
-      }
-      //store the user's info in the session
-      req.session.user = user;
-      res.json({user: user});
-    });
-});
 
 router.get("/logout", isAuthenticated, function (req, res, next) {
   //destroy the session

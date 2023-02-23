@@ -16,8 +16,7 @@ export const Login = () => {
         })
         const data = await res.json()
         // we will come back to this, since our server will be replying with our info
-        console.log(data);
-        setUsername(data.user.name);
+        setUsername(data.user.Username);
     }
     
     const handleError = () => {
@@ -30,7 +29,7 @@ export const Login = () => {
     }
         
     const protectedRoute = async () => {
-        const response = await fetch("/protected");
+        const response = await fetch("api/protected");
         if (response.status === 200) {
             alert("You are authorized to see this!");
         } else if (response.status === 401)  {
@@ -49,13 +48,7 @@ export const Login = () => {
                     onSuccess={handleLogin}
                     onError={handleError}        
                     />
-            </div>   
-
-            {!username && <GoogleLogin
-                onSuccess={handleLogin}
-                onError={() => {
-                console.log('Login Failed');
-                }} /> }
+            </div>  
 
             {username && <button onClick={handleLogout}>Logout</button> } 
                 
