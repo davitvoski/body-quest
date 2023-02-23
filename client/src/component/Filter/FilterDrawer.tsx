@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FilterList } from './FilterList';
 import { FavoriteBorder } from '@mui/icons-material';
+import { IExercise } from '../Exercise/IExercises';
 
 type FilterDrawer = {
-    allExercises: any,
+    allExercises: IExercise[],
     open: boolean,
-    onClose: any
+    onClose: ()=> void
 }
 
 export const FilterDrawer = (props: FilterDrawer) => {

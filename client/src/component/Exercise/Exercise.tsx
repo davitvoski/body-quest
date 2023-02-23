@@ -1,7 +1,8 @@
 import { Card, CardContent, Typography } from "@mui/material"
+import { IExercise } from "./IExercises"
 
 type ExerciseProps = {
-    exercise: any
+    exercise: IExercise
 }
 export const Exercise=(props:ExerciseProps)=>{
     return (
