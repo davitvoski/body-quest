@@ -23,7 +23,7 @@ export const TabPanel = (props: TabPanelProps) => {
             {...other} >
 
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{  margin: "0 5% 0 5%" }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
