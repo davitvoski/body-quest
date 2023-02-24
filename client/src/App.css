@@ -61,6 +61,14 @@ body,
 
 }
 
+/* #root{
+  background-image: url("Data/30-days-superhero-fitness-challenge-750x375.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-blend-mode: soft-light;
+} */
+
+
 .toolbar {
   background-color: black;
 
@@ -92,6 +100,10 @@ h2 {
   padding: 0;
 }
 
+.exerciseContent{
+  text-transform: capitalize;
+  font-size: 20px;
+}
 
 /*   for serach box */
 .searchBar {
@@ -136,18 +148,9 @@ h2 {
 
 /* targetOptions */
 .targetOptions{
-  display: grid;
-  height: 50%;
-  grid-template-columns: repeat(3, 33.33%);
-  grid-template-rows: repeat(3, 33.33%);
+  /* display: grid;
+  grid-template-columns: 200px auto; */
 }
 
-.targetOptions > span:hover{
-  /* border:solid 1px gray; */
-  height: 50px;
-  width: 80px;
-  margin: 1%;
-  background-color: #9db2c2;
-  flex-wrap: nowrap;
-}
+
 

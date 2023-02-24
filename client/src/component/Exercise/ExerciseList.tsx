@@ -1,5 +1,5 @@
+import { IExercise } from "../../../../shared"
 import { Exercise } from "./Exercise"
-import { IExercise } from "./IExercises"
 
 type ExerciseListProps = {
     exercises: IExercise[]

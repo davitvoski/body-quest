@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from "react";
 import { Button, Drawer, TextField } from '@mui/material';
 import { FilterDrawer } from './FilterDrawer';
-import { IExercise } from '../Exercise/IExercises';
-import { FormControl, IconButton, InputLabel, MenuItem } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import { IExercise } from '../../../../shared';
 
 type FilterViewProps = {
     allExercises: IExercise[],
@@ -14,13 +11,7 @@ type FilterViewProps = {
 
 export const FilterView = (props: FilterViewProps) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [type, setType] = useState('');
-    const handleChange = (event: SelectChangeEvent) => {
-        setType(event.target.value);
-        console.log(type);
-
-    };
-
+ 
     return (
         <div>
             <Button onClick={() => { setIsFormOpen(true) }}>
@@ -30,8 +21,8 @@ export const FilterView = (props: FilterViewProps) => {
             <FilterDrawer
                 allExercises={props.allExercises}
                 open={isFormOpen}
-                onClose={() => setIsFormOpen(false)} />
-
+                onClose={() => setIsFormOpen(false)} 
+                setExercise={props.setExercise} />
         </div>
     )
 }   

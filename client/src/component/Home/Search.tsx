@@ -1,11 +1,6 @@
-import { Box } from "@mui/system"
-import { styled, alpha } from '@mui/material/styles';
-import InputBase, { InputBaseProps } from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from "react";
-import { SelectInputProps } from "@mui/material/Select/SelectInput";
 import { TextField } from "@mui/material";
-import { IExercise } from "../Exercise/IExercises";
+import { IExercise } from "../../../../shared";
 
 type searchProps = {
     setExercise: Function

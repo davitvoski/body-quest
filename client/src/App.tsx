@@ -14,7 +14,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route  path='/' element={<Home/>}/>
-        <Route  path='Login' element={<Login/>}/>
+        {/* <Route  path='Login' element={<Login/>}/> */}
         <Route  path='Profile' element={<Profile/>}/>
       </Routes>
     </div>
