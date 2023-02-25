@@ -6,10 +6,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Popup } from "../Popup";
+import Grow from "@mui/material";
 
 export const DetailView = () => {
   const [exercise, setExercise] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [fade, setFade] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("./src/data/exercise.json");
@@ -22,6 +25,7 @@ export const DetailView = () => {
 
   const handlePopup = () => {
     setIsOpen(!isOpen);
+    setFade(!fade);
   };
 
   return (
@@ -31,7 +35,9 @@ export const DetailView = () => {
           {exercise.name}
         </Button>
       )}
-      {isOpen && <Popup handleClose={handlePopup} exercise={exercise} />}
+      {isOpen && (
+        <Popup handleClose={handlePopup} exercise={exercise} open={isOpen} />
+      )}
     </div>
   );
 };

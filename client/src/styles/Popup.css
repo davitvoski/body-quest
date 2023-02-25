@@ -1,4 +1,4 @@
-.popup-box {
+/* .popup-box {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -54,6 +54,7 @@
   font-size: 30px;
   position: relative;
   margin: 0px;
+  text-transform: capitalize;
 }
 
 .body {
@@ -74,4 +75,25 @@ b {
   display: flex;
   align-self: flex-end;
   justify-content: center;
+} */
+.scrollbar-container::-webkit-scrollbar {
+  width: 20px;
+}
+.scrollbar-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollbar-container::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-container::-webkit-scrollbar-thumb:hover {
+  background-color: #b3bcbe;
+}
+
+.MuiButtonBase-root:focus {
+  outline: none;
 }
