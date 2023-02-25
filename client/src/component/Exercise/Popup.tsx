@@ -1,46 +1,58 @@
-import React, { useEffect, useState } from "react";
+/**
+ * @file Popup.tsx
+ * 
+ * Popup component for displaying exercise information
+ * 
+ * @author Santiago Luna
+ */
+import React, { useState } from "react";
 import "../../styles/Popup.css";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
 import {
   DialogContent,
   Typography,
-  CardMedia,
-  Card,
-  Fade,
-  Slide,
-  Button,
+  DialogTitle,
+  Dialog,
+  Grow,
+  IconButton,
+  Snackbar,
+  SnackbarOrigin,
 } from "@mui/material";
-import { Grow } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { IconButton } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import { IExercise } from "../../../../shared";
+
+type PopupProps = {
+  handleClose: () => void;
+  exercise: IExercise;
+  open: boolean;
+};
 
 export interface State extends SnackbarOrigin {
   openSnack: boolean;
 }
 
-export const Popup = (props: any) => {
+export const Popup = (props: PopupProps) => {
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
-
-  const [state, setState] = React.useState<State>({
+  //Snack bar logic when adding to favourites
+  const [snackState, setSnackState] = React.useState<State>({
     openSnack: false,
     vertical: "top",
     horizontal: "center",
   });
-  console.log(exercise.name);
-  const { vertical, horizontal, openSnack } = state;
+
+  const { vertical, horizontal, openSnack } = snackState;
 
   const handleFavourite = (newState: SnackbarOrigin) => () => {
     setIsFavourite(!isFavourite);
-    setState({ openSnack: true, ...newState });
+    setSnackState({ openSnack: true, ...newState });
   };
 
   const handleSnackClose = () => {
-    setState({ ...state, openSnack: false });
+    setSnackState({ ...snackState, openSnack: false });
   };
+  // End of snack bar logic
+
   return (
     <>
       <Dialog
@@ -108,13 +120,23 @@ export const Popup = (props: any) => {
           </div>
         </DialogContent>
       </Dialog>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={openSnack}
-        onClose={handleSnackClose}
-        message="Added to Favourites!"
-        key={vertical + horizontal}
-      />
+      {isFavourite ? (
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={openSnack}
+          onClose={handleSnackClose}
+          message="Added to Favourites!"
+          key={vertical + horizontal}
+        />
+      ) : (
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={openSnack}
+          onClose={handleSnackClose}
+          message="Removed From Favourites!"
+          key={vertical + horizontal}
+        />
+      )}
     </>
   );
 };
