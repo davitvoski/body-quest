@@ -52,13 +52,12 @@ html,
 body,
 #root,
 .App,
-.App>div {
+.App > div {
   width: 100%;
   margin: 0;
   padding: 0;
   flex-direction: column;
   justify-content: flex-start;
-
 }
 
 /* #root{
@@ -68,20 +67,14 @@ body,
   background-blend-mode: soft-light;
 } */
 
-
 .toolbar {
   background-color: black;
-
 }
 
 .homePage {
   margin: 0;
   padding: 0;
   /* background-image: linear-gradient(to top, #09203f 0%, #537895 100%); */
-}
-
-h2 {
-  color: white;
 }
 
 .exerciseList {
@@ -92,15 +85,13 @@ h2 {
 }
 
 .exerciseArea {
-  background-color: rgba(1, 112, 167, 0.6);
   margin: 1%;
-  height: 50px;
   margin-bottom: 5%;
   flex: 0 0 25%;
   padding: 0;
 }
 
-.exerciseContent{
+.exerciseContent {
   text-transform: capitalize;
   font-size: 20px;
 }
@@ -123,7 +114,7 @@ h2 {
   color: white;
 }
 
-#searchInput{
+#searchInput {
   margin: 0;
   padding-bottom: 10px;
   color: white;
@@ -131,7 +122,7 @@ h2 {
   border-radius: 10px;
 }
 
-#searchInput:hover{
+#searchInput:hover {
   margin: 0;
   padding-bottom: 10px;
   background-color: #1c242c;
@@ -139,7 +130,7 @@ h2 {
   border-radius: 10px;
 }
 
-#filterDrawer{
+#filterDrawer {
   /* border: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), 
   linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%),
    linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%); 
@@ -147,10 +138,7 @@ h2 {
 }
 
 /* targetOptions */
-.targetOptions{
+.targetOptions {
   /* display: grid;
   grid-template-columns: 200px auto; */
 }
-
-
-

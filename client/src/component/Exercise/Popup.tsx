@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Popup.css";
+import "../../styles/Popup.css";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import {
@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { Grow } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { StarBorder, StarOutline } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
@@ -31,12 +30,10 @@ export const Popup = (props: any) => {
     vertical: "top",
     horizontal: "center",
   });
+  console.log(exercise.name);
   const { vertical, horizontal, openSnack } = state;
 
   const handleFavourite = (newState: SnackbarOrigin) => () => {
-    // isFavourite
-    //   ? window.alert("You Removed Favourite")
-    //   : window.alert("You Added Favourite");
     setIsFavourite(!isFavourite);
     setState({ openSnack: true, ...newState });
   };
@@ -51,6 +48,7 @@ export const Popup = (props: any) => {
         open={open}
         TransitionComponent={Grow}
         keepMounted
+        className="dialog-container"
       >
         <DialogTitle>
           <Typography
@@ -79,7 +77,9 @@ export const Popup = (props: any) => {
           <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
             <b>Target:</b> {exercise.target}
           </Typography>
-          <img src={exercise.gif_url} style={{ width: 200 }} />
+          <div className="img-container">
+            <img src={exercise.gifUrl} />
+          </div>
           <div
             id="dialog-footer"
             style={{ display: "flex", justifyContent: "right" }}
