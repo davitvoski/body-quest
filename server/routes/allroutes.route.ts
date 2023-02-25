@@ -1,8 +1,11 @@
 import express from "express";
-const router = express.Router()
+import exerciseRouter from "./exercise.routes";
+const allRouters = express.Router()
 
-router.use("/", (_: express.Request, res: express.Response) => {
+allRouters.get("/", (_: express.Request, res: express.Response) => {
     res.json({ message: "Hello World" })
 })
 
-export { router as allRoutes }
+allRouters.use(exerciseRouter)
+
+export default allRouters

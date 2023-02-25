@@ -27,7 +27,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 100vw;
   min-height: 100vh;
 }
 
@@ -58,7 +58,24 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #FFFBFF;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #213547;
+    background-color: #1D181E;
+    color: #FFFBFF;
+  }
+  .profile {
+    background-color: #251F29;
   }
   a:hover {
     color: #747bff;
@@ -72,4 +89,23 @@ button:focus-visible {
   display: flex;
   flex-direction: row;
   justify-content:space-between;
+}
+
+.profile {
+  padding-top: 60px;
+  height: 100vh;
+  width: 80%;
+  margin: auto;
+}
+
+@media (min-width: 600px) {
+  .profile {
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 599px) {
+  .profile {
+    padding-top: 54px;
+  }
 }

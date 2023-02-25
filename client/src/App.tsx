@@ -4,18 +4,18 @@ import HelloWorld from "./component/HelloWorld";
 import { Home } from "./component/Home/Home";
 import { Routes, Route } from "react-router";
 import { Login } from "./component/Home/Login";
-import NavBar from "./component/Home/Nav";
-import { DetailView } from "./component/Home/DetailView";
+import NavBar from "./component/NavBar/Nav";
+import { Profile } from "./component/Profile/Profile";
+import { DetailView } from "./component/Exercise/DetailView";
 
 function App() {
   return (
     <div className="App">
-      {/* <HelloWorld /> */}
       <NavBar />
-      {/* <Home/> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="Login" element={<Login />} />
+        {/* <Route  path='Login' element={<Login/>}/> */}
+        <Route path="Profile" element={<Profile />} />
         <Route path="Exercises" element={<DetailView />} />
       </Routes>
     </div>
