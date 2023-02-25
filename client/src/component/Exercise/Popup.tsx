@@ -1,8 +1,8 @@
 /**
  * @file Popup.tsx
- * 
+ *
  * Popup component for displaying exercise information
- * 
+ *
  * @author Santiago Luna
  */
 import React, { useState } from "react";
@@ -43,6 +43,7 @@ export const Popup = (props: PopupProps) => {
 
   const { vertical, horizontal, openSnack } = snackState;
 
+  // Favorite functionality goes here
   const handleFavourite = (newState: SnackbarOrigin) => () => {
     setIsFavourite(!isFavourite);
     setSnackState({ openSnack: true, ...newState });
