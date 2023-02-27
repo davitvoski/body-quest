@@ -1,24 +1,42 @@
-import { Button, Switch } from '@mui/material';
-import Box from '@mui/material/Box';
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import SearchIcon from '@mui/icons-material/Search';
-import {Search, Shop } from '@mui/icons-material';
-import InputBase from '@mui/material/InputBase';
-import { styled, alpha } from '@mui/material/styles';
-import NavBar from './Nav';
-
-type HomeProps = {
-
-}
+import { Search } from './Search';
+import { useState, useEffect } from 'react';
+import { ExerciseList } from '../Exercise/ExerciseList';
+import { FilterView } from '../Filter/FilterView';
+import { IExercise } from '../../../../shared';
 
 export const Home = () => {
+    const [allExercises, setAllExercise] = useState<IExercise[]>([]);
+    const [exercises, setExercise] = useState<IExercise[]>(allExercises);
+    async function fetchExercises() {
+        const response = await fetch('/api/exercises', {
+            method: 'GET',
+        });
+
+        if (response.status === 404) {
+            throw new Error(`Failed to fetch ${response.status}: ${response.statusText}`)
+        }
+
+        const jsonData = await response.json() as IExercise[];
+        console.log(jsonData)
+        setAllExercise(jsonData);
+        setExercise(jsonData);
+    }
+    
+    useEffect(() => {
+        fetchExercises();
+    }, [])
+
     return (
         <div className='homePage'>
-            <h1>Home page is here</h1>
+            <h2>WORKOUT OF THE DAY</h2>
+            <Toolbar className='searchBar'>
+                <Search allExercises={allExercises} setExercise={setExercise} />
+                <FilterView allExercises={allExercises} setExercise={setExercise} />
+            </Toolbar>
+            <div className='exercisesBox'>
+                <ExerciseList exercises={exercises} />
+            </div>
         </div>
     )
 }

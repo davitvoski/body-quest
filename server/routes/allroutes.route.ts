@@ -3,6 +3,7 @@ import { OAuth2Client } from 'google-auth-library'
 import session from 'express-session';
 import { User, Database } from "../database/db";
 import dotenv from 'dotenv'
+import exerciseRouter from "./exercise.routes";
 dotenv.config()
 
 declare module 'express-session' {
@@ -29,12 +30,9 @@ router.post("/auth", async (req, res) => {
   });
   
   if (!ticket) 
-    return res.sendStatus(401); //unauthorized (token invalid)
+    return res.sendStatus(401);
   
   const payLoad = ticket.getPayload();
-  
-  // TODO: you may want to upsert (update or insert if new) the user's name, email and picture in the database - step 4
-  // do database stuff here 
   const user = {"Username" : payLoad ? payLoad.name : "", "Email":  payLoad ? payLoad.email : "", "Picture": payLoad ? payLoad.picture : ""};
 
   const isSignedUp = await db.userIsSignedUp(user.Email);
@@ -48,12 +46,10 @@ router.post("/auth", async (req, res) => {
   }
   
 
-  //TODO: create a session cookie send it back to the client - step 5
   req.session.regenerate(function(err) {
     if (err) {
-      return res.sendStatus(500); //server error, couldn't create the session
+      return res.sendStatus(500);
     }
-    //store the user's info in the session
     req.session.user = user;  
     res.json({user: user});
   });
@@ -61,7 +57,7 @@ router.post("/auth", async (req, res) => {
 
 function isAuthenticated(req: express.Request, res: express.Response, next: any) {  
   if (!req.session.user){
-    return res.sendStatus(401); //unauthorized
+    return res.sendStatus(401); 
   }
   next();
 }
@@ -86,5 +82,11 @@ router.get("/protected",
         res.sendStatus(200); 
     }
 );
+
+router.get("/", (_: express.Request, res: express.Response) => {
+    res.json({ message: "Hello World" })
+})
+
+router.use(exerciseRouter)
 
 export { router as allRoutes }
