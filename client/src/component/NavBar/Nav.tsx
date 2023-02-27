@@ -32,11 +32,6 @@ export default function NavBar() {
                             to={'/Profile'}>
                             Profile
                         </Link>
-                        <Link
-                            style={{ textDecoration: "none", color: "white" }}
-                            to={'/Profile'}>
-                            Profile
-                        </Link>
                     </Typography>
                 </Toolbar>
             </AppBar>
