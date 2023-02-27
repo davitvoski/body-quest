@@ -30,7 +30,7 @@ export const ProfileView = (props: { username: string; email: string; experience
     } 
 
     return(
-        <Grid container spacing={4} sx={{ padding: "5%" }}>
+        <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={4}>
                 <Item sx={{ width: "auto", height: "100%" }}>
                     <Avatar 
