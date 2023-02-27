@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { Db, MongoClient } from "mongodb";
-import { IExercise } from "../types";
+import { IExercise } from "../../shared";
+
 dotenv.config();
 
 const dbUrl = process.env.ATLAS_URI as string;
