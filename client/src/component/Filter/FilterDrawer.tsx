@@ -4,6 +4,7 @@ import { FilterList } from './FilterList';
 import { FavoriteBorder } from '@mui/icons-material';
 import { IExercise } from '../../../../shared';
 import { Exercise } from '../Exercise/Exercise';
+import StarBorder from '@mui/icons-material/StarBorder';
 
 type FilterDrawer = {
     allExercises: IExercise[],
@@ -55,7 +56,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                            <FavoriteBorder />
+                            <StarBorder htmlColor="#EFE2A2"/>
                         </ListItemIcon>
                         <ListItemText primary="Favorites" />
                     </ListItemButton>
