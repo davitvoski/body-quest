@@ -52,28 +52,29 @@ html,
 body,
 #root,
 .App,
-.App>div {
+.App > div {
   width: 100%;
   margin: 0;
   padding: 0;
   flex-direction: column;
   justify-content: flex-start;
-
 }
+
+/* #root{
+  background-image: url("Data/30-days-superhero-fitness-challenge-750x375.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-blend-mode: soft-light;
+} */
 
 .toolbar {
   background-color: black;
-
 }
 
 .homePage {
   margin: 0;
   padding: 0;
   /* background-image: linear-gradient(to top, #09203f 0%, #537895 100%); */
-}
-
-h2 {
-  color: white;
 }
 
 .exerciseList {
@@ -84,14 +85,26 @@ h2 {
 }
 
 .exerciseArea {
-  background-color: rgba(1, 112, 167, 0.6);
   margin: 1%;
-  height: 50px;
   margin-bottom: 5%;
   flex: 0 0 25%;
   padding: 0;
+  transition: transform 0.2s;
 }
 
+.exerciseArea .MuiPaper-root {
+  box-shadow: 0px 7px 17px -1px rgba(0,0,0,0.72);
+
+}
+
+.exerciseArea:hover {
+  transform: scale(1.2);
+}
+
+.exerciseContent {
+  text-transform: capitalize;
+  font-size: 20px;
+}
 
 /*   for serach box */
 .searchBar {
@@ -111,7 +124,7 @@ h2 {
   color: white;
 }
 
-#searchInput{
+#searchInput {
   margin: 0;
   padding-bottom: 10px;
   color: white;
@@ -119,7 +132,7 @@ h2 {
   border-radius: 10px;
 }
 
-#searchInput:hover{
+#searchInput:hover {
   margin: 0;
   padding-bottom: 10px;
   background-color: #1c242c;
@@ -127,7 +140,7 @@ h2 {
   border-radius: 10px;
 }
 
-#filterDrawer{
+#filterDrawer {
   /* border: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), 
   linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%),
    linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%); 
@@ -135,19 +148,7 @@ h2 {
 }
 
 /* targetOptions */
-.targetOptions{
-  display: grid;
-  height: 50%;
-  grid-template-columns: repeat(3, 33.33%);
-  grid-template-rows: repeat(3, 33.33%);
+.targetOptions {
+  /* display: grid;
+  grid-template-columns: 200px auto; */
 }
-
-.targetOptions > span:hover{
-  /* border:solid 1px gray; */
-  height: 50px;
-  width: 80px;
-  margin: 1%;
-  background-color: #9db2c2;
-  flex-wrap: nowrap;
-}
-

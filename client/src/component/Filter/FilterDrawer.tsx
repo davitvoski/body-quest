@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FilterList } from './FilterList';
 import { FavoriteBorder } from '@mui/icons-material';
-import { IExercise } from '../Exercise/IExercises';
+import { IExercise } from '../../../../shared';
+import { Exercise } from '../Exercise/Exercise';
 
 type FilterDrawer = {
     allExercises: IExercise[],
+    setExercise: Function
     open: boolean,
-    onClose: ()=> void
+    onClose: () => void
 }
 
 export const FilterDrawer = (props: FilterDrawer) => {
@@ -31,17 +33,25 @@ export const FilterDrawer = (props: FilterDrawer) => {
         console.log(equipments);
     }
 
+    const listDataByOption = (keyName: keyof IExercise, optionName: string) => {
+        let optionEXercises:IExercise[] = props.allExercises.filter(exercise => exercise[keyName] === optionName);
+        console.log("??"+optionEXercises);
+        props.setExercise(optionEXercises)
+        props.onClose();
+    }
+
+
     useEffect(() => {
         getOptions();
-    }, []);
+    }, [props.allExercises]);
 
-    return ( 
+    return (
         <div id='filterDrawer'>
-            <Drawer  anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
+            <Drawer anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
                 <p>Filter options</p>
-                <FilterList filterName="Target" filterList={targetList} />
-                <FilterList filterName="Equipement" filterList={equipments} />
-                <FilterList filterName=" Body Part" filterList={bodyPart} />
+                <FilterList listDataByOption={listDataByOption} filterName="Target" filterList={targetList} keyExerercise="target" />
+                <FilterList listDataByOption={listDataByOption} filterName="Equipement" filterList={equipments} keyExerercise="equipment" />
+                <FilterList listDataByOption={listDataByOption} filterName=" Body Part" filterList={bodyPart} keyExerercise="body_part" />
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>

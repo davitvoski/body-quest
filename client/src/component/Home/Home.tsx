@@ -1,22 +1,38 @@
 import Toolbar from '@mui/material/Toolbar';
 import { Search } from './Search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ExerciseList } from '../Exercise/ExerciseList';
-import { exercisesData } from '../../Data/testData';
 import { FilterView } from '../Filter/FilterView';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { IExercise } from '../Exercise/IExercises';
+import { IExercise } from '../../../../shared';
 
 export const Home = () => {
     const [allExercises, setAllExercise] = useState<IExercise[]>([]);
-    const [exercises, setExercise] = useState<IExercise[]>([]);
+    const [exercises, setExercise] = useState<IExercise[]>(allExercises);
+    async function fetchExercises() {
+        const response = await fetch('/api/exercises', {
+            method: 'GET',
+        });
+
+        if (response.status === 404) {
+            throw new Error(`Failed to fetch ${response.status}: ${response.statusText}`)
+        }
+
+        const jsonData = await response.json() as IExercise[];
+        console.log(jsonData)
+        setAllExercise(jsonData);
+        setExercise(jsonData);
+    }
     
+    useEffect(() => {
+        fetchExercises();
+    }, [])
+
     return (
         <div className='homePage'>
             <h2>WORKOUT OF THE DAY</h2>
             <Toolbar className='searchBar'>
-                <Search allExercises={allExercises} setExercise={setExercise}/>
-                <FilterView allExercises={allExercises} setExercise={setAllExercise} />
+                <Search allExercises={allExercises} setExercise={setExercise} />
+                <FilterView allExercises={allExercises} setExercise={setExercise} />
             </Toolbar>
             <div className='exercisesBox'>
                 <ExerciseList exercises={exercises} />
