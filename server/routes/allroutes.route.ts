@@ -15,6 +15,10 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const router = express.Router()
 const db = new Database();
 
+router.get("/getUser", (req, res) => {
+  res.json({user: req.session.user});
+})
+
 router.post("/auth", async (req, res) => {
   //TODO: should validate that the token was sent first
   const {token} = req.body;    
@@ -50,30 +54,25 @@ router.post("/auth", async (req, res) => {
       return res.sendStatus(500); //server error, couldn't create the session
     }
     //store the user's info in the session
-    req.session.user = user;
-    console.log(req.session);
-  
+    req.session.user = user;  
     res.json({user: user});
   });
 });
 
-function isAuthenticated(req: any, res: any, next: any) {
-  console.log(req.session);
-  
+function isAuthenticated(req: express.Request, res: express.Response, next: any) {  
   if (!req.session.user){
     return res.sendStatus(401); //unauthorized
   }
   next();
 }
 
-router.get("/logout", isAuthenticated, function (req, res, next) {
-  //destroy the session
+router.get("/logout", isAuthenticated, function (req, res, next) {  
   req.session.destroy(function(err) {
     //callback invoked after destroy returns
     if (err) {
       return res.sendStatus(500); //server error, couldn't destroy the session
     }
-    res.clearCookie('id'); //clear the cookie
+    res.clearCookie('id'); //clear the cookie    
     res.sendStatus(200);
   });  
 });

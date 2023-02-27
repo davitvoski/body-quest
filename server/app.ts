@@ -49,7 +49,7 @@ app.use(session({
     cookie: { 
       maxAge: 3600000, //time in ms
       //should only sent over https, but set to false for testing and dev on localhost
-      secure: true, 
+      secure: false, 
       httpOnly: true, //can't be accessed via JS
       sameSite: 'strict' //only sent for requests to same origin
     }
