@@ -1,5 +1,5 @@
 import { Checkbox, Typography } from "@mui/material";
-import Item from "../Modules/Item";
+import Item from "../modules/Item";
 
 const tempGoals = [
     {
