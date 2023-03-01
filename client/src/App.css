@@ -51,13 +51,14 @@ body {
 html,
 body,
 #root,
-.App,
-.App > div {
-  width: 100%;
+.App {
+  min-width: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
   flex-direction: column;
   justify-content: flex-start;
+  overflow: auto;
 }
 
 /* #root{

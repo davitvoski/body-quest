@@ -1,14 +1,14 @@
 import { Avatar, Grid, Paper, styled } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
-import { Item } from "../Item";
+import Item from "../modules/Item";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
  * @param props username, email, experience
  * @returns ProfileView
  */
-export const ProfileView = (props: { username: string; email: string; experience: number;}) => {
+const ProfileView = (props: { username: string; email: string; experience: number;}) => {
     /**
      * Calculates the current level of a user based on XP
      * @param xp 
@@ -30,7 +30,7 @@ export const ProfileView = (props: { username: string; email: string; experience
     } 
 
     return(
-        <Grid container spacing={4} sx={{ padding: "5%" }}>
+        <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={4}>
                 <Item sx={{ width: "auto", height: "100%" }}>
                     <Avatar 
@@ -59,3 +59,5 @@ export const ProfileView = (props: { username: string; email: string; experience
         </Grid>
     )
 }
+
+export default ProfileView;
