@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { Db, MongoClient } from "mongodb";
-import { IExercise } from "../../shared";
+import { IExercise, IGoal } from "../../shared";
 
 dotenv.config();
 
@@ -14,7 +14,9 @@ let instance: Database;
 export default class Database {
   client: MongoClient;
   db: Db;
-  exercisesCollection: string = "exercises";
+  exercisesCollection = "exercises";
+  usersCollection = "users";
+
 
   constructor() {
     if (!instance) {
@@ -34,7 +36,6 @@ export default class Database {
    */
   async getAllExercises(limit: string): Promise<IExercise[]> {
     try {
-      console.log("limit is", limit);
       const collection = this.db.collection(this.exercisesCollection);
       const results = (await collection
         .find({}, { projection: { _id: 0 } })
@@ -47,5 +48,29 @@ export default class Database {
     } catch (err) {
       throw new Error("Error getting all exercises");
     }
+  }
+
+  /**
+   * 
+   */
+  async saveUserGoal(email: string, goal: IGoal) {
+    try {
+      const collection = this.db.collection(this.usersCollection)
+      if (!await collection.findOne({
+        email: {
+          $exists: true, $in: [email]
+        }
+      })) {
+        throw new Error("User does not exist")
+      }
+
+      await collection.updateOne({ email: email }, { $push: { goals: goal } })
+      return goal
+    } catch (err) {
+      console.log(err)
+      if (err instanceof Error) throw new Error(err.message)
+      throw new Error("Error saving the goal")
+    }
+
   }
 }
