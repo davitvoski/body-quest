@@ -1,5 +1,5 @@
 import { Checkbox, Typography } from "@mui/material";
-import { Item } from "../modules/Item";
+import Item from "../modules/Item";
 
 const tempGoals = [
     {
@@ -34,7 +34,7 @@ const tempGoals = [
     }
 ]
 
-export const GoalView = () => {
+const GoalView = () => {
     const isCompleted = (goal: any) => goal.completed;
     const isIncomplete = (goal: any) => !goal.completed;
 
@@ -56,6 +56,4 @@ export const GoalView = () => {
     )
 }
 
-function setChecked(checked: boolean) {
-    throw new Error("Function not implemented.");
-}
+export default GoalView;

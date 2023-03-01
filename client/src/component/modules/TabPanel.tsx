@@ -10,8 +10,8 @@ interface TabPanelProps {
     index: number;
     value: number;
 }
-  
-export const TabPanel = (props: TabPanelProps) => {
+
+const TabPanel = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props;
   
     return (
@@ -30,3 +30,5 @@ export const TabPanel = (props: TabPanelProps) => {
         </div>
     );
   }
+
+export default TabPanel;

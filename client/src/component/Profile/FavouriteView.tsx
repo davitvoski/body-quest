@@ -1,5 +1,5 @@
 import { Checkbox, Typography } from "@mui/material";
-import { Item } from "../modules/Item";
+import Item from "../modules/Item";
 
 const tempFavs = [
     {
@@ -22,7 +22,7 @@ const tempFavs = [
     }
 ]
 
-export const FavouriteView = () => {
+const FavouriteView = () => {
     return(
         <div>
             { tempFavs.map(goal => 
@@ -34,6 +34,4 @@ export const FavouriteView = () => {
     )
 }
 
-function setChecked(checked: boolean) {
-    throw new Error("Function not implemented.");
-}
+export default FavouriteView

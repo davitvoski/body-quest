@@ -1,10 +1,10 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { ProfileView } from "./ProfileView";
-import { Item } from "../modules/Item";
-import { TabPanel } from "../modules/TabPanel";
-import { GoalView } from "./GoalView";
-import { FavouriteView } from "./FavouriteView";
+import ProfileView from "./ProfileView";
+import Item from "../modules/Item";
+import TabPanel from "../modules/TabPanel";
+import GoalView from "./GoalView";
+import FavouriteView from "./FavouriteView";
 
 function a11yProps(index: number) {
     return {
@@ -17,7 +17,7 @@ function a11yProps(index: number) {
  * Profile that conatains a ProfileView, and will later contain a GoalView and FavouriteView
  * @returns Profile Page
  */
-export const Profile = () => {
+const Profile = () => {
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
     const [experience, setExperience] = useState(0)
@@ -45,3 +45,5 @@ export const Profile = () => {
         </div>
     )
 }
+
+export default Profile;
