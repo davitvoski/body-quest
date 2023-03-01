@@ -92,20 +92,20 @@ button:focus-visible {
 }
 
 .profile {
-  padding-top: 60px;
-  height: 100vh;
   width: 80%;
   margin: auto;
 }
 
 @media (min-width: 600px) {
   .profile {
-    padding-top: 70px;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 }
 
 @media (max-width: 599px) {
   .profile {
-    padding-top: 54px;
+    padding-top: 34px;
+    padding-bottom: 34px;
   }
 }
