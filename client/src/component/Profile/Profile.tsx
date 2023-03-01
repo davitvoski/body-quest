@@ -1,8 +1,8 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import ProfileView from "./ProfileView";
-import Item from "../modules/Item";
-import TabPanel from "../modules/TabPanel";
+import Item from "../Modules/Item";
+import TabPanel from "../Modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
 

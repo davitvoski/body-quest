@@ -1,7 +1,7 @@
 import { Avatar, Grid, Paper, styled } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
-import Item from "../modules/Item";
+import Item from "../Modules/Item";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
