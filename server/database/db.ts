@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Db, MongoClient } from "mongodb";
+import { Collection, Db, MongoClient } from "mongodb";
 import { IExercise, IGoal } from "../../shared";
 
 dotenv.config();
@@ -51,18 +51,15 @@ export default class Database {
   }
 
   /**
-   * 
+   * This function saves a goal to the database for a user through the email
+   * @param email The email of the user
+   * @param goal The goal to save
    */
   async saveUserGoal(email: string, goal: IGoal) {
     try {
       const collection = this.db.collection(this.usersCollection)
-      if (!await collection.findOne({
-        email: {
-          $exists: true, $in: [email]
-        }
-      })) {
-        throw new Error("User does not exist")
-      }
+
+      await this.checkIfUserExists(email)
 
       await collection.updateOne({ email: email }, { $push: { goals: goal } })
       return goal
@@ -71,6 +68,22 @@ export default class Database {
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error saving the goal")
     }
+  }
 
+  /**
+   * This function checks if a user exists in the database
+   * @param email email of the user
+   * @param collection 
+   */
+  private async checkIfUserExists(email: string) {
+    const collection = this.db.collection(this.usersCollection)
+
+    if (!await collection.findOne({
+      email: {
+        $exists: true, $in: [email]
+      }
+    })) {
+      throw new Error("User does not exist")
+    }
   }
 }
