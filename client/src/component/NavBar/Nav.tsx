@@ -5,12 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
-
-
 export default function NavBar() {
     return (
         <Box id="navBar">
-            <AppBar className='appbar' position="relative">
+            <AppBar className='appbar' position="relative" color="secondary">
                 <Toolbar className='toolbar'>
                     <Typography>
                         <Link

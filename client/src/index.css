@@ -91,20 +91,20 @@ button:focus-visible {
   justify-content:space-between;
 }
 
-.profile {
+.content {
   width: 80%;
   margin: auto;
 }
 
 @media (min-width: 600px) {
-  .profile {
+  .content {
     padding-top: 50px;
     padding-bottom: 50px;
   }
 }
 
 @media (max-width: 599px) {
-  .profile {
+  .content {
     padding-top: 34px;
     padding-bottom: 34px;
   }

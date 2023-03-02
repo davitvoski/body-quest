@@ -28,7 +28,7 @@ const Profile = () => {
     };
 
     return(
-        <div className="profile">
+        <div className="content">
             <ProfileView username={username} email={email} experience={experience}></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
