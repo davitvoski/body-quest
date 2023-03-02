@@ -28,8 +28,6 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
     const nextLevel = (xp: number) => {
         return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 )
     } 
-
-    console.log(props);
     
     return(
         <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>

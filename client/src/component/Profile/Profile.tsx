@@ -29,7 +29,6 @@ const Profile = () => {
         const res = await fetch("/api/getUser");
         const data = await res.json();
         if (data !== undefined){
-            console.log(data.user);
             setUsername(data.user.Username);
             setEmail(data.user.Email)
             setPicture(data.user.Picture)

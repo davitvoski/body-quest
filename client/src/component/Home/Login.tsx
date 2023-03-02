@@ -28,7 +28,6 @@ export const Login = () => {
             }
         })
         const data = await res.json()
-        // we will come back to this, since our server will be replying with our info
         setUsername(data.user.Username);
         window.location.reload();
     }
