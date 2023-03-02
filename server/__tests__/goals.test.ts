@@ -6,6 +6,13 @@ jest.mock("../database/db")
 
 // Mock Database class with jest
 
+beforeAll(() => {
+    jest.spyOn(Database.prototype, "saveUserGoal")
+        .mockImplementation(async (_: string, goal: IGoal): Promise<IGoal> => {
+            return goal
+        })
+})
+
 describe("Testing Goals Routes", () => {
     test("POST /api/goals/ return 201", async () => {
         const goal: IGoal = {

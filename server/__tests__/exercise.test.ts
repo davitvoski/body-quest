@@ -4,7 +4,6 @@ import app from "../app";
 import { IExercise, IGoal } from "../../shared";
 import e from "express";
 jest.mock("../database/db")
-jest.genMockFromModule("../database/db")
 // Mock Database class with jest
 let exercises: IExercise[] = [
     {
