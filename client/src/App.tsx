@@ -6,22 +6,17 @@ import { Routes, Route } from "react-router";
 import { Login } from "./component/Home/Login";
 import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
-import { createTheme, ThemeProvider } from "@mui/material";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#2a9461"
-    },
-    secondary: {
-      main: "#494c7d"
-    }
-  }
-});
+import { createTheme, PaletteMode, ThemeProvider, useMediaQuery } from "@mui/material";
+import { grey, red } from "@mui/material/colors";
+import getDesignTokens from "./Theme";
 
 function App() {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const mode = prefersDarkMode ? 'dark' : 'light'
+  const Theme = createTheme(getDesignTokens(mode));
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={Theme}>
       <div className="App">
         <NavBar />
         <Routes>

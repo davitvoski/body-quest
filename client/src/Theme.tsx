@@ -1,35 +1,34 @@
 import { PaletteMode } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
-    ...(mode === 'light'
-      ? {
-          // palette values for light mode
-          primary: '#6D0305',
-          divider: '#DD3F40',
-          background: {
-            default: '#FFFBFF',
-            secondary: '#EEE8E8'
-          },
-          text: {
-            primary: '#000',
-            secondary: '#000',
-          },
-        }
-      : {
-          // palette values for dark mode
-          primary: '#FEB6BA',
-          divider: '#6D0305',
-          background: {
-            default: '#1D181E',
-            secondary: '#251F29'
-          },
-          text: {
+    ...(mode === 'light' ? {
+      primary: {
+        main: '#6D0305'
+      },
+      background: {
+        default: '#FFFBFF',
+        paper: '#EEE8E8',
+      },
+    } : {
+      background: {
+        default: '#1D181E',
+        paper: '#251F29',
+      },
+    }),
+    text: {
+      ...(mode === 'light'
+        ? {
+            primary: grey[900],
+            secondary: grey[800],
+          }
+        : {
             primary: '#fff',
-            secondary: '#fff',
-          },
-        }),
+            secondary: grey[500],
+          }),
+    },
   },
 });
 
