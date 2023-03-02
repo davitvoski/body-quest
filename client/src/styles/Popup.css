@@ -29,3 +29,14 @@
   align-items: center;
   margin: 20px;
 }
+
+.dialog-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.dialog-header button:hover {
+  background-color: #FEB6BA;
+}
