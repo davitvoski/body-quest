@@ -21,6 +21,10 @@ export default class Database {
     return instance;
   }
 
+  /**
+   * This function connects to the database
+   * @returns The database instance
+   */
   async connect() {
     if (!instance) {
       instance = this;
