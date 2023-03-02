@@ -6,7 +6,7 @@ jest.mock("../database/db")
 
 // Mock Database class with jest
 
-describe("Goals Routes", () => {
+describe("Testing Goals Routes", () => {
     test("POST /api/goals/ return 201", async () => {
         const goal: IGoal = {
             title: "Test Goal",
