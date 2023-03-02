@@ -55,20 +55,19 @@ router.post("/auth", async (req, res) => {
   });
 });
 
-function isAuthenticated(req: express.Request, res: express.Response, next: any) {  
+function isAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction) {  
   if (!req.session.user){
     return res.sendStatus(401); 
   }
   next();
 }
 
-router.get("/logout", isAuthenticated, function (req, res, next) {  
+router.get("/logout", isAuthenticated, function (req: express.Request, res: express.Response) {  
   req.session.destroy(function(err) {
-    //callback invoked after destroy returns
     if (err) {
-      return res.sendStatus(500); //server error, couldn't destroy the session
+      return res.sendStatus(500); 
     }
-    res.clearCookie('id'); //clear the cookie    
+    res.clearCookie('id');   
     res.sendStatus(200);
   });  
 });
@@ -77,7 +76,7 @@ router.get("/logout", isAuthenticated, function (req, res, next) {
 //route for authenticated users only
 router.get("/protected",
     isAuthenticated,
-    function (req, res) {
+    function (res: express.Response) {
         //would actually be doing something
         res.sendStatus(200); 
     }

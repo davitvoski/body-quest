@@ -1,3 +1,4 @@
+import { Box, Button, Typography } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
 
@@ -53,18 +54,24 @@ export const Login = () => {
 
     return (
         <>
-            <h2>Welcome {username ? username : "Anonymous"}</h2>
+            <Typography color="inherit">
+                Welcome {username ? username : "Anonymous"}
+            </Typography>
 
-            <div className="loginComponent">
+            <Box>
                 <GoogleLogin
                     onSuccess={handleLogin}
                     onError={handleError}
                 />
-            </div>
+            </Box>
 
-            {username && <button onClick={handleLogout}>Logout</button>}
-
-            <button onClick={protectedRoute}>Test protected</button>
+            {username && 
+                <Button 
+                    onClick={handleLogout}
+                >
+                    Logout
+                </Button>
+            }
         </>
     )
 }

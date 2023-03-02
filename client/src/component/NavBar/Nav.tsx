@@ -21,12 +21,11 @@ export default function NavBar() {
                     </Typography>
 
                     <Typography color="inherit">
-                        {/* <Link
-                            style={{ textDecoration: "none", color: "white" }}
+                        <Link
+                            style={{ textDecoration: "none", color: "white", marginRight: "5vw" }}
                             to={'/Login'}>
                             Login
-                        </Link> */}
-
+                        </Link> 
                         <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/Profile'}>
