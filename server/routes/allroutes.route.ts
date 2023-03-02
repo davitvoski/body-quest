@@ -7,6 +7,7 @@ allRouters.get("/", (_: express.Request, res: express.Response) => {
     res.json({ message: "Hello World" })
 })
 
+allRouters.use("/exercises", exerciseRouter)
 allRouters.use("/goals", goalRouter)
 
 

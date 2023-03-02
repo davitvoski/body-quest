@@ -28,6 +28,6 @@ const exerciseRouter = express.Router()
  *          400:
  *              description: Error getting all exercises
  */
-exerciseRouter.get("/exercises", getAllExercises)
+exerciseRouter.get("/", getAllExercises)
 
 export default exerciseRouter
