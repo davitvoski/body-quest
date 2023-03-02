@@ -4,7 +4,7 @@ import app from "../app";
 import { IExercise, IGoal } from "../../shared";
 import e from "express";
 jest.mock("../database/db")
-
+jest.genMockFromModule("../database/db")
 // Mock Database class with jest
 let exercises: IExercise[] = [
     {
@@ -20,7 +20,6 @@ beforeAll(() => {
     for (let i = 0; i < 10; i++) {
         exercises = [...exercises, exercises[0]]
     }
-    console.log(exercises.length)
 })
 
 describe("Testing Exercise Routes", () => {
