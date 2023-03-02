@@ -8,25 +8,28 @@ const dbUrl = process.env.ATLAS_URI as string;
 const dbName = process.env.DATABASE_NAME as string;
 
 let instance: Database;
+let client: MongoClient;
+let db: Db;
 /**
  * This class is a singleton that connects to the MongoDB database
  */
 export default class Database {
-  client: MongoClient;
-  db: Db;
   exercisesCollection = "exercises";
   usersCollection = "users";
 
-
   constructor() {
+    return instance;
+  }
+
+  async connect() {
     if (!instance) {
       instance = this;
-      this.client = new MongoClient(dbUrl);
-      this.client.connect();
-      this.db = this.client.db(dbName);
+      client = new MongoClient(dbUrl);
+      await client.connect();
+      db = client.db(dbName);
       console.log("Successfully connected to MongoDB database");
     }
-    return instance;
+    return instance
   }
 
   /**
@@ -36,7 +39,10 @@ export default class Database {
    */
   async getAllExercises(limit: string): Promise<IExercise[]> {
     try {
-      const collection = this.db.collection(this.exercisesCollection);
+      console.log(db);
+
+      const collection = db.collection(this.exercisesCollection);
+
       const results = (await collection
         .find({}, { projection: { _id: 0 } })
         .toArray()) as unknown as IExercise[];
@@ -57,7 +63,7 @@ export default class Database {
    */
   async saveUserGoal(email: string, goal: IGoal) {
     try {
-      const collection = this.db.collection(this.usersCollection)
+      const collection = db.collection(this.usersCollection)
 
       await this.checkIfUserExists(email)
 
@@ -76,7 +82,7 @@ export default class Database {
    * @param collection 
    */
   private async checkIfUserExists(email: string) {
-    const collection = this.db.collection(this.usersCollection)
+    const collection = db.collection(this.usersCollection)
 
     if (!await collection.findOne({
       email: {
@@ -86,4 +92,6 @@ export default class Database {
       throw new Error("User does not exist")
     }
   }
+
+
 }
