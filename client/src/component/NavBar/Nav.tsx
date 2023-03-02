@@ -4,10 +4,32 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
 
 
 
 export default function NavBar() {
+    const [username, setUsername] = useState("");
+
+    const getUser = async () => {
+        const res = await fetch("/api/getUser");
+        const data = await res.json();
+        if (data !== undefined){
+            setUsername(data.user.Username);
+        }
+    }
+
+    const handleLogout = async () => {
+        await fetch("api/logout");
+        setUsername("");
+        window.location.reload();
+    }
+
+    useEffect(() => {
+        getUser();
+    }, []);
+
     return (
         <Box id="navBar">
             <AppBar className='appbar' position="relative">
@@ -21,11 +43,28 @@ export default function NavBar() {
                     </Typography>
 
                     <Typography color="inherit">
-                        <Link
-                            style={{ textDecoration: "none", color: "white", marginRight: "5vw" }}
-                            to={'/Login'}>
-                            Login
-                        </Link> 
+                        {username == "" ? 
+                            <Link
+                                style={{ textDecoration: "none", color: "white", marginRight: "5vw" }}
+                                to={'/Login'}>
+                                Login
+                            </Link> 
+                            :
+                            <Button 
+                                style={{ 
+                                    textDecoration: "none", 
+                                    color: "white", 
+                                    marginRight: "5vw",
+                                    textTransform: "none",
+                                    fontSize: "1rem",
+                                    padding: "0"
+                                }}
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Button>
+                        }
+                        
                         <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/Profile'}>

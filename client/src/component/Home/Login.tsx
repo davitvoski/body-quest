@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
 
@@ -30,6 +30,7 @@ export const Login = () => {
         const data = await res.json()
         // we will come back to this, since our server will be replying with our info
         setUsername(data.user.Username);
+        window.location.reload();
     }
 
     const handleError = () => {
@@ -41,29 +42,29 @@ export const Login = () => {
         setUsername("");
     }
 
-    const protectedRoute = async () => {
-        const response = await fetch("api/protected");
-        if (response.status === 200) {
-            alert("You are authorized to see this!");
-        } else if (response.status === 401) {
-            alert("You are not authorized to see this!");
-        } else {
-            alert("Something went wrong!");
-        }
-    }
-
     return (
         <>
-            <Typography color="inherit">
+            <Typography 
+                color="inherit" 
+                variant='h4'
+            >
                 Welcome {username ? username : "Anonymous"}
             </Typography>
-
-            <Box>
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+            >
+                <Grid item xs={3}>
                 <GoogleLogin
                     onSuccess={handleLogin}
                     onError={handleError}
-                />
-            </Box>
+                />            
+                </Grid>   
+            
+            </Grid> 
 
             {username && 
                 <Button 

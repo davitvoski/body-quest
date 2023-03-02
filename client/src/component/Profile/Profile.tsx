@@ -1,10 +1,11 @@
 import { Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileView from "./ProfileView";
 import Item from "../modules/Item";
 import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
+import { setegid } from "process";
 
 function a11yProps(index: number) {
     return {
@@ -20,16 +21,34 @@ function a11yProps(index: number) {
 const Profile = () => {
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
+    const [picture, setPicture] = useState("")
     const [experience, setExperience] = useState(0)
     const [value, setValue] = useState(0);
+
+    const getUser = async () => {
+        const res = await fetch("/api/getUser");
+        const data = await res.json();
+        if (data !== undefined){
+            console.log(data.user);
+            setUsername(data.user.Username);
+            setEmail(data.user.Email)
+            setPicture(data.user.Picture)
+        }
+    }
+
+    useEffect(() => {
+        getUser();
+    }, []);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
+
+
     return(
         <div className="profile">
-            <ProfileView username={username} email={email} experience={experience}></ProfileView>
+            <ProfileView username={username} email={email} experience={experience} picture={picture} ></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
                     <Tab label="Goals" sx={{ width: "50%" }} />
