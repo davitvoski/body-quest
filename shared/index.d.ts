@@ -7,6 +7,7 @@ export interface IExercise {
     body_part: string,
 }
 
+// TODO: To be designed
 export interface IUser {
     username: string,
     email: string,
@@ -14,11 +15,9 @@ export interface IUser {
     goals: IGoal[],
 }
 
-//TODO: Talk to @santigao and @sophia about this
 export interface IGoal {
     title: string,
-    // TODO: Think if a string would be more appropriate
-    exercise: IExercise,
+    exercise: string,
     reps: number,
     sets?: number,
     // In KG
