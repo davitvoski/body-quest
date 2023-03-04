@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router";
 import { Login } from "./component/Home/Login";
 import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
+import { GoalForm } from "./component/Goal/GoalForm";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* <Route  path='Login' element={<Login/>}/> */}
         <Route path="Profile" element={<Profile />} />
+        <Route path="GoalCreation" element={<GoalForm />} />
       </Routes>
     </div>
   );

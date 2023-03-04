@@ -24,6 +24,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
 import { GoalForm } from "./GoalForm";
+import { Link } from "react-router-dom";
 
 type PopupProps = {
   handleClose: () => void;
@@ -105,18 +106,16 @@ export const Popup = (props: PopupProps) => {
                 <b>Target:</b> {exercise.target}
               </Typography>
             </div>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#000000",
-                fontWeight: "bold",
-                borderRadius: "10px",
-                marginLeft: "5vw",
+            <Link
+              className="link-button"
+              to={{
+                pathname: "/GoalCreation",
               }}
-              onClick={handleForm}
+              state={{ exerciseName: exercise.name }}
+              // onClick={handleForm}
             >
               CREATE GOAL
-            </Button>
+            </Link>
           </div>
           <div className="img-container">
             <img src={exercise.gifUrl} />
