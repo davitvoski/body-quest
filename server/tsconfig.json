@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", ".vscode", "__tests__", "./build"],
+  "exclude": ["node_modules", ".vscode", "./build"],
   "compilerOptions": {
     "outDir": "build",
     "rootDir": "./",
@@ -16,7 +16,7 @@
     "noUnusedParameters": true /* Raise an error when a function parameter isn't read. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "allowJs": true,
-    "types": ["node"],
+    "types": ["node", "jest"],
     "typeRoots": ["./node_modules/@types", "./types", "../shared"]
   }
 }
