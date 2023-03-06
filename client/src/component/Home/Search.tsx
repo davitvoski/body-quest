@@ -33,7 +33,7 @@ export const Search = (props: searchProps) => {
                 <SearchIcon />
                 <TextField
                     id="searchInput"
-                    //placeholder={t('search')}
+                    placeholder={t('search') as string | undefined}
                     onChange={getSearchValue}
                 />
             </form>

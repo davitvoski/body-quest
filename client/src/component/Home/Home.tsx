@@ -30,7 +30,7 @@ export const Home = () => {
 
     return (
         <div className='homePage'>
-            <h2>WORKOUT OF THE DAY</h2>
+            <h2>{t('workout')}</h2>
             <Toolbar className='searchBar'>
                 <Search allExercises={allExercises} setExercise={setExercise} />
                 <FilterView allExercises={allExercises} setExercise={setExercise} />

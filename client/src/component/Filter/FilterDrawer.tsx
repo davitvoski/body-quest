@@ -51,16 +51,15 @@ export const FilterDrawer = (props: FilterDrawer) => {
     return (
         <div id='filterDrawer'>
             <Drawer anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
-                <p>Filter options</p>
-                <FilterList listDataByOption={listDataByOption} filterName="Target" filterList={targetList} keyExerercise="target" />
-                <FilterList listDataByOption={listDataByOption} filterName="Equipement" filterList={equipments} keyExerercise="equipment" />
-                <FilterList listDataByOption={listDataByOption} filterName="Body Part" filterList={bodyPart} keyExerercise="body_part" />
+                <FilterList listDataByOption={listDataByOption} filterName= {t('target')} filterList={targetList} keyExerercise="target" />
+                <FilterList listDataByOption={listDataByOption} filterName={t('equipement')} filterList={equipments} keyExerercise="equipment" />
+                <FilterList listDataByOption={listDataByOption} filterName={t('body_part')} filterList={bodyPart} keyExerercise="body_part" />
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
                             <StarBorder htmlColor="#EFE2A2"/>
                         </ListItemIcon>
-                        <ListItemText primary="Favorites" />
+                        <ListItemText primary={t('Favorites')} />
                     </ListItemButton>
                 </List>
             </Drawer>
