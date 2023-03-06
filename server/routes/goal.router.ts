@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { saveUserGoalPOST } from "../controllers/goal.controller";
+import { getUserGoals, saveUserGoalPOST } from "../controllers/goal.controller";
 const goalRouter = express.Router()
 
 
@@ -34,5 +34,8 @@ const goalRouter = express.Router()
  *     description: Error saving goal - server error
  */
 goalRouter.post("/", saveUserGoalPOST)
+
+goalRouter.get("/", getUserGoals)
+
 
 export default goalRouter
