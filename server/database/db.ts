@@ -81,6 +81,27 @@ export default class Database {
   }
 
   /**
+   * This function gets all the goals for a user through the email from the database
+   * @param email User email
+   * @returns {IGoal[]}
+   */
+  async getUserGoals(email: string) {
+    try {
+      const collection = db.collection(this.usersCollection)
+
+      await this.checkIfUserExists(email)
+
+      const goals = await collection.findOne({ email: email }, { projection: { _id: 0, goals: 1 } })
+      return goals as unknown as IGoal[]
+
+    } catch (err) {
+      console.log(err)
+      if (err instanceof Error) throw new Error(err.message)
+      throw new Error("Error getting the goals")
+    }
+  }
+
+  /**
    * This function checks if a user exists in the database
    * @param email email of the user
    * @param collection 
