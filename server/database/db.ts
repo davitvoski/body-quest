@@ -43,7 +43,6 @@ export default class Database {
    */
   async getAllExercises(limit: string): Promise<IExercise[]> {
     try {
-      console.log(db);
 
       const collection = db.collection(this.exercisesCollection);
 
@@ -74,7 +73,6 @@ export default class Database {
       await collection.updateOne({ email: email }, { $push: { goals: goal } })
       return goal
     } catch (err) {
-      console.log(err)
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error saving the goal")
     }
@@ -95,7 +93,6 @@ export default class Database {
       return goals as unknown as IGoal[]
 
     } catch (err) {
-      console.log(err)
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error getting the goals")
     }
