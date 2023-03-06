@@ -11,7 +11,7 @@ export interface IExercise {
 export interface IUser {
     username: string,
     email: string,
-    avatar: string,
+    picture: string,
     goals: IGoal[],
 }
 
