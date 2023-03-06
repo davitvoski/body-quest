@@ -102,6 +102,7 @@ h1 {
   padding-left: 300px;
   color: white;
   margin-bottom: 0;
+  padding-top: 0;
 }
 
 #pSlogan {
@@ -136,6 +137,9 @@ h1 {
   overflow: visible;
 }
 
+h2{
+  color: white;
+}
 #fitness {
   margin: 0;
   width: 500px;

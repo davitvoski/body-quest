@@ -1,7 +1,6 @@
 import * as React from 'react';
 import LanguageIcon from '@mui/icons-material/Language';
 import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Typography } from '@mui/material';
@@ -23,7 +22,8 @@ export const LanguageNav = () => {
   
     const lngs: ILanguage = {
         en: { nativeName: 'English' },
-        fr: { nativeName: 'Français' }
+        fr: { nativeName: 'Français' },
+        ch: { nativeName: '简体中文' }
     };
 
     return (

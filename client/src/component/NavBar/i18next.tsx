@@ -4,13 +4,16 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import translationEn from '../../../public/assets/locales/en/translationEN.json';
 import translationFr from '../../../public/assets/locales/fr/translationFr.json';
-
+import translationCh from '../../../public/assets/locales/ch/translationCh.json';
 const resources = {
   en: {
     translation: translationEn
   },
   fr: {
     translation: translationFr
+  },
+  ch:{
+    translation: translationCh
   }
 };
 
