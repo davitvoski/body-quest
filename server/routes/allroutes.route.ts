@@ -8,6 +8,7 @@ allRouters.get("/", (_: express.Request, res: express.Response) => {
 })
 
 allRouters.use("/exercises", exerciseRouter)
+
 allRouters.use("/goals", goalRouter)
 
 

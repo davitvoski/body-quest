@@ -35,6 +35,41 @@ const goalRouter = express.Router()
  */
 goalRouter.post("/", saveUserGoalPOST)
 
+/**
+ * This function gets all goals from the database of a user.
+ * Email should be passed through the body
+ * @swagger
+ * /api/goals/:
+ *  get:
+ *   summary: Get all goals
+ *   description: Get all goals of a user via email
+ *   tags:
+ *    - Goal
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        email
+ *       example:
+ *        email: "test@gmail.com"    
+ *   responses:
+ *    200:
+ *     description: An array of goals
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: array
+ *        example: [
+ *          {titel: string, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: string}]
+ *    400:
+ *     description: Database error
+ *    500:
+ *     description: Server failed
+ *          
+ */
 goalRouter.get("/", getUserGoals)
 
 
