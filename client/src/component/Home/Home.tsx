@@ -4,14 +4,15 @@ import { useState, useEffect } from 'react';
 import { ExerciseList } from '../Exercise/ExerciseList';
 import { FilterView } from '../Filter/FilterView';
 import { IExercise } from '../../../../shared';
-
+import { useTranslation} from "react-i18next";
 export const Home = () => {
+    const { t } = useTranslation();
     const [allExercises, setAllExercise] = useState<IExercise[]>([]);
     const [exercises, setExercise] = useState<IExercise[]>(allExercises);
     async function fetchExercises() {
         const response = await fetch('/api/exercises', {
             method: 'GET',
-        });
+        }); 
 
         if (response.status === 404) {
             throw new Error(`Failed to fetch ${response.status}: ${response.statusText}`)

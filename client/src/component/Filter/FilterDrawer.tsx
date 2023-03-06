@@ -5,6 +5,7 @@ import { FavoriteBorder } from '@mui/icons-material';
 import { IExercise } from '../../../../shared';
 import { Exercise } from '../Exercise/Exercise';
 import StarBorder from '@mui/icons-material/StarBorder';
+import { useTranslation} from "react-i18next";
 
 type FilterDrawer = {
     allExercises: IExercise[],
@@ -17,6 +18,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
     const [targetList, setTargetList] = useState<string[]>([]);
     const [equipments, setEquipements] = useState<string[]>([]);
     const [bodyPart, setBodyPart] = useState<string[]>([]);
+    const {t} = useTranslation();
 
     function getOptions() {
         let tempTarget: string[] = [];
@@ -36,7 +38,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
 
     const listDataByOption = (keyName: keyof IExercise, optionName: string) => {
         let optionEXercises:IExercise[] = props.allExercises.filter(exercise => exercise[keyName] === optionName);
-        console.log("??"+optionEXercises);
+        // console.log("??"+optionEXercises);
         props.setExercise(optionEXercises)
         props.onClose();
     }
@@ -52,7 +54,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
                 <p>Filter options</p>
                 <FilterList listDataByOption={listDataByOption} filterName="Target" filterList={targetList} keyExerercise="target" />
                 <FilterList listDataByOption={listDataByOption} filterName="Equipement" filterList={equipments} keyExerercise="equipment" />
-                <FilterList listDataByOption={listDataByOption} filterName=" Body Part" filterList={bodyPart} keyExerercise="body_part" />
+                <FilterList listDataByOption={listDataByOption} filterName="Body Part" filterList={bodyPart} keyExerercise="body_part" />
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>

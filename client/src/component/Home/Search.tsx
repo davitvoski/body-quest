@@ -1,12 +1,14 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField } from "@mui/material";
 import { IExercise } from "../../../../shared";
+import { useTranslation} from "react-i18next";
 
 type searchProps = {
     setExercise: Function
     allExercises: IExercise[]
 }
 export const Search = (props: searchProps) => {
+    const { t } = useTranslation();
     const getSearchValue = (event: any) => {
         event.preventDefault();
         const searchExercise = event.target.value;
@@ -31,7 +33,7 @@ export const Search = (props: searchProps) => {
                 <SearchIcon />
                 <TextField
                     id="searchInput"
-                    placeholder="Search…"
+                    //placeholder={t('search')}
                     onChange={getSearchValue}
                 />
             </form>

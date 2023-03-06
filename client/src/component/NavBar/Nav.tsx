@@ -4,10 +4,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import LanguageIcon from '@mui/icons-material/Language';
+import { LanguageNav } from './LanguageNav';
+import i18n from "./i18next";
+import { useTranslation, initReactI18next, Trans } from "react-i18next";
 
 
 export default function NavBar() {
+    const { t } = useTranslation();
     return (
         <Box id="navBar">
             <AppBar className='appbar' position="relative">
@@ -16,12 +19,14 @@ export default function NavBar() {
                         <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/'}>
-                            Home
+                            {t('home')}
                         </Link>
                     </Typography>
 
                     <div id='subNav'>
-                        <LanguageIcon sx={{ l: 0.5, width: 50 }}/>    
+                        {/*  language button */}
+                        <LanguageNav/>
+                        
                         <Typography color="inherit">
                             {/* <Link
                             style={{ textDecoration: "none", color: "white" }}
@@ -32,7 +37,7 @@ export default function NavBar() {
                             <Link
                                 style={{ textDecoration: "none", color: "white" }}
                                 to={'/Profile'}>
-                                Profile
+                                    {t('profile')}
                             </Link>
                         </Typography>
                     </div>
