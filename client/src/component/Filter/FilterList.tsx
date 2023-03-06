@@ -1,4 +1,3 @@
-import { Filter } from "./Filter"
 import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -32,7 +31,7 @@ export const FilterList = (props: FilterList) => {
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                 >
-                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                    <Typography sx={{ width: '33%', flexShrink: 0, whiteSpace:"nowrap"}}>
                         {props.filterName}
                     </Typography>
                 </AccordionSummary>
@@ -50,7 +49,9 @@ export const FilterList = (props: FilterList) => {
                                 value={filter}
                                 control={<Radio />}
                                 label={filter}
-                                key={i} />
+                                key={i} 
+                                sx={{textTransform:'capitalize'}}
+                                />
                         ))}
                     </RadioGroup>
                 </AccordionDetails>

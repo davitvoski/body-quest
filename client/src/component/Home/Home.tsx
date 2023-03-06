@@ -36,13 +36,18 @@ export const Home = () => {
         <div className='homePage'>
             <div className='outer'>
                 <div className='slogan'>
-                    <p id='make_your'>MAKE YOUR</p>
-                    <h1>BODY SHAPE</h1>
-                    <p id='pSlogan'>Push yourself harder to become better </p>
+                    <p id='make_your'>{t('makeyour')}</p>
+                    <h1>{t('body_shape')}</h1>
+                    <p id='pSlogan'>{t('slogan')}</p>
+                    {/* when click it will go to login/sign in page */}
+                    <button id="startBtn">{t('start_now')} </button>
                 </div>
                 <div className='inner'>
                     <img  id='fitness' src='src/Data/fitness.png'/>
                 </div>
+            </div>
+            <div className='recommandtions'>
+                
             </div>
             <h2>{t('workout')}</h2>
             <Toolbar className='searchBar'>
