@@ -5,6 +5,7 @@ import { ExerciseList } from '../Exercise/ExerciseList';
 import { FilterView } from '../Filter/FilterView';
 import { IExercise } from '../../../../shared';
 import { useTranslation} from "react-i18next";
+import {exercisesData} from '../../Data/testData'
 export const Home = () => {
     const { t } = useTranslation();
     const [allExercises, setAllExercise] = useState<IExercise[]>([]);
@@ -25,11 +26,24 @@ export const Home = () => {
     }
     
     useEffect(() => {
-        fetchExercises();
+        //fetchExercises();
+        // test data, will delete after
+        setAllExercise(exercisesData);
+        setExercise(exercisesData);
     }, [])
 
     return (
         <div className='homePage'>
+            <div className='outer'>
+                <div className='slogan'>
+                    <p id='make_your'>MAKE YOUR</p>
+                    <h1>BODY SHAPE</h1>
+                    <p id='pSlogan'>Push yourself harder to become better </p>
+                </div>
+                <div className='inner'>
+                    <img  id='fitness' src='src/Data/fitness.png'/>
+                </div>
+            </div>
             <h2>{t('workout')}</h2>
             <Toolbar className='searchBar'>
                 <Search allExercises={allExercises} setExercise={setExercise} />

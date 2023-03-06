@@ -23,7 +23,7 @@ export const LanguageNav = () => {
   
     const lngs: ILanguage = {
         en: { nativeName: 'English' },
-        fr: { nativeName: 'French' }
+        fr: { nativeName: 'Français' }
     };
 
     return (
