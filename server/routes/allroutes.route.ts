@@ -4,6 +4,8 @@ import session from 'express-session';
 import { User, Database } from "../database/db";
 import dotenv from 'dotenv'
 import exerciseRouter from "./exercise.routes";
+import goalRouter from "./goal.router";
+const allRouters = express.Router()
 dotenv.config()
 
 declare module 'express-session' {
@@ -13,14 +15,13 @@ declare module 'express-session' {
 }
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
-const router = express.Router()
 const db = new Database();
 
-router.get("/getUser", (req, res) => {
+allRouters.get("/getUser", (req, res) => {
   res.json({user: req.session.user});
 })
 
-router.post("/auth", async (req, res) => {
+allRouters.post("/auth", async (req, res) => {
   //TODO: should validate that the token was sent first
   const {token} = req.body;    
 
@@ -62,7 +63,7 @@ function isAuthenticated(req: express.Request, res: express.Response, next: expr
   next();
 }
 
-router.get("/logout", isAuthenticated, function (req: express.Request, res: express.Response) {  
+allRouters.get("/logout", isAuthenticated, function (req: express.Request, res: express.Response) {  
   req.session.destroy(function(err) {
     if (err) {
       return res.sendStatus(500); 
@@ -74,7 +75,7 @@ router.get("/logout", isAuthenticated, function (req: express.Request, res: expr
 
 //example of a protected route
 //route for authenticated users only
-router.get("/protected",
+allRouters.get("/protected",
     isAuthenticated,
     function (res: express.Response) {
         //would actually be doing something
@@ -82,10 +83,12 @@ router.get("/protected",
     }
 );
 
-router.get("/", (_: express.Request, res: express.Response) => {
+allRouters.get("/", (_: express.Request, res: express.Response) => {
     res.json({ message: "Hello World" })
 })
 
-router.use(exerciseRouter)
+allRouters.use("/exercises", exerciseRouter)
+allRouters.use("/goals", goalRouter)
 
-export { router as allRoutes }
+
+export { allRouters as allRoutes }

@@ -37,9 +37,6 @@ const options: swaggerJSDoc.Options = {
 
 const swaggerSpec = swaggerJSDoc(options)
 
-// Create database connection
-const db = new Database()
-// Configure Express
 const app = express()
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
