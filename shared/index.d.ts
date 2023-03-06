@@ -22,5 +22,5 @@ export interface IGoal {
     sets?: number,
     // In KG
     weight?: number,
-    completed: false
+    completed: boolean = false,
 }
