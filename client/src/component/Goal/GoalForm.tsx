@@ -20,43 +20,32 @@ import "../../styles/GoalForm.css";
 export const GoalForm = (props: any) => {
   let { state } = useLocation();
   const [goalType, setGoalType] = React.useState("");
-  const [goalValue, setGoalValue] = React.useState("");
-  const [dateValue, setDateValue] = React.useState("");
-  const [isValid, setIsValid] = React.useState(false);
-  const [errors, setErrors] = React.useState({ goalValue: "", endDate: "" });
+  const [goalValue, setGoalValue] = React.useState(0);
+  const [isGoalValueValid, setIsGoalValueValid] = React.useState(false);
+  const [isDateValid, setIsDateValid] = React.useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let name = event.target.name;
-    console.log(name);
-
-    switch (name) {
-      case "type":
-        setGoalType(event.target.value as string);
-        break;
-      case "amount":
-        if (event.target.value.length > 0) {
-          setGoalValue(event.target.value as string);
-        } else {
-        }
-        break;
-      case "date":
-        setDateValue(event.target.value as string);
-        break;
-    }
-  };
-
-  const checkFormValid = () => {
-    if (goalValue !== "") {
-      setIsValid(true);
+  const handleGoalValueChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.valueAsNumber;
+    console.log(value.toString());
+    setGoalValue(value);
+    if (value) {
+      setIsGoalValueValid(true);
+      console.log("valid");
+    } else {
+      setIsGoalValueValid(false);
     }
   };
 
   function handleDateChange(newValue: any) {
     console.log(newValue);
+    setIsDateValid(true);
   }
 
-  const handleGoalValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGoalValue(event.target.value as string);
+  const handleSubmit = () => {
+    console.log("submit");
+    //TODO post request to server
   };
 
   return (
@@ -97,7 +86,7 @@ export const GoalForm = (props: any) => {
                   {
                     reps: (
                       <TextField
-                        required
+                        error={!isGoalValueValid}
                         name="amount"
                         label="Amount"
                         id="goal-amount-input"
@@ -105,22 +94,24 @@ export const GoalForm = (props: any) => {
                         type="number"
                         inputProps={{ min: 0 }}
                         sx={{ color: "white" }}
-                        onChange={handleChange}
+                        onChange={handleGoalValueChange}
                       />
                     ),
                     weight: (
                       <TextField
+                        error={!isGoalValueValid}
                         name="amount"
                         label="Kg"
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
                         inputProps={{ min: 0 }}
-                        onChange={handleChange}
+                        onChange={handleGoalValueChange}
                       />
                     ),
                     time: (
                       <TextField
+                        error={!isGoalValueValid}
                         label="Sec"
                         name="amount"
                         id="goal-amount-input"
@@ -129,7 +120,7 @@ export const GoalForm = (props: any) => {
                         inputProps={{
                           min: 0,
                         }}
-                        onChange={handleChange}
+                        onChange={handleGoalValueChange}
                       />
                     ),
                   }[goalType]
@@ -155,10 +146,18 @@ export const GoalForm = (props: any) => {
               </FormControl>
             </Stack>
           </Stack>
-          {isValid ? (
-            <Button variant="contained">Create</Button>
+          {isGoalValueValid && isDateValid ? (
+            <Button
+              variant="contained"
+              sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
+              onClick={handleSubmit}
+            >
+              Create
+            </Button>
           ) : (
-            <Button disabled>Create</Button>
+            <Button disabled sx={{ margin: "10px" }}>
+              Create
+            </Button>
           )}
         </form>
       </Paper>
