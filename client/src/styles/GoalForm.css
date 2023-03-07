@@ -17,3 +17,22 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.form-input {
+  border-radius: 25px;
+  border: 2px solid red;
+}
+
+.form-container {
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+  align-items: center;
+}
+.header {
+  background-color: #2e2e2e;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 1px 9px 6px -8px #000000;
+  padding: 20px;
+}
