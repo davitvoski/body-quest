@@ -52,12 +52,13 @@ html,
 body,
 #root,
 .App,
-.App>div {
+.App > div {
   width: 100%;
   margin: 0;
   padding: 0;
   flex-direction: column;
   justify-content: flex-start;
+  overflow: auto;
 }
 
 /* #root{

@@ -33,7 +33,6 @@ export const FilterDrawer = (props: FilterDrawer) => {
         setTargetList(Array.from(new Set(tempTarget)));
         setEquipements(Array.from(new Set(tempEquipment)));
         setBodyPart(Array.from(new Set(body_part)));
-        console.log(equipments);
     }
 
     const listDataByOption = (keyName: keyof IExercise, optionName: string) => {
