@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useLocation } from "react-router";
-import ResponsiveDataPicker from "../ResponsiveDataPicker";
+import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
 
 export const GoalForm = (props: any) => {
