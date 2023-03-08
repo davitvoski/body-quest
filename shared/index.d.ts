@@ -9,10 +9,10 @@ export interface IExercise {
 
 // TODO: To be designed
 export interface IUser {
-    username?: string,
-    email?: string,
-    picture?: string,
-    goals?: IGoal[],
+    username: string,
+    email: string,
+    picture: string,
+    goals: IGoal[],
 }
 
 export interface IGoal {
