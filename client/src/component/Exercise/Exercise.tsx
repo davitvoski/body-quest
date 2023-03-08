@@ -2,10 +2,16 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { IExercise } from "../../../../shared";
 import { useState } from "react";
 import { Popup } from "./Popup";
-
+import "../../styles/Exercises.css";
 type ExerciseProps = {
   exercise: IExercise;
 };
+
+/**
+ * Info of one exercise
+ * @param props ExerciseProps
+ * @returns Exercise
+ */
 export const Exercise = (props: ExerciseProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
