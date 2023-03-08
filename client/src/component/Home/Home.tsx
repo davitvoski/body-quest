@@ -5,9 +5,8 @@ import { ExerciseList } from '../Exercise/ExerciseList';
 import { FilterView } from '../Filter/FilterView';
 import { IExercise } from '../../../../shared';
 import { useTranslation } from "react-i18next";
-import { exercisesData } from '../../Data/testData';
 import HeaderLayout from './HeaderLayout';
-
+import "../../styles/Home.css";
 /** 
  * The main page of webiste
  * @returns Home Page

@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { IExercise } from "../../../../shared";
 import { useState } from "react";
 import { Popup } from "./Popup";
-
+import "../../styles/Exercises.css";
 type ExerciseProps = {
   exercise: IExercise;
 };

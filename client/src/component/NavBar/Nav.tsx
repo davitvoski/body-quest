@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { LanguageNav } from './LanguageNav';
 import { useTranslation} from "react-i18next";
-
+import "../../styles/NavBar.css";
 
 /**
  * Nav bar

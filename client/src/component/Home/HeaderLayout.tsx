@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import "../../styles/Home.css";
 
 /**
  * Inspired by https://dribbble.com/shots/16371194-Fitness-Landing-Page

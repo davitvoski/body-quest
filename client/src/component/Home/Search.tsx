@@ -2,7 +2,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { TextField } from "@mui/material";
 import { IExercise } from "../../../../shared";
 import { useTranslation } from "react-i18next";
-
+import "../../styles/Search.css";
 type searchProps = {
   setExercise: Function;
   allExercises: IExercise[];

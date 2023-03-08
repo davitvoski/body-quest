@@ -1,6 +1,6 @@
 import { IExercise } from "../../../../shared"
 import { Exercise } from "./Exercise"
-
+import "../../styles/Exercises.css";
 type ExerciseListProps = {
     exercises: IExercise[]
 }

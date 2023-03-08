@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
-
+import "../../styles/Filter.css";
 
 type FilterList = {
     filterName: string,
