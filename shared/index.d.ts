@@ -12,7 +12,7 @@ export interface IUser {
     username: string,
     email: string,
     picture: string,
-    goals: IGoal[],
+    goals?: IGoal[],
 }
 
 export interface IGoal {
