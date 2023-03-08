@@ -6,6 +6,7 @@ const allRouters = express.Router()
 
 allRouters.use("/authentication", authRouter)
 allRouters.use("/exercises", exerciseRouter)
+
 allRouters.use("/goals", goalRouter)
 
 export { allRouters as allRoutes }

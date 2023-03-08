@@ -11,7 +11,7 @@ export interface IExercise {
 export interface IUser {
     username?: string,
     email?: string,
-    avatar?: string,
+    picture?: string,
     goals?: IGoal[],
 }
 
@@ -22,5 +22,5 @@ export interface IGoal {
     sets?: number,
     // In KG
     weight?: number,
-    completed: false
+    completed: boolean = false,
 }
