@@ -5,10 +5,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { LanguageNav } from './LanguageNav';
-import i18n from "./i18next";
-import { useTranslation, initReactI18next, Trans } from "react-i18next";
+import { useTranslation} from "react-i18next";
 
 
+/**
+ * Nav bar
+ * @returns NavBar
+ */
 export default function NavBar() {
     const { t } = useTranslation();
     return (

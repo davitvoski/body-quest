@@ -14,10 +14,13 @@ type FilterList = {
     keyExerercise: string
     // setExercise:Function
 }
-
+/**
+ * Dynamic list all options that user can choose by traget, equipement or body part 
+ * @param props FilterList
+ * @returns FilterList
+ */
 export const FilterList = (props: FilterList) => {
     const [expanded, setExpanded] = React.useState<string | false>(false);
-
     const handleChange =
         (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
@@ -28,30 +31,24 @@ export const FilterList = (props: FilterList) => {
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
                 >
-                    <Typography sx={{ width: '33%', flexShrink: 0, whiteSpace:"nowrap"}}>
+                    <Typography sx={{ width: '33%', flexShrink: 0, whiteSpace: "nowrap" }}>
                         {props.filterName}
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                        className="targetOptions"
-                    >
+                    <RadioGroup name="radio-buttons-group" className="targetOptions">
                         {props.filterList.map((filter, i) => (
-                            <FormControlLabel onClick={() => {
-                                props.listDataByOption(props.keyExerercise, filter);
-                            }}
+                            <FormControlLabel
                                 value={filter}
                                 control={<Radio />}
                                 label={filter}
-                                key={i} 
-                                sx={{textTransform:'capitalize'}}
-                                />
+                                key={i}
+                                sx={{ textTransform: 'capitalize' }}
+                                onClick={() => {
+                                    props.listDataByOption(props.keyExerercise, filter);
+                                }}
+                            />
                         ))}
                     </RadioGroup>
                 </AccordionDetails>

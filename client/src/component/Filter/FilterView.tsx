@@ -10,6 +10,11 @@ type FilterViewProps = {
     setExercise:Function
 }
 
+/**
+ * When click filter button will open drawer
+ * @param props FilterViewProps
+ * @returns FilterView 
+ */
 export const FilterView = (props: FilterViewProps) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const {t} = useTranslation();

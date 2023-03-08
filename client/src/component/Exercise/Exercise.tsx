@@ -6,6 +6,12 @@ import { Popup } from "./Popup";
 type ExerciseProps = {
   exercise: IExercise;
 };
+
+/**
+ * Info of one exercise
+ * @param props ExerciseProps
+ * @returns Exercise
+ */
 export const Exercise = (props: ExerciseProps) => {
   const [isOpen, setIsOpen] = useState(false);
 

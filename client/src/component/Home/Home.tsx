@@ -40,7 +40,7 @@ const Home = () => {
 
   return (
     <div className='homePage'>
-      <HeaderLayout/>
+      <HeaderLayout />
       <div className='recommandtions'>
 
       </div>

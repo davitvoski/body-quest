@@ -5,18 +5,17 @@ import Backend from 'i18next-http-backend';
 import translationEn from './locales/en/translationEN.json';
 import translationFr from './locales/fr/translationFr.json';
 import translationCh from './locales/ch/translationCh.json';
+
+// Types of languages that can be translated
 const resources = {
-  en: {
-    translation: translationEn
-  },
-  fr: {
-    translation: translationFr
-  },
-  ch:{
-    translation: translationCh
-  }
+  en: { translation: translationEn },
+  fr: { translation: translationFr },
+  ch: { translation: translationCh }
 };
 
+/**
+ * i18n use to translate static data
+ */
 i18n
   .use(Backend)
   .use(LanguageDetector)

@@ -5,11 +5,15 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Typography } from '@mui/material';
 import i18n from "./i18next";
-import { useTranslation, initReactI18next, Trans } from "react-i18next";
 
 interface ILanguage {
     [x: string]: { [x: string]: string },
 }
+
+/**
+ * Show all available languages 
+ * @returns LanguageNav options
+ */
 export const LanguageNav = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -75,9 +79,6 @@ export const LanguageNav = () => {
             >
 
                 {Object.keys(lngs).map((lng) => (
-                    // <button key={lng} style={{ fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }} type="submit" onClick={() => i18n.changeLanguage(lng)}>
-                    //     {lngs[lng].nativeName}
-                    // </button>
                     <MenuItem key={lng} onClick={() => i18n.changeLanguage(lng)}>
                         <Typography>{lngs[lng].nativeName}</Typography>
                     </MenuItem>

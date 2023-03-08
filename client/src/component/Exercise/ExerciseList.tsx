@@ -4,6 +4,11 @@ import { Exercise } from "./Exercise"
 type ExerciseListProps = {
     exercises: IExercise[]
 }
+/**
+ * All exercises data
+ * @param props ExerciseListProps
+ * @returns ExerciseList
+ */
 export const ExerciseList = (props:ExerciseListProps) => {
     return(
         <div className="exerciseList">
