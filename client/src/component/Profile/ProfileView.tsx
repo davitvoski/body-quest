@@ -8,7 +8,7 @@ import Item from "../modules/Item";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: { username: string; email: string; experience: number; picture?: string}) => {
+const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
     /**
      * Calculates the current level of a user based on XP
      * @param xp 
@@ -35,7 +35,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 <Item sx={{ width: "auto", height: "100%" }}>
                     <Avatar 
                         alt={ props.username } 
-                        src={ props.picture ? props.picture : ""} 
+                        src={ props.avatar ? props.avatar : ""} 
                         variant="rounded"
                         sx={{ width: "auto", height: "100%", margin: "auto" }}/>
                 </Item>

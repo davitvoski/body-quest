@@ -1,16 +1,17 @@
 import express from "express";
 import { OAuth2Client } from 'google-auth-library'
 import session from 'express-session';
-import { User, Database } from "../database/db";
 import dotenv from 'dotenv'
 import exerciseRouter from "./exercise.routes";
 import goalRouter from "./goal.router";
+import { IUser } from "../../shared";
+import Database from "../database/db";
 const allRouters = express.Router()
 dotenv.config()
 
 declare module 'express-session' {
   export interface SessionData {
-    user: User;
+    user: IUser;
   }
 }
 
@@ -34,9 +35,9 @@ allRouters.post("/auth", async (req, res) => {
     return res.sendStatus(401);
   
   const payLoad = ticket.getPayload();
-  const user = {"Username" : payLoad ? payLoad.name : "", "Email":  payLoad ? payLoad.email : "", "Picture": payLoad ? payLoad.picture : ""};
+  const user = {"username" : payLoad ? payLoad.name : "", "email":  payLoad ? payLoad.email : "", "avatar": payLoad ? payLoad.picture : "", "goals": undefined};
 
-  const isSignedUp = await db.userIsSignedUp(user.Email);
+  const isSignedUp = await db.userIsSignedUp(user.email);
     
   if (!isSignedUp){
     await db.addUser(user);
@@ -89,6 +90,5 @@ allRouters.get("/", (_: express.Request, res: express.Response) => {
 
 allRouters.use("/exercises", exerciseRouter)
 allRouters.use("/goals", goalRouter)
-
 
 export { allRouters as allRoutes }

@@ -1,17 +1,7 @@
 import dotenv from "dotenv";
-import { Collection, Db, MongoClient } from "mongodb";
-import { IExercise, IGoal } from "../../shared";
-
+import { Db, MongoClient } from "mongodb";
+import { IExercise, IGoal, IUser } from "../../shared";
 dotenv.config();
-
-/**
- * This interface is used to send information to the front end and add with the routes
- */
-interface User{
-    Username?: string;
-    Email?: string;
-    Picture?: string;
-}
 
 const dbUrl = process.env.ATLAS_URI as string;
 const dbName = process.env.DATABASE_NAME as string;
@@ -51,7 +41,7 @@ export default class Database {
    * @returns true or false if signed in
    */
   async userIsSignedUp(email?: string) {
-      const arrayOfUsers = await this.db.collection("users").find({Email: email}).toArray();
+      const arrayOfUsers = await db.collection("users").find({Email: email}).toArray();
       let isUserSignedUp;        
       if (arrayOfUsers.length >= 1){
           isUserSignedUp = true;
@@ -62,8 +52,8 @@ export default class Database {
       return isUserSignedUp;
   }
 
-  public async addUser(user: User) {
-      await this.db.collection("users").insertOne(user);
+  public async addUser(user: IUser) {
+      await db.collection("users").insertOne(user);
   }
 
   /**
@@ -128,9 +118,4 @@ export default class Database {
   }
 
 
-}
-
-export {
-  Database,
-  User
 }

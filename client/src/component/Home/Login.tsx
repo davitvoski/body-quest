@@ -8,8 +8,8 @@ export const Login = () => {
     const getUser = async () => {
         const res = await fetch("/api/getUser");
         const data = await res.json();
-        if (data !== undefined){
-            setUsername(data.user.Username);
+        if (data.user !== undefined){            
+            setUsername(data.user.username);
         }
     }
 

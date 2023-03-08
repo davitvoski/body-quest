@@ -5,7 +5,6 @@ import Item from "../modules/Item";
 import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
-import { setegid } from "process";
 
 function a11yProps(index: number) {
     return {
@@ -21,17 +20,17 @@ function a11yProps(index: number) {
 const Profile = () => {
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
-    const [picture, setPicture] = useState("")
+    const [avatar, setAvatar] = useState("")
     const [experience, setExperience] = useState(0)
     const [value, setValue] = useState(0);
 
     const getUser = async () => {
         const res = await fetch("/api/getUser");
         const data = await res.json();
-        if (data !== undefined){
-            setUsername(data.user.Username);
-            setEmail(data.user.Email)
-            setPicture(data.user.Picture)
+        if (data.user !== undefined){            
+            setUsername(data.user.username);
+            setEmail(data.user.email)
+            setAvatar(data.user.avatar)
         }
     }
 
@@ -43,11 +42,9 @@ const Profile = () => {
         setValue(newValue);
     };
 
-
-
     return(
         <div className="profile">
-            <ProfileView username={username} email={email} experience={experience} picture={picture} ></ProfileView>
+            <ProfileView username={username} email={email} experience={experience} avatar={avatar} ></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
                     <Tab label="Goals" sx={{ width: "50%" }} />

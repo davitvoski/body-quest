@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerJSDoc from 'swagger-jsdoc'
 import { allRoutes } from './routes/allroutes.route'
 import session from 'express-session'
-import { Database } from './database/db'
+import Database from './database/db'
 dotenv.config()
 
 new Database();
