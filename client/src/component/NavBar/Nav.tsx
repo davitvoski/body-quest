@@ -8,13 +8,10 @@ import { LanguageNav } from './LanguageNav';
 import { useTranslation} from "react-i18next";
 import "../../styles/NavBar.css";
 
-<<<<<<< HEAD
-=======
 /**
  * Nav bar
  * @returns NavBar
  */
->>>>>>> 97535bf4a9339ed3343b241361bc405e781b11d2
 export default function NavBar() {
     const { t } = useTranslation();
     return (
