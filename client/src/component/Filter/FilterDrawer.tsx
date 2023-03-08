@@ -69,7 +69,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                            <StarBorder htmlColor="#EFE2A2" />
+                            <StarBorder color="primary"/>
                         </ListItemIcon>
                         <ListItemText primary={t('Favorites')} />
                     </ListItemButton>
