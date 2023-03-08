@@ -16,6 +16,7 @@ export interface IUser {
 }
 
 export interface IGoal {
+    id: number,
     exercise: string,
     reps?: number,
     time?: number,
