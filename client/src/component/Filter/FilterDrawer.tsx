@@ -4,6 +4,8 @@ import { FilterList } from './FilterList';
 import { FavoriteBorder } from '@mui/icons-material';
 import { IExercise } from '../../../../shared';
 import { Exercise } from '../Exercise/Exercise';
+import StarBorder from '@mui/icons-material/StarBorder';
+import { useTranslation } from "react-i18next";
 
 type FilterDrawer = {
     allExercises: IExercise[],
@@ -11,12 +13,21 @@ type FilterDrawer = {
     open: boolean,
     onClose: () => void
 }
-
+/**
+ * Drawer, list all options that can be filtered
+ * Dynamic generated options by allExercises
+ * @param props FilterDrawer
+ * @returns FilterDrawer
+ */
 export const FilterDrawer = (props: FilterDrawer) => {
     const [targetList, setTargetList] = useState<string[]>([]);
     const [equipments, setEquipements] = useState<string[]>([]);
     const [bodyPart, setBodyPart] = useState<string[]>([]);
+    const { t } = useTranslation();
 
+    /**
+     * Dynamic generated options by allExercises
+     */
     function getOptions() {
         let tempTarget: string[] = [];
         let tempEquipment: string[] = [];
@@ -30,12 +41,16 @@ export const FilterDrawer = (props: FilterDrawer) => {
         setTargetList(Array.from(new Set(tempTarget)));
         setEquipements(Array.from(new Set(tempEquipment)));
         setBodyPart(Array.from(new Set(body_part)));
-        console.log(equipments);
     }
 
+    /**
+     * list all exercises based on the values choosed by the user
+     * @param keyName object key of exercise, such as target, equipment, body_part
+     * @param optionName radio option user choose
+     */
     const listDataByOption = (keyName: keyof IExercise, optionName: string) => {
-        let optionEXercises:IExercise[] = props.allExercises.filter(exercise => exercise[keyName] === optionName);
-        console.log("??"+optionEXercises);
+        let optionEXercises: IExercise[] = props.allExercises.filter(exercise => exercise[keyName] === optionName);
+        // console.log("??"+optionEXercises);
         props.setExercise(optionEXercises)
         props.onClose();
     }
@@ -48,16 +63,15 @@ export const FilterDrawer = (props: FilterDrawer) => {
     return (
         <div id='filterDrawer'>
             <Drawer anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
-                <p>Filter options</p>
-                <FilterList listDataByOption={listDataByOption} filterName="Target" filterList={targetList} keyExerercise="target" />
-                <FilterList listDataByOption={listDataByOption} filterName="Equipement" filterList={equipments} keyExerercise="equipment" />
-                <FilterList listDataByOption={listDataByOption} filterName=" Body Part" filterList={bodyPart} keyExerercise="body_part" />
+                <FilterList listDataByOption={listDataByOption} filterName={t('target')} filterList={targetList} keyExerercise="target" />
+                <FilterList listDataByOption={listDataByOption} filterName={t('equipement')} filterList={equipments} keyExerercise="equipment" />
+                <FilterList listDataByOption={listDataByOption} filterName={t('body_part')} filterList={bodyPart} keyExerercise="body_part" />
                 <List component="div" disablePadding>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                            <FavoriteBorder />
+                            <StarBorder color="primary"/>
                         </ListItemIcon>
-                        <ListItemText primary="Favorites" />
+                        <ListItemText primary={t('Favorites')} />
                     </ListItemButton>
                 </List>
             </Drawer>

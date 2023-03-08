@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import { Home } from "./component/Home/Home";
+import { createTheme, PaletteMode, ThemeProvider, useMediaQuery } from "@mui/material";
+import getDesignTokens from "./Theme";
 import { Routes, Route } from "react-router";
 import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
-import { createTheme, PaletteMode, ThemeProvider, useMediaQuery } from "@mui/material";
-import getDesignTokens from "./Theme";
+import Home from "./component/Home/Home";
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

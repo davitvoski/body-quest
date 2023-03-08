@@ -6,7 +6,7 @@ const exerciseRouter = express.Router()
  * This function gets all exercises from the database
  * It can be limited by a query parameter limit
  * @swagger
- * /api/exercises:
+ * /api/exercises/:
  *  get:
  *      summary: Get all exercises
  *      description: Get all exercises
@@ -28,6 +28,6 @@ const exerciseRouter = express.Router()
  *          400:
  *              description: Error getting all exercises
  */
-exerciseRouter.get("/exercises", getAllExercises)
+exerciseRouter.get("/", getAllExercises)
 
 export default exerciseRouter
