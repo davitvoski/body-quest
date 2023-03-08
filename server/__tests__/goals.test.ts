@@ -6,16 +6,18 @@ jest.mock("../database/db")
 
 // Mock Database class with jest
 const mockGOALS: IGoal[] = [{
-    title: "Test Goal",
     exercise: "push-ups",
     completed: false,
-    reps: 10
+    reps: 10,
+    startDate: new Date(),
+    endDate: new Date()
 }, {
-    title: "Test Goal 2",
     exercise: "sit-ups",
     completed: true,
     reps: 10,
-    sets: 4,
+    time: 4,
+    startDate: new Date(),
+    endDate: new Date(),
     weight: 25
 }]
 
@@ -34,10 +36,11 @@ beforeAll(() => {
 describe("Testing Goals Routes - POST", () => {
     test("POST /api/goals/ return 201", async () => {
         const goal: IGoal = {
-            title: "Test Goal",
             exercise: "push-ups",
             completed: false,
-            reps: 10
+            reps: 10,
+            startDate: new Date(),
+            endDate: new Date(),
         }
 
         const res = await request(app).post("/api/goals/").send({
@@ -50,10 +53,12 @@ describe("Testing Goals Routes - POST", () => {
 
     test("POST /api/goals/ - missing email in body return 400", async () => {
         const goal: IGoal = {
-            title: "Test Goal",
             exercise: "push-ups",
             completed: false,
-            reps: 10
+            reps: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+
         }
 
         const res = await request(app).post("/api/goals/").send({
@@ -65,7 +70,8 @@ describe("Testing Goals Routes - POST", () => {
 
     test("POST /api/goals/ - missing goal in body return 400", async () => {
         const goal: IGoal = {
-            title: "Test Goal",
+            startDate: new Date(),
+            endDate: new Date(),
             exercise: "push-ups",
             completed: false,
             reps: 10
