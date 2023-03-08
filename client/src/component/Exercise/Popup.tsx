@@ -23,7 +23,7 @@ import {
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
-import { GoalForm } from "./GoalForm";
+import { GoalForm } from "../Goal/GoalForm";
 import { Link } from "react-router-dom";
 
 type PopupProps = {
