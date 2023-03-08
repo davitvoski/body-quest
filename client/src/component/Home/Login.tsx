@@ -6,7 +6,7 @@ export const Login = () => {
     const [username, setUsername] = useState("");
 
     const getUser = async () => {
-        const res = await fetch("/api/getUser");
+        const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
         if (data.user !== undefined){            
             setUsername(data.user.username);
@@ -18,7 +18,7 @@ export const Login = () => {
     }, []);
 
     const handleLogin = async (credentialResponse: CredentialResponse) => {
-        const res = await fetch("/api/auth", {
+        const res = await fetch("/api/authentication/auth", {
             method: "POST",
             body: JSON.stringify({
                 token: credentialResponse
@@ -37,7 +37,7 @@ export const Login = () => {
     }
 
     const handleLogout = async () => {
-        await fetch("api/logout");
+        await fetch("api/authentication/logout");
         setUsername("");
     }
 

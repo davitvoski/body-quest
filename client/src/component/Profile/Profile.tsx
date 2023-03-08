@@ -25,7 +25,7 @@ const Profile = () => {
     const [value, setValue] = useState(0);
 
     const getUser = async () => {
-        const res = await fetch("/api/getUser");
+        const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
         if (data.user !== undefined){            
             setUsername(data.user.username);

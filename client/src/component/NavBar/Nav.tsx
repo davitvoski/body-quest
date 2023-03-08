@@ -13,7 +13,7 @@ export default function NavBar() {
     const [username, setUsername] = useState("");
 
     const getUser = async () => {
-        const res = await fetch("/api/getUser");
+        const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
         if (data.user !== undefined){            
             setUsername(data.user.username);
@@ -21,7 +21,7 @@ export default function NavBar() {
     }
 
     const handleLogout = async () => {
-        await fetch("api/logout");
+        await fetch("api/authentication/logout");
         setUsername("");
         window.location.reload();
     }
