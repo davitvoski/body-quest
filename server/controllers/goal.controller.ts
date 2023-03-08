@@ -44,3 +44,23 @@ export async function getUserGoals(req: Request, res: Response) {
         res.status(500).send("Could not get the goals")
     }
 }
+
+export async function updateGoalCompletedPATCH(req: Request, res: Response) {
+    try {
+        const goal = req.body.goal as IGoal
+        const email = req.body.email as string
+        if (!goal) throw new Error("Goal not provided")
+        if (!email) throw new Error("Email not provided")
+
+        if (goal.completed) res.status(204).send("Goal already completed")
+
+        await new Database().updateGoalCompleted(email, goal)
+
+        res.status(201).send("Goal updated successfully")
+    } catch (err) {
+        if (err instanceof Error) {
+            return res.status(400).json(err.message)
+        }
+        res.status(500).send("Something went wrong")
+    }
+}

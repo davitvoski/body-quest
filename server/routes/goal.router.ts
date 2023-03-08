@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getUserGoals, saveUserGoalPOST } from "../controllers/goal.controller";
+import { getUserGoals, saveUserGoalPOST, updateGoalCompletedPATCH } from "../controllers/goal.controller";
 const goalRouter = express.Router()
 
 
@@ -71,6 +71,8 @@ goalRouter.post("/", saveUserGoalPOST)
  *          
  */
 goalRouter.get("/", getUserGoals)
+
+goalRouter.patch("/completed", updateGoalCompletedPATCH)
 
 
 export default goalRouter

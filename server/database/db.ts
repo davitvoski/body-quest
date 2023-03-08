@@ -115,5 +115,13 @@ export default class Database {
     }
   }
 
+  /**
+   * This method updates a goal to completed for a user in the database
+   * @param email Email of the user
+   * @param goal Goal to mark completed
+   */
+  async updateGoalCompleted(email: string, goal: IGoal) {
+
+  }
 
 }
