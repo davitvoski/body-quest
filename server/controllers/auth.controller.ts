@@ -42,8 +42,13 @@ export async function authenticateUser(req: Request, res: Response) {
       return res.sendStatus(401);
     
     const payLoad = ticket.getPayload();
-    const user = {"username" : payLoad ? payLoad.name : "", "email":  payLoad ? payLoad.email : "", "avatar": payLoad ? payLoad.picture : "", "goals": undefined};
-  
+
+    if (!payLoad || !payLoad.name || !payLoad.email || !payLoad.picture) {
+      return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
+    }
+        
+    const user:IUser = {username : payLoad.name, email : payLoad.email, picture : payLoad.picture, goals: []}
+
     const isSignedUp = await db.userIsSignedUp(user.email);
       
     if (!isSignedUp){
