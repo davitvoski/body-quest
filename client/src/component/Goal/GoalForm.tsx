@@ -22,7 +22,8 @@ export const GoalForm = (props: any) => {
   const [goalType, setGoalType] = React.useState("");
   const [goalValue, setGoalValue] = React.useState(0);
   const [isGoalValueValid, setIsGoalValueValid] = React.useState(false);
-  const [isDateValid, setIsDateValid] = React.useState(false);
+  const [isStartDateValid, setIsStartDateValid] = React.useState(true);
+  const [isEndDateValid, setIsEndDateValid] = React.useState(false);
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -38,9 +39,20 @@ export const GoalForm = (props: any) => {
     }
   };
 
-  function handleDateChange(newValue: any) {
-    console.log(newValue);
-    setIsDateValid(true);
+  function handleStartDateInput(newValue: any) {
+    if (!Number.isNaN(newValue.$y)) {
+      setIsStartDateValid(true);
+    } else {
+      setIsStartDateValid(false);
+    }
+  }
+
+  function handleEndDateInput(newValue: any) {
+    if (!Number.isNaN(newValue.$y)) {
+      setIsEndDateValid(true);
+    } else {
+      setIsEndDateValid(false);
+    }
   }
 
   const handleSubmit = () => {
@@ -134,19 +146,23 @@ export const GoalForm = (props: any) => {
               spacing={5}
             >
               <FormControl>
-                <ResponsiveDataPicker label={"Start Date"} isToday={true} />
+                <ResponsiveDataPicker
+                  label={"Start Date"}
+                  isToday={true}
+                  onChange={handleStartDateInput}
+                />
               </FormControl>
 
               <FormControl>
                 <ResponsiveDataPicker
                   label={"End Date"}
                   isToday={false}
-                  onChange={handleDateChange}
+                  onChange={handleEndDateInput}
                 />
               </FormControl>
             </Stack>
           </Stack>
-          {isGoalValueValid && isDateValid ? (
+          {isGoalValueValid && isStartDateValid && isEndDateValid ? (
             <Button
               variant="contained"
               sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
