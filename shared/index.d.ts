@@ -16,11 +16,12 @@ export interface IUser {
 }
 
 export interface IGoal {
-    title: string,
     exercise: string,
-    reps: number,
-    sets?: number,
+    reps?: number,
+    time?: number,
     // In KG
     weight?: number,
+    startDate: Date,
+    endDate: Date,
     completed: boolean = false,
 }
