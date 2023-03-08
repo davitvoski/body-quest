@@ -5,9 +5,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, Slide } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { TransitionProps } from '@mui/material/transitions';
+import { LanguageNav } from './LanguageNav';
+import { useTranslation} from "react-i18next";
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import "../../styles/NavBar.css"
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -18,9 +24,14 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
+/**
+ * Nav bar
+ * @returns NavBar
+ */
 export default function NavBar() {
     const [username, setUsername] = useState("");
     const [open, setOpen] = useState(false);
+    const { t } = useTranslation();
 
     const getUser = async () => {
         const res = await fetch("/api/authentication/getUser");
@@ -75,47 +86,70 @@ export default function NavBar() {
                         <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/'}>
-                            Home
+                            {t('home')}
                         </Link>
                     </Typography>
 
-                    <Typography color="inherit">
-                        {username == "" ? 
-                            <Button 
-                            style={{ 
-                                textDecoration: "none", 
-                                color: "white", 
-                                marginRight: "5vw",
-                                textTransform: "none",
-                                fontSize: "1rem",
-                                padding: "0"
-                            }}
-                            onClick={handleClickOpen}
-                        >
-                            Login
-                        </Button>
-                            :
-                            <Button 
+                    <Box 
+                        display="flex"
+                        width="10%"
+                        flexDirection="row"
+                        alignItems="center"
+                        justifyContent="space-around"
+                    >
+                        <LanguageNav/>
+                        
+                        <>
+                            {username == "" ? 
+                            <IconButton 
                                 style={{ 
                                     textDecoration: "none", 
                                     color: "white", 
-                                    marginRight: "5vw",
                                     textTransform: "none",
                                     fontSize: "1rem",
                                     padding: "0"
                                 }}
-                                onClick={handleLogout}
+                                onClick={handleClickOpen}
+                                title="Login"
                             >
-                                Logout
-                            </Button>
-                        }
-                        
-                        <Link
-                            style={{ textDecoration: "none", color: "white" }}
-                            to={'/Profile'}>
-                            Profile
-                        </Link>
-                    </Typography>
+                                <LoginIcon sx={{color: "blue"}} />
+                            </IconButton>
+                            :
+                            <>
+                                <IconButton 
+                                    style={{ 
+                                        textDecoration: "none", 
+                                        color: "white", 
+                                        textTransform: "none",
+                                        fontSize: "1rem",
+                                        padding: "0"
+                                    }}
+                                    onClick={handleLogout}
+                                    title="logout"
+                                >
+                                    <LogoutIcon sx={{color: "red"}} />
+                                </IconButton>
+
+                                <IconButton 
+                                    style={{ 
+                                        textDecoration: "none", 
+                                        color: "white", 
+                                        textTransform: "none",
+                                        fontSize: "1rem",
+                                        padding: "0"
+                                    }}
+                                    href="/Profile"
+                                    title="Go to profile page"
+
+                                >
+                                    <AccountCircleRoundedIcon />
+                                </IconButton>
+                                
+                            </>
+                            }
+                        </>
+                    </Box>
+                   
                 </Toolbar>
             </AppBar>
 
