@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { saveUserGoalPOST } from "../controllers/goal.controller";
+import { getUserGoals, saveUserGoalPOST } from "../controllers/goal.controller";
 const goalRouter = express.Router()
 
 
@@ -34,5 +34,43 @@ const goalRouter = express.Router()
  *     description: Error saving goal - server error
  */
 goalRouter.post("/", saveUserGoalPOST)
+
+/**
+ * This function gets all goals from the database of a user.
+ * Email should be passed through the body
+ * @swagger
+ * /api/goals/:
+ *  get:
+ *   summary: Get all goals
+ *   description: Get all goals of a user via email
+ *   tags:
+ *    - Goal
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        email
+ *       example:
+ *        email: "test@gmail.com"    
+ *   responses:
+ *    200:
+ *     description: An array of goals
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: array
+ *        example: [
+ *          {titel: string, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: string}]
+ *    400:
+ *     description: Database error
+ *    500:
+ *     description: Server failed
+ *          
+ */
+goalRouter.get("/", getUserGoals)
+
 
 export default goalRouter
