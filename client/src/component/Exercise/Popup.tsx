@@ -23,7 +23,6 @@ import {
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
-import { GoalForm } from "../Goal/GoalForm";
 import { Link } from "react-router-dom";
 
 type PopupProps = {
@@ -109,7 +108,7 @@ export const Popup = (props: PopupProps) => {
             <Link
               className="link-button"
               to={{
-                pathname: "/GoalCreation",
+                pathname: "/Goalcreation",
               }}
               state={{ exerciseName: exercise.name }}
               // onClick={handleForm}
@@ -165,13 +164,6 @@ export const Popup = (props: PopupProps) => {
           key={vertical + horizontal}
         />
       )}
-      {openForm ? (
-        <GoalForm
-          handleClose={handleForm}
-          open={openForm}
-          exerciseName={exercise.name}
-        />
-      ) : null}
     </>
   );
 };

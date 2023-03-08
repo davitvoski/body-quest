@@ -16,14 +16,21 @@ import React from "react";
 import { useLocation } from "react-router";
 import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
+import { useState } from "react";
 
-export const GoalForm = (props: any) => {
+/**
+ * 
+ * @author Santiago Luna
+ * 
+ * This component is used to create a new goal for a specific exercise
+ */
+export const GoalForm = () => {
   let { state } = useLocation();
-  const [goalType, setGoalType] = React.useState("");
-  const [goalValue, setGoalValue] = React.useState(0);
-  const [isGoalValueValid, setIsGoalValueValid] = React.useState(false);
-  const [isStartDateValid, setIsStartDateValid] = React.useState(true);
-  const [isEndDateValid, setIsEndDateValid] = React.useState(false);
+  const [goalType, setGoalType] = useState("");
+  const [goalValue, setGoalValue] = useState(0);
+  const [isGoalValueValid, setIsGoalValueValid] = useState(false);
+  const [isStartDateValid, setIsStartDateValid] = useState(true);
+  const [isEndDateValid, setIsEndDateValid] = useState(false);
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
