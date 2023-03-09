@@ -5,17 +5,27 @@ import { Routes, Route } from "react-router";
 import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
 import Home from "./component/Home/Home";
+import { useState } from "react";
 
 function App() {
+  const themes = {
+    dark: createTheme(getDesignTokens('dark')),
+    light: createTheme(getDesignTokens('light'))
+  }
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const mode = prefersDarkMode ? 'dark' : 'light'
-  const Theme = createTheme(getDesignTokens(mode));
-  console.log(Theme.palette.mode)
+  const mode = prefersDarkMode ? themes.dark : themes.light
+
+  const [Theme, setTheme] = useState(mode);
+
+  const changeTheme = (current: string) => {
+    const newTheme = current === 'dark' ? themes.light : themes.dark;
+    setTheme(newTheme)
+  }
 
   return (
     <ThemeProvider theme={Theme}>
       <div className="App">
-        <NavBar/>
+        <NavBar Theme={Theme} changeTheme={changeTheme}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="Profile" element={<Profile />} />

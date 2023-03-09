@@ -1,15 +1,16 @@
-import { IconButton, useMediaQuery } from "@mui/material"
+import { IconButton, Theme, useMediaQuery } from "@mui/material"
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-export const ThemeNav = () => {
+export const ThemeNav = (props: {Theme: Theme, changeTheme: (current: string) => void}) => {
     return(
         <IconButton 
             sx={{ l: 0.5 }} 
             color="inherit"
-            title="Select Theme"
+            title="Change Theme"
+            onClick={() => props.changeTheme(props.Theme.palette.mode)}
         >
-            {useMediaQuery('(prefers-color-scheme: dark)') === false ? <Brightness7Icon /> : <Brightness4Icon />}
+            {props.Theme.palette.mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
     )
 }

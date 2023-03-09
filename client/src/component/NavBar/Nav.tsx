@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, IconButton, Slide } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, Slide, Theme } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { TransitionProps } from '@mui/material/transitions';
 import { LanguageNav } from './LanguageNav';
@@ -29,7 +29,7 @@ const Transition = React.forwardRef(function Transition(
  * Nav bar
  * @returns NavBar
  */
-export default function NavBar() {
+export default function NavBar(props: {Theme: Theme, changeTheme: (current: string) => void}) {
     const [username, setUsername] = useState("");
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
@@ -98,7 +98,7 @@ export default function NavBar() {
                         justifyContent="space-around"
                     >
                         <LanguageNav/>
-                        <ThemeNav/>
+                        <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme}/>
                         
                         <>
                             {username == "" ? 
