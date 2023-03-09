@@ -1,4 +1,4 @@
-import Database from "../database/db"
+import Database from "../database/db";
 import request from "supertest"
 import app from "../app";
 import { IExercise, IGoal } from "../../shared";

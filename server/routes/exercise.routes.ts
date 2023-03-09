@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { getAllExercises } from "../controllers/exercise.controller";
 const exerciseRouter = express.Router()
 
