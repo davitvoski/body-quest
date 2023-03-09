@@ -45,6 +45,11 @@ export async function getUserGoals(req: Request, res: Response) {
     }
 }
 
+/**
+ * Tgis function updates a goal to be completed for a user.
+ * @param req Express Request
+ * @param res Express Response
+ */
 export async function updateGoalCompletedPATCH(req: Request, res: Response) {
     try {
         const goal = req.body.goal as IGoal
@@ -61,6 +66,6 @@ export async function updateGoalCompletedPATCH(req: Request, res: Response) {
         if (err instanceof Error) {
             return res.status(400).json(err.message)
         }
-        res.status(500).send("Something went wrong")
+        res.status(500).send("Could not mark the goal completed")
     }
 }
