@@ -4,10 +4,16 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { LanguageNav } from './LanguageNav';
+import { useTranslation} from "react-i18next";
+import "../../styles/NavBar.css";
 
-
-
+/**
+ * Nav bar
+ * @returns NavBar
+ */
 export default function NavBar() {
+    const { t } = useTranslation();
     return (
         <Box id="navBar">
             <AppBar className='appbar' position="relative">
@@ -16,23 +22,28 @@ export default function NavBar() {
                         <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/'}>
-                            Home
+                            {t('home')}
                         </Link>
                     </Typography>
 
-                    <Typography color="inherit">
-                        {/* <Link
+                    <div id='subNav'>
+                        {/*  language button */}
+                        <LanguageNav/>
+                        
+                        <Typography color="inherit">
+                            {/* <Link
                             style={{ textDecoration: "none", color: "white" }}
                             to={'/Login'}>
                             Login
                         </Link> */}
 
-                        <Link
-                            style={{ textDecoration: "none", color: "white" }}
-                            to={'/Profile'}>
-                            Profile
-                        </Link>
-                    </Typography>
+                            <Link
+                                style={{ textDecoration: "none", color: "white" }}
+                                to={'/Profile'}>
+                                    {t('profile')}
+                            </Link>
+                        </Typography>
+                    </div>
                 </Toolbar>
             </AppBar>
         </Box>
