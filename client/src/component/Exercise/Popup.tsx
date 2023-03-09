@@ -37,7 +37,6 @@ export interface State extends SnackbarOrigin {
 
 export const Popup = (props: PopupProps) => {
   const { handleClose, open, exercise } = props;
-  const [openForm, setOpenForm] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
   //Snack bar logic when adding to favourites
   const [snackState, setSnackState] = React.useState<State>({
@@ -61,9 +60,6 @@ export const Popup = (props: PopupProps) => {
   };
   // End of snack bar logic
 
-  const handleForm = () => {
-    setOpenForm(!openForm);
-  };
 
   return (
     <>
