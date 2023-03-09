@@ -4,22 +4,23 @@ import app from "../app";
 import { IGoal } from "../../shared";
 jest.mock("../database/db")
 
+const date = new Date().toString()
 // Mock Database class with jest
 const mockGOALS: IGoal[] = [{
     id: 1,
     exercise: "push-ups",
     completed: false,
     reps: 10,
-    startDate: new Date(),
-    endDate: new Date()
+    startDate: date,
+    endDate: date
 }, {
     id: 2,
     exercise: "sit-ups",
     completed: true,
     reps: 10,
     time: 4,
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: date,
+    endDate: date,
     weight: 25
 }]
 
@@ -42,8 +43,8 @@ describe("Testing Goals Routes - POST", () => {
             exercise: "push-ups",
             completed: false,
             reps: 10,
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: date,
+            endDate: date,
         }
 
         const res = await request(app).post("/api/goals/").send({
@@ -60,8 +61,8 @@ describe("Testing Goals Routes - POST", () => {
             exercise: "push-ups",
             completed: false,
             reps: 10,
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: date,
+            endDate: date,
 
         }
 
@@ -75,8 +76,8 @@ describe("Testing Goals Routes - POST", () => {
     test("POST /api/goals/ - missing goal in body return 400", async () => {
         const goal: IGoal = {
             id: 1,
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: date,
+            endDate: date,
             exercise: "push-ups",
             completed: false,
             reps: 10
