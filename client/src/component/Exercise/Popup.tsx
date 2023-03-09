@@ -105,7 +105,7 @@ export const Popup = (props: PopupProps) => {
                   horizontal: "center",
                 })}
               >
-                <StarIcon htmlColor="#EFE2A2" />
+                <StarIcon color="primary" />
               </IconButton>
             ) : (
               <IconButton
