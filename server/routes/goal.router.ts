@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { getUserGoals, saveUserGoalPOST } from "../controllers/goal.controller";
 const goalRouter = express.Router()
 
