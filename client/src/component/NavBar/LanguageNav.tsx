@@ -40,7 +40,7 @@ export const LanguageNav = () => {
                 aria-expanded={open ? 'true' : undefined}
                 title="Select Language"
             >
-                <LanguageIcon sx={{ l: 0.5 }} color="inherit" />
+                <LanguageIcon sx={{ l: 0.5, color:"white" }} color="inherit" />
             </IconButton>
             <Menu
                 anchorEl={anchorEl}

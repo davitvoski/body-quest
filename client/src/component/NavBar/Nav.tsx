@@ -14,6 +14,7 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import "../../styles/NavBar.css"
+import { ThemeNav } from './ThemeNav';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -112,7 +113,7 @@ export default function NavBar() {
                                 onClick={handleClickOpen}
                                 title="Login"
                             >
-                                <LoginIcon sx={{color: "blue"}} />
+                                <LoginIcon color="inherit" />
                             </IconButton>
                             :
                             <>
@@ -128,7 +129,7 @@ export default function NavBar() {
                                     title="logout"
                                     href='/'
                                 >
-                                    <LogoutIcon sx={{color: "red"}} />
+                                    <LogoutIcon color="inherit" />
                                 </IconButton>
 
                                 <IconButton 
