@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
-import { Collection, Db, MongoClient } from "mongodb";
-import { IExercise, IGoal } from "../../shared";
-
+import { Db, MongoClient } from "mongodb";
+import { IExercise, IGoal, IUser } from "../../shared";
 dotenv.config();
 
 const dbUrl = process.env.ATLAS_URI as string;
@@ -34,6 +33,27 @@ export default class Database {
       console.log("Successfully connected to MongoDB database");
     }
     return instance
+  }
+
+  /**
+   * This function checks to see if the user is signed up already in the db
+   * @param email The email used to sign up
+   * @returns true or false if signed in
+   */
+  async userIsSignedUp(email?: string) {
+      const arrayOfUsers = await db.collection("users").find({Email: email}).toArray();
+      let isUserSignedUp;        
+      if (arrayOfUsers.length >= 1){
+          isUserSignedUp = true;
+      }
+      else {
+          isUserSignedUp = false;
+      }        
+      return isUserSignedUp;
+  }
+
+  public async addUser(user: IUser) {
+      await db.collection("users").insertOne(user);
   }
 
   /**
