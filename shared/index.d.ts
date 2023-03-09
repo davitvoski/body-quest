@@ -21,7 +21,7 @@ export interface IGoal {
   time?: number;
   // In KG
   weight?: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   completed: boolean = false;
 }
