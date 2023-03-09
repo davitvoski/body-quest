@@ -79,15 +79,28 @@ export default function NavBar() {
 
     return (
         <Box id="navBar">
-            <AppBar className='appbar' position="relative">
+            <AppBar position="relative">
                 <Toolbar className='toolbar'>
-                    <Typography>
-                        <Link
-                            style={{ textDecoration: "none", color: "white" }}
-                            to={'/'}>
-                            {t('home')}
-                        </Link>
-                    </Typography>
+                    <Box
+                        display="flex"
+                        flexDirection="row"
+                    >
+                        <Typography>
+                            <Link
+                                style={{ textDecoration: "none", color: "white" }}
+                                to={'/'}>
+                                {t('home')}
+                            </Link>
+                        </Typography>
+
+                        <Typography paddingLeft="3vw">
+                            <Link
+                                style={{ textDecoration: "none", color: "white" }}
+                                to={'/Feed'}>
+                                Feed
+                            </Link>
+                        </Typography>
+                    </Box>
 
                     <Box 
                         display="flex"

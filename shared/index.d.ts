@@ -24,3 +24,10 @@ export interface IGoal {
     weight?: number,
     completed: boolean = false,
 }
+
+export interface IPost {
+    user: IUser,
+    imageUrl: string,
+    caption: string,
+    date: string,
+}

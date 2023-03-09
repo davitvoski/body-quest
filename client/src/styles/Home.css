@@ -10,6 +10,7 @@ body,
     flex-direction: column;
     justify-content: flex-start;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 .homePage {
