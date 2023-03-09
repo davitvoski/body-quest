@@ -30,7 +30,6 @@ export default function PaginationForExercises(props: PaginationProps) {
   return (
     <>
       <Pagination onChange={(e: React.ChangeEvent<unknown>, page: number) => {
-        console.log(page);
         setCurrentPage(page);
 
       }} count={totalPage} />
