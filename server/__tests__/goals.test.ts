@@ -11,18 +11,18 @@ const mockGOALS: IGoal[] = [{
     id: 1,
     exercise: "push-ups",
     completed: false,
-    reps: 10,
+    type: "reps",
+    goal: 10,
     startDate: date,
     endDate: date
 }, {
     id: 2,
     exercise: "sit-ups",
     completed: true,
-    reps: 10,
-    time: 4,
+    type: "reps",
+    goal: 10,
     startDate: date,
     endDate: date,
-    weight: 25
 }]
 
 beforeAll(() => {
@@ -43,7 +43,8 @@ describe("Testing Goals Routes - POST", () => {
             id: 2,
             exercise: "push-ups",
             completed: false,
-            reps: 10,
+            type: "reps",
+            goal: 10,
             startDate: date,
             endDate: date,
         }
@@ -61,7 +62,8 @@ describe("Testing Goals Routes - POST", () => {
             id: 1,
             exercise: "push-ups",
             completed: false,
-            reps: 10,
+            type: "reps",
+            goal: 10,
             startDate: date,
             endDate: date,
 
@@ -81,7 +83,8 @@ describe("Testing Goals Routes - POST", () => {
             endDate: date,
             exercise: "push-ups",
             completed: false,
-            reps: 10
+            type: "reps",
+            goal: 10,
         }
 
         const res = await request(app).post("/api/goals/").send({
@@ -116,4 +119,56 @@ describe("Testing Goals Routes - GET", () => {
         expect(res.status).toBe(400)
     })
 
+})
+
+describe("Testing Goals Routes - PATCH", () => {
+    test("Update goal to completed - /api/goals/completed return 201", async () => {
+        let goal: IGoal = {
+            id: 1,
+            type: "reps",
+            goal: 10,
+            startDate: date,
+            endDate: date,
+            exercise: "push-ups",
+            completed: false,
+        }
+
+        jest.spyOn(Database.prototype, "updateGoalCompleted")
+            .mockImplementation(async (__: string, _: IGoal) => {
+            })
+
+        goal.completed = true
+        const res = await request(app)
+            .patch("/api/goals/completed").send({
+                goal: goal,
+                email: "test@gmail.com"
+            })
+
+        expect(res.status).toBe(204)
+        expect(goal.completed).toEqual(true)
+    })
+
+    test("Goal not sent- /api/goals/completed return 400", async () => {
+        let goal: IGoal = {
+            id: 1,
+            type: "reps",
+            goal: 10,
+            startDate: date,
+            endDate: date,
+            exercise: "push-ups",
+            completed: false,
+        }
+
+        jest.spyOn(Database.prototype, "updateGoalCompleted")
+            .mockImplementation(async (__: string, _: IGoal) => {
+            })
+
+        goal.completed = true
+        const res = await request(app)
+            .patch("/api/goals/completed").send({
+                email: "test@gmail.com"
+            })
+
+        expect(res.status).toBe(400)
+    })
 })
