@@ -19,9 +19,9 @@ import "../../styles/GoalForm.css";
 import { useState } from "react";
 
 /**
- * 
+ *
  * @author Santiago Luna
- * 
+ *
  * This component is used to create a new goal for a specific exercise
  */
 export const GoalForm = () => {
@@ -47,16 +47,24 @@ export const GoalForm = () => {
   };
 
   function handleStartDateInput(newValue: any) {
-    if (!Number.isNaN(newValue.$y)) {
-      setIsStartDateValid(true);
+    if (newValue !== null) {
+      if (!Number.isNaN(newValue.$y)) {
+        setIsStartDateValid(true);
+      } else {
+        setIsStartDateValid(false);
+      }
     } else {
       setIsStartDateValid(false);
     }
   }
 
   function handleEndDateInput(newValue: any) {
-    if (!Number.isNaN(newValue.$y)) {
-      setIsEndDateValid(true);
+    if (newValue !== null) {
+      if (!Number.isNaN(newValue.$y)) {
+        setIsEndDateValid(true);
+      } else {
+        setIsEndDateValid(false);
+      }
     } else {
       setIsEndDateValid(false);
     }
