@@ -5,6 +5,7 @@ import { IGoal } from "../../shared";
 jest.mock("../database/db")
 
 const date = new Date().toString()
+
 // Mock Database class with jest
 const mockGOALS: IGoal[] = [{
     id: 1,

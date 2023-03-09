@@ -8,7 +8,7 @@ import Item from "../modules/Item";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: { username: string; email: string; experience: number;}) => {
+const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
     /**
      * Calculates the current level of a user based on XP
      * @param xp 
@@ -28,14 +28,14 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
     const nextLevel = (xp: number) => {
         return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 )
     } 
-
+    
     return(
         <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={4}>
                 <Item sx={{ width: "auto", height: "100%" }}>
                     <Avatar 
                         alt={ props.username } 
-                        src="" 
+                        src={ props.avatar ? props.avatar : ""} 
                         variant="rounded"
                         sx={{ width: "auto", height: "100%", margin: "auto" }}/>
                 </Item>

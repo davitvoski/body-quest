@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { getUserGoals, saveUserGoalPOST, updateGoalCompletedPATCH } from "../controllers/goal.controller";
-const goalRouter = express.Router()
 
+const goalRouter = express.Router()
 
 /**
  * @swagger

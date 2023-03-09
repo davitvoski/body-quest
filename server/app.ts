@@ -3,9 +3,13 @@ import express from 'express'
 import compression from 'compression'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJSDoc from 'swagger-jsdoc'
-import allRoutes from './routes/allroutes.route'
+import { allRoutes } from './routes/allroutes.route'
+import session from 'express-session'
 import Database from './database/db'
 dotenv.config()
+
+new Database();
+
 
 const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
     openapi: "3.0.0",
@@ -37,15 +41,14 @@ const app = express()
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-app.use(compression())
 app.use(express.json())
+app.use(compression())
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("../client/build"))
 
 // Authentication route
 app.use("/api", allRoutes)
-
 
 // Default 404
 app.use((_: express.Request, res: express.Response) => {
