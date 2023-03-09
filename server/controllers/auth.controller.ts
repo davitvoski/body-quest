@@ -20,7 +20,14 @@ const db = new Database();
  * @param res Express Response
  */
 export function getUser(req: Request, res: Response) {
-  res.json({ user: req.session.user });
+  try {
+    if (req.session) return res.json({ user: req.session.user });
+    res.json("No user in session")
+  } catch (e) {
+    console.log(e);
+
+    res.status(500).json("No user in session")
+  }
 }
 
 /**
@@ -29,43 +36,48 @@ export function getUser(req: Request, res: Response) {
  * @param res Express Response
  */
 export async function authenticateUser(req: Request, res: Response) {
-  //TODO: should validate that the token was sent first
-  const { token } = req.body;
+  try {
+    //TODO: should validate that the token was sent first
+    const { token } = req.body;
 
-  const ticket = await client.verifyIdToken({
-    idToken: token.credential,
-    audience: process.env.GOOGLE_CLIENT_ID
-  });
+    const ticket = await client.verifyIdToken({
+      idToken: token.credential,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
 
-  if (!ticket)
-    return res.sendStatus(401);
+    if (!ticket)
+      return res.sendStatus(401);
 
-  const payLoad = ticket.getPayload();
+    const payLoad = ticket.getPayload();
 
-  if (!payLoad || !payLoad.name || !payLoad.email || !payLoad.picture) {
-    return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
-  }
-
-  const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [] }
-
-  const isSignedUp = await db.userIsSignedUp(user.email);
-
-  if (!isSignedUp) {
-    await db.addUser(user);
-    console.log("Added a user to the db");
-  }
-  else {
-    console.log("User is already signed up");
-  }
-
-
-  req.session.regenerate(function (err) {
-    if (err) {
-      return res.sendStatus(500);
+    if (!payLoad || !payLoad.name || !payLoad.email || !payLoad.picture) {
+      return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
-    req.session.user = user;
-    res.json({ user: user });
-  });
+
+    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [] }
+
+    const isSignedUp = await db.userIsSignedUp(user.email);
+
+    if (!isSignedUp) {
+      await db.addUser(user);
+      console.log("Added a user to the db");
+    }
+    else {
+      console.log("User is already signed up");
+    }
+
+    req.session.regenerate(function (err) {
+      if (err) {
+        return res.sendStatus(500);
+      }
+      req.session.user = user;
+      res.json({ user: user });
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Error authenticating user")
+  }
+
 }
 
 /**
