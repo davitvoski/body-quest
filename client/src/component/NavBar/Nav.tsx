@@ -44,7 +44,6 @@ export default function NavBar() {
     const handleLogout = async () => {
         await fetch("api/authentication/logout");
         setUsername("");
-        window.location.reload();
     }
 
     const handleLogin = async (credentialResponse: CredentialResponse) => {
@@ -59,7 +58,7 @@ export default function NavBar() {
         })
         const data = await res.json()
         setUsername(data.user.Username);
-        window.location.reload();
+        window.location.assign("/Profile");
     }
 
     const handleError = () => {
@@ -126,6 +125,7 @@ export default function NavBar() {
                                     }}
                                     onClick={handleLogout}
                                     title="logout"
+                                    href='/'
                                 >
                                     <LogoutIcon sx={{color: "red"}} />
                                 </IconButton>
@@ -158,7 +158,7 @@ export default function NavBar() {
                 open={open}
                 TransitionComponent={Transition}
             >
-                <DialogTitle>Login to Body Quest</DialogTitle>
+                <DialogTitle color="black" >Login to Body Quest</DialogTitle>
                 <DialogContent>
                     <GoogleLogin
                         onSuccess={handleLogin}
