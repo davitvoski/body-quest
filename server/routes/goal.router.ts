@@ -62,8 +62,10 @@ goalRouter.post("/", saveUserGoalPOST)
  *      application/json:
  *       schema:
  *        type: array
- *        example: [
- *          {titel: string, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: string}]
+ *        example:
+ *         goal: [
+ *          {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
+ *           ]
  *    400:
  *     description: Database error
  *    500:
@@ -72,6 +74,28 @@ goalRouter.post("/", saveUserGoalPOST)
  */
 goalRouter.get("/", getUserGoals)
 
+// Generate swagger comments
+/**
+ * This function updates the goal completed to true.
+ * @swagger
+ * /api/goals/completed:
+ *  patch:
+ *   summary: Updates a goal to be completed
+ *   description: Updates a goal to be completed
+ *   tags:
+ *    - Goal
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        goal
+ *       example:
+ *        email: ""
+ *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
+*/
 goalRouter.patch("/completed", updateGoalCompletedPATCH)
 
 
