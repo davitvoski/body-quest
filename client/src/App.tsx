@@ -4,6 +4,7 @@ import getDesignTokens from "./Theme";
 import { Routes, Route } from "react-router";
 import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
+import { GoalForm } from "./component/Goal/GoalForm";
 import Home from "./component/Home/Home";
 import { useState } from "react";
 
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="Profile" element={<Profile />} />
+          <Route path="Goalcreation" element={<GoalForm />} />  
         </Routes>
       </div>
     </ThemeProvider>
