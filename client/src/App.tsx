@@ -8,18 +8,25 @@ import Home from "./component/Home/Home";
 import { useState } from "react";
 
 function App() {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const themes = {
     dark: createTheme(getDesignTokens('dark')),
     light: createTheme(getDesignTokens('light'))
   }
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const mode = prefersDarkMode ? themes.dark : themes.light
-
   const [Theme, setTheme] = useState(mode);
 
   const changeTheme = (current: string) => {
     const newTheme = current === 'dark' ? themes.light : themes.dark;
     setTheme(newTheme)
+
+    if (newTheme.palette.mode === 'dark') {
+      document.body.classList.add('dark');
+      document.body.classList.remove('light')
+    } else {
+      document.body.classList.remove('dark')
+      document.body.classList.add('light');
+    }
   }
 
   return (
