@@ -10,11 +10,12 @@ function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const mode = prefersDarkMode ? 'dark' : 'light'
   const Theme = createTheme(getDesignTokens(mode));
+  console.log(Theme.palette.mode)
 
   return (
     <ThemeProvider theme={Theme}>
       <div className="App">
-        <NavBar />
+        <NavBar/>
         <Routes>
           <Route path="/" element={<Home />} />
           {/* <Route  path='Login' element={<Login/>}/> */}

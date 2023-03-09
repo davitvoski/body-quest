@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { LanguageNav } from './LanguageNav';
 import { useTranslation} from "react-i18next";
 import "../../styles/NavBar.css";
+import { Theme } from '@mui/material';
+import { ThemeNav } from './ThemeNav';
 
 /**
  * Nav bar
@@ -29,6 +31,7 @@ export default function NavBar() {
                     <div id='subNav'>
                         {/*  language button */}
                         <LanguageNav/>
+                        <ThemeNav/>
                         
                         <Typography color="inherit">
                             {/* <Link
