@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
+import { GetGoalsReturnValue } from "../types";
 import { Db, MongoClient } from "mongodb";
 import { IExercise, IGoal, IUser } from "../../shared";
 dotenv.config();
+
 
 const dbUrl = process.env.ATLAS_URI as string;
 const dbName = process.env.DATABASE_NAME as string;
@@ -41,19 +43,21 @@ export default class Database {
    * @returns true or false if signed in
    */
   async userIsSignedUp(email?: string) {
-      const arrayOfUsers = await db.collection("users").find({Email: email}).toArray();
-      let isUserSignedUp;        
-      if (arrayOfUsers.length >= 1){
-          isUserSignedUp = true;
-      }
-      else {
-          isUserSignedUp = false;
-      }        
-      return isUserSignedUp;
+    const arrayOfUsers = await db.collection("users").find({ email: email }).toArray();
+    if (arrayOfUsers.length >= 1) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
+  /**
+   * This function adds a user to the database
+   * @param user The user to add to the database
+   */
   public async addUser(user: IUser) {
-      await db.collection("users").insertOne(user);
+    await db.collection("users").insertOne(user);
   }
 
   /**
@@ -109,8 +113,9 @@ export default class Database {
 
       await this.checkIfUserExists(email)
 
-      const goals = await collection.findOne({ email: email }, { projection: { _id: 0, goals: 1 } })
-      return goals as unknown as IGoal[]
+      const goals = await collection.findOne({ email: email }, { projection: { _id: 0, goals: 1 } }) as unknown as GetGoalsReturnValue
+
+      return goals.goals
 
     } catch (err) {
       if (err instanceof Error) throw new Error(err.message)
@@ -135,5 +140,43 @@ export default class Database {
     }
   }
 
+  /**
+   * This method updates a goal to completed for a user in the database
+   * @param email Email of the user
+   * @param goal Goal to mark completed
+   */
+  async updateGoalCompleted(email: string, goal: IGoal) {
+    try {
+      const collection = db.collection(this.usersCollection)
+      if (!goal.id) throw new Error("Goal does not have an id")
 
+      const doesExist = await collection.findOne({
+        email: email,
+        goals: {
+          $elemMatch: {
+            id: goal.id
+          }
+        }
+      })
+
+      // Check if the goal exists
+      if (!doesExist) throw new Error("Goal does not exist")
+      await collection.findOneAndUpdate({
+        email: email,
+        goals: {
+          $elemMatch: {
+            id: goal.id
+          }
+        }
+      }, {
+        $set: {
+          "goals.$.completed": true
+        }
+      }
+      )
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error updating the goal")
+    }
+  }
 }
