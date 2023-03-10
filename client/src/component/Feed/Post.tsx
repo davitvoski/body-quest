@@ -49,22 +49,3 @@ export const Post = (props: PostProps) => {
     </Card>
   );
 }
-
-/*
-          <Box
-            display="flex"
-            flexDirection="row"
-          >
-            <Avatar 
-              src={props.post.imageUrl}
-              alt={`${props.post.user.username}'s post`}
-            />
-            <Typography>
-              {props.post.user.username}
-            </Typography>
-          </Box>
-          
-          <Typography>
-            {props.post.caption}
-          </Typography>
-*/

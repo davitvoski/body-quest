@@ -15,6 +15,7 @@ let db: Db;
 export default class Database {
   exercisesCollection = "exercises";
   usersCollection = "users";
+  postsCollection = "posts";
 
   constructor() {
     return instance;
@@ -115,6 +116,24 @@ export default class Database {
     } catch (err) {
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error getting the goals")
+    }
+  }
+
+  async getAllPosts(){
+    try {
+      const collection = db.collection(this.postsCollection)
+
+      const posts = await collection.find();
+
+      console.log("Unfiltered posts");
+      console.log(posts);
+      
+
+      return posts;
+
+    } catch (err) {
+      if (err instanceof Error) throw new Error(err.message)
+      throw new Error("Error getting the feed")
     }
   }
 
