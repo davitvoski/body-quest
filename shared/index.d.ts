@@ -1,30 +1,27 @@
 export interface IExercise {
-  _id: string;
-  name: string;
-  target: string;
-  gifUrl: string;
-  equipment: string;
-  body_part: string;
+    _id: string;
+    name: string;
+    target: string;
+    gifUrl: string;
+    equipment: string;
+    body_part: string;
 }
 
-// TODO: To be designed
 export interface IUser {
-  username: string;
-  email: string;
-  picture: string;
-  goals: IGoal[];
+    username: string,
+    email: string,
+    picture: string,
+    goals: IGoal[],
 }
 
 export interface IGoal {
-  title: string,
-  exercise: string;
-  reps?: number;
-  time?: number;
-  // In KG
-  weight?: number;
-  startDate: string;
-  endDate: string;
-  completed: boolean = false;
+    id: number,
+    exercise: string,
+    type: string,
+    goal: number
+    startDate: string,
+    endDate: string,
+    completed: boolean = false,
 }
 
 export interface IPost {
