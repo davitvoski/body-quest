@@ -24,8 +24,6 @@ export function getUser(req: Request, res: Response) {
     if (req.session) return res.json({ user: req.session.user });
     res.json("No user in session")
   } catch (e) {
-    console.log(e);
-
     res.status(500).json("No user in session")
   }
 }
@@ -74,7 +72,6 @@ export async function authenticateUser(req: Request, res: Response) {
       res.json({ user: user });
     });
   } catch (e) {
-    console.log(e);
     res.status(500).send("Error authenticating user")
   }
 

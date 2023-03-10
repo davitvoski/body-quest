@@ -43,17 +43,19 @@ export default class Database {
    * @returns true or false if signed in
    */
   async userIsSignedUp(email?: string) {
-    const arrayOfUsers = await db.collection("users").find({ Email: email }).toArray();
-    let isUserSignedUp;
+    const arrayOfUsers = await db.collection("users").find({ email: email }).toArray();
     if (arrayOfUsers.length >= 1) {
-      isUserSignedUp = true;
+      return true;
     }
     else {
-      isUserSignedUp = false;
+      return false;
     }
-    return isUserSignedUp;
   }
 
+  /**
+   * This function adds a user to the database
+   * @param user The user to add to the database
+   */
   public async addUser(user: IUser) {
     await db.collection("users").insertOne(user);
   }
