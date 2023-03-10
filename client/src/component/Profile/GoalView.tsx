@@ -1,5 +1,6 @@
 import { Checkbox, Typography } from "@mui/material";
 import Item from "../modules/Item";
+import { useTranslation} from "react-i18next";
 
 const tempGoals = [
     {
@@ -35,6 +36,7 @@ const tempGoals = [
 ]
 
 const GoalView = () => {
+    const {t} = useTranslation();
     const isCompleted = (goal: any) => goal.completed;
     const isIncomplete = (goal: any) => !goal.completed;
 

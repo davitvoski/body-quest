@@ -24,6 +24,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
 import { Link } from "react-router-dom";
+import { useTranslation} from "react-i18next";
 
 type PopupProps = {
   handleClose: () => void;
@@ -36,6 +37,7 @@ export interface State extends SnackbarOrigin {
 }
 
 export const Popup = (props: PopupProps) => {
+  const {t} = useTranslation();
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
   //Snack bar logic when adding to favourites
@@ -91,14 +93,14 @@ export const Popup = (props: PopupProps) => {
           <div className="dialog-header">
             <div className="dialog-text-container">
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-                <b>Equipment:</b> {exercise.equipment}
+                <b>{t('equipement')}:</b> {exercise.equipment}
               </Typography>
 
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-                <b>Body Part:</b> {exercise.body_part}
+                <b>{t('body_part')}:</b> {exercise.body_part}
               </Typography>
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-                <b>Target:</b> {exercise.target}
+                <b>{t('target')}:</b> {exercise.target}
               </Typography>
             </div>
             <Link
@@ -107,9 +109,9 @@ export const Popup = (props: PopupProps) => {
                 pathname: "/Goalcreation",
               }}
               state={{ exerciseName: exercise.name }}
-              // onClick={handleForm}
+            // onClick={handleForm}
             >
-              CREATE GOAL
+              {t('create_goal')}
             </Link>
           </div>
           <div className="img-container">

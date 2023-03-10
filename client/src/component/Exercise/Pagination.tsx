@@ -29,15 +29,14 @@ export default function PaginationForExercises(props: PaginationProps) {
 
   return (
     <>
-      <Pagination onChange={(e: React.ChangeEvent<unknown>, page: number) => {
-        setCurrentPage(page);
-
-      }} count={totalPage} />
       <div className="exerciseList">
         {currentData().map((exercise, i) => (
           <Exercise exercise={exercise} key={i} />
         ))}
       </div>
+      <Pagination onChange={(e: React.ChangeEvent<unknown>, page: number) => {
+        setCurrentPage(page);
+      }} count={totalPage} />
     </>
   );
 }

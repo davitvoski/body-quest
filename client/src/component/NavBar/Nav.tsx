@@ -109,7 +109,7 @@ export default function NavBar() {
                                     padding: "0"
                                 }}
                                 onClick={handleClickOpen}
-                                title="Login"
+                                title={t('login') as string | undefined}
                             >
                                 <LoginIcon sx={{color: "blue"}} />
                             </IconButton>
@@ -124,7 +124,7 @@ export default function NavBar() {
                                         padding: "0"
                                     }}
                                     onClick={handleLogout}
-                                    title="logout"
+                                    title={t('logout') as string | undefined}
                                     href='/'
                                 >
                                     <LogoutIcon sx={{color: "red"}} />
@@ -139,7 +139,7 @@ export default function NavBar() {
                                         padding: "0"
                                     }}
                                     href="/Profile"
-                                    title="Go to profile page"
+                                    title={t('go_profile') as string | undefined}
 
                                 >
                                     <AccountCircleRoundedIcon />
@@ -158,7 +158,7 @@ export default function NavBar() {
                 open={open}
                 TransitionComponent={Transition}
             >
-                <DialogTitle color="black" >Login to Body Quest</DialogTitle>
+                <DialogTitle color="black" >{t('login_str')}</DialogTitle>
                 <DialogContent>
                     <GoogleLogin
                         onSuccess={handleLogin}

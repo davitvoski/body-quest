@@ -5,6 +5,7 @@ import Item from "../modules/Item";
 import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
+import { useTranslation} from "react-i18next";
 
 function a11yProps(index: number) {
     return {
@@ -18,6 +19,7 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
+    const {t} = useTranslation();
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
     const [avatar, setAvatar] = useState("")
