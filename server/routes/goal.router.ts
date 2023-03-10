@@ -1,4 +1,5 @@
 import express from "express";
+import { isAuthenticated } from "../controllers/auth.controller";
 import { getUserGoals, saveUserGoalPOST, updateGoalCompletedPATCH } from "../controllers/goal.controller";
 
 const goalRouter = express.Router()
@@ -31,7 +32,7 @@ const goalRouter = express.Router()
  *    500:
  *     description: Error saving goal - server error
  */
-goalRouter.post("/", saveUserGoalPOST)
+goalRouter.post("/", isAuthenticated, saveUserGoalPOST)
 
 /**
  * This function gets all goals from the database of a user.
@@ -60,7 +61,7 @@ goalRouter.post("/", saveUserGoalPOST)
  *     description: Server failed
  *          
  */
-goalRouter.get("/", getUserGoals)
+goalRouter.get("/", isAuthenticated, getUserGoals)
 
 // Generate swagger comments
 /**
@@ -83,7 +84,7 @@ goalRouter.get("/", getUserGoals)
  *       example:
  *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
 */
-goalRouter.patch("/completed", updateGoalCompletedPATCH)
+goalRouter.patch("/completed", isAuthenticated, updateGoalCompletedPATCH)
 
 
 export default goalRouter
