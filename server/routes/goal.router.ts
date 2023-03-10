@@ -1,7 +1,8 @@
 import express from "express";
-import { getUserGoals, saveUserGoalPOST } from "../controllers/goal.controller";
-const goalRouter = express.Router()
+import { isAuthenticated } from "../controllers/auth.controller";
+import { getUserGoals, saveUserGoalPOST, updateGoalCompletedPATCH } from "../controllers/goal.controller";
 
+const goalRouter = express.Router()
 
 /**
  * @swagger
@@ -15,10 +16,8 @@ const goalRouter = express.Router()
  *      schema:
  *       type: object
  *       properties:
- *        email
  *        goal
  *      example:
- *       email: "test@gmail.com"
  *       goal: IGoal Type - check shared folder
  *   tags:
  *    - Goal
@@ -33,7 +32,7 @@ const goalRouter = express.Router()
  *    500:
  *     description: Error saving goal - server error
  */
-goalRouter.post("/", saveUserGoalPOST)
+goalRouter.post("/", isAuthenticated, saveUserGoalPOST)
 
 /**
  * This function gets all goals from the database of a user.
@@ -45,16 +44,6 @@ goalRouter.post("/", saveUserGoalPOST)
  *   description: Get all goals of a user via email
  *   tags:
  *    - Goal
- *   requestBody:
- *    required: true
- *    content:
- *     application/json:
- *      schema:
- *       type: object
- *       properties:
- *        email
- *       example:
- *        email: "test@gmail.com"    
  *   responses:
  *    200:
  *     description: An array of goals
@@ -62,15 +51,39 @@ goalRouter.post("/", saveUserGoalPOST)
  *      application/json:
  *       schema:
  *        type: array
- *        example: [
- *          {titel: string, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: string}]
+ *        example:
+ *         goal: [
+ *          {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
+ *           ]
  *    400:
  *     description: Database error
  *    500:
  *     description: Server failed
  *          
  */
-goalRouter.get("/", getUserGoals)
+goalRouter.get("/", isAuthenticated, getUserGoals)
+
+/**
+ * This function updates the goal completed to true.
+ * @swagger
+ * /api/goals/completed:
+ *  patch:
+ *   summary: Updates a goal to be completed
+ *   description: Updates a goal to be completed
+ *   tags:
+ *    - Goal
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        goal
+ *       example:
+ *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
+*/
+goalRouter.patch("/completed", isAuthenticated, updateGoalCompletedPATCH)
 
 
 export default goalRouter
