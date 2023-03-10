@@ -63,7 +63,6 @@ goalRouter.post("/", isAuthenticated, saveUserGoalPOST)
  */
 goalRouter.get("/", isAuthenticated, getUserGoals)
 
-// Generate swagger comments
 /**
  * This function updates the goal completed to true.
  * @swagger
