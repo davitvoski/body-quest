@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-import { Db, MongoClient } from "mongodb";
-import { IExercise, IGoal, IUser } from "../../shared";
+import { Db, MongoClient, ObjectId } from "mongodb";
+import { IExercise, IGoal, IPost, IUser } from "../../shared";
 dotenv.config();
 
 const dbUrl = process.env.ATLAS_URI as string;
@@ -123,17 +123,39 @@ export default class Database {
     try {
       const collection = db.collection(this.postsCollection)
 
-      const posts = await collection.find();
+      const unfilteredPosts = await collection
+        .find({}, { projection: { _id: 0 } })
+        .toArray() as unknown as IPost[];
 
-      console.log("Unfiltered posts");
-      console.log(posts);
-      
+      let filteredPosts:IPost[] = [];
 
-      return posts;
-
+      for (var post of unfilteredPosts) {
+        let user = await this.getUser(post.user.toString());
+        post.user = user;
+        filteredPosts.push(post);
+      }
+            
+      return filteredPosts;
     } catch (err) {
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error getting the feed")
+    }
+  }
+
+  async getUser(id:string){
+    try {
+      const collection = db.collection(this.usersCollection);
+      
+      let user = await collection.findOne({_id: new ObjectId(id)}) as unknown as IUser
+
+      if (user === null) {
+        throw new Error("Error finding the user with the id: " + id)
+      }
+
+      return user;
+    } catch (err) {
+      if (err instanceof Error) throw new Error(err.message)
+      throw new Error("Error finding the user with the id: " + id)
     }
   }
 

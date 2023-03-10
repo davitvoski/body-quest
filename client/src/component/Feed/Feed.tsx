@@ -1,27 +1,38 @@
 import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
 import { IPost } from "../../../../shared";
 import { Post } from "./Post";
 
-const testPost:IPost = {
-  user: {
-    username: "RaphyBoy", 
-    email: "raph.gmail.com", 
-    picture: "https://pocblobstoragewebdev.blob.core.windows.net/webdevcontainer/ahhhh.png"
-  },
-  imageUrl: "https://pocblobstoragewebdev.blob.core.windows.net/webdevcontainer/DAS.png",
-  caption: "This is a test caption, thanks for being here",
-  date: "March 9, 2023"
-}
-
 export const Feed = () => {
+  const [posts, setPosts] = useState<IPost[]>([]);
+
+  const getPosts = async () => {
+    const res = await fetch("/api/posts/");
+    const data:IPost[] = await res.json() as IPost[];
+    console.log(data);
+    console.log("data");
+    
+    setPosts(data);  
+    console.log(posts);
+    console.log("posts");
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <Box
       display="flex"
       alignItems="center"
     >
-      <Post post={testPost} />
-      <Post post={testPost} />
-
+      <>
+        {posts && 
+          posts.map((post, index) => {
+            <Post post={post} key={index} />
+          })
+        }
+      </>
     </Box>
   );
 }
