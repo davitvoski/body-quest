@@ -15,10 +15,8 @@ const goalRouter = express.Router()
  *      schema:
  *       type: object
  *       properties:
- *        email
  *        goal
  *      example:
- *       email: "test@gmail.com"
  *       goal: IGoal Type - check shared folder
  *   tags:
  *    - Goal
@@ -45,16 +43,6 @@ goalRouter.post("/", saveUserGoalPOST)
  *   description: Get all goals of a user via email
  *   tags:
  *    - Goal
- *   requestBody:
- *    required: true
- *    content:
- *     application/json:
- *      schema:
- *       type: object
- *       properties:
- *        email
- *       example:
- *        email: "test@gmail.com"    
  *   responses:
  *    200:
  *     description: An array of goals
@@ -93,7 +81,6 @@ goalRouter.get("/", getUserGoals)
  *       properties:
  *        goal
  *       example:
- *        email: ""
  *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
 */
 goalRouter.patch("/completed", updateGoalCompletedPATCH)
