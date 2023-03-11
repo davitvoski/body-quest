@@ -2,6 +2,7 @@ import { Avatar, Grid, Paper, styled } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 import Item from "../modules/Item";
+import { useTranslation} from "react-i18next";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
@@ -9,6 +10,7 @@ import Item from "../modules/Item";
  * @returns ProfileView
  */
 const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
+    const {t} = useTranslation();
     /**
      * Calculates the current level of a user based on XP
      * @param xp 
@@ -49,12 +51,12 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                         <Item>{ props.email }</Item>
                     </Grid>
                     <Grid item xs={12}>
-                        <Item>bio here</Item>
+                        <Item>{t('bio')}</Item>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Item>LVL { currentLevel }: { props.experience }/{ nextLevel(props.experience) } XP until LVL { currentLevel + 1 } </Item>
+                <Item>LVL { currentLevel }: { props.experience }/{ nextLevel(props.experience) } XP {t('until')} LVL { currentLevel + 1 } </Item>
             </Grid>
         </Grid>
     )
