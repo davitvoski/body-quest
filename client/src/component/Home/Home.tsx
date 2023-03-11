@@ -7,6 +7,7 @@ import { IExercise } from '../../../../shared';
 import { useTranslation } from "react-i18next";
 import HeaderLayout from './HeaderLayout';
 import "../../styles/Home.css";
+import { LinearProgress } from '@mui/material';
 /** 
  * The main page of webiste
  * @returns Home Page
@@ -49,6 +50,7 @@ const Home = () => {
         <FilterView allExercises={allExercises} setExercise={setExercise} />
       </Toolbar>
       <div className='exercisesBox'>
+        {exercises.length === 0 && <LinearProgress />}
         <ExerciseList exercises={exercises} />
       </div>
     </div>

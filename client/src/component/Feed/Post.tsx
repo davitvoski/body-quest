@@ -1,14 +1,12 @@
-import { Avatar, Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Paper, Typography } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
 import { IPost } from "../../../../shared";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShareIcon from '@mui/icons-material/Share';
 
 type PostProps = { 
-  post: IPost
-}
+  post: IPost;
+};
 
-export const Post = (props: PostProps) => {
+export const Post = (props: PostProps) => {  
   return (
     <Card 
       sx={{width: "500px", marginBottom:"20px" }}
