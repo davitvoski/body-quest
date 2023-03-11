@@ -17,10 +17,8 @@ export interface IUser {
 
 export interface IGoal {
   exercise: string;
-  reps?: number;
-  time?: number;
-  // In KG
-  weight?: number;
+  type: string;
+  goal: number;
   startDate: string;
   endDate: string;
   completed: boolean = false;

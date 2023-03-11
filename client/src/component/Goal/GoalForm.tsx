@@ -17,6 +17,8 @@ import { useLocation } from "react-router";
 import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
 import { useState } from "react";
+import axios from "axios";
+import { IGoal } from "../../../../shared";
 
 /**
  *
@@ -31,6 +33,8 @@ export const GoalForm = () => {
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -50,6 +54,7 @@ export const GoalForm = () => {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
         setIsStartDateValid(true);
+        setStartDate(`${newValue.$D}-${newValue.$M}-${newValue.$y}`);
       } else {
         setIsStartDateValid(false);
       }
@@ -62,6 +67,7 @@ export const GoalForm = () => {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
         setIsEndDateValid(true);
+        setEndDate(`${newValue.$D}-${newValue.$M}-${newValue.$y}`);
       } else {
         setIsEndDateValid(false);
       }
@@ -70,9 +76,29 @@ export const GoalForm = () => {
     }
   }
 
-  const handleSubmit = () => {
+  const createGoal = async (newGoal: IGoal) => { 
+    try {
+      const response = await axios.post("/api/goal", newGoal);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleSubmit = async () => {
     console.log("submit");
     //TODO post request to server
+    const newGoal: IGoal = {
+      exercise: state.exerciseName,
+      type: goalType,
+      goal: goalValue,
+      startDate: startDate,
+      endDate: endDate,
+      completed: false,
+    }
+    
+    await createGoal(newGoal);
+    
   };
 
   return (
