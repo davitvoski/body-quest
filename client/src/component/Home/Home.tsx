@@ -6,6 +6,7 @@ import { FilterView } from '../Filter/FilterView';
 import { IExercise } from '../../../../shared';
 import { useTranslation } from "react-i18next";
 import HeaderLayout from './HeaderLayout';
+import LinearProgress from '@mui/joy/LinearProgress';
 import "../../styles/Home.css";
 /** 
  * The main page of webiste
@@ -15,6 +16,7 @@ const Home = () => {
   const { t } = useTranslation();
   const [allExercises, setAllExercise] = useState<IExercise[]>([]);
   const [exercises, setExercise] = useState<IExercise[]>(allExercises);
+  const [isLoading, setIsloading] = useState(false);
 
   /**
    * Fetch all exercises data from /api/exercises
@@ -24,16 +26,18 @@ const Home = () => {
       method: 'GET',
     });
     if (response.status === 404) {
-      throw new Error(
+      throw new Error( 
         `Failed to fetch ${response.status}: ${response.statusText}`
       );
     }
     const jsonData = (await response.json()) as IExercise[];
+    setIsloading(false);
     setAllExercise(jsonData);
     setExercise(jsonData);
   }
 
   useEffect(() => {
+    setIsloading(true);
     fetchExercises();
   }, [])
 
@@ -48,9 +52,11 @@ const Home = () => {
         <Search allExercises={allExercises} setExercise={setExercise} />
         <FilterView allExercises={allExercises} setExercise={setExercise} />
       </Toolbar>
+       
       <div className='exercisesBox'>
         <ExerciseList exercises={exercises} />
       </div>
+      {isLoading && <LinearProgress size='md' />}
     </div>
   )
 };

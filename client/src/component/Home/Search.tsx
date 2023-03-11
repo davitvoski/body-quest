@@ -22,7 +22,7 @@ export const Search = (props: searchProps) => {
    */
   const getSearchValue = (event: any) => {
     event.preventDefault();
-    const searchExercise = event.target.value;
+    const searchExercise = event.target.value.toLowerCase();
     let isBlank = /^\s*$/;
     // if the serach bar is blank will show all the exercise
     if (searchExercise.length == 0 || searchExercise.match(isBlank)) {
