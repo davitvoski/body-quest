@@ -17,6 +17,7 @@ import { useLocation } from "react-router";
 import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
 import { useState } from "react";
+import { useTranslation} from "react-i18next";
 
 /**
  *
@@ -25,6 +26,7 @@ import { useState } from "react";
  * This component is used to create a new goal for a specific exercise
  */
 export const GoalForm = () => {
+  const {t} = useTranslation();
   let { state } = useLocation();
   const [goalType, setGoalType] = useState("");
   const [goalValue, setGoalValue] = useState(0);
@@ -80,7 +82,7 @@ export const GoalForm = () => {
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
-            Goal Creation: {state.exerciseName}
+            {t('goal_creation')}: {state.exerciseName}
           </Typography>
         </div>
         <form className="goal-form">
@@ -92,7 +94,7 @@ export const GoalForm = () => {
               spacing={8}
             >
               <FormControl sx={{ m: 1, minWidth: 80 }}>
-                <InputLabel htmlFor="goal-type-label">Type</InputLabel>
+                <InputLabel htmlFor="goal-type-label">{t('goal_input_type')}</InputLabel>
                 <Select
                   autoWidth
                   labelId="goal-type-label"
@@ -103,9 +105,9 @@ export const GoalForm = () => {
                     setGoalType(event.target.value as string);
                   }}
                 >
-                  <MenuItem value={"reps"}>Reps</MenuItem>
-                  <MenuItem value={"weight"}>Weight</MenuItem>
-                  <MenuItem value={"time"}>Time</MenuItem>
+                  <MenuItem value={"reps"}>{t('reps')}</MenuItem>
+                  <MenuItem value={"weight"}>{t('weight')}</MenuItem>
+                  <MenuItem value={"time"}>{t('time')}</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
@@ -115,7 +117,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label="Amount"
+                        label={t('amount')}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -128,7 +130,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label="Kg"
+                        label={t("kg")}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -139,7 +141,7 @@ export const GoalForm = () => {
                     time: (
                       <TextField
                         error={!isGoalValueValid}
-                        label="Sec"
+                        label={t("sec")}
                         name="amount"
                         id="goal-amount-input"
                         variant="filled"
@@ -162,7 +164,7 @@ export const GoalForm = () => {
             >
               <FormControl>
                 <ResponsiveDataPicker
-                  label={"Start Date"}
+                  label={t("start_date")}
                   isToday={true}
                   onChange={handleStartDateInput}
                 />
@@ -170,7 +172,7 @@ export const GoalForm = () => {
 
               <FormControl>
                 <ResponsiveDataPicker
-                  label={"End Date"}
+                  label={t('end_date')}
                   isToday={false}
                   onChange={handleEndDateInput}
                 />
@@ -183,11 +185,11 @@ export const GoalForm = () => {
               sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
               onClick={handleSubmit}
             >
-              Create
+              {t('create_goal_btn')}
             </Button>
           ) : (
             <Button disabled sx={{ margin: "10px" }}>
-              Create
+              {t('create_goal_btn')}
             </Button>
           )}
         </form>

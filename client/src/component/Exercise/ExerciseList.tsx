@@ -1,6 +1,7 @@
 import { IExercise } from "../../../../shared"
 import { Exercise } from "./Exercise"
 import "../../styles/Exercises.css";
+import PaginationForExercises from "./Pagination";
 type ExerciseListProps = {
     exercises: IExercise[]
 }
@@ -9,12 +10,10 @@ type ExerciseListProps = {
  * @param props ExerciseListProps
  * @returns ExerciseList
  */
-export const ExerciseList = (props:ExerciseListProps) => {
-    return(
-        <div className="exerciseList content">
-            {props.exercises.map((exercise, i)=>(
-                <Exercise exercise={exercise} key={i}/>
-            ))}
-        </div>
+export const ExerciseList = (props: ExerciseListProps) => {
+    return (
+        <>
+            <PaginationForExercises exercises={props.exercises} />
+        </>
     )
 }
