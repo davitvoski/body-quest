@@ -82,13 +82,13 @@ export default function NavBar(props: {Theme: Theme, changeTheme: (current: stri
         <Box id="navBar">
             <AppBar className='appbar' position="relative" color="secondary">
                 <Toolbar className='toolbar'>
-                    <Typography>
-                        <Link
-                            style={{ textDecoration: "none", color: "white" }}
-                            to={'/'}>
-                            {t('home')}
-                        </Link>
-                    </Typography>
+                    <Link
+                        to={'/'}>
+                        {props.Theme.palette.mode === 'dark' ? 
+                            <img className="logo" src='src/Data/logo-dark.svg' alt='BodyQuest Logo' title='Home'/> :
+                            <img className="logo" src='src/Data/logo-light.svg' alt='BodyQuest Logo' title='Home'/>}
+                        
+                    </Link>
 
                     <Box 
                         display="flex"

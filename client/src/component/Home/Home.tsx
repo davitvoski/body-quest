@@ -43,7 +43,7 @@ const Home = () => {
       <div className='recommandtions'>
 
       </div>
-      <h2>{t('workout')}</h2>
+      <h2 id="workout-otd">{t('workout')}</h2>
       <Toolbar className='searchBar'>
         <Search allExercises={allExercises} setExercise={setExercise} />
         <FilterView allExercises={allExercises} setExercise={setExercise} />

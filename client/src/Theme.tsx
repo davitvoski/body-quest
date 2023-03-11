@@ -7,10 +7,12 @@ const getDesignTokens = (mode: PaletteMode) => ({
     contrastThreshold: 4.5,
     ...(mode === 'light' ? {
       primary: {
-        main: '#DD3F40'
+        main: '#DD3F40',
+        contrastText: '#1D181E'
       },
       secondary: {
-        main: '#6D0305'
+        main: '#6D0305',
+        contrastText: '#251F29'
       },
       background: {
         default: '#FFFBFF',
@@ -18,10 +20,12 @@ const getDesignTokens = (mode: PaletteMode) => ({
       },
     } : {
       primary: {
-        main: '#FEB6BA'
+        main: '#FEB6BA',
+        contrastText: '#FFFBFF'
       },
       secondary: {
-        main: '#DD3F40'
+        main: '#DD3F40',
+        contrastText: '#EEE8E8'
       },
       background: {
         default: '#1D181E',

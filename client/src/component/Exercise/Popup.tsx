@@ -75,6 +75,7 @@ export const Popup = (props: PopupProps) => {
           <Typography
             variant="h1"
             component="h2"
+            color="primary.contrastText"
             sx={{
               textTransform: "uppercase",
               fontWeight: "900",

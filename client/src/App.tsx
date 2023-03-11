@@ -32,7 +32,7 @@ function App() {
 
   return (
     <ThemeProvider theme={Theme}>
-      <div className="App">
+      <div className={Theme.palette.mode+" App"}>
         <NavBar Theme={Theme} changeTheme={changeTheme}/>
         <Routes>
           <Route path="/" element={<Home />} />

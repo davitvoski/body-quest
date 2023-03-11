@@ -10,7 +10,7 @@ export const ThemeNav = (props: {Theme: Theme, changeTheme: (current: string) =>
             title="Change Theme"
             onClick={() => props.changeTheme(props.Theme.palette.mode)}
         >
-            {props.Theme.palette.mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
+            {props.Theme.palette.mode === 'light' ? <Brightness7Icon htmlColor="white" /> : <Brightness4Icon htmlColor="white" />}
         </IconButton>
     )
 }
