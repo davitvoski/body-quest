@@ -16,6 +16,9 @@
     "reps":"Reps",
     "weight":"Weight",
     "time":"Time",
+    "amount":"Amount",
+    "kg":"Kg",
+    "sec":"Sec",
     "goal_creation":"Goal Creation",
     "goal_input_type":"Type",
     "create_goal_btn":"Create",
@@ -28,5 +31,7 @@
     "go_profile":"Go to profile page",
     "logout":"Logout",
     "until":"until",
-    "bio":"bio here"
+    "bio":"bio here",
+    "goals":"Goals",
+    "favourites":"Favourites"
   }

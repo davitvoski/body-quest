@@ -88,7 +88,7 @@ export default function NavBar() {
                             {t('home')}
                         </Link>
                     </Typography>
-
+                    
                     <Box 
                         display="flex"
                         width="10%"

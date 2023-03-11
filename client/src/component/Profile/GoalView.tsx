@@ -45,13 +45,13 @@ const GoalView = () => {
             { tempGoals.filter(isIncomplete).map(goal => 
                 <Item sx={{ m: "1% 0 1% 0", p:2}}>
                     <Checkbox sx={{ color: "white"}} onChange={() => goal.completed = true} inputProps={{ 'aria-label': 'controlled' }} />
-                    <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.reps } reps: { goal.name }</Typography>
+                    <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.reps } {t('reps')}: { goal.name }</Typography>
                 </Item>
             )}
             { tempGoals.filter(isCompleted).map(goal => 
                 <Item sx={{ m: "1% 0 1% 0", p:2 }}>
                     <Checkbox sx={{ color: "white" }} checked />
-                    <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.reps } reps: { goal.name }</Typography>
+                    <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.reps } {t('reps')}: { goal.name }</Typography>
                 </Item>
             )}
         </div>

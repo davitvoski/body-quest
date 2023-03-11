@@ -117,7 +117,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label="Amount"
+                        label={t('amount')}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -130,7 +130,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label="Kg"
+                        label={t("kg")}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -141,7 +141,7 @@ export const GoalForm = () => {
                     time: (
                       <TextField
                         error={!isGoalValueValid}
-                        label="Sec"
+                        label={t("sec")}
                         name="amount"
                         id="goal-amount-input"
                         variant="filled"
@@ -164,7 +164,7 @@ export const GoalForm = () => {
             >
               <FormControl>
                 <ResponsiveDataPicker
-                  label={"start_date"}
+                  label={t("start_date")}
                   isToday={true}
                   onChange={handleStartDateInput}
                 />

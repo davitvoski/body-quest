@@ -49,8 +49,8 @@ const Profile = () => {
             <ProfileView username={username} email={email} experience={experience} avatar={avatar} ></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
-                    <Tab label="Goals" sx={{ width: "50%" }} />
-                    <Tab label="Favourites" sx={{ width: "50%" }} />
+                    <Tab label={t("goals")} sx={{ width: "50%" }} />
+                    <Tab label={t("favourites")} sx={{ width: "50%" }} />
                 </Tabs>
             </Item>
             <TabPanel index={0} value={value} {...a11yProps(0)}>
