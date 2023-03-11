@@ -6,7 +6,7 @@ import { FilterView } from '../Filter/FilterView';
 import { IExercise } from '../../../../shared';
 import { useTranslation } from "react-i18next";
 import HeaderLayout from './HeaderLayout';
-import LinearProgress from '@mui/joy/LinearProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 import "../../styles/Home.css";
 /** 
  * The main page of webiste
@@ -56,7 +56,7 @@ const Home = () => {
       <div className='exercisesBox'>
         <ExerciseList exercises={exercises} />
       </div>
-      {isLoading && <LinearProgress size='md' />}
+      {isLoading && <LinearProgress sx={{ width:"60%", margin:"auto"}}/>}
     </div>
   )
 };
