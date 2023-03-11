@@ -1,5 +1,6 @@
 import express from "express";
-import { getAllExercises } from "../controllers/exercise.controller";
+import { isAuthenticated } from "../controllers/auth.controller";
+import { favouriteExercisePOST, getAllExercises } from "../controllers/exercise.controller";
 const exerciseRouter = express.Router()
 
 /**
@@ -29,5 +30,10 @@ const exerciseRouter = express.Router()
  *              description: Error getting all exercises
  */
 exerciseRouter.get("/", getAllExercises)
+
+
+exerciseRouter.post("/favourites", favouriteExercisePOST)
+
+// exerciseRouter.get("/favourites", isAuthenticated,)
 
 export default exerciseRouter

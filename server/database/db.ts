@@ -179,4 +179,17 @@ export default class Database {
       throw new Error("Error updating the goal")
     }
   }
+
+  async favouriteExercise(email: string, exercise: string) {
+    try {
+      const collection = db.collection(this.usersCollection)
+
+      await this.checkIfUserExists(email)
+
+      await collection.updateOne({ email: email }, { $addToSet: { favourites: exercise } })
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error favouriting the exercise")
+    }
+  }
 }
