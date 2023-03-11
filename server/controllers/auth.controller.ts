@@ -1,17 +1,16 @@
-import express, {Request, Response, NextFunction} from "express";
+import express, { Request, Response, NextFunction } from "express";
 import { OAuth2Client } from 'google-auth-library'
-import session from 'express-session';
 import { IUser } from "../../shared";
 import Database from "../database/db";
 import dotenv from 'dotenv';
 dotenv.config()
 
 declare module 'express-session' {
-    export interface SessionData {
-      user: IUser;
-    }
+  export interface SessionData {
+    user: IUser;
+  }
 }
-  
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const db = new Database();
 
@@ -21,7 +20,12 @@ const db = new Database();
  * @param res Express Response
  */
 export function getUser(req: Request, res: Response) {
-    res.json({user: req.session.user});
+  try {
+    if (req.session) return res.json({ user: req.session.user });
+    res.json("No user in session")
+  } catch (e) {
+    res.status(500).json("No user in session")
+  }
 }
 
 /**
@@ -30,43 +34,47 @@ export function getUser(req: Request, res: Response) {
  * @param res Express Response
  */
 export async function authenticateUser(req: Request, res: Response) {
+  try {
     //TODO: should validate that the token was sent first
-    const {token} = req.body;    
-  
+    const { token } = req.body;
+
     const ticket = await client.verifyIdToken({
-        idToken: token.credential,
-        audience: process.env.GOOGLE_CLIENT_ID
+      idToken: token.credential,
+      audience: process.env.GOOGLE_CLIENT_ID
     });
-    
-    if (!ticket) 
+
+    if (!ticket)
       return res.sendStatus(401);
-    
+
     const payLoad = ticket.getPayload();
 
     if (!payLoad || !payLoad.name || !payLoad.email || !payLoad.picture) {
       return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
-        
-    const user:IUser = {username : payLoad.name, email : payLoad.email, picture : payLoad.picture, goals: []}
+
+    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [] }
 
     const isSignedUp = await db.userIsSignedUp(user.email);
-      
-    if (!isSignedUp){
+
+    if (!isSignedUp) {
       await db.addUser(user);
       console.log("Added a user to the db");
     }
     else {
       console.log("User is already signed up");
     }
-    
-  
-    req.session.regenerate(function(err) {
+
+    req.session.regenerate(function (err) {
       if (err) {
         return res.sendStatus(500);
       }
-      req.session.user = user;  
-      res.json({user: user});
+      req.session.user = user;
+      res.json({ user: user });
     });
+  } catch (e) {
+    res.status(500).send("Error authenticating user")
+  }
+
 }
 
 /**
@@ -75,11 +83,11 @@ export async function authenticateUser(req: Request, res: Response) {
  * @param res Express Response
  * @param next Express NextFunction 
  */
-export function isAuthenticated(req: Request, res: Response, next: NextFunction) {  
-    if (!req.session.user){
-      return res.sendStatus(401); 
-    }
-    next();
+export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+  if (!req.session.user) {
+    return res.sendStatus(401);
+  }
+  next();
 }
 
 /**
@@ -87,14 +95,14 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
  * @param req Express Request
  * @param res Express Response
  */
-export function logout(req: Request, res: Response){
-    req.session.destroy(function(err) {
-        if (err) {
-        return res.sendStatus(500); 
-        }
-        res.clearCookie('id');   
-        res.sendStatus(200);
-    });  
+export function logout(req: Request, res: Response) {
+  req.session.destroy(function (err) {
+    if (err) {
+      return res.sendStatus(500);
+    }
+    res.clearCookie('id');
+    res.sendStatus(200);
+  });
 }
 
 /**
@@ -102,6 +110,6 @@ export function logout(req: Request, res: Response){
  * will be used for administration and guests
  * @param res Express Response
  */
-export function protectedTest(res: Response){
-    res.sendStatus(200); 
+export function protectedTest(res: Response) {
+  res.sendStatus(200);
 }

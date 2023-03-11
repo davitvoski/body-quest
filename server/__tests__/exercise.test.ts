@@ -2,9 +2,8 @@ import Database from "../database/db";
 import request from "supertest"
 import app from "../app";
 import { IExercise, IGoal } from "../../shared";
-import e from "express";
 jest.mock("../database/db")
-// Mock Database class with jest
+
 let exercises: IExercise[] = [
     {
         _id: "1",
@@ -15,6 +14,7 @@ let exercises: IExercise[] = [
         body_part: "chest"
     }
 ]
+
 beforeAll(() => {
     for (let i = 0; i < 10; i++) {
         exercises = [...exercises, exercises[0]]
