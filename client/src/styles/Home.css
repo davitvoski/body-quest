@@ -34,6 +34,13 @@ h1 {
     padding-top: 0;
 }
 
+.dark .slogan {
+    color: #fff;
+}
+.light .slogan {
+    color: #212121;
+}
+
 #pSlogan {
     width: 100%;
     color: var(--text-primary);
@@ -43,8 +50,8 @@ h1 {
 }
 
 #make_your {
+    color: var(--background-default);
     padding-left: 200px;
-    color: #1F2729;
     -webkit-text-stroke: 1px var(--primary);
     font-size: 40px;
 }
@@ -66,8 +73,11 @@ h1 {
     overflow: visible;
 }
 
-h2 {
-    color: var(--text-primary);
+.light h2 {
+    color: var(--secondary);
+}
+.dark h2 {
+    color: var(--primary);
 }
 
 #fitness {

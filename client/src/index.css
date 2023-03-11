@@ -4,7 +4,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  background-color: var(--background-default);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,7 +17,7 @@
 }
 
 .light :root {
-  background-color: #FFFBFF;
+  color: #212121;
   --background-default: #FFFBFF;
   --background-paper: #EEE8E8;
   --text-primary: #212121;
@@ -27,8 +26,12 @@
 .light a:hover {
   color: #747bff;
 }
+.light {
+  background-color: #FFFBFF;
+}
 
 .dark :root {
+  color: #fff;
   background-color: #1D181E;
   --background-default: #1D181E;
   --background-paper: #251F29;
@@ -40,6 +43,9 @@
 }
 .dark a:hover {
   color: #747bff;
+}
+.dark {
+  background-color: #1D181E;
 }
 
 a {
