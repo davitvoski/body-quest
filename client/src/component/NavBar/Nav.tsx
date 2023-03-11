@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogContent, DialogTitle, IconButton, Slide } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
@@ -14,6 +14,7 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import "../../styles/NavBar.css"
+import AddIcon from '@mui/icons-material/Add';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -32,6 +33,8 @@ export default function NavBar() {
     const [username, setUsername] = useState("");
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const [isFeed, setIsFeed] = useState(false);
 
     const getUser = async () => {
         const res = await fetch("/api/authentication/getUser");
@@ -67,7 +70,11 @@ export default function NavBar() {
 
     useEffect(() => {
         getUser();
-    }, []);
+        
+        //either hide or show add post button
+        window.location.pathname === "/Feed" ? setIsFeed(true) : setIsFeed(false)
+        console.log(isFeed);
+    });
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -84,6 +91,7 @@ export default function NavBar() {
                     <Box
                         display="flex"
                         flexDirection="row"
+                        alignItems="center"
                     >
                         <Typography>
                             <Link
@@ -95,11 +103,21 @@ export default function NavBar() {
 
                         <Typography paddingLeft="3vw">
                             <Link
-                                style={{ textDecoration: "none", color: "white" }}
-                                to={'/Feed'}>
+                                style={{ textDecoration: "none", color: "white"}}
+                                to={'/Feed'}
+                                >
                                 Feed
                             </Link>
                         </Typography>
+
+                        {isFeed && username !== "" && <Button 
+                            variant="contained" 
+                            startIcon={<AddIcon />}   
+                            size="small"     
+                            sx={{marginLeft: "3vw"}}
+                        >
+                            Add Post
+                        </Button>}
                     </Box>
 
                     <Box 

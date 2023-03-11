@@ -2,7 +2,6 @@ import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { IPost } from "../../../../shared";
 import { Post } from "./Post";
-import AddIcon from '@mui/icons-material/Add';
 
 export const Feed = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -28,7 +27,6 @@ export const Feed = () => {
           <Post post={post} key={index}/>
         ))}
       </Box>
-      <Button variant="contained" startIcon={<AddIcon />}>Add Post</Button>
     </>
   );
 }
