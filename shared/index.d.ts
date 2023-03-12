@@ -24,9 +24,15 @@ export interface IGoal {
     completed: boolean = false,
 }
 
+export interface IUserPost {
+    username: string,
+    email: string,
+    picture: string,
+}
+
 export interface IPost {
-  user: IUser,
-  imageUrl: string,
-  caption: string,
-  date: string,
+    user: IUserPost,
+    imageUrl: string,
+    caption: string,
+    date: string,
 }

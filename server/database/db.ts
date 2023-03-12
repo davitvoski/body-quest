@@ -128,39 +128,14 @@ export default class Database {
     try {
       const collection = db.collection(this.postsCollection)
 
-      const unfilteredPosts = await collection
+      const posts = await collection
         .find({}, { projection: { _id: 0 } })
         .toArray() as unknown as IPost[];
-
-      let filteredPosts:IPost[] = [];
-
-      for (var post of unfilteredPosts) {
-        let user = await this.getUser(post.user.toString());
-        post.user = user;
-        filteredPosts.push(post);
-      }
             
-      return filteredPosts;
+      return posts;
     } catch (err) {
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error getting the feed")
-    }
-  }
-
-  async getUser(id:string){
-    try {
-      const collection = db.collection(this.usersCollection);
-      
-      let user = await collection.findOne({_id: new ObjectId(id)}) as unknown as IUser
-
-      if (user === null) {
-        throw new Error("Error finding the user with the id: " + id)
-      }
-
-      return user;
-    } catch (err) {
-      if (err instanceof Error) throw new Error(err.message)
-      throw new Error("Error finding the user with the id: " + id)
     }
   }
 
