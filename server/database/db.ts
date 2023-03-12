@@ -217,6 +217,32 @@ export default class Database {
     }
   }
 
+  /**
+   * This function checks if an exercise is favourited by a user
+   * @param email Email of the user
+   * @param exerciseName Name of the exercise
+   * @returns true if the exercise is favourited, false if not
+   */
+  async isExerciseFavourited(email: string, exerciseName: string) {
+    try {
+      const collectionUser = db.collection(this.usersCollection)
+      await this.checkIfUserExists(email)
+
+      const favouriteExercise = await collectionUser.find(
+        {
+          email: email,
+          favourites: { $in: [exerciseName] }
+        }
+      ).toArray() as unknown as [string]
+
+      return favouriteExercise.length > 0
+
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error checking if exercise is favourited")
+    }
+
+  }
 
   // async getFavouriteExercises(email: string) {
   //   try {

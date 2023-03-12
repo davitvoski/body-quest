@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthenticated } from "../controllers/auth.controller";
-import { favouriteExerciseDELETE, favouriteExercisePOST, getAllExercises } from "../controllers/exercise.controller";
+import { favouriteExerciseDELETE, favouriteExercisePOST, getAllExercises, getFavourtieExerciseByName } from "../controllers/exercise.controller";
 const exerciseRouter = express.Router()
 
 /**
@@ -31,6 +31,7 @@ const exerciseRouter = express.Router()
  */
 exerciseRouter.get("/", getAllExercises)
 
+exerciseRouter.get("/favourites/:name", isAuthenticated, getFavourtieExerciseByName)
 
 exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST)
 

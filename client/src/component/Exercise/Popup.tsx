@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Popup.css";
 import {
   DialogContent,
@@ -12,6 +12,7 @@ import {
   Button,
   useTheme,
   useMediaQuery,
+  Alert,
 } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -25,7 +26,7 @@ type PopupProps = {
   open: boolean;
 };
 
-export interface State extends SnackbarOrigin {
+interface State extends SnackbarOrigin {
   openSnack: boolean;
 }
 
@@ -41,7 +42,11 @@ export const Popup = (props: PopupProps) => {
   const { t } = useTranslation();
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
-  const [isUnauthorized, setIsUnauthorized] = useState(false);
+  const [errorHandling, setErrorHandling] = useState({
+    isError: false,
+    message: "",
+  });
+
 
   //Snack bar logic when adding to favourites
   const [snackState, setSnackState] = React.useState<State>({
@@ -55,22 +60,32 @@ export const Popup = (props: PopupProps) => {
 
   const { vertical, horizontal, openSnack } = snackState;
 
-  // Favorite functionality goes here
-  // const handleFavourite = (newState: SnackbarOrigin) => () => {
-  //   setIsFavourite(!isFavourite);
-  //   fetch("/api/exercises/favourites", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       exerciseName: exercise.name,
-  //     }),
-  //   });
+  // Check if exercise is already a favourite
+  useEffect(() => {
+    async function checkFavourite() {
+      console.log(exercise);
+      const name = encodeURI(exercise.name);
+      console.log(name);
 
-  //   setSnackState({ openSnack: true, ...newState });
-  // };
+      const resp = await fetch(`/api/exercises/favourites/${name}`);
+      // If not logged in, return
+      if (resp.status === 401) return;
+      const data = (await resp.json()) as { isFavourite: boolean };
+      if (data.isFavourite) setIsFavourite(true);
+    }
+    checkFavourite().catch((err) => {
+      console.log(err);
 
+      setErrorHandling({
+        isError: true,
+        message: "Unable To Check If In Favourites.",
+      });
+    });
+  }, []);
+
+  /**
+   * This function handles the favouriting/unfavouriting of an exercise.
+   */
   async function handleFavourite() {
     let resp;
     if (!isFavourite) {
@@ -84,23 +99,35 @@ export const Popup = (props: PopupProps) => {
         }),
       });
     } else {
-      resp = await fetch(`/api/exercises/favourites/${exercise.name}`, {
+      const uri = encodeURIComponent(
+        `/api/exercises/favourites/${exercise.name}`
+      );
+      resp = await fetch(uri, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          exerciseName: exercise.name,
-        }),
       });
     }
 
+    // Handle unathorized
     if (resp.status === 401) {
-      setIsUnauthorized(true);
+      setErrorHandling({
+        isError: true,
+        message: "You must be logged in to favourite an exercise.",
+      });
       return;
     }
 
+    // If code other than in 200 range, return
+    if (!resp.ok)
+      setErrorHandling({
+        isError: true,
+        message: "Something went wrong. Please try again later.",
+      });
 
+    // Change states
+    setErrorHandling({ isError: false, message: "" });
     setIsFavourite(!isFavourite);
     setSnackState({
       ...snackState,
@@ -110,6 +137,9 @@ export const Popup = (props: PopupProps) => {
     });
   }
 
+  /**
+   * This function handles the closing of the snack bar.
+   */
   const handleSnackClose = () => {
     setSnackState({ ...snackState, openSnack: false });
   };
@@ -179,32 +209,6 @@ export const Popup = (props: PopupProps) => {
                 <StarBorderIcon sx={{ outline: "none" }} />
               )}
             </IconButton>
-            {/* {isFavourite ? (
-              <IconButton
-                sx={{ outline: "none" }}
-                onClick={handleFavourite({
-                  vertical: "bottom",
-                  horizontal: "center",
-                })}
-              >
-                {isFavourite ? (
-                  <StarIcon htmlColor="#EFE2A2" />
-                ) : (
-                  <StarBorderIcon sx={{ outline: "none" }} />
-                )}
-                <StarIcon htmlColor="#EFE2A2" />
-              </IconButton>
-            ) : (
-              <IconButton
-                sx={{ outline: "none" }}
-                onClick={handleFavourite({
-                  vertical: "bottom",
-                  horizontal: "center",
-                })}
-              >
-                <StarBorderIcon sx={{ outline: "none" }} />
-              </IconButton>
-            )} */}
           </div>
         </DialogContent>
       </Dialog>
@@ -227,12 +231,12 @@ export const Popup = (props: PopupProps) => {
         />
       )}
 
-      {isUnauthorized && (
+      {errorHandling.isError && (
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          open={isUnauthorized}
+          open={errorHandling.isError}
           onClose={handleSnackClose}
-          message="You must be logged in to favourite an exercise!"
+          message={errorHandling.message}
         />
       )}
     </>
