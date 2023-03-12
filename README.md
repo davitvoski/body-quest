@@ -10,15 +10,13 @@ The users will be able to post images of themselves when a goal was completed fo
 
 In the future, there will also be a feed where users are able to post whatever images they want which is available to all users.
 
-
-
 ## Set Up The Importer Tool
 Follow the ReadMe in Importer-tool folder for more infomration. <br>
 This tools allows to seed the database with the required exercises.
 ###  [ReadMe](./Importer-tool/ReadMe.md)
 
 
-###
+### Features
 - Google Authentication
 - Multi-Language Support
 - Dark/Light mode
