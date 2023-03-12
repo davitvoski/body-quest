@@ -244,6 +244,11 @@ export default class Database {
 
   }
 
+  /**
+   *  This function gets all the exercises that are favourited by a user
+   * @param email Email of the user
+   * @returns {IExercise[]}
+   */
   async getFavouriteExercises(email: string) {
     try {
       const collectionUser = db.collection(this.usersCollection)
@@ -251,22 +256,18 @@ export default class Database {
 
       await this.checkIfUserExists(email)
 
-      const favouriteExercise = await collectionUser.find(
+      let favouriteExercise = await collectionUser.find(
         {
           email: email
-        }, { projection: { favourites: 1 } }
-      ).toArray() as unknown as [string]
+        }, { projection: { favourites: 1, _id: 0 } }
+      ).toArray()
 
-      console.log(...favouriteExercise);
+      // Assign the favourites to a variable since the array is nested
+      favouriteExercise = favouriteExercise[0].favourites
 
-      const results = await collectionExercise
-        .find({}).toArray()
-
-      const d = results.filter((exercise) => {
-        if (favouriteExercise.includes(exercise.name)) return exercise
-      })
-
-      console.log(d);
+      const results = (await collectionExercise
+        .find({ name: { $in: [...favouriteExercise] } }, { projection: { _id: 0 } })
+        .toArray()) as unknown as IExercise[]
 
       return results
     } catch (error) {

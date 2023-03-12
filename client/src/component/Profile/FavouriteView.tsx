@@ -28,28 +28,32 @@ const tempFavs = [
  * This component displays a users favourite exercises in a pannel
  */
 const FavouriteView = () => {
-  const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>();
+  const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
 
   // Display Users Favourites
   useEffect(() => {
-    async function checkFavourite() {
+    /**
+     * This function gets a users favourite exercises
+     */
+    async function getFavourties() {
       const resp = await fetch(`/api/exercises/favourites`);
       // If not logged in, return
       if (resp.status === 401) return;
-
       const data = (await resp.json()).exercises as IExercise[];
-      console.log(data);
 
       setFavouriteExercises(data);
     }
 
-    checkFavourite().catch((err) => {
+    // NOTE: IF THE FAVOURITES ARE NOT DISPLAYING
+    // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY FAVOURITES
+    getFavourties().catch((err) => {
       console.log(err);
     });
   }, []);
-  
+
   return (
     <div>
+      {/* Fake Data */}
       {/* TODO: Remove this part when integrated with real favourites */}
       {!favouriteExercises &&
         tempFavs.map((goal) => (
@@ -60,6 +64,7 @@ const FavouriteView = () => {
           </Item>
         ))}
 
+      {/* Real Data */}
       {/* This part displays a user favourites, I suck at desinging so though to leave it to you Sophia */}
       {favouriteExercises &&
         favouriteExercises.map((fav) => (
@@ -75,6 +80,9 @@ const FavouriteView = () => {
             </Typography>
           </Item>
         ))}
+
+      {/* When User has no favourties tell them */}
+      {favouriteExercises.length === 0 && <>NO FAVOURITES</>}
     </div>
   );
 };
