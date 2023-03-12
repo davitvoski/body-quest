@@ -10,10 +10,29 @@ The users will be able to post images of themselves when a goal was completed fo
 
 In the future, there will also be a feed where users are able to post whatever images they want which is available to all users.
 
-
 ## Set Up The Importer Tool
 Follow the ReadMe in Importer-tool folder for more infomration. <br>
+This tools allows to seed the database with the required exercises.
 ###  [ReadMe](./Importer-tool/ReadMe.md)
+
+
+### Features
+- Google Authentication
+- Multi-Language Support
+- Dark/Light mode
+- Search through the list of exercises to track
+- Filter throught the list of exercises to track
+- Create a goal to track a certain exercises
+- View your profile
+    - goals
+    - favourites
+    - infomration
+- Able To add and remove an exercise to your favourites
+
+### Known Bugs
+- [ ] Guest user is able to interact with creating a goal
+- [ ] Server tests do not work due to unability of faking req.session.user
+
 
 ## Authors
 - Davit Voskerchyan

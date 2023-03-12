@@ -8,7 +8,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest ./__tests__",
     "start": "node build/bin/www.js",
     "dev": "nodemon --exec ts-node-dev --transpile-only bin/www.ts",
     "build": "tsc"
