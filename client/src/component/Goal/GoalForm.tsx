@@ -17,7 +17,12 @@ import { useLocation } from "react-router";
 import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
 import { useState } from "react";
-import { useTranslation} from "react-i18next";
+import axios from "axios";
+import { IGoal } from "../../../../shared";
+import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useNavigate } from "react-router";
 
 /**
  *
@@ -26,23 +31,27 @@ import { useTranslation} from "react-i18next";
  * This component is used to create a new goal for a specific exercise
  */
 export const GoalForm = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   let { state } = useLocation();
   const [goalType, setGoalType] = useState("");
   const [goalValue, setGoalValue] = useState(0);
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);
+  const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
+  const [endDate, setEndDate] = useState("");
+  const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
+
+  dayjs.extend(customParseFormat);
+  let navigate = useNavigate();
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.valueAsNumber;
-    console.log(value.toString());
     setGoalValue(value);
     if (value) {
       setIsGoalValueValid(true);
-      console.log("valid");
     } else {
       setIsGoalValueValid(false);
     }
@@ -52,6 +61,7 @@ export const GoalForm = () => {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
         setIsStartDateValid(true);
+        setStartDate(`${newValue.$D}-${newValue.$M}-${newValue.$y}`);
       } else {
         setIsStartDateValid(false);
       }
@@ -60,10 +70,27 @@ export const GoalForm = () => {
     }
   }
 
+  // formats the date string into usable format to compare
+  function formatDate(date: string) {
+    return dayjs(date, ["D-M-YYYY", "DD-MM-YYYY"]).format("DD-MM-YYYY");
+  }
+
+  // handles end date validation
   function handleEndDateInput(newValue: any) {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
-        setIsEndDateValid(true);
+        let currentEndDate = formatDate(
+          `${newValue.$D}-${newValue.$M + 1}-${newValue.$y}`
+        );
+
+        if (currentEndDate > startDate) {
+          setIsEndDateValid(true);
+          setEndDateAfterStartDate(true);
+          setEndDate(currentEndDate);
+        } else {
+          setIsEndDateValid(false);
+          setEndDateAfterStartDate(false);
+        }
       } else {
         setIsEndDateValid(false);
       }
@@ -72,9 +99,28 @@ export const GoalForm = () => {
     }
   }
 
-  const handleSubmit = () => {
-    console.log("submit");
-    //TODO post request to server
+  const createGoal = async (newGoal: IGoal) => {
+    try {
+      await axios.post("/api/goals", newGoal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    // TODO: find better way to track ID
+    const newGoal: IGoal = {
+      id: Date.now(),
+      exercise: state.exerciseName,
+      type: goalType,
+      goal: goalValue,
+      startDate: startDate,
+      endDate: endDate,
+      completed: false,
+    };
+
+    await createGoal(newGoal);
+    navigate("/");
   };
 
   return (
@@ -82,7 +128,7 @@ export const GoalForm = () => {
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
-            {t('goal_creation')}: {state.exerciseName}
+            {t("goal_creation")}: {state.exerciseName}
           </Typography>
         </div>
         <form className="goal-form">
@@ -94,7 +140,9 @@ export const GoalForm = () => {
               spacing={8}
             >
               <FormControl sx={{ m: 1, minWidth: 80 }}>
-                <InputLabel htmlFor="goal-type-label">{t('goal_input_type')}</InputLabel>
+                <InputLabel htmlFor="goal-type-label">
+                  {t("goal_input_type")}
+                </InputLabel>
                 <Select
                   autoWidth
                   labelId="goal-type-label"
@@ -105,9 +153,9 @@ export const GoalForm = () => {
                     setGoalType(event.target.value as string);
                   }}
                 >
-                  <MenuItem value={"reps"}>{t('reps')}</MenuItem>
-                  <MenuItem value={"weight"}>{t('weight')}</MenuItem>
-                  <MenuItem value={"time"}>{t('time')}</MenuItem>
+                  <MenuItem value={"reps"}>{t("reps")}</MenuItem>
+                  <MenuItem value={"weight"}>{t("weight")}</MenuItem>
+                  <MenuItem value={"time"}>{t("time")}</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
@@ -117,7 +165,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label={t('amount')}
+                        label={t("amount")}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -167,14 +215,16 @@ export const GoalForm = () => {
                   label={t("start_date")}
                   isToday={true}
                   onChange={handleStartDateInput}
+                  endAfterStart={true}
                 />
               </FormControl>
 
               <FormControl>
                 <ResponsiveDataPicker
-                  label={t('end_date')}
+                  label={t("end_date")}
                   isToday={false}
                   onChange={handleEndDateInput}
+                  endAfterStart={endDateAfterStartDate}
                 />
               </FormControl>
             </Stack>
@@ -185,11 +235,11 @@ export const GoalForm = () => {
               sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
               onClick={handleSubmit}
             >
-              {t('create_goal_btn')}
+              {t("create_goal_btn")}
             </Button>
           ) : (
             <Button disabled sx={{ margin: "10px" }}>
-              {t('create_goal_btn')}
+              {t("create_goal_btn")}
             </Button>
           )}
         </form>

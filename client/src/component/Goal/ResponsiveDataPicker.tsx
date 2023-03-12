@@ -9,14 +9,15 @@ type DatePickerProps = {
   label: string;
   isToday: boolean;
   onChange: (newValue: Dayjs | null) => void;
+  endAfterStart?: boolean;
 };
 
 /**
  * @author Santiago Luna
  * @param props
- * 
- * This component is used to create a responsive date picker 
- * 
+ *
+ * This component is used to create a responsive date picker
+ *
  */
 export default function ResponsiveDatePicker(props: DatePickerProps) {
   const [value, setValue] = React.useState<Dayjs | null>(
@@ -25,17 +26,37 @@ export default function ResponsiveDatePicker(props: DatePickerProps) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label={props.label}
-        openTo="day"
-        views={["year", "month", "day"]}
-        value={value}
-        onChange={(newValue) => {
-          props.onChange(newValue);
-          setValue(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
+      {props.endAfterStart ? (
+        <DatePicker
+          label={props.label}
+          openTo="day"
+          views={["year", "month", "day"]}
+          value={value}
+          onChange={(newValue) => {
+            props.onChange(newValue);
+            setValue(newValue);
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      ) : (
+        <DatePicker
+          label={props.label}
+          openTo="day"
+          views={["year", "month", "day"]}
+          value={value}
+          onChange={(newValue) => {
+            props.onChange(newValue);
+            setValue(newValue);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              helperText="END DATE MUST BE AFTER START DATE"
+              sx={{ color: "red" }}
+            />
+          )}
+        />
+      )}
     </LocalizationProvider>
   );
 }
