@@ -25,7 +25,7 @@ export async function getAllExercises(req: Request, res: Response) {
  */
 export async function favouriteExercisePOST(req: Request, res: Response) {
     try {
-        const email = req.session.user?.email as string
+        const email = req.session.user!.email as string
         const exerciseName = (req.body.exerciseName as string).toLocaleLowerCase()
 
         await new Database().favouriteExercise(email, exerciseName)
@@ -46,7 +46,7 @@ export async function favouriteExercisePOST(req: Request, res: Response) {
  */
 export async function favouriteExerciseDELETE(req: Request, res: Response) {
     try {
-        const email = req.session.user?.email as string
+        const email = req.session.user!.email as string
         const exerciseName = (req.params.name as string).toLocaleLowerCase()
 
         await new Database().unfavouriteExercise(email, exerciseName)
@@ -66,7 +66,7 @@ export async function favouriteExerciseDELETE(req: Request, res: Response) {
  */
 export async function getFavourtieExerciseByName(req: Request, res: Response) {
     try {
-        const email = req.session.user?.email as string
+        const email = req.session.user!.email as string
         const exerciseName = (req.params.name as string).toLocaleLowerCase()
         const resp = await new Database().isExerciseFavourited(email, exerciseName)
 
@@ -87,7 +87,7 @@ export async function getFavourtieExerciseByName(req: Request, res: Response) {
  */
 export async function getAllFavouriteExercises(req: Request, res: Response) {
     try {
-        const email = req.session.user?.email as string
+        const email = req.session.user!.email as string
 
         const exercises = await new Database().getFavouriteExercises(email)
 
