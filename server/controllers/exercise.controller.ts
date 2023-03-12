@@ -25,9 +25,10 @@ export async function getAllExercises(req: Request, res: Response) {
  */
 export async function favouriteExercisePOST(req: Request, res: Response) {
     try {
-        // const email = req.session.user?.email as string
-        const email = "dragonicefire21@gmail.com"
+        const email = req.session.user?.email as string
         const exerciseName = (req.body.exerciseName as string).toLocaleLowerCase()
+        
+        console.log(email, exerciseName);
         
         await new Database().favouriteExercise(email, exerciseName)
         res.status(201).send("Exercise favourited successfully")
@@ -38,6 +39,29 @@ export async function favouriteExercisePOST(req: Request, res: Response) {
         res.status(500).send("Something went wrong")
     }
 }
+
+/**
+ *  This function controls the /api/exercises/favourites/:name DELETE endpoint.
+ *  It removes the exercise from the users favourites.
+ * @param req Express Request
+ * @param res Express Response
+ */
+export async function favouriteExerciseDELETE(req: Request, res: Response) {
+    try{
+        const email = req.session.user?.email as string
+        const exerciseName = (req.params.name as string).toLocaleLowerCase()
+        console.log(req.params);
+        await new Database().unfavouriteExercise(email, exerciseName)
+        res.status(201).send("Exercise unfavourited successfully")
+    }catch (err) {
+        if (err instanceof Error) {
+            return res.status(400).send(err.message)
+        }
+        res.status(500).send("Something went wrong")
+    }
+}
+
+
 
 // /**
 //  * This function gets the favourited exercises of the users
