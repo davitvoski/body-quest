@@ -82,8 +82,6 @@ export const Popup = (props: PopupProps) => {
     }
 
     checkFavourite().catch((err) => {
-      console.log(err);
-
       setErrorHandling({
         isError: true,
         message: "Unable To Check If In Favourites.",
