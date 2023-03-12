@@ -3,27 +3,6 @@ import { useEffect, useState } from "react";
 import { IExercise } from "../../../../shared";
 import Item from "../modules/Item";
 
-const tempFavs = [
-  {
-    name: "ankle circles",
-  },
-  {
-    name: "band bench press",
-  },
-  {
-    name: "dumbbell deadlift",
-  },
-  {
-    name: "ankle circles",
-  },
-  {
-    name: "band bench press",
-  },
-  {
-    name: "dumbbell deadlift",
-  },
-];
-
 /**
  * This component displays a users favourite exercises in a pannel
  */
@@ -53,17 +32,6 @@ const FavouriteView = () => {
 
   return (
     <div>
-      {/* Fake Data */}
-      {/* TODO: Remove this part when integrated with real favourites */}
-      {!favouriteExercises &&
-        tempFavs.map((goal) => (
-          <Item sx={{ m: "1% 0 1% 0", p: 2 }}>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {goal.name}
-            </Typography>
-          </Item>
-        ))}
-
       {/* Real Data */}
       {/* This part displays a user favourites, I suck at desinging so though to leave it to you Sophia */}
       {favouriteExercises &&
