@@ -75,7 +75,7 @@ deploy:
         - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
     script:
         # - zip -r deploy.zip client/build ./server ./package.json ./server/node_modules ./client/node_modules
-        - zip -r deploy.zip ./package.json ./client/node_modules ./client/build ./client/package.json ./server/build ./server/node_modules ./server/package.json 
+        - zip -r deploy.zip ./package.json ./client/node_modules ./client/build ./client/package.json ./server/build ./server/node_modules ./server/package.json 1> /dev/null
         - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1' ATLAS_URI=$ATLAS_URI DATABASE_NAME=$DATABASE_NAME NEED_GOOGLE=$NEED_GOOGLE SECRET=$SECRET VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID"
         - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
     artifacts:
