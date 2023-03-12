@@ -124,6 +124,10 @@ export default class Database {
     }
   }
 
+  /**
+   * This function gets all the posts from the db to show to any user
+   * @returns {IPost[]}
+   */
   async getAllPosts(){
     try {
       const collection = db.collection(this.postsCollection)

@@ -73,7 +73,6 @@ export default function NavBar() {
         
         //either hide or show add post button
         window.location.pathname === "/Feed" ? setIsFeed(true) : setIsFeed(false)
-        console.log(isFeed);
     });
 
     const handleClickOpen = () => {
