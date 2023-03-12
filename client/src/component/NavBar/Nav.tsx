@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, IconButton, Slide } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, Slide, Theme } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { TransitionProps } from '@mui/material/transitions';
 import { LanguageNav } from './LanguageNav';
@@ -14,6 +14,7 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import "../../styles/NavBar.css"
+import { ThemeNav } from './ThemeNav';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -28,7 +29,7 @@ const Transition = React.forwardRef(function Transition(
  * Nav bar
  * @returns NavBar
  */
-export default function NavBar() {
+export default function NavBar(props: {Theme: Theme, changeTheme: (current: string) => void}) {
     const [username, setUsername] = useState("");
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
@@ -79,16 +80,16 @@ export default function NavBar() {
 
     return (
         <Box id="navBar">
-            <AppBar className='appbar' position="relative">
+            <AppBar className='appbar' position="relative" color="secondary">
                 <Toolbar className='toolbar'>
-                    <Typography>
-                        <Link
-                            style={{ textDecoration: "none", color: "white" }}
-                            to={'/'}>
-                            {t('home')}
-                        </Link>
-                    </Typography>
-                    
+                    <Link
+                        to={'/'}>
+                        {props.Theme.palette.mode === 'dark' ? 
+                            <img className="logo" src='src/Data/logo-dark.svg' alt='BodyQuest Logo' title='Home'/> :
+                            <img className="logo" src='src/Data/logo-light.svg' alt='BodyQuest Logo' title='Home'/>}
+                        
+                    </Link>
+
                     <Box 
                         display="flex"
                         width="10%"
@@ -97,6 +98,7 @@ export default function NavBar() {
                         justifyContent="space-around"
                     >
                         <LanguageNav/>
+                        <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme}/>
                         
                         <>
                             {username == "" ? 
@@ -111,7 +113,7 @@ export default function NavBar() {
                                 onClick={handleClickOpen}
                                 title={t('login') as string | undefined}
                             >
-                                <LoginIcon sx={{color: "blue"}} />
+                                <LoginIcon color="inherit" />
                             </IconButton>
                             :
                             <>
@@ -127,7 +129,7 @@ export default function NavBar() {
                                     title={t('logout') as string | undefined}
                                     href='/'
                                 >
-                                    <LogoutIcon sx={{color: "red"}} />
+                                    <LogoutIcon color="inherit" />
                                 </IconButton>
 
                                 <IconButton 
