@@ -110,8 +110,6 @@ export const GoalForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("submit");
-    //TODO post request to server
     const newGoal: IGoal = {
       id: 1,
       exercise: state.exerciseName,
