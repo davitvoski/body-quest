@@ -21,6 +21,7 @@ import axios from "axios";
 import { IGoal } from "../../../../shared";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 /**
  *
@@ -38,6 +39,9 @@ export const GoalForm = () => {
   const [isEndDateValid, setIsEndDateValid] = useState(false);
   const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
   const [endDate, setEndDate] = useState("");
+  const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
+
+  dayjs.extend(customParseFormat);
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -66,11 +70,27 @@ export const GoalForm = () => {
     }
   }
 
+  // formats the date string into usable format to compare
+  function formatDate(date: string) {
+    return dayjs(date, ["D-M-YYYY", "DD-MM-YYYY"]).format("DD-MM-YYYY");
+  }
+
+  // handles end date validation
   function handleEndDateInput(newValue: any) {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
-        setIsEndDateValid(true);
-        setEndDate(`${newValue.$D}-${newValue.$M}-${newValue.$y}`);
+        let currentEndDate = formatDate(
+          `${newValue.$D}-${newValue.$M + 1}-${newValue.$y}`
+        );
+
+        if (currentEndDate > startDate) {
+          setIsEndDateValid(true);
+          setEndDateAfterStartDate(true);
+          setEndDate(currentEndDate);
+        } else {
+          setIsEndDateValid(false);
+          setEndDateAfterStartDate(false);
+        }
       } else {
         setIsEndDateValid(false);
       }
@@ -197,6 +217,7 @@ export const GoalForm = () => {
                   label={t("start_date")}
                   isToday={true}
                   onChange={handleStartDateInput}
+                  endAfterStart={true}
                 />
               </FormControl>
 
@@ -205,6 +226,7 @@ export const GoalForm = () => {
                   label={t("end_date")}
                   isToday={false}
                   onChange={handleEndDateInput}
+                  endAfterStart={endDateAfterStartDate}
                 />
               </FormControl>
             </Stack>

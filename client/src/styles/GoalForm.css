@@ -40,3 +40,8 @@ input[type="number"] {
 .form-container button:hover {
   background-color: #feb6ba;
 }
+
+.MuiFormHelperText-root {
+  color: red !important;
+  /* TODO change this later remove important not good practice */
+}
