@@ -19,7 +19,8 @@ import "../../styles/GoalForm.css";
 import { useState } from "react";
 import axios from "axios";
 import { IGoal } from "../../../../shared";
-import { useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
 
 /**
  *
@@ -28,14 +29,14 @@ import { useTranslation} from "react-i18next";
  * This component is used to create a new goal for a specific exercise
  */
 export const GoalForm = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   let { state } = useLocation();
   const [goalType, setGoalType] = useState("");
   const [goalValue, setGoalValue] = useState(0);
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
   const [endDate, setEndDate] = useState("");
 
   const handleGoalValueChange = (
@@ -78,29 +79,30 @@ export const GoalForm = () => {
     }
   }
 
-  const createGoal = async (newGoal: IGoal) => { 
+  const createGoal = async (newGoal: IGoal) => {
     try {
-      const response = await axios.post("/api/goal", newGoal);
+      const response = await axios.post("/api/goals", newGoal);
       console.log(response.data);
     } catch (error) {
       console.log(error);
+      console.log("failed to post api");
     }
-  }
+  };
 
   const handleSubmit = async () => {
     console.log("submit");
     //TODO post request to server
     const newGoal: IGoal = {
+      id: 1,
       exercise: state.exerciseName,
       type: goalType,
       goal: goalValue,
       startDate: startDate,
       endDate: endDate,
       completed: false,
-    }
-    
+    };
+
     await createGoal(newGoal);
-    
   };
 
   return (
@@ -108,7 +110,7 @@ export const GoalForm = () => {
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
-            {t('goal_creation')}: {state.exerciseName}
+            {t("goal_creation")}: {state.exerciseName}
           </Typography>
         </div>
         <form className="goal-form">
@@ -120,7 +122,9 @@ export const GoalForm = () => {
               spacing={8}
             >
               <FormControl sx={{ m: 1, minWidth: 80 }}>
-                <InputLabel htmlFor="goal-type-label">{t('goal_input_type')}</InputLabel>
+                <InputLabel htmlFor="goal-type-label">
+                  {t("goal_input_type")}
+                </InputLabel>
                 <Select
                   autoWidth
                   labelId="goal-type-label"
@@ -131,9 +135,9 @@ export const GoalForm = () => {
                     setGoalType(event.target.value as string);
                   }}
                 >
-                  <MenuItem value={"reps"}>{t('reps')}</MenuItem>
-                  <MenuItem value={"weight"}>{t('weight')}</MenuItem>
-                  <MenuItem value={"time"}>{t('time')}</MenuItem>
+                  <MenuItem value={"reps"}>{t("reps")}</MenuItem>
+                  <MenuItem value={"weight"}>{t("weight")}</MenuItem>
+                  <MenuItem value={"time"}>{t("time")}</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
@@ -143,7 +147,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label={t('amount')}
+                        label={t("amount")}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -198,7 +202,7 @@ export const GoalForm = () => {
 
               <FormControl>
                 <ResponsiveDataPicker
-                  label={t('end_date')}
+                  label={t("end_date")}
                   isToday={false}
                   onChange={handleEndDateInput}
                 />
@@ -211,11 +215,11 @@ export const GoalForm = () => {
               sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
               onClick={handleSubmit}
             >
-              {t('create_goal_btn')}
+              {t("create_goal_btn")}
             </Button>
           ) : (
             <Button disabled sx={{ margin: "10px" }}>
-              {t('create_goal_btn')}
+              {t("create_goal_btn")}
             </Button>
           )}
         </form>
