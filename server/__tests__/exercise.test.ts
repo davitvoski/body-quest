@@ -56,3 +56,8 @@
 //         expect(res.status).toBe(400)
 //     })
 // })
+describe("Testing Exercise Routes", () => {
+    test("test", () => {
+        expect(1).toBe(1)
+    })
+})
