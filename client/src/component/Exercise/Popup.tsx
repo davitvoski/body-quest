@@ -77,6 +77,7 @@ export const Popup = (props: PopupProps) => {
           <Typography
             variant="h1"
             component="h2"
+            color="primary.contrastText"
             sx={{
               textTransform: "uppercase",
               fontWeight: "900",
@@ -129,7 +130,7 @@ export const Popup = (props: PopupProps) => {
                   horizontal: "center",
                 })}
               >
-                <StarIcon htmlColor="#EFE2A2" />
+                <StarIcon color="primary" />
               </IconButton>
             ) : (
               <IconButton
