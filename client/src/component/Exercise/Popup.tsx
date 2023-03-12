@@ -31,6 +31,16 @@ interface State extends SnackbarOrigin {
 }
 
 /**
+ * This function ensures that the exercise name is HTTP safe
+ * Meaning that when passed through the URL, it is not interpreted as a path
+ * @param name The string to check if it is HTTP safe
+ * @returns
+ */
+function ensureNameIsHTTPParameterSafe(name: string) {
+  return name.replace("/", "%2F");
+}
+
+/**
  * @file Popup.tsx
  *
  * Popup component for displaying exercise information
@@ -47,7 +57,6 @@ export const Popup = (props: PopupProps) => {
     message: "",
   });
 
-
   //Snack bar logic when adding to favourites
   const [snackState, setSnackState] = React.useState<State>({
     openSnack: false,
@@ -63,9 +72,7 @@ export const Popup = (props: PopupProps) => {
   // Check if exercise is already a favourite
   useEffect(() => {
     async function checkFavourite() {
-      console.log(exercise);
-      const name = encodeURI(exercise.name);
-      console.log(name);
+      const name = ensureNameIsHTTPParameterSafe(exercise.name);
 
       const resp = await fetch(`/api/exercises/favourites/${name}`);
       // If not logged in, return
@@ -73,6 +80,7 @@ export const Popup = (props: PopupProps) => {
       const data = (await resp.json()) as { isFavourite: boolean };
       if (data.isFavourite) setIsFavourite(true);
     }
+
     checkFavourite().catch((err) => {
       console.log(err);
 
@@ -99,10 +107,8 @@ export const Popup = (props: PopupProps) => {
         }),
       });
     } else {
-      const uri = encodeURIComponent(
-        `/api/exercises/favourites/${exercise.name}`
-      );
-      resp = await fetch(uri, {
+      const name = ensureNameIsHTTPParameterSafe(exercise.name);
+      resp = await fetch(`/api/exercises/favourites/${name}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

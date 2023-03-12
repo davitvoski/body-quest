@@ -28,8 +28,6 @@ export async function favouriteExercisePOST(req: Request, res: Response) {
         const email = req.session.user?.email as string
         const exerciseName = (req.body.exerciseName as string).toLocaleLowerCase()
         
-        console.log(email, exerciseName);
-        
         await new Database().favouriteExercise(email, exerciseName)
         res.status(200).send("Exercise favourited successfully")
     } catch (err) {
@@ -50,7 +48,7 @@ export async function favouriteExerciseDELETE(req: Request, res: Response) {
     try{
         const email = req.session.user?.email as string
         const exerciseName = (req.params.name as string).toLocaleLowerCase()
-        console.log(req.params);
+
         await new Database().unfavouriteExercise(email, exerciseName)
         res.status(204).send("Exercise unfavourited successfully")
     }catch (err) {
