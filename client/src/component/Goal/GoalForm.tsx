@@ -22,6 +22,7 @@ import { IGoal } from "../../../../shared";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useNavigate } from "react-router";
 
 /**
  *
@@ -42,16 +43,15 @@ export const GoalForm = () => {
   const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
 
   dayjs.extend(customParseFormat);
+  let navigate = useNavigate();
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.valueAsNumber;
-    console.log(value.toString());
     setGoalValue(value);
     if (value) {
       setIsGoalValueValid(true);
-      console.log("valid");
     } else {
       setIsGoalValueValid(false);
     }
@@ -101,17 +101,16 @@ export const GoalForm = () => {
 
   const createGoal = async (newGoal: IGoal) => {
     try {
-      const response = await axios.post("/api/goals", newGoal);
-      console.log(response.data);
+      await axios.post("/api/goals", newGoal);
     } catch (error) {
       console.log(error);
-      console.log("failed to post api");
     }
   };
 
   const handleSubmit = async () => {
+    // TODO: find better way to track ID
     const newGoal: IGoal = {
-      id: 1,
+      id: Date.now(),
       exercise: state.exerciseName,
       type: goalType,
       goal: goalValue,
@@ -121,6 +120,7 @@ export const GoalForm = () => {
     };
 
     await createGoal(newGoal);
+    navigate("/");
   };
 
   return (
