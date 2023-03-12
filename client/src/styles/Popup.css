@@ -29,3 +29,34 @@
   align-items: center;
   margin: 20px;
 }
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.dialog-header button:hover {
+  background-color: #feb6ba;
+}
+
+.link-button {
+  background-color: #000000;
+  font-weight: "bold";
+  border-radius: 10px;
+  margin-left: 5vw;
+  background-color: #000000;
+  padding: 10px;
+  color: white;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.link-button:hover {
+  background-color: #feb6ba;
+  color: white;
+}
+
+.link-button::after {
+  color: white;
+}
+

@@ -4,23 +4,47 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --highlight: #FEB6BA;
+  --primary: #DD3F40;
+  --secondary: #6D0305;
+}
+
+.light :root {
+  color: #212121;
+  --background-default: #FFFBFF;
+  --background-paper: #EEE8E8;
+  --text-primary: #212121;
+  --text-secondary: #424242;
+}
+.light {
+  background-color: #FFFBFF;
+}
+
+.dark :root {
+  color: #fff;
+  background-color: #1D181E;
+  --background-default: #1D181E;
+  --background-paper: #251F29;
+  --text-primary: #fff;
+  --text-secondary: #9e9e9e;
+}
+.dark .profile {
+  background-color: #251F29;
+}
+.dark {
+  background-color: #1D181E;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
@@ -47,42 +71,9 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #FFFBFF;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #213547;
-    background-color: #1D181E;
-    color: #FFFBFF;
-  }
-  .profile {
-    background-color: #251F29;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
 
 .toolbar {
@@ -91,21 +82,42 @@ button:focus-visible {
   justify-content:space-between;
 }
 
-.profile {
-  padding-top: 60px;
-  height: 100vh;
+.content {
   width: 80%;
   margin: auto;
 }
 
+.dark .logo {
+  height: 4em;
+  margin: 0.5em;
+  margin-top: 1em;
+  background-color: #1D181E;
+  padding: 0;
+}
+
+.light .logo {
+  height: 4em;
+  margin: 0.5em;
+  margin-top: 1em;
+  background-color: #FFFBFF;
+  padding: 0;
+}
+
+a :hover {
+  box-shadow: none;
+  text-shadow: none;
+}
+
 @media (min-width: 600px) {
-  .profile {
-    padding-top: 70px;
+  .content {
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 }
 
 @media (max-width: 599px) {
-  .profile {
-    padding-top: 54px;
+  .content {
+    padding-top: 34px;
+    padding-bottom: 34px;
   }
 }

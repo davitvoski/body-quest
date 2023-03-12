@@ -1,11 +1,12 @@
 import express from "express";
 import exerciseRouter from "./exercise.routes";
+import goalRouter from "./goal.router";
+import authRouter from "./auth.routes";
 const allRouters = express.Router()
 
-allRouters.get("/", (_: express.Request, res: express.Response) => {
-    res.json({ message: "Hello World" })
-})
+allRouters.use("/authentication", authRouter)
+allRouters.use("/exercises", exerciseRouter)
 
-allRouters.use(exerciseRouter)
+allRouters.use("/goals", goalRouter)
 
-export default allRouters
+export { allRouters as allRoutes }

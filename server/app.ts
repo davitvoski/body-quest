@@ -3,9 +3,13 @@ import express from 'express'
 import compression from 'compression'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJSDoc from 'swagger-jsdoc'
-import allRoutes from './routes/allroutes.route'
+import { allRoutes } from './routes/allroutes.route'
+import session from 'express-session'
 import Database from './database/db'
 dotenv.config()
+
+new Database();
+
 
 const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
     openapi: "3.0.0",
@@ -33,22 +37,34 @@ const options: swaggerJSDoc.Options = {
 
 const swaggerSpec = swaggerJSDoc(options)
 
-// Create database connection
-const db = new Database()
-// Configure Express
 const app = express()
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-app.use(compression())
 app.use(express.json())
+app.use(compression())
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("../client/build"))
 
+if (process.env.NEED_GOOGLE as string === "true") {
+    app.use(session({
+        secret: process.env.SECRET as string, //used to sign the session id
+        name: 'id', //name of the session id cookie
+        saveUninitialized: false, //don't create session until something stored
+        resave: false,
+        cookie: {
+            maxAge: 3600000, //time in ms
+            //should only sent over https, but set to false for testing and dev on localhost
+            secure: false,
+            httpOnly: true, //can't be accessed via JS
+            sameSite: 'strict' //only sent for requests to same origin
+        }
+    }));
+}
+
 // Authentication route
 app.use("/api", allRoutes)
-
 
 // Default 404
 app.use((_: express.Request, res: express.Response) => {

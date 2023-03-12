@@ -1,22 +1,46 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import HelloWorld from "./component/HelloWorld";
-import { Home } from "./component/Home/Home";
+import { createTheme, PaletteMode, ThemeProvider, useMediaQuery } from "@mui/material";
+import getDesignTokens from "./Theme";
 import { Routes, Route } from "react-router";
-import { Login } from "./component/Home/Login";
 import NavBar from "./component/NavBar/Nav";
-import { Profile } from "./component/Profile/Profile";
+import Profile from "./component/Profile/Profile";
+import { GoalForm } from "./component/Goal/GoalForm";
+import Home from "./component/Home/Home";
+import { useState } from "react";
 
 function App() {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const themes = {
+    dark: createTheme(getDesignTokens('dark')),
+    light: createTheme(getDesignTokens('light'))
+  }
+  const mode = prefersDarkMode ? themes.dark : themes.light
+  const [Theme, setTheme] = useState(mode);
+
+  const changeTheme = (current: string) => {
+    const newTheme = current === 'dark' ? themes.light : themes.dark;
+    setTheme(newTheme)
+
+    if (newTheme.palette.mode === 'dark') {
+      document.body.classList.add('dark');
+      document.body.classList.remove('light')
+    } else {
+      document.body.classList.remove('dark')
+      document.body.classList.add('light');
+    }
+  }
+
   return (
-    <div className="App">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route  path='Login' element={<Login/>}/> */}
-        <Route path="Profile" element={<Profile />} />
-      </Routes>
-    </div>
+    <ThemeProvider theme={Theme}>
+      <div className={Theme.palette.mode+" App"}>
+        <NavBar Theme={Theme} changeTheme={changeTheme}/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="Profile" element={<Profile />} />
+          <Route path="Goalcreation" element={<GoalForm />} />  
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 }
 

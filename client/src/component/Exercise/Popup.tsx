@@ -16,10 +16,15 @@ import {
   IconButton,
   Snackbar,
   SnackbarOrigin,
+  Button,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
+import { Link } from "react-router-dom";
+import { useTranslation} from "react-i18next";
 
 type PopupProps = {
   handleClose: () => void;
@@ -32,6 +37,7 @@ export interface State extends SnackbarOrigin {
 }
 
 export const Popup = (props: PopupProps) => {
+  const {t} = useTranslation();
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
   //Snack bar logic when adding to favourites
@@ -40,6 +46,8 @@ export const Popup = (props: PopupProps) => {
     vertical: "top",
     horizontal: "center",
   });
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const { vertical, horizontal, openSnack } = snackState;
 
@@ -54,6 +62,7 @@ export const Popup = (props: PopupProps) => {
   };
   // End of snack bar logic
 
+
   return (
     <>
       <Dialog
@@ -62,11 +71,13 @@ export const Popup = (props: PopupProps) => {
         TransitionComponent={Grow}
         keepMounted
         className="dialog-container"
+        fullScreen={fullScreen}
       >
         <DialogTitle>
           <Typography
             variant="h1"
             component="h2"
+            color="primary.contrastText"
             sx={{
               textTransform: "uppercase",
               fontWeight: "900",
@@ -80,16 +91,30 @@ export const Popup = (props: PopupProps) => {
           sx={{ overflow: "auto" }}
           className="scrollbar-container"
         >
-          <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-            <b>Equipment:</b> {exercise.equipment}
-          </Typography>
+          <div className="dialog-header">
+            <div className="dialog-text-container">
+              <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
+                <b>{t('equipement')}:</b> {exercise.equipment}
+              </Typography>
 
-          <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-            <b>Body Part:</b> {exercise.body_part}
-          </Typography>
-          <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-            <b>Target:</b> {exercise.target}
-          </Typography>
+              <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
+                <b>{t('body_part')}:</b> {exercise.body_part}
+              </Typography>
+              <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
+                <b>{t('target')}:</b> {exercise.target}
+              </Typography>
+            </div>
+            <Link
+              className="link-button"
+              to={{
+                pathname: "/Goalcreation",
+              }}
+              state={{ exerciseName: exercise.name }}
+            // onClick={handleForm}
+            >
+              {t('create_goal')}
+            </Link>
+          </div>
           <div className="img-container">
             <img src={exercise.gifUrl} />
           </div>
@@ -105,7 +130,7 @@ export const Popup = (props: PopupProps) => {
                   horizontal: "center",
                 })}
               >
-                <StarIcon htmlColor="#EFE2A2" />
+                <StarIcon color="primary" />
               </IconButton>
             ) : (
               <IconButton

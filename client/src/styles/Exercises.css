@@ -1,0 +1,29 @@
+/* Exercises css */
+.exerciseList {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+}
+
+.exerciseArea {
+    margin: 1%;
+    margin-bottom: 5%;
+    flex: 0 0 20%;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+.exerciseArea .MuiPaper-root {
+    box-shadow: 0px 7px 17px -1px rgba(0, 0, 0, 0.72);
+
+}
+
+.exerciseArea:hover {
+    transform: scale(1.2);
+}
+
+.exerciseContent {
+    text-transform: capitalize;
+    font-size: 20px;
+}

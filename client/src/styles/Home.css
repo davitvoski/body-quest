@@ -1,0 +1,94 @@
+/* Home css */
+html,
+body,
+#root,
+.App {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: auto;
+}
+
+.homePage {
+    margin: 0;
+    padding: 0;
+    /* background-image: linear-gradient(to top, #09203f 0%, #537895 100%); */
+}
+
+.outer {
+    width: 100%;
+    height: 350px;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    overflow: hidden;
+}
+
+h1 {
+    width: 100%;
+    padding-left: 300px;
+    color: var(--text-primary);
+    margin-bottom: 0;
+    padding-top: 0;
+}
+
+.dark .slogan {
+    color: #fff;
+}
+.light .slogan {
+    color: #212121;
+}
+
+#pSlogan {
+    width: 100%;
+    color: var(--text-primary);
+    white-space: nowrap;
+    border: 1px var(--primary) solid;
+    padding-left: 300px;
+}
+
+#make_your {
+    color: var(--background-default);
+    padding-left: 200px;
+    -webkit-text-stroke: 1px var(--primary);
+    font-size: 40px;
+}
+
+#startBtn {
+    background-color: var(--primary);
+    margin-left: 400px;
+    border-radius: 1px 15px 1px 1px;
+    border-color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.inner {
+    width: 0;
+    height: 0;
+    border-right: 300px solid var(--primary);
+    border-bottom: 500px solid var(--primary);
+    border-left: 600px solid transparent;
+    overflow: visible;
+}
+
+.light #workout-otd {
+    color: var(--secondary);
+}
+.dark #workout-otd {
+    color: var(--primary);
+}
+
+#fitness {
+    margin: 0;
+    width: 500px;
+    margin-left: -250px;
+    margin-top: -30px;
+    filter: hue-rotate(150deg);
+}
+
+.recommandtions {
+    height: 10%;
+    background-color: var(--background-primary);
+}
