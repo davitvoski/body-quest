@@ -244,27 +244,34 @@ export default class Database {
 
   }
 
-  // async getFavouriteExercises(email: string) {
-  //   try {
-  //     const collectionUser = db.collection(this.usersCollection)
-  //     const collectionExercise = db.collection(this.exercisesCollection)
+  async getFavouriteExercises(email: string) {
+    try {
+      const collectionUser = db.collection(this.usersCollection)
+      const collectionExercise = db.collection(this.exercisesCollection)
 
-  //     await this.checkIfUserExists(email)
+      await this.checkIfUserExists(email)
 
-  //     const favouriteExercise = await collectionUser.find(
-  //       {
-  //         email: email
-  //       }, { projection: { favourites: 1 } }
-  //     ).toArray() as unknown as [string]
+      const favouriteExercise = await collectionUser.find(
+        {
+          email: email
+        }, { projection: { favourites: 1 } }
+      ).toArray() as unknown as [string]
 
-  //     const results = (await collectionExercise
-  //       .find({ name: [...favouriteExercise] }, { projection: { _id: 0 } })
-  //       .toArray()) as unknown as IExercise[];
+      console.log(...favouriteExercise);
 
-  //     return results
-  //   } catch (error) {
-  //     if (error instanceof Error) throw new Error(error.message)
-  //     throw new Error("Error get favourite exercises")
-  //   }
-  // }
+      const results = await collectionExercise
+        .find({}).toArray()
+
+      const d = results.filter((exercise) => {
+        if (favouriteExercise.includes(exercise.name)) return exercise
+      })
+
+      console.log(d);
+
+      return results
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error get favourite exercises")
+    }
+  }
 }
