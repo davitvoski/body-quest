@@ -12,6 +12,7 @@ export interface IUser {
     email: string,
     picture: string,
     goals: IGoal[],
+    favourites: [string],
 }
 
 export interface IGoal {

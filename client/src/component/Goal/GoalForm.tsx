@@ -17,6 +17,12 @@ import { useLocation } from "react-router";
 import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
 import { useState } from "react";
+import axios from "axios";
+import { IGoal } from "../../../../shared";
+import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useNavigate } from "react-router";
 
 /**
  *
@@ -25,22 +31,27 @@ import { useState } from "react";
  * This component is used to create a new goal for a specific exercise
  */
 export const GoalForm = () => {
+  const { t } = useTranslation();
   let { state } = useLocation();
   const [goalType, setGoalType] = useState("");
   const [goalValue, setGoalValue] = useState(0);
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);
+  const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
+  const [endDate, setEndDate] = useState("");
+  const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
+
+  dayjs.extend(customParseFormat);
+  let navigate = useNavigate();
 
   const handleGoalValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.valueAsNumber;
-    console.log(value.toString());
     setGoalValue(value);
     if (value) {
       setIsGoalValueValid(true);
-      console.log("valid");
     } else {
       setIsGoalValueValid(false);
     }
@@ -50,6 +61,7 @@ export const GoalForm = () => {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
         setIsStartDateValid(true);
+        setStartDate(`${newValue.$D}-${newValue.$M}-${newValue.$y}`);
       } else {
         setIsStartDateValid(false);
       }
@@ -58,10 +70,27 @@ export const GoalForm = () => {
     }
   }
 
+  // formats the date string into usable format to compare
+  function formatDate(date: string) {
+    return dayjs(date, ["D-M-YYYY", "DD-MM-YYYY"]).format("DD-MM-YYYY");
+  }
+
+  // handles end date validation
   function handleEndDateInput(newValue: any) {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
-        setIsEndDateValid(true);
+        let currentEndDate = formatDate(
+          `${newValue.$D}-${newValue.$M + 1}-${newValue.$y}`
+        );
+
+        if (currentEndDate > startDate) {
+          setIsEndDateValid(true);
+          setEndDateAfterStartDate(true);
+          setEndDate(currentEndDate);
+        } else {
+          setIsEndDateValid(false);
+          setEndDateAfterStartDate(false);
+        }
       } else {
         setIsEndDateValid(false);
       }
@@ -70,9 +99,28 @@ export const GoalForm = () => {
     }
   }
 
-  const handleSubmit = () => {
-    console.log("submit");
-    //TODO post request to server
+  const createGoal = async (newGoal: IGoal) => {
+    try {
+      await axios.post("/api/goals", newGoal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    // TODO: find better way to track ID
+    const newGoal: IGoal = {
+      id: Date.now(),
+      exercise: state.exerciseName,
+      type: goalType,
+      goal: goalValue,
+      startDate: startDate,
+      endDate: endDate,
+      completed: false,
+    };
+
+    await createGoal(newGoal);
+    navigate("/");
   };
 
   return (
@@ -80,7 +128,7 @@ export const GoalForm = () => {
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
-            Goal Creation: {state.exerciseName}
+            {t("goal_creation")}: {state.exerciseName}
           </Typography>
         </div>
         <form className="goal-form">
@@ -92,7 +140,9 @@ export const GoalForm = () => {
               spacing={8}
             >
               <FormControl sx={{ m: 1, minWidth: 80 }}>
-                <InputLabel htmlFor="goal-type-label">Type</InputLabel>
+                <InputLabel htmlFor="goal-type-label">
+                  {t("goal_input_type")}
+                </InputLabel>
                 <Select
                   autoWidth
                   labelId="goal-type-label"
@@ -103,9 +153,9 @@ export const GoalForm = () => {
                     setGoalType(event.target.value as string);
                   }}
                 >
-                  <MenuItem value={"reps"}>Reps</MenuItem>
-                  <MenuItem value={"weight"}>Weight</MenuItem>
-                  <MenuItem value={"time"}>Time</MenuItem>
+                  <MenuItem value={"reps"}>{t("reps")}</MenuItem>
+                  <MenuItem value={"weight"}>{t("weight")}</MenuItem>
+                  <MenuItem value={"time"}>{t("time")}</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
@@ -115,7 +165,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label="Amount"
+                        label={t("amount")}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -128,7 +178,7 @@ export const GoalForm = () => {
                       <TextField
                         error={!isGoalValueValid}
                         name="amount"
-                        label="Kg"
+                        label={t("kg")}
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
@@ -139,7 +189,7 @@ export const GoalForm = () => {
                     time: (
                       <TextField
                         error={!isGoalValueValid}
-                        label="Sec"
+                        label={t("sec")}
                         name="amount"
                         id="goal-amount-input"
                         variant="filled"
@@ -162,17 +212,19 @@ export const GoalForm = () => {
             >
               <FormControl>
                 <ResponsiveDataPicker
-                  label={"Start Date"}
+                  label={t("start_date")}
                   isToday={true}
                   onChange={handleStartDateInput}
+                  endAfterStart={true}
                 />
               </FormControl>
 
               <FormControl>
                 <ResponsiveDataPicker
-                  label={"End Date"}
+                  label={t("end_date")}
                   isToday={false}
                   onChange={handleEndDateInput}
+                  endAfterStart={endDateAfterStartDate}
                 />
               </FormControl>
             </Stack>
@@ -183,11 +235,11 @@ export const GoalForm = () => {
               sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
               onClick={handleSubmit}
             >
-              Create
+              {t("create_goal_btn")}
             </Button>
           ) : (
             <Button disabled sx={{ margin: "10px" }}>
-              Create
+              {t("create_goal_btn")}
             </Button>
           )}
         </form>

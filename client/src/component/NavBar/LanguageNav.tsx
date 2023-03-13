@@ -38,8 +38,9 @@ export const LanguageNav = () => {
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
+                title="Select Language"
             >
-                <LanguageIcon sx={{ color: "#F0F8FF", l: 0.5 }} />
+                <LanguageIcon sx={{ l: 0.5, color:"white" }} color="inherit" />
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
