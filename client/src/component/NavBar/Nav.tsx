@@ -114,6 +114,7 @@ export default function NavBar() {
                             startIcon={<AddIcon />}   
                             size="small"     
                             sx={{marginLeft: "3vw"}}
+                            href="/Postcreation"
                         >
                             Add Post
                         </Button>}

@@ -5,6 +5,7 @@ import Profile from "./component/Profile/Profile";
 import { GoalForm } from "./component/Goal/GoalForm";
 import Home from "./component/Home/Home";
 import { Feed } from "./component/Feed/Feed";
+import { PostForm } from "./component/Feed/PostForm/PostForm";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="Feed" element={<Feed />} />
+        <Route path="Postcreation" element={<PostForm />} />
         <Route path="Goalcreation" element={<GoalForm />} />  
       </Routes>
     </div>
