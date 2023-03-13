@@ -141,34 +141,37 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <IconButton
-                    style={{
-                      textDecoration: "none",
-                      color: "white",
-                      textTransform: "none",
-                      fontSize: "1rem",
-                      padding: "0",
-                    }}
-                    onClick={handleLogout}
-                    title={t("logout") as string | undefined}
-                    href="/"
-                  >
-                    <LogoutIcon color="inherit" />
-                  </IconButton>
+                  <Link to="/">
+                    <IconButton
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        textTransform: "none",
+                        fontSize: "1rem",
+                        padding: "0",
+                      }}
+                      onClick={handleLogout}
+                      title={t("logout") as string | undefined}
+                      href="/"
+                    >
+                      <LogoutIcon color="inherit" />
+                    </IconButton>
+                  </Link>
 
-                  <IconButton
-                    style={{
-                      textDecoration: "none",
-                      color: "white",
-                      textTransform: "none",
-                      fontSize: "1rem",
-                      padding: "0",
-                    }}
-                    href="/Profile"
-                    title={t("go_profile") as string | undefined}
-                  >
-                    <AccountCircleRoundedIcon />
-                  </IconButton>
+                  <Link to="/Profile">
+                    <IconButton
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        textTransform: "none",
+                        fontSize: "1rem",
+                        padding: "0",
+                      }}
+                      title={t("go_profile") as string | undefined}
+                    >
+                      <AccountCircleRoundedIcon />
+                    </IconButton>
+                  </Link>
                 </>
               )}
             </>
