@@ -179,4 +179,100 @@ export default class Database {
       throw new Error("Error updating the goal")
     }
   }
+
+  /**
+   * This method saves an exercises' name to the users favourites
+   * @param email Email of the user
+   * @param exerciseName Name of Exercise to favourite
+   */
+  async favouriteExercise(email: string, exerciseName: string) {
+    try {
+      const collection = db.collection(this.usersCollection)
+
+      await this.checkIfUserExists(email)
+
+      await collection.updateOne({ email: email }, { $addToSet: { favourites: exerciseName } })
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error favouriting the exercise")
+    }
+  }
+
+  /**
+   * This function removes an exercise from the users favourites
+   * @param email Email of the user
+   * @param exerciseName Name of Exercise to remove from favourite
+   */
+  async unfavouriteExercise(email: string, exerciseName: string) {
+    try {
+      await this.checkIfUserExists(email)
+
+      const collection = db.collection(this.usersCollection)
+
+      await collection.updateOne({ email: email }, { $pull: { favourites: exerciseName } })
+
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error favouriting the exercise")
+    }
+  }
+
+  /**
+   * This function checks if an exercise is favourited by a user
+   * @param email Email of the user
+   * @param exerciseName Name of the exercise
+   * @returns true if the exercise is favourited, false if not
+   */
+  async isExerciseFavourited(email: string, exerciseName: string) {
+    try {
+      const collectionUser = db.collection(this.usersCollection)
+      await this.checkIfUserExists(email)
+
+      const favouriteExercise = await collectionUser.find(
+        {
+          email: email,
+          favourites: { $in: [exerciseName] }
+        }
+      ).toArray() as unknown as [string]
+
+      return favouriteExercise.length > 0
+
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error checking if exercise is favourited")
+    }
+
+  }
+
+  /**
+   *  This function gets all the exercises that are favourited by a user
+   * @param email Email of the user
+   * @returns {IExercise[]}
+   */
+  async getFavouriteExercises(email: string) {
+    try {
+      const collectionUser = db.collection(this.usersCollection)
+      const collectionExercise = db.collection(this.exercisesCollection)
+
+      await this.checkIfUserExists(email)
+
+      let favouriteExercise = await collectionUser.find(
+        {
+          email: email
+        }, { projection: { favourites: 1, _id: 0 } }
+      ).toArray()
+
+      // Assign the favourites to a variable since the array is nested
+      favouriteExercise = favouriteExercise[0].favourites
+
+      const results = (await collectionExercise
+        .find({ name: { $in: [...favouriteExercise] } }, { projection: { _id: 0 } })
+        .toArray()) as unknown as IExercise[]
+
+      return results
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+      throw new Error("Error get favourite exercises")
+    }
+  }
 }

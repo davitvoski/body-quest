@@ -11,7 +11,6 @@ export async function saveUserGoalPOST(req: Request, res: Response) {
   try {
     // const email = req.body.email as string
     const email = req.session.user!.email as string;
-
     const goal = req.body as IGoal;
     // if (!email || !goal) throw new Error("Email or goal not provided")
     if (!goal) throw new Error("Email or goal not provided");
