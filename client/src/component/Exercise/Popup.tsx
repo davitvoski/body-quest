@@ -1,11 +1,4 @@
-/**
- * @file Popup.tsx
- *
- * Popup component for displaying exercise information
- *
- * @author Santiago Luna
- */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Popup.css";
 import {
   DialogContent,
@@ -19,12 +12,13 @@ import {
   Button,
   useTheme,
   useMediaQuery,
+  Alert,
 } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
 import { Link } from "react-router-dom";
-import { useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 type PopupProps = {
   handleClose: () => void;
@@ -32,36 +26,127 @@ type PopupProps = {
   open: boolean;
 };
 
-export interface State extends SnackbarOrigin {
+interface State extends SnackbarOrigin {
   openSnack: boolean;
 }
 
+/**
+ * This function ensures that the exercise name is HTTP safe
+ * Meaning that when passed through the URL, it is not interpreted as a path
+ * @param name The string to check if it is HTTP safe
+ * @returns
+ */
+function ensureNameIsHTTPParameterSafe(name: string) {
+  return name.replace("/", "%2F");
+}
+
+/**
+ * @file Popup.tsx
+ *
+ * Popup component for displaying exercise information
+ * Allows the ability to favourite an exercise and create a goal
+ *
+ * @author Santiago Luna, Davit Voskerchyan
+ */
 export const Popup = (props: PopupProps) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
+  const [errorHandling, setErrorHandling] = useState({
+    isError: false,
+    message: "",
+  });
+
   //Snack bar logic when adding to favourites
   const [snackState, setSnackState] = React.useState<State>({
     openSnack: false,
     vertical: "top",
     horizontal: "center",
   });
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const { vertical, horizontal, openSnack } = snackState;
 
-  // Favorite functionality goes here
-  const handleFavourite = (newState: SnackbarOrigin) => () => {
-    setIsFavourite(!isFavourite);
-    setSnackState({ openSnack: true, ...newState });
-  };
+  // Check if exercise is already a favourite
+  useEffect(() => {
+    async function checkFavourite() {
+      const name = ensureNameIsHTTPParameterSafe(exercise.name);
 
+      const resp = await fetch(`/api/exercises/favourites/${name}`);
+      // If not logged in, return
+      if (resp.status === 401) return;
+      const data = (await resp.json()) as { isFavourite: boolean };
+      if (data.isFavourite) setIsFavourite(true);
+    }
+
+    checkFavourite().catch((err) => {
+      setErrorHandling({
+        isError: true,
+        message: "Unable To Check If In Favourites.",
+      });
+    });
+  }, []);
+
+  /**
+   * This function handles the favouriting/unfavouriting of an exercise.
+   */
+  async function handleFavourite() {
+    let resp;
+    if (!isFavourite) {
+      resp = await fetch("/api/exercises/favourites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          exerciseName: exercise.name,
+        }),
+      });
+    } else {
+      const name = ensureNameIsHTTPParameterSafe(exercise.name);
+      resp = await fetch(`/api/exercises/favourites/${name}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    // Handle unathorized
+    if (resp.status === 401) {
+      setErrorHandling({
+        isError: true,
+        message: "You must be logged in to favourite an exercise.",
+      });
+      return;
+    }
+
+    // If code other than in 200 range, return
+    if (!resp.ok)
+      setErrorHandling({
+        isError: true,
+        message: "Something went wrong. Please try again later.",
+      });
+
+    // Change states
+    setErrorHandling({ isError: false, message: "" });
+    setIsFavourite(!isFavourite);
+    setSnackState({
+      ...snackState,
+      openSnack: true,
+      vertical: "bottom",
+      horizontal: "center",
+    });
+  }
+
+  /**
+   * This function handles the closing of the snack bar.
+   */
   const handleSnackClose = () => {
     setSnackState({ ...snackState, openSnack: false });
   };
-  // End of snack bar logic
-
 
   return (
     <>
@@ -94,14 +179,14 @@ export const Popup = (props: PopupProps) => {
           <div className="dialog-header">
             <div className="dialog-text-container">
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-                <b>{t('equipement')}:</b> {exercise.equipment}
+                <b>{t("equipement")}:</b> {exercise.equipment}
               </Typography>
 
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-                <b>{t('body_part')}:</b> {exercise.body_part}
+                <b>{t("body_part")}:</b> {exercise.body_part}
               </Typography>
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
-                <b>{t('target')}:</b> {exercise.target}
+                <b>{t("target")}:</b> {exercise.target}
               </Typography>
             </div>
             <Link
@@ -110,9 +195,9 @@ export const Popup = (props: PopupProps) => {
                 pathname: "/Goalcreation",
               }}
               state={{ exerciseName: exercise.name }}
-            // onClick={handleForm}
+              // onClick={handleForm}
             >
-              {t('create_goal')}
+              {t("create_goal")}
             </Link>
           </div>
           <div className="img-container">
@@ -122,30 +207,17 @@ export const Popup = (props: PopupProps) => {
             id="dialog-footer"
             style={{ display: "flex", justifyContent: "right" }}
           >
-            {isFavourite ? (
-              <IconButton
-                sx={{ outline: "none" }}
-                onClick={handleFavourite({
-                  vertical: "bottom",
-                  horizontal: "center",
-                })}
-              >
-                <StarIcon color="primary" />
-              </IconButton>
-            ) : (
-              <IconButton
-                sx={{ outline: "none" }}
-                onClick={handleFavourite({
-                  vertical: "bottom",
-                  horizontal: "center",
-                })}
-              >
+            <IconButton sx={{ outline: "none" }} onClick={handleFavourite}>
+              {isFavourite ? (
+                <StarIcon htmlColor="#EFE2A2" />
+              ) : (
                 <StarBorderIcon sx={{ outline: "none" }} />
-              </IconButton>
-            )}
+              )}
+            </IconButton>
           </div>
         </DialogContent>
       </Dialog>
+
       {isFavourite ? (
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
@@ -161,6 +233,15 @@ export const Popup = (props: PopupProps) => {
           onClose={handleSnackClose}
           message="Removed From Favourites!"
           key={vertical + horizontal}
+        />
+      )}
+
+      {errorHandling.isError && (
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={errorHandling.isError}
+          onClose={handleSnackClose}
+          message={errorHandling.message}
         />
       )}
     </>
