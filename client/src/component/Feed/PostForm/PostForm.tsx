@@ -2,12 +2,13 @@ import { Paper, Typography, Stack, FormControl, InputLabel, Select, SelectChange
 import { ChangeEvent, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
-import DeleteIcon from '@mui/icons-material/Delete';
-import { IPost } from "../../../../../shared";
+import { IPost, IUserPost } from "../../../../../shared";
+import { useNavigate } from "react-router";
 
 export const PostForm = () => {
   const [image, setImage] = useState<string>();
   const [caption, setCaption] = useState("");
+  let navigate = useNavigate();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {    
     if (!e.target.files) {
@@ -21,21 +22,50 @@ export const PostForm = () => {
       if (!evt?.target?.result) {
         return;
       }
-      console.log(evt.target);
       setImage(evt.target.result.toString())
     }
   };
 
-  const createGoal = async (newPost: IPost) => {
+  const createPost = async (newPost: IPost) => {
     try {
-      await axios.post("/api/posts", newPost);
+      await axios.post("/api/posts/createPost", newPost);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSubmit = () => {
-    console.log("submit");
+  const getCurrentDate = () => {
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    var today = new Date();
+    const formattedDate = today.toLocaleDateString("en-US", options as Intl.DateTimeFormatOptions);
+    return formattedDate;
+  }
+
+  const getUser = async () => {
+    const res = await fetch("/api/authentication/getUser");
+    const data = await res.json();
+    if (data.user !== undefined) {
+      const userName = data.user.username;
+      const email = data.user.email;
+      const picture = data.user.picture;
+      return {username: userName, email: email, picture: picture} as IUserPost;
+    }
+    return
+  };
+
+  const handleSubmit = async () => {
+    const currentDate = getCurrentDate();
+    const user:IUserPost | undefined = await getUser();
+    if (user && image) {
+      const newPost: IPost = {
+        user: user,
+        imageUrl: image,
+        caption: caption,
+        date: currentDate
+      }
+      await createPost(newPost);
+      navigate("/Feed");
+    }
   };
 
   return (
@@ -67,7 +97,7 @@ export const PostForm = () => {
                   component="label"
                   variant="outlined"
                   startIcon={<UploadFileIcon />}
-                  sx={{alignSelf:"center"}}
+                  sx={{alignSelf:"center", marginBottom:"25px"}}
                 >
                   {image 
                     ? <>Change Image</>
@@ -108,6 +138,8 @@ export const PostForm = () => {
                   label="Caption"
                   multiline
                   rows={4}
+                  value={caption}
+                  onChange={(event) => {setCaption(event.target.value)}}
                 />
               </FormControl>
             </Stack>
@@ -116,6 +148,7 @@ export const PostForm = () => {
               variant="contained"
               sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
               onClick={handleSubmit}
+              disabled={image === undefined}
             >
               Create
             </Button>
