@@ -17,16 +17,15 @@ export const Feed = () => {
   }, []);  
 
   return (
-    <>
-      <Box
-        display="flex"
-        alignItems="center"
-      >
-        {posts.length === 0 && <LinearProgress sx={{width:"100%"}}/>}
-        {posts && posts.map((post, index)=>(
-          <Post post={post} key={index}/>
-        ))}
-      </Box>
-    </>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
+      {posts.length === 0 && <LinearProgress sx={{width:"100%"}}/>}
+      {posts && posts.map((post, index)=>(
+        <Post post={post} key={index}/>
+      ))}
+    </Box>
   );
 }

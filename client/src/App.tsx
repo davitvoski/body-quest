@@ -1,5 +1,6 @@
 import "./App.css";
 import {
+  Box,
   createTheme,
   PaletteMode,
   ThemeProvider,
@@ -40,8 +41,10 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <div className={Theme.palette.mode + " App"}>
-        <NavBar Theme={Theme} changeTheme={changeTheme} />
-        <Outlet />
+        <NavBar Theme={Theme} changeTheme={changeTheme}/>
+        <Box marginTop="100px">
+          <Outlet />
+        </Box>
         {/* <Routes>
           <Route path="/" element={<Home />} />
           <Route path="Profile" element={<Profile />} />
