@@ -218,10 +218,14 @@ export default class Database {
     }
   }
 
+  /**
+   * This function adds a post to the db
+   * @param post post object of the user
+   */
   async addPost(post:IPost){
     try {
       const collection = db.collection(this.postsCollection);
-      
+
       await collection.insertOne(post);
 
     } catch (err) {
@@ -276,7 +280,7 @@ export default class Database {
   }
 
   /**
-   *  This function gets all the exercises that are favourited by a user
+   * This function gets all the exercises that are favourited by a user
    * @param email Email of the user
    * @returns {IExercise[]}
    */

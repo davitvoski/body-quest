@@ -10,7 +10,12 @@ const uploadUrl = `https://${storageAccountName}.blob.core.windows.net/?${sasTok
 const blobService = new BlobServiceClient(uploadUrl);
 const containerClient = blobService.getContainerClient(containerName);
 
-export async function getAllPosts(req: Request, res: Response) {
+/**
+ * This function returns all the posts in the database of every user
+ * @param _ Express Request
+ * @param res Express Response
+ */
+export async function getAllPosts(_: Request, res: Response) {
     try {
         const posts = await new Database().getAllPosts()
         res.json(posts)
@@ -19,6 +24,11 @@ export async function getAllPosts(req: Request, res: Response) {
     }
 }
 
+/**
+ * This function creates a post to save to the database
+ * @param req Express Request
+ * @param res Express Response
+ */
 export async function createPost(req: Request, res: Response) {
     try {
         const imageURL = await addImageToAzure(req.body.imageUrl, req.body.caption);        
@@ -38,10 +48,16 @@ export async function createPost(req: Request, res: Response) {
         res.json(200);
     } catch (err) {
         console.log(err);
-        res.status(400).json({ message: "Error adding a post" })
+        res.status(400).json({ message: "Error adding a post, missing a field" })
     }
 }
 
+/**
+ * This function saves the image to the azure blob storage using the caption and current time,
+ * this is done so that no other file will have the same name
+ * @param file base64 string
+ * @param caption string
+ */
 async function addImageToAzure(file:string, caption:string){
     const secondhalf = file.split(":")[1];
     const mimetype = secondhalf.split(";")[0];
