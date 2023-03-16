@@ -105,7 +105,7 @@ export const PostForm = () => {
                   }
                   <input 
                     type="file" 
-                    accept="image/gif, image/jpeg, image/jpg, image/png" 
+                    accept="image/gif, image/jpeg, image/jpg, image/png, image/svg" 
                     hidden 
                     onChange={(e) => handleImageChange(e)} 
                   />

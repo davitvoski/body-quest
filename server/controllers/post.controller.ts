@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { BlobServiceClient } from "@azure/storage-blob";
 import Database from "../database/db";
+import { IPost } from "../../shared";
 
 const containerName = "bodyquestcontainer";
 const sasToken = process.env.AZURE_STORAGE_SAS_TOKEN;
@@ -20,25 +21,20 @@ export async function getAllPosts(req: Request, res: Response) {
 
 export async function createPost(req: Request, res: Response) {
     try {
-        console.log(req.body);
-        
-        const file = req.body.imageUrl;
+        const imageURL = await addImageToAzure(req.body.imageUrl, req.body.caption);        
+        const post:IPost = {
+            user: {
+                username: req.body.user.username,
+                email: req.body.user.email,
+                picture: req.body.user.picture,
+            },
+            imageUrl: imageURL,
+            caption: req.body.caption,
+            date: req.body.date
+        }
 
-        const secondhalf = file.split(":")[1];
-        const mimetype = secondhalf.split(";")[0];
-    
-        const blobClient = containerClient.getBlockBlobClient(req.body.caption + ".png");
-        const options = { blobHTTPHeaders: { blobContentType: mimetype } };
-    
-        const base64Image = file.split(';base64,').pop();
-        var buf = Buffer.from(base64Image, 'base64');
-    
-        await blobClient.uploadData(buf, options);
-        let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${req.body.caption} + ".png"}`
-    
-        console.log(imageUrl);
-        
-        console.log(req.body);
+        await new Database().addPost(post);
+
         res.json(200);
     } catch (err) {
         console.log(err);
@@ -46,6 +42,18 @@ export async function createPost(req: Request, res: Response) {
     }
 }
 
-async function addImageToAzure(){
+async function addImageToAzure(file:string, caption:string){
+    const secondhalf = file.split(":")[1];
+    const mimetype = secondhalf.split(";")[0];
+    var today = Date.now();
 
+    const blobClient = containerClient.getBlockBlobClient(`${caption + today +".png"}`);
+    const options = { blobHTTPHeaders: { blobContentType: mimetype } };
+
+    const base64Image = file.split(';base64,').pop() as string;
+    var buf = Buffer.from(base64Image, 'base64');
+
+    await blobClient.uploadData(buf, options);
+    let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${caption + today + ".png"}`
+    return imageUrl;
 }

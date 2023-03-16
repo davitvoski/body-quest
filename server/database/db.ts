@@ -218,6 +218,17 @@ export default class Database {
     }
   }
 
+  async addPost(post:IPost){
+    try {
+      const collection = db.collection(this.postsCollection);
+      
+      await collection.insertOne(post);
+
+    } catch (err) {
+      throw new Error("Error adding a post in the db")      
+    }
+  }
+
   /**
    * This function removes an exercise from the users favourites
    * @param email Email of the user

@@ -23,7 +23,7 @@ export const Feed = () => {
       alignItems="center"
     >
       {posts.length === 0 && <LinearProgress sx={{width:"100%"}}/>}
-      {posts && posts.map((post, index)=>(
+      {posts && posts.slice(0).reverse().map((post, index)=>(
         <Post post={post} key={index}/>
       ))}
     </Box>
