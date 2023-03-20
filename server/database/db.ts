@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
+import { Db, MongoClient, ObjectId } from "mongodb";
+import { IExercise, IGoal, IPost, IUser } from "../../shared";
 import { GetGoalsReturnValue } from "../types";
-import { Db, MongoClient } from "mongodb";
-import { IExercise, IGoal, IUser } from "../../shared";
 dotenv.config();
 
 
@@ -17,6 +17,7 @@ let db: Db;
 export default class Database {
   exercisesCollection = "exercises";
   usersCollection = "users";
+  postsCollection = "posts";
 
   constructor() {
     return instance;
@@ -124,6 +125,25 @@ export default class Database {
   }
 
   /**
+   * This function gets all the posts from the db to show to any user
+   * @returns {IPost[]}
+   */
+  async getAllPosts(){
+    try {
+      const collection = db.collection(this.postsCollection)
+
+      const posts = await collection
+        .find({}, { projection: { _id: 0 } })
+        .toArray() as unknown as IPost[];
+            
+      return posts;
+    } catch (err) {
+      if (err instanceof Error) throw new Error(err.message)
+      throw new Error("Error getting the feed")
+    }
+  }
+
+  /**
    * This function checks if a user exists in the database
    * @param email email of the user
    * @param collection 
@@ -199,6 +219,21 @@ export default class Database {
   }
 
   /**
+   * This function adds a post to the db
+   * @param post post object of the user
+   */
+  async addPost(post:IPost){
+    try {
+      const collection = db.collection(this.postsCollection);
+
+      await collection.insertOne(post);
+
+    } catch (err) {
+      throw new Error("Error adding a post in the db")      
+    }
+  }
+
+  /**
    * This function removes an exercise from the users favourites
    * @param email Email of the user
    * @param exerciseName Name of Exercise to remove from favourite
@@ -245,7 +280,7 @@ export default class Database {
   }
 
   /**
-   *  This function gets all the exercises that are favourited by a user
+   * This function gets all the exercises that are favourited by a user
    * @param email Email of the user
    * @returns {IExercise[]}
    */
