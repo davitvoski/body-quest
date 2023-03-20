@@ -9,6 +9,7 @@ import Database from "../database/db";
  */
 export async function saveUserGoalPOST(req: Request, res: Response) {
   try {
+    console.log("saving user goal")
     // const email = req.body.email as string
     const email = req.session.user!.email as string;
     const goal = req.body as IGoal;
@@ -18,6 +19,7 @@ export async function saveUserGoalPOST(req: Request, res: Response) {
     await new Database().saveUserGoal(email, goal);
     res.status(201).send("Goal saved successfully");
   } catch (err) {
+    console.log(err)
     if (err instanceof Error) {
       return res.status(400).json(err.message);
     }

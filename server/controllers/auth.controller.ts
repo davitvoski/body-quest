@@ -5,11 +5,6 @@ import Database from "../database/db";
 import dotenv from 'dotenv';
 dotenv.config()
 
-declare module 'express-session' {
-  export interface SessionData {
-    user: IUser;
-  }
-}
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const db = new Database();
@@ -84,6 +79,7 @@ export async function authenticateUser(req: Request, res: Response) {
  * @param next Express NextFunction 
  */
 export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+  console.log(req.session)
   if (!req.session.user) {
     return res.sendStatus(401);
   }
