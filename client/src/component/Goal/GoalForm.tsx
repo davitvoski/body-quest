@@ -8,6 +8,8 @@ import {
   Paper,
   Select,
   SelectChangeEvent,
+  Snackbar,
+  SnackbarOrigin,
   Stack,
   TextField,
   Typography,
@@ -30,6 +32,11 @@ import { useNavigate } from "react-router";
  *
  * This component is used to create a new goal for a specific exercise
  */
+
+interface State extends SnackbarOrigin {
+  openSnack: boolean;
+}
+
 export const GoalForm = () => {
   const { t } = useTranslation();
   let { state } = useLocation();
@@ -41,6 +48,24 @@ export const GoalForm = () => {
   const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
   const [endDate, setEndDate] = useState("");
   const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
+  const [errorHandling, setErrorHandling] = useState({
+    isError: false,
+    message: "",
+  });
+  const [isGoalCreated, setIsGoalCreated] = useState(false);
+
+  const [snackState, setSnackState] = React.useState<State>({
+    openSnack: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, openSnack } = snackState;
+
+  const handleSnackClose = () => {
+    setErrorHandling({ isError: false, message: "" });
+    setSnackState({ ...snackState, openSnack: false });
+  };
 
   dayjs.extend(customParseFormat);
   let navigate = useNavigate();
@@ -102,7 +127,9 @@ export const GoalForm = () => {
   const createGoal = async (newGoal: IGoal) => {
     try {
       await axios.post("/api/goals", newGoal);
-    } catch (error) {
+      setIsGoalCreated(true);
+    } catch (error: any) {
+      setErrorHandling({ isError: true, message: "Unable to create goal" });
       console.log(error);
     }
   };
@@ -120,7 +147,7 @@ export const GoalForm = () => {
     };
 
     await createGoal(newGoal);
-    navigate("/");
+    // navigate("/");
   };
 
   return (
@@ -244,6 +271,15 @@ export const GoalForm = () => {
           )}
         </form>
       </Paper>
+      {errorHandling.isError && (
+        <Snackbar
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={errorHandling.isError}
+          onClose={handleSnackClose}
+          message={errorHandling.message}
+        />
+      )}
     </div>
   );
 };
