@@ -101,7 +101,9 @@ export const GoalForm = () => {
 
   const createGoal = async (newGoal: IGoal) => {
     try {
-      await axios.post("/api/goals", newGoal);
+      await axios.post("/api/goals", {
+        goal: newGoal,
+      });
     } catch (error) {
       console.log(error);
     }

@@ -9,17 +9,14 @@ import Database from "../database/db";
  */
 export async function saveUserGoalPOST(req: Request, res: Response) {
   try {
-    console.log("saving user goal")
-    // const email = req.body.email as string
-    const email = req.session.user!.email as string;
-    const goal = req.body as IGoal;
-    // if (!email || !goal) throw new Error("Email or goal not provided")
-    if (!goal) throw new Error("Email or goal not provided");
+    const email = req.session.user?.email as string;
+    const goal = req.body.goal as IGoal;
+
+    if (!goal) throw new Error("Goal not provided");
 
     await new Database().saveUserGoal(email, goal);
     res.status(201).send("Goal saved successfully");
   } catch (err) {
-    console.log(err)
     if (err instanceof Error) {
       return res.status(400).json(err.message);
     }
@@ -34,10 +31,7 @@ export async function saveUserGoalPOST(req: Request, res: Response) {
  */
 export async function getUserGoals(req: Request, res: Response) {
   try {
-    // const email = req.body.email as string
-    const email = req.session.user!.email as string;
-
-    // if (!email) throw new Error("Email not provided")
+    const email = req.session.user?.email as string;
 
     const goals = await new Database().getUserGoals(email);
     res.status(201).send(goals);
@@ -57,11 +51,9 @@ export async function getUserGoals(req: Request, res: Response) {
 export async function updateGoalCompletedPATCH(req: Request, res: Response) {
   try {
     const goal = req.body.goal as IGoal;
-    // const email = req.body.email as strin
-    const email = req.session.user!.email as string;
+    const email = req.session.user?.email as string;
 
     if (!goal) throw new Error("Goal not provided");
-    // if (!email) throw new Error("Email not provided")
 
     if (goal.completed) return res.status(204).send("Goal already completed");
 
