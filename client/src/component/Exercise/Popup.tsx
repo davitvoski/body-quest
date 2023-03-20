@@ -14,6 +14,7 @@ import {
   useMediaQuery,
   Alert,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
@@ -163,6 +164,12 @@ export const Popup = (props: PopupProps) => {
         className="dialog-container"
         fullScreen={fullScreen}
       >
+        <div className="dialog-header">
+          <IconButton sx={{ justifyContent: "right" }} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+
         <DialogTitle>
           <Typography
             variant="h1"
