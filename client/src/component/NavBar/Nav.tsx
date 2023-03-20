@@ -105,7 +105,7 @@ export default function NavBar(props: {
     <Box id="navBar" 
       position="fixed"
       width="100%"
-      zIndex="9999"
+      zIndex="2"
     >
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
