@@ -84,7 +84,7 @@ export const Popup = (props: PopupProps) => {
     checkFavourite().catch((err) => {
       setErrorHandling({
         isError: true,
-        message: "Unable To Check If In Favourites.",
+        message: `${t('uncheckFavourites') as string | undefined}`,
       });
     });
   }, []);
@@ -118,7 +118,8 @@ export const Popup = (props: PopupProps) => {
     if (resp.status === 401) {
       setErrorHandling({
         isError: true,
-        message: "You must be logged in to favourite an exercise.",
+        // message: "You must be logged in to favourite an exercise.",
+        message:`${t('addTofavoris') as string | undefined}`,
       });
       return;
     }
@@ -127,7 +128,7 @@ export const Popup = (props: PopupProps) => {
     if (!resp.ok)
       setErrorHandling({
         isError: true,
-        message: "Something went wrong. Please try again later.",
+        message:`${t('popWrongMess') as string | undefined}`,
       });
 
     // Change states
@@ -223,7 +224,7 @@ export const Popup = (props: PopupProps) => {
           anchorOrigin={{ vertical, horizontal }}
           open={openSnack}
           onClose={handleSnackClose}
-          message="Added to Favourites!"
+          message= {t('addedToFavourites') as string | undefined}
           key={vertical + horizontal}
         />
       ) : (
@@ -231,7 +232,7 @@ export const Popup = (props: PopupProps) => {
           anchorOrigin={{ vertical, horizontal }}
           open={openSnack}
           onClose={handleSnackClose}
-          message="Removed From Favourites!"
+          message={t('removeFavoris') as string | undefined}
           key={vertical + horizontal}
         />
       )}

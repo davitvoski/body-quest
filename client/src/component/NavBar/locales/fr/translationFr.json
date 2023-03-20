@@ -36,5 +36,10 @@
     "favourites":"Favouris",
     "changetheme": "Thème",
     "feed":"Feed",
-    "language":"Langue"
+    "language":"Langue",
+    "uncheckFavourites":"Impossible de vérifier s'il est dans les favoris.",
+    "addTofavoris":"Vous devez être connecté(e) pour préférer un exercice.",
+    "popWrongMess": "Un problème s'est produit. Veuillez réessayer plus tard.",
+    "addedToFavourites":"Ajouté aux favoris !",
+    "removeFavoris":"Retiré !"
   }

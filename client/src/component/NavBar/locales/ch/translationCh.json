@@ -36,5 +36,10 @@
     "favourites":"收藏",
     "changetheme": "主题更换",
     "feed":"博客",
-    "language":"语言"
+    "language":"语言",
+    "uncheckFavourites":"无法检查是否在收藏夹中。",
+    "addTofavoris":"必须登录后才能添加喜欢的练习。",
+    "popWrongMess": "错误. 请稍后尝试.",
+    "addedToFavourites":"添加到收藏！",
+    "removeFavoris":"移除 !"
   }
