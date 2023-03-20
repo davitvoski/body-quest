@@ -50,13 +50,13 @@ postRouter.get("/", getAllPosts)
  *        caption,
  *        date,
  *        imageUrl,      
- *        user { username, email, picture }  
+ *        user  
  *      example:
- *       user: {
+ *       user: "{
  *               username: 'Raphael Canciani',
  *               email: 'raphaelcanciani@gmail.com',
  *               picture: 'https://lh3.googleusercontent.com/a/AGNmyxZrovTZZNVb71vMBomQtt7LyDOtKOKbJyWsddkf=s96-c'     
- *              },
+ *              }",
  *       imageUrl: "base64string",
  *       caption:  "test caption",
  *       date:     "Wednesday, March 16, 2023 at 11:28 am"
