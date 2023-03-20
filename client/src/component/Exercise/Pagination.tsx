@@ -34,7 +34,7 @@ export default function PaginationForExercises(props: PaginationProps) {
           <Exercise exercise={exercise} key={i} />
         ))}
       </div>
-      <Pagination onChange={(e: React.ChangeEvent<unknown>, page: number) => {
+      <Pagination  id='pagination' onChange={(e: React.ChangeEvent<unknown>, page: number) => {
         setCurrentPage(page);
       }} count={totalPage} />
     </>

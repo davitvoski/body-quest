@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FilterList } from './FilterList';
-import { FavoriteBorder } from '@mui/icons-material';
 import { IExercise } from '../../../../shared';
-import { Exercise } from '../Exercise/Exercise';
 import StarBorder from '@mui/icons-material/StarBorder';
 import { useTranslation } from "react-i18next";
 
@@ -62,27 +60,30 @@ export const FilterDrawer = (props: FilterDrawer) => {
         getOptions();
     }, [props.allExercises]);
 
-    
+
     // if user login, can filter their favorite exercises
     useEffect(() => {
         /**
          * This function gets a users favourite exercises
          */
         async function getFavourties() {
-            const resp = await fetch(`/api/exercises/favourites`);
-            // If not logged in, return
-            if (resp.status === 200) {
-                const data = (await resp.json()).exercises as IExercise[];
-                setFavouriteExercises(data);
-                setShowFavorite(true);
+            try {
+                // check if authenticated
+                const res = await fetch("/api/authentication/getUser");
+                const checkUser = await res.json();
+                if (checkUser.user !== undefined) {
+                    const resp = await fetch(`/api/exercises/favourites`);
+                    if (resp.status === 200) {
+                        const data = (await resp.json()).exercises as IExercise[];
+                        setFavouriteExercises(data);
+                        setShowFavorite(true);
+                    }
+                }
+            } catch (error) {
+                console.log(error);
             }
         }
-
-        // NOTE: IF THE FAVOURITES ARE NOT DISPLAYING
-        // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY FAVOURITES
-        getFavourties().catch((err) => {
-            console.log(err);
-        });
+        getFavourties();
     }, [favouriteExercises]);
 
 
