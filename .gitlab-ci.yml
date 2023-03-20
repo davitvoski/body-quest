@@ -65,7 +65,7 @@ test:
         - echo NEED_GOOGLE=true >> .env
     script:
         - cd server && npm install && npm run test
-        artifacts:
+    artifacts:
         expire_in: 1h
         when: on_failure
         paths:
