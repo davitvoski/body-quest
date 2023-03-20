@@ -60,6 +60,9 @@ test:
         - merge_requests
     dependencies:
         - build-backend
+    before_script:
+        - echo SECRET=$SECRET >> .env
+        - echo NEED_GOOGLE=true >> .env
     script:
         - cd server && npm install && npm run test
 
