@@ -141,22 +141,16 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/">
-                    <IconButton
-                      style={{
-                        textDecoration: "none",
-                        color: "white",
-                        textTransform: "none",
-                        fontSize: "1rem",
-                        padding: "0",
-                      }}
+                  <IconButton
+                      sx={{ l: 0.5 }} 
                       onClick={handleLogout}
                       title={t("logout") as string | undefined}
                       href="/"
                     >
+                    <Link to="/">
                       <LogoutIcon color="inherit" />
-                    </IconButton>
-                  </Link>
+                    </Link>
+                  </IconButton>
 
                   <Link to="/Profile">
                     <IconButton
@@ -166,6 +160,7 @@ export default function NavBar(props: {
                         textTransform: "none",
                         fontSize: "1rem",
                         padding: "0",
+                        marginLeft: 1
                       }}
                       title={t("go_profile") as string | undefined}
                     >
