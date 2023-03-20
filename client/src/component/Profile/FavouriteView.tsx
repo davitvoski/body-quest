@@ -1,4 +1,4 @@
-import { Checkbox, Typography } from "@mui/material";
+import { Button, Checkbox, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { IExercise } from "../../../../shared";
 import Item from "../modules/Item";
@@ -33,25 +33,26 @@ const FavouriteView = () => {
   return (
     <div>
       {/* Real Data */}
-      {/* This part displays a user favourites, I suck at desinging so though to leave it to you Sophia */}
-      {favouriteExercises &&
-        favouriteExercises.map((fav) => (
-          <Item sx={{ m: "1% 0 1% 0", p: 2 }}>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {fav.name}
-            </Typography>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {fav.body_part}
-            </Typography>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {fav.equipment}
-            </Typography>
-          </Item>
-        ))}
-
-      {/* When User has no favourties tell them */}
-      {favouriteExercises.length === 0 && <>NO FAVOURITES</>}
+      
+      {favouriteExercises.length > 0 ? 
+          favouriteExercises.map(fav => 
+              <Item sx={{ m: "1% 0 1% 0", p:2}}>
+              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                {fav.name}
+              </Typography>
+              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                {fav.body_part}
+              </Typography>
+              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                {fav.equipment}
+              </Typography>
+                  <Button>Create a Goal</Button>
+              </Item>
+          ) :
+          <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No favourites.</Item>
+      }
     </div>
+
   );
 };
 
