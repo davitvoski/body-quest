@@ -127,13 +127,7 @@ export default function NavBar(props: {
             <>
               {username == "" ? (
                 <IconButton
-                  style={{
-                    textDecoration: "none",
-                    color: "white",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                    padding: "0",
-                  }}
+                  sx={{ color: "white" }}
                   onClick={handleClickOpen}
                   title={t("login") as string | undefined}
                 >
@@ -141,27 +135,20 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <IconButton
-                      sx={{ l: 0.5 }} 
+                  <Link to="/" style={{display: "inline-block", color: "white"}}>
+                    <IconButton
+                      color="inherit"
                       onClick={handleLogout}
                       title={t("logout") as string | undefined}
                       href="/"
                     >
-                    <Link to="/">
                       <LogoutIcon color="inherit" />
-                    </Link>
-                  </IconButton>
+                    </IconButton>
+                  </Link>
 
-                  <Link to="/Profile">
+                  <Link to="/Profile" style={{display: "inline-block", color: "white"}}>
                     <IconButton
-                      style={{
-                        textDecoration: "none",
-                        color: "white",
-                        textTransform: "none",
-                        fontSize: "1rem",
-                        padding: "0",
-                        marginLeft: 1
-                      }}
+                      color="inherit"
                       title={t("go_profile") as string | undefined}
                     >
                       <AccountCircleRoundedIcon />

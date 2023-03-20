@@ -12,8 +12,8 @@ type ExerciseListProps = {
  */
 export const ExerciseList = (props: ExerciseListProps) => {
     return (
-        <>
+        <div className="content">
             <PaginationForExercises exercises={props.exercises} />
-        </>
+        </div>
     )
 }
