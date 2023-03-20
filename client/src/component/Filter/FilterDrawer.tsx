@@ -78,6 +78,9 @@ export const FilterDrawer = (props: FilterDrawer) => {
                         setFavouriteExercises(data);
                         setShowFavorite(true);
                     }
+                }else{
+                    setShowFavorite(false); 
+                    props.setExercise(props.allExercises);
                 }
             } catch (error) {
                 console.log(error);

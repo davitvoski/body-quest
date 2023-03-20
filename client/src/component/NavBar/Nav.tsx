@@ -134,7 +134,7 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-                    title="Home"
+                    title={t("home") as string | undefined}
                   />
                 )}
               </Link>
@@ -174,7 +174,7 @@ export default function NavBar(props: {
                   fontSize: "1rem",
                   padding: "0",
                 }}
-                title="Feed"
+                title={t("feed") as string | undefined}
               >
                 <FeedIcon />
               </IconButton>              
