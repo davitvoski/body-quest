@@ -23,7 +23,6 @@ const FavouriteView = () => {
       if (resp.status === 401) return;
       const data = (await resp.json()).exercises as IExercise[];
 
-      console.log(data)
       setFavouriteExercises(data);
     }
 
