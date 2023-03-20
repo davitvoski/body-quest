@@ -20,6 +20,9 @@ type FilterDrawer = {
  * @returns FilterDrawer
  */
 export const FilterDrawer = (props: FilterDrawer) => {
+    const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
+    const [showFavorite, setShowFavorite] = useState(false);
+
     const [targetList, setTargetList] = useState<string[]>([]);
     const [equipments, setEquipements] = useState<string[]>([]);
     const [bodyPart, setBodyPart] = useState<string[]>([]);
@@ -55,10 +58,34 @@ export const FilterDrawer = (props: FilterDrawer) => {
         props.onClose();
     }
 
-
     useEffect(() => {
         getOptions();
     }, [props.allExercises]);
+
+    
+    // if user login, can filter their favorite exercises
+    useEffect(() => {
+        /**
+         * This function gets a users favourite exercises
+         */
+        async function getFavourties() {
+            const resp = await fetch(`/api/exercises/favourites`);
+            // If not logged in, return
+            if (resp.status === 200) {
+                const data = (await resp.json()).exercises as IExercise[];
+                setFavouriteExercises(data);
+                setShowFavorite(true);
+            }
+        }
+
+        // NOTE: IF THE FAVOURITES ARE NOT DISPLAYING
+        // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY FAVOURITES
+        getFavourties().catch((err) => {
+            console.log(err);
+        });
+    }, [favouriteExercises]);
+
+
 
     return (
         <div id='filterDrawer'>
@@ -66,14 +93,17 @@ export const FilterDrawer = (props: FilterDrawer) => {
                 <FilterList listDataByOption={listDataByOption} filterName={t('target')} filterList={targetList} keyExerercise="target" />
                 <FilterList listDataByOption={listDataByOption} filterName={t('equipement')} filterList={equipments} keyExerercise="equipment" />
                 <FilterList listDataByOption={listDataByOption} filterName={t('body_part')} filterList={bodyPart} keyExerercise="body_part" />
-                <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
+                {showFavorite && <List component="div" disablePadding>
+                    <ListItemButton onClick={() => {
+                        props.setExercise(favouriteExercises);
+                        props.onClose()
+                    }} sx={{ pl: 4 }}>
                         <ListItemIcon>
-                            <StarBorder color="primary"/>
+                            <StarBorder color="primary" />
                         </ListItemIcon>
                         <ListItemText primary={t('Favorites')} />
                     </ListItemButton>
-                </List>
+                </List>}
             </Drawer>
         </div >
     )
