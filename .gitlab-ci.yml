@@ -61,10 +61,15 @@ test:
     dependencies:
         - build-backend
     before_script:
-        - echo SECRET=$SECRET >> .env
+        - echo SECRET=das21dae123dc1 >> .env
         - echo NEED_GOOGLE=true >> .env
     script:
         - cd server && npm install && npm run test
+        artifacts:
+        expire_in: 1h
+        when: on_failure
+        paths:
+            - test.zip
 
 deploy:
     stage: deploy
