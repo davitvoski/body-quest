@@ -6,6 +6,7 @@ import { Exercise } from './Exercise';
 
 type PaginationProps = {
   exercises: IExercise[]
+  isLoading: Boolean
 }
 export default function PaginationForExercises(props: PaginationProps) {
   // default show 100 exercises per page
@@ -34,9 +35,9 @@ export default function PaginationForExercises(props: PaginationProps) {
           <Exercise exercise={exercise} key={i} />
         ))}
       </div>
-      <Pagination id='pagination' onChange={(e: React.ChangeEvent<unknown>, page: number) => {
+     {!props.isLoading && <Pagination id='pagination' onChange={(e: React.ChangeEvent<unknown>, page: number) => {
         setCurrentPage(page);
-      }} count={totalPage} />
+      }} count={totalPage} />}
     </>
   );
 }

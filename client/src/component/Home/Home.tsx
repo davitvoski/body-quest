@@ -26,7 +26,7 @@ const Home = () => {
       method: 'GET',
     });
     if (response.status === 404) {
-      throw new Error( 
+      throw new Error(
         `Failed to fetch ${response.status}: ${response.statusText}`
       );
     }
@@ -52,12 +52,11 @@ const Home = () => {
         <Search allExercises={allExercises} setExercise={setExercise} />
         <FilterView allExercises={allExercises} setExercise={setExercise} />
       </Toolbar>
-       
+
       <div className='exercisesBox'>
-        {exercises.length === 0 && <LinearProgress />}
-        <ExerciseList exercises={exercises} />
+        {isLoading && <LinearProgress sx={{ width: "60%", marginBottom:'50px'}} />}
+        <ExerciseList exercises={exercises} isLoading={isLoading}/>
       </div>
-      {isLoading && <LinearProgress sx={{ width:"60%", margin:"auto"}}/>}
     </div>
   )
 };
