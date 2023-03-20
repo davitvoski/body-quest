@@ -15,6 +15,7 @@ export async function saveUserGoalPOST(req: Request, res: Response) {
     if (!goal) throw new Error("Goal not provided");
 
     await new Database().saveUserGoal(email, goal);
+
     res.status(201).send("Goal saved successfully");
   } catch (err) {
     if (err instanceof Error) {

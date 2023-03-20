@@ -52,6 +52,12 @@ const mockSession = {
 };
 
 beforeAll(() => {
+  isAuthenticatedMock.mockImplementation(
+    (req: Request, res: Response, next: NextFunction) => {
+      if (!req.session) return res.sendStatus(401)
+      next()
+    }
+  )
 
   jest
     .spyOn(Database.prototype, "saveUserGoal")
@@ -61,20 +67,14 @@ beforeAll(() => {
 
   jest
     .spyOn(Database.prototype, "getUserGoals")
-    .mockImplementation(async (_: string): Promise<IGoal[]> => {
+    .mockImplementation(async (email: string): Promise<IGoal[]> => {
+      if (email === undefined) return mockGOALS
       return mockGOALS;
     });
 
 });
 
 describe("Testing Goals Routes - POST", () => {
-  isAuthenticatedMock.mockImplementation(
-    (req: Request, res: Response, next: NextFunction) => {
-      if (!req.session) return res.sendStatus(401)
-      next()
-    }
-  )
-
   test("returns 201 and success message when valid goal is provided with a logged in user session", async () => {
     const goal: IGoal = {
       id: 2,
@@ -111,8 +111,6 @@ describe("Testing Goals Routes - POST", () => {
       .post("/api/goals/")
       .send({ goal: goal })
       .set('Cookie', [`connect.sid=${encodeURIComponent(JSON.stringify(mockSession))}`])
-      .set('Accept', 'application/json')
-      .set('Content-Type', 'application/json')
     expect(res.status).toBe(201);
 
   });
@@ -132,11 +130,14 @@ describe("Testing Goals Routes - POST", () => {
 
 describe("Testing Goals Routes - GET", () => {
   test("GET /api/goals/ return 201", async () => {
-    const emailSent = "test@gmail.com";
 
-    const res = await request(app).get("/api/goals/").send({
-      email: "tesdst@gmail.com",
-    });
+    const res = await request(app)
+      .get("/api/goals/")
+      .send()
+      .set('Cookie', [`connect.sid=${encodeURIComponent(JSON.stringify(mockSession))}`])
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+
 
     expect(res.status).toBe(201);
     expect(mockGOALS).toEqual(res.body);
@@ -164,6 +165,11 @@ describe("Testing Goals Routes - PATCH", () => {
       .patch("/api/goals/completed").send({
         goal: goal
       })
+      .set('Cookie', [`connect.sid=${encodeURIComponent(JSON.stringify(mockSession))}`])
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+
+
 
     expect(res.status).toBe(204)
     expect(goal.completed).toEqual(true)
@@ -187,6 +193,10 @@ describe("Testing Goals Routes - PATCH", () => {
     goal.completed = true
     const res = await request(app)
       .patch("/api/goals/completed").send({})
+      .set('Cookie', [`connect.sid=${encodeURIComponent(JSON.stringify(mockSession))}`])
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+
 
     expect(res.status).toBe(400)
   })
