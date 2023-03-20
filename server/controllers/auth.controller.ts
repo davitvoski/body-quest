@@ -30,7 +30,6 @@ export function getUser(req: Request, res: Response) {
  */
 export async function authenticateUser(req: Request, res: Response) {
   try {
-    //TODO: should validate that the token was sent first
     const { token } = req.body;
 
     const ticket = await client.verifyIdToken({
@@ -79,7 +78,6 @@ export async function authenticateUser(req: Request, res: Response) {
  * @param next Express NextFunction 
  */
 export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
-  console.log(req.session)
   if (!req.session.user) {
     return res.sendStatus(401);
   }
