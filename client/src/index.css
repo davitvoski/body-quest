@@ -121,3 +121,7 @@ a :hover {
     padding-bottom: 34px;
   }
 }
+
+.clickableDiv:hover {
+  cursor: pointer;
+}

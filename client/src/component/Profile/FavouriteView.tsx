@@ -1,6 +1,7 @@
 import { Button, Checkbox, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import { IExercise } from "../../../../shared";
+import { useEffect, useState } from "react";
+import { Popup } from "../Exercise/Popup";
 import Item from "../modules/Item";
 
 /**
@@ -8,6 +9,8 @@ import Item from "../modules/Item";
  */
 const FavouriteView = () => {
   const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentFav, setCurrentFav] = useState<IExercise>()
 
   // Display Users Favourites
   useEffect(() => {
@@ -20,6 +23,7 @@ const FavouriteView = () => {
       if (resp.status === 401) return;
       const data = (await resp.json()).exercises as IExercise[];
 
+      console.log(data)
       setFavouriteExercises(data);
     }
 
@@ -29,28 +33,39 @@ const FavouriteView = () => {
       console.log(err);
     });
   }, []);
+  
+  const handlePopup = (fav: IExercise) => {
+    setCurrentFav(fav);
+    setIsOpen(!isOpen);
+  };
+
+  const closePopup = () => setIsOpen(!isOpen);
 
   return (
     <div>
       {/* Real Data */}
       
       {favouriteExercises.length > 0 ? 
-          favouriteExercises.map(fav => 
-              <Item sx={{ m: "1% 0 1% 0", p:2}}>
+        favouriteExercises.map(fav => 
+          <div className="clickableDiv">
+            <Item sx={{ m: "1% 0 1% 0", p:2}} onClick={() => handlePopup(fav)}>
               <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-                {fav.name}
+                {fav.name} {fav.body_part} {fav.target}
               </Typography>
-              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-                {fav.body_part}
-              </Typography>
-              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-                {fav.equipment}
-              </Typography>
-                  <Button>Create a Goal</Button>
-              </Item>
-          ) :
-          <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No favourites.</Item>
+            </Item>
+          </div>
+        ) :
+        <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No favourites.</Item>
       }
+      
+      {currentFav != undefined &&
+        <Popup
+        handleClose={closePopup}
+        exercise={currentFav!}
+        open={isOpen}
+        />
+      }
+      
     </div>
 
   );
