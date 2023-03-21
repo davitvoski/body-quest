@@ -1,5 +1,6 @@
 import "./App.css";
 import {
+  Box,
   createTheme,
   PaletteMode,
   ThemeProvider,
@@ -11,6 +12,8 @@ import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
 import { GoalForm } from "./component/Goal/GoalForm";
 import Home from "./component/Home/Home";
+import { Feed } from "./component/Feed/Feed";
+import { PostForm } from "./component/Feed/PostForm/PostForm";
 import { useState } from "react";
 
 function App() {
@@ -38,12 +41,15 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <div className={Theme.palette.mode + " App"}>
-        <NavBar Theme={Theme} changeTheme={changeTheme} />
-        <Outlet />
+        <NavBar Theme={Theme} changeTheme={changeTheme}/>
+        <Box marginTop="100px">
+          <Outlet />
+        </Box>
         {/* <Routes>
           <Route path="/" element={<Home />} />
           <Route path="Profile" element={<Profile />} />
           <Route path="Goalcreation" element={<GoalForm />} />  
+          <Route path="Postcreation" element={<PostForm />} />
         </Routes> */}
       </div>
     </ThemeProvider>
