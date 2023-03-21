@@ -63,6 +63,7 @@ test:
     before_script:
         - echo SECRET=das21dae123dc1 >> .env
         - echo NEED_GOOGLE=true >> .env
+        - mv .env ./server
     script:
         - cd server && npm install && npm run test
     artifacts:
