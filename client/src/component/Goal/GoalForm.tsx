@@ -25,6 +25,7 @@ import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useNavigate } from "react-router";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 /**
  *
@@ -32,10 +33,6 @@ import { useNavigate } from "react-router";
  *
  * This component is used to create a new goal for a specific exercise
  */
-
-interface State extends SnackbarOrigin {
-  openSnack: boolean;
-}
 
 export const GoalForm = () => {
   const { t } = useTranslation();
@@ -52,19 +49,6 @@ export const GoalForm = () => {
     isError: false,
     message: "",
   });
-
-  const [snackState, setSnackState] = React.useState<State>({
-    openSnack: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-
-  const { vertical, horizontal, openSnack } = snackState;
-
-  const handleSnackClose = () => {
-    setErrorHandling({ isError: false, message: "" });
-    setSnackState({ ...snackState, openSnack: false });
-  };
 
   dayjs.extend(customParseFormat);
   let navigate = useNavigate();
@@ -128,9 +112,13 @@ export const GoalForm = () => {
       await axios.post("/api/goals", {
         goal: newGoal,
       });
-      navigate("/");
+      navigate("/", { state: { goalCreated: true } });
     } catch (error: any) {
-      setErrorHandling({ isError: true, message: "Unable to create goal" });
+      setErrorHandling({ isError: true, message: "Failed to create goal" });
+      enqueueSnackbar("Failed to create goal", {
+        autoHideDuration: 2000,
+        preventDuplicate: true,
+      });
       console.log(error);
     }
   };
@@ -146,12 +134,13 @@ export const GoalForm = () => {
       endDate: endDate,
       completed: false,
     };
-
     await createGoal(newGoal);
   };
 
   return (
     <div className="form-container">
+      <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
+
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
@@ -276,15 +265,6 @@ export const GoalForm = () => {
           )}
         </form>
       </Paper>
-      {errorHandling.isError && (
-        <Snackbar
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          open={errorHandling.isError}
-          onClose={handleSnackClose}
-          message={errorHandling.message}
-        />
-      )}
     </div>
   );
 };

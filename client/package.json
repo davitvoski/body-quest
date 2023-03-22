@@ -28,6 +28,7 @@
     "jsonwebtoken": "^9.0.0",
     "material-ui-flags": "^1.2.4",
     "moment": "^2.29.4",
+    "notistack": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
