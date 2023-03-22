@@ -48,7 +48,7 @@ export const Search = (props: searchProps) => {
         <SearchIcon />
         <TextField
           id="searchInput"
-          placeholder={t('search') as string | undefined}
+          placeholder={t('search') as string}
           onChange={getSearchValue}
         />
       </form>
