@@ -23,6 +23,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "../../styles/NavBar.css";
 import { ThemeNav } from "./ThemeNav";
+import AddIcon from '@mui/icons-material/Add';
+import FeedIcon from '@mui/icons-material/Feed';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -45,6 +47,7 @@ export default function NavBar(props: {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isFeed, setIsFeed] = useState(false);
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -76,6 +79,12 @@ export default function NavBar(props: {
     navigate("/Profile");
   };
 
+  useEffect(() => {
+    getUser();
+    //either hide or show add post button    
+    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false)    
+  });
+
   const handleError = () => {
     console.error("There has been an error");
   };
@@ -93,34 +102,83 @@ export default function NavBar(props: {
   };
 
   return (
-    <Box id="navBar">
+    <Box id="navBar" 
+      position="fixed"
+      width="100%"
+      zIndex="2"
+    >
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Link to={"/"}>
-            {props.Theme.palette.mode === "dark" ? (
-              <img
-                className="logo"
-                src="/logo-dark.svg"
-                alt="BodyQuest Logo"
-                title="Home"
-              />
-            ) : (
-              <img
-                className="logo"
-                src="/logo-light.svg"
-                alt="BodyQuest Logo"
-                title="Home"
-              />
-            )}
-          </Link>
-
           <Box
             display="flex"
-            width="10%"
+            justifyContent="space-between"
+            width="20%"
+          >
+            <Box
+              display="flex"
+              width="60%"
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-around"
+            >
+              <Link to={"/"}>
+                {props.Theme.palette.mode === "dark" ? (
+                  <img
+                    className="logo"
+                    src="/logo-dark.svg"
+                    alt="BodyQuest Logo"
+                    title="Home"
+                  />
+                ) : (
+                  <img
+                    className="logo"
+                    src="/logo-light.svg"
+                    alt="BodyQuest Logo"
+                    title="Home"
+                  />
+                )}
+              </Link>
+            </Box>
+            {isFeed && username !== "" && 
+              <Box
+                alignSelf="center"
+              >
+                <Button 
+                    variant="contained" 
+                    startIcon={<AddIcon />}  
+                    size="small"     
+                    //sx={{marginLeft: "3vw"}}
+                    href="#/Postcreation"
+                >
+                  Add Post
+                </Button>
+              </Box>
+              }
+          </Box>
+          <Box
+            display="flex"
+            width="15%"
             flexDirection="row"
             alignItems="center"
             justifyContent="space-around"
           >
+            <Link
+              style={{ textDecoration: "none", color: "white"}}
+              to={'/Feed'}
+              >
+              <IconButton
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  padding: "0",
+                }}
+                title="Feed"
+              >
+                <FeedIcon />
+              </IconButton>              
+            </Link>
             <LanguageNav />
             <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme} />
 

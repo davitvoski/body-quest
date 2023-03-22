@@ -106,13 +106,13 @@ authRouter.get("/logout", isAuthenticated, logout);
  *            description: Logs user out
  *      responses:
  *          200:
- *              description: returns 200
+ *              description: Success
  *              content:
  *                  application/json:
  *                      schema:
  *                          type: 200
  *          401:
- *              description: 401 error
+ *              description: Unauthorized
  *              content:
  *                  application/json:
  *                      schema:

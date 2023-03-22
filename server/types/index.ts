@@ -1,4 +1,5 @@
-import { IGoal } from "../../shared";
+import { IGoal, IUser } from "../../shared";
+import "express-session"
 
 export type GetGoalsReturnValue = {
     goals: IGoal[];
