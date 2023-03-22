@@ -33,8 +33,9 @@ import { useNavigate } from "react-router";
 export const GoalForm = () => {
   const { t } = useTranslation();
   let { state } = useLocation();
-  const [goalType, setGoalType] = useState("");
-  const [goalValue, setGoalValue] = useState(0);
+  console.log(state)
+  const [goalType, setGoalType] = useState(state.type as string);
+  const [goalValue, setGoalValue] = useState(state.amount as number);
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);

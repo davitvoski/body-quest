@@ -55,6 +55,7 @@ export async function getUserGoals(req: Request, res: Response) {
 export async function updateGoalCompletedPATCH(req: Request, res: Response) {
   try {
     const goal = req.body.goal as IGoal;
+    console.log(goal)
     // const email = req.body.email as strin
     const email = req.session.user!.email as string;
 

@@ -1,4 +1,5 @@
 import { Button, Checkbox, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import Item from "../modules/Item";
 import { useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
@@ -54,7 +55,6 @@ const GoalView = () => {
         if (resp.status === 401) return;
         const data = await resp.json() as IGoal[];
   
-        console.log(data)
         setGoals(data)
       }
   
@@ -65,12 +65,27 @@ const GoalView = () => {
       });
     }, []);
 
+    const completeGoal = async (goal: IGoal) => {
+        let resp;
+        resp = await fetch("/api/goals/completed", {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({goal: goal}),
+        });
+
+        let newgoals = goals
+        newgoals.find(g => g.id == goal.id)!.completed = true
+        setGoals(newgoals)
+    }
+
     return(
         <div>
             {goals.filter(isIncomplete).length > 0 ?
                 goals.filter(isIncomplete).map(goal => 
                 <Item sx={{ m: "1% 0 1% 0", p:2}}>
-                    <Checkbox sx={{ color: "white"}} onChange={() => goal.completed = true} inputProps={{ 'aria-label': 'controlled' }} />
+                    <Checkbox sx={{ color: "white"}} onChange={() => completeGoal(goal)} inputProps={{ 'aria-label': 'controlled' }} />
                     <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } reps: { goal.exercise }</Typography>
                 </Item>
                 ) :
@@ -85,7 +100,17 @@ const GoalView = () => {
                 goals.filter(isCompleted).map(goal => 
                     <Item sx={{ m: "1% 0 1% 0", p:2, opacity:"60%"}}>
                         <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } reps: { goal.exercise }</Typography>
-                        <Button>Do Again</Button>
+                        <Link
+                            to={{
+                                pathname: "/Goalcreation",
+                            }}
+                            state={{ exerciseName: goal.exercise, 
+                                type: goal.type, amount: goal.goal 
+                            }}
+                        >
+                            <Button>Do Again</Button>
+                        </Link>
+                        
                     </Item>
                 )
             }
