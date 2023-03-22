@@ -13,6 +13,8 @@ import Home from "./component/Home/Home";
 import ProfileView from "./component/Profile/ProfileView";
 import Profile from "./component/Profile/Profile";
 import { GoalForm } from "./component/Goal/GoalForm";
+import { Feed } from "./component/Feed/Feed";
+import { PostForm } from "./component/Feed/PostForm/PostForm";
 
 const router = createHashRouter([
   {
@@ -30,6 +32,14 @@ const router = createHashRouter([
       {
         path: "/Goalcreation",
         element: <GoalForm />,
+      },
+      {
+        path: "/Feed",
+        element: <Feed />,
+      },
+      {
+        path: "/Postcreation",
+        element: <PostForm />,
       },
     ],
   },
