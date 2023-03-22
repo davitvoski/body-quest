@@ -54,10 +54,9 @@ const Home = () => {
       </Toolbar>
        
       <div className='exercisesBox'>
-        {exercises.length === 0 && <LinearProgress />}
+        {isLoading && <LinearProgress sx={{ width:"60%", margin:"auto"}}/>}
         <ExerciseList exercises={exercises} />
       </div>
-      {isLoading && <LinearProgress sx={{ width:"60%", margin:"auto"}}/>}
     </div>
   )
 };

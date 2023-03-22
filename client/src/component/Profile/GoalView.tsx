@@ -52,9 +52,10 @@ const GoalView = () => {
         const resp = await fetch(`/api/goals`);
         // If not logged in, return
         if (resp.status === 401) return;
-        const data = (await resp.json()).exercises as IGoal[];
+        const data = await resp.json() as IGoal[];
   
         console.log(data)
+        setGoals(data)
       }
   
       // NOTE: IF THE GOALS ARE NOT DISPLAYING

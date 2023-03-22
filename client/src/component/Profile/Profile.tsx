@@ -6,6 +6,7 @@ import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
 import { useTranslation} from "react-i18next";
+import { GoalCompleted } from "./GoalCompleted";
 
 function a11yProps(index: number) {
     return {
@@ -25,6 +26,7 @@ const Profile = () => {
     const [avatar, setAvatar] = useState("")
     const [experience, setExperience] = useState(0)
     const [value, setValue] = useState(0);
+    const [isOpen, setIsOpen] = useState(false)
 
     const getUser = async () => {
         const res = await fetch("/api/authentication/getUser");
@@ -33,6 +35,7 @@ const Profile = () => {
             setUsername(data.user.username);
             setEmail(data.user.email)
             setAvatar(data.user.avatar)
+            setExperience(data.user.experience)
         }
     }
 
@@ -42,6 +45,18 @@ const Profile = () => {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
+    };
+
+    const completeGoal = (goal: number, type: string) => {
+        let xp = experience + 5; // base 5 increase
+        xp += Math.floor(goal / 5); // one XP per 5 amount of goal
+
+        setExperience(xp);
+        handlePopup;
+    }
+
+    const handlePopup = () => {
+        setIsOpen(!isOpen);
     };
 
     return(
@@ -59,6 +74,14 @@ const Profile = () => {
             <TabPanel index={1} value={value} {...a11yProps(2)}>
                 <FavouriteView/>
             </TabPanel>
+            
+            {isOpen &&
+                <GoalCompleted
+                    handleClose={handlePopup}
+                    xp={experience!}
+                    open={isOpen}
+                />
+            }
         </div>
     )
 }

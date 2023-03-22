@@ -157,7 +157,7 @@ export default function NavBar(props: {
           </Box>
           <Box
             display="flex"
-            width="15%"
+            width="10%"
             flexDirection="row"
             alignItems="center"
             justifyContent="space-around"
@@ -166,16 +166,10 @@ export default function NavBar(props: {
               style={{ textDecoration: "none", color: "white"}}
               to={'/Feed'}
               >
-              <IconButton
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  textTransform: "none",
-                  fontSize: "1rem",
-                  padding: "0",
-                }}
-                title="Feed"
-              >
+                <IconButton
+                  sx={{ color: "white" }}
+                  title="Feed"
+                >
                 <FeedIcon />
               </IconButton>              
             </Link>
