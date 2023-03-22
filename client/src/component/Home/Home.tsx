@@ -61,6 +61,7 @@ const Home = () => {
       preventDuplicate: true,
     });
   };
+
   return (
     <div className="homePage">
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
