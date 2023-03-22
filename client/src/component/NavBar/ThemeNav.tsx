@@ -8,7 +8,7 @@ export const ThemeNav = (props: {Theme: Theme, changeTheme: (current: string) =>
         <IconButton 
             sx={{ l: 0.5 }} 
             color="inherit"
-            title={t("changetheme") as string | undefined}
+            title={t("changetheme") as string}
             onClick={() => props.changeTheme(props.Theme.palette.mode)}
         >
             {props.Theme.palette.mode === 'light' ? <Brightness7Icon htmlColor="white" /> : <Brightness4Icon htmlColor="white" />}

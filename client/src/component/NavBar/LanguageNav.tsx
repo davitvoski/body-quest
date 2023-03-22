@@ -40,7 +40,7 @@ export const LanguageNav = () => {
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                title={t("language") as string | undefined}
+                title={t("language") as string}
             >
                 <LanguageIcon sx={{ l: 0.5, color:"white" }} color="inherit" />
             </IconButton>

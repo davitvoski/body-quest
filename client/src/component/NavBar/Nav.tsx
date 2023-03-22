@@ -134,7 +134,7 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-                    title={t("home") as string | undefined}
+                    title={t("home") as string }
                   />
                 )}
               </Link>
@@ -174,7 +174,7 @@ export default function NavBar(props: {
                   fontSize: "1rem",
                   padding: "0",
                 }}
-                title={t("feed") as string | undefined}
+                title={t("feed") as string}
               >
                 <FeedIcon />
               </IconButton>              
@@ -193,7 +193,7 @@ export default function NavBar(props: {
                     padding: "0",
                   }}
                   onClick={handleClickOpen}
-                  title={t("login") as string | undefined}
+                  title={t("login") as string}
                 >
                   <LoginIcon color="inherit" />
                 </IconButton>
@@ -209,7 +209,7 @@ export default function NavBar(props: {
                         padding: "0",
                       }}
                       onClick={handleLogout}
-                      title={t("logout") as string | undefined}
+                      title={t("logout") as string}
                       href="/"
                     >
                       <LogoutIcon color="inherit" />
@@ -225,7 +225,7 @@ export default function NavBar(props: {
                         fontSize: "1rem",
                         padding: "0",
                       }}
-                      title={t("go_profile") as string | undefined}
+                      title={t("go_profile") as string}
                     >
                       <AccountCircleRoundedIcon />
                     </IconButton>
