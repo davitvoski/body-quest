@@ -47,7 +47,7 @@ exerciseRouter.get("/", getAllExercises)
  *     content:
  *      application/json:
  *       schema:
- *        type: array
+ *        type: arrayS
  *        example:
  *         exercises: [{
              body_part: "waist",

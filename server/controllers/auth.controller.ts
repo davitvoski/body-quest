@@ -5,11 +5,6 @@ import Database from "../database/db";
 import dotenv from 'dotenv';
 dotenv.config()
 
-declare module 'express-session' {
-  export interface SessionData {
-    user: IUser;
-  }
-}
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const db = new Database();
@@ -35,7 +30,6 @@ export function getUser(req: Request, res: Response) {
  */
 export async function authenticateUser(req: Request, res: Response) {
   try {
-    //TODO: should validate that the token was sent first
     const { token } = req.body;
 
     const ticket = await client.verifyIdToken({
