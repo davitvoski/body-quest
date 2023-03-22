@@ -45,10 +45,6 @@ export const GoalForm = () => {
   const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
   const [endDate, setEndDate] = useState("");
   const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
-  const [errorHandling, setErrorHandling] = useState({
-    isError: false,
-    message: "",
-  });
 
   dayjs.extend(customParseFormat);
   let navigate = useNavigate();
@@ -114,7 +110,6 @@ export const GoalForm = () => {
       });
       navigate("/", { state: { goalCreated: true } });
     } catch (error: any) {
-      setErrorHandling({ isError: true, message: "Failed to create goal" });
       enqueueSnackbar("Failed to create goal", {
         autoHideDuration: 2000,
         preventDuplicate: true,
