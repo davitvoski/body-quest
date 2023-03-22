@@ -41,5 +41,6 @@
     "addTofavoris":"必须登录后才能添加喜欢的练习。",
     "popWrongMess": "错误. 请稍后尝试.",
     "addedToFavourites":"添加到收藏！",
-    "removeFavoris":"移除 !"
+    "removeFavoris":"移除 !",
+    "date_requirement":"结束日期始于开始日期之前"
   }

@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useTranslation } from "react-i18next";
 
 type DatePickerProps = {
   label: string;
@@ -20,6 +21,7 @@ type DatePickerProps = {
  *
  */
 export default function ResponsiveDatePicker(props: DatePickerProps) {
+  const {t} = useTranslation();
   const [value, setValue] = React.useState<Dayjs | null>(
     props.isToday ? dayjs() : null
   );
@@ -51,7 +53,7 @@ export default function ResponsiveDatePicker(props: DatePickerProps) {
           renderInput={(params) => (
             <TextField
               {...params}
-              helperText="END DATE MUST BE AFTER START DATE"
+              helperText={t('date_requirement')}
               sx={{ color: "red" }}
             />
           )}

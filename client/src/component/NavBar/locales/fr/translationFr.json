@@ -41,5 +41,6 @@
     "addTofavoris":"Vous devez être connecté(e) pour préférer un exercice.",
     "popWrongMess": "Un problème s'est produit. Veuillez réessayer plus tard.",
     "addedToFavourites":"Ajouté aux favoris !",
-    "removeFavoris":"Retiré !"
+    "removeFavoris":"Retiré !",
+    "date_requirement":"Ne peut pas choisir le jour avant que le début du jour"
   }
