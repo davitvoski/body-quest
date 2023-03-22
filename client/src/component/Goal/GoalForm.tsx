@@ -52,7 +52,6 @@ export const GoalForm = () => {
     isError: false,
     message: "",
   });
-  const [isGoalCreated, setIsGoalCreated] = useState(false);
 
   const [snackState, setSnackState] = React.useState<State>({
     openSnack: false,
@@ -127,7 +126,7 @@ export const GoalForm = () => {
   const createGoal = async (newGoal: IGoal) => {
     try {
       await axios.post("/api/goals", newGoal);
-      setIsGoalCreated(true);
+      navigate("/");
     } catch (error: any) {
       setErrorHandling({ isError: true, message: "Unable to create goal" });
       console.log(error);
@@ -147,7 +146,6 @@ export const GoalForm = () => {
     };
 
     await createGoal(newGoal);
-    // navigate("/");
   };
 
   return (
@@ -236,6 +234,11 @@ export const GoalForm = () => {
               justifyContent="center"
               alignItems="center"
               spacing={5}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "baseline",
+              }}
             >
               <FormControl>
                 <ResponsiveDataPicker
