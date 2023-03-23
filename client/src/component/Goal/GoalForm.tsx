@@ -33,9 +33,8 @@ import { useNavigate } from "react-router";
 export const GoalForm = () => {
   const { t } = useTranslation();
   let { state } = useLocation();
-  console.log(state)
   const [goalType, setGoalType] = useState(state.type as string);
-  const [goalValue, setGoalValue] = useState(state.amount as number);
+  const [goalValue, setGoalValue] = useState(0);
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);
@@ -195,9 +194,7 @@ export const GoalForm = () => {
                         id="goal-amount-input"
                         variant="filled"
                         type="number"
-                        inputProps={{
-                          min: 0,
-                        }}
+                        inputProps={{ min: 0 }}
                         onChange={handleGoalValueChange}
                       />
                     ),

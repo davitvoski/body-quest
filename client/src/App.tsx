@@ -14,7 +14,7 @@ import { GoalForm } from "./component/Goal/GoalForm";
 import Home from "./component/Home/Home";
 import { Feed } from "./component/Feed/Feed";
 import { PostForm } from "./component/Feed/PostForm/PostForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");

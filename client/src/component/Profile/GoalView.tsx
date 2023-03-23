@@ -5,39 +5,6 @@ import { useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
 import { IGoal } from "../../../../shared";
 
-// const tempGoals = [
-//     {
-//         "name": "ankle circles",
-//         "reps": 20,
-//         "completed": false
-//     }, 
-//     {
-//         "name": "band bench press",
-//         "reps": 30,
-//         "completed": true
-//     }, 
-//     {
-//         "name": "dumbbell deadlift",
-//         "reps": 40,
-//         "completed": false
-//     },
-//     {
-//         "name": "ankle circles",
-//         "reps": 20,
-//         "completed": true
-//     }, 
-//     {
-//         "name": "band bench press",
-//         "reps": 30,
-//         "completed": false
-//     }, 
-//     {
-//         "name": "dumbbell deadlift",
-//         "reps": 40,
-//         "completed": true
-//     }
-// ]
-
 const GoalView = () => {
     const [goals, setGoals] = useState<IGoal[]>([]);
     const {t} = useTranslation();
@@ -85,8 +52,9 @@ const GoalView = () => {
             {goals.filter(isIncomplete).length > 0 ?
                 goals.filter(isIncomplete).map(goal => 
                 <Item sx={{ m: "1% 0 1% 0", p:2}}>
+                    <Typography sx={{ m: "0% 0 -2% 0" }} display="block" variant="caption" color="primary" align="right">{ goal.startDate } - { goal.endDate }</Typography>
                     <Checkbox sx={{ color: "white"}} onChange={() => completeGoal(goal)} inputProps={{ 'aria-label': 'controlled' }} />
-                    <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } reps: { goal.exercise }</Typography>
+                    <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                 </Item>
                 ) :
                 <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No current goals.</Item>
@@ -99,18 +67,16 @@ const GoalView = () => {
             {goals.filter(isCompleted).length > 0 &&
                 goals.filter(isCompleted).map(goal => 
                     <Item sx={{ m: "1% 0 1% 0", p:2, opacity:"60%"}}>
-                        <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } reps: { goal.exercise }</Typography>
+                        <Typography sx={{ m: "0% 0 -2% 0" }} display="block" variant="caption" color="primary" align="right">{ goal.startDate } - { goal.endDate }</Typography>
+                        <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                         <Link
                             to={{
                                 pathname: "/Goalcreation",
                             }}
-                            state={{ exerciseName: goal.exercise, 
-                                type: goal.type, amount: goal.goal 
-                            }}
+                            state={{ exerciseName: goal.exercise,  type: goal.type }}
                         >
                             <Button>Do Again</Button>
                         </Link>
-                        
                     </Item>
                 )
             }
