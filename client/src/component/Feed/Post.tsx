@@ -4,6 +4,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 type PostProps = { 
   post: IPost;
@@ -14,13 +15,14 @@ export const Post = (props: PostProps) => {
   const [post, setPost] = useState<IPost>(props.post); 
   const toggleLikedPost = async () => {
     if (props.user) {
-      let response = await axios.post("/api/posts/togglelikedPost", {post: post, user:props.user})
-      console.log(response);
-      
+      let response = await axios.post("/api/posts/togglelikedPost", {post: post, user:props.user})      
       setPost(response.data.post);
     }
     else {
-      //not logged in error
+      enqueueSnackbar("Log in to like a post", {
+        autoHideDuration: 2000,
+        variant: 'error'
+      });
     }
   }
 
@@ -33,6 +35,8 @@ export const Post = (props: PostProps) => {
       sx={{width: "500px", marginBottom:"20px" }}
       elevation={12} 
     >
+      <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+
       <CardHeader 
         sx={{textAlign:"left"}}
         avatar={
