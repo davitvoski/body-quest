@@ -55,7 +55,6 @@ const Home = () => {
   }, []);
 
   const goalCreationPopup = () => {
-    console.log("goal created");
     enqueueSnackbar("Goal Created", {
       autoHideDuration: 2000,
       preventDuplicate: true,
