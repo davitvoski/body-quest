@@ -55,14 +55,16 @@ export async function createPost(req: Request, res: Response) {
 
 export async function toggleLikedPost(req: Request, res: Response){
     try {
-        console.log(req.body);
         const post:IPost = req.body.post;
         const user:IPostLikedUser = req.body.user;
         let likedUsers:IPostLikedUser[] = post.likedUsers;
         const isPresent = likedUsers.some(someUser => someUser.email === user.email);
+
+        let updatedPost = {}
+
         if (!isPresent) {
             likedUsers.push(user);
-            new Database().toggleLikedPost(post, likedUsers);
+            updatedPost = await new Database().toggleLikedPost(post, likedUsers);
         }
         else {
             let index = 0;
@@ -72,9 +74,10 @@ export async function toggleLikedPost(req: Request, res: Response){
                 }
             })
             likedUsers.splice(index);
-            new Database().toggleLikedPost(post, likedUsers);
+            updatedPost = await new Database().toggleLikedPost(post, likedUsers);
         }
-        res.json(200)
+
+        res.status(200).json({post: updatedPost});
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: "Error liking a post" })

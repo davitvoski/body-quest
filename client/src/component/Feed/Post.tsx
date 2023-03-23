@@ -1,22 +1,32 @@
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
 import { IPost, IPostLikedUser } from "../../../../shared";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 type PostProps = { 
   post: IPost;
   user?: IPostLikedUser;
 };
 
-export const Post = (props: PostProps) => {  
+export const Post = (props: PostProps) => { 
+  const [post, setPost] = useState<IPost>(props.post); 
   const toggleLikedPost = async () => {
     if (props.user) {
-      await axios.post("/api/posts/likePost", {post: props.post, user:props.user})
+      let response = await axios.post("/api/posts/togglelikedPost", {post: post, user:props.user})
+      console.log(response);
+      
+      setPost(response.data.post);
     }
     else {
-      
+      //not logged in error
     }
   }
+
+  useEffect(() => {
+
+  },[post]);
   
   return (
     <Card 
@@ -27,32 +37,35 @@ export const Post = (props: PostProps) => {
         sx={{textAlign:"left"}}
         avatar={
           <Avatar 
-            src={props.post.user.picture}
-            alt={`${props.post.user.username}'s post`}
+            src={post.user.picture}
+            alt={`${post.user.username}'s post`}
           />
         }
-        title={props.post.user.username}
-        subheader={props.post.date}
+        title={post.user.username}
+        subheader={post.date}
       />
 
       <CardMedia 
         component="img"
-        image={props.post.imageUrl}
-        alt={`${props.post.user.username}'s image`} 
+        image={post.imageUrl}
+        alt={`${post.user.username}'s image`} 
         width="100%"   
         height="500vh"    
       />
 
       <CardActions disableSpacing>
         <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
-          <FavoriteBorderIcon />
+          {(post.likedUsers.some(someUser => someUser.email === props.user?.email)
+            &&  <FavoriteIcon sx={{ color: "red"}}/>)
+            ||  <FavoriteBorderIcon />
+          }
         </IconButton>
-        <Typography>{props.post.likedUsers.length} Likes</Typography>
+        <Typography>{post.likedUsers.length} Likes</Typography>
       </CardActions>
 
       <CardContent>
         <Typography align="left">
-          {props.post.caption}
+          {post.caption}
         </Typography>
       </CardContent>
 

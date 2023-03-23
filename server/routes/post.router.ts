@@ -75,6 +75,6 @@ postRouter.get("/", getAllPosts)
  */
 postRouter.post("/createPost", isAuthenticated, createPost)
 
-postRouter.post("/likePost", isAuthenticated, toggleLikedPost)
+postRouter.post("/togglelikedPost", isAuthenticated, toggleLikedPost)
 
 export default postRouter

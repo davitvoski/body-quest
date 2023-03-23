@@ -238,6 +238,19 @@ export default class Database {
       const collection = db.collection(this.postsCollection); 
 
       await collection.updateOne({imageUrl: post.imageUrl},{$set: {likedUsers: users}});
+      
+      let response = await collection.findOne({imageUrl: post.imageUrl});
+
+      let responsePost:IPost = response as unknown as IPost;
+      let updatedPost:IPost = {
+        user: responsePost.user, 
+        imageUrl: responsePost.imageUrl, 
+        caption: responsePost.caption,
+        date: responsePost.date,
+        likedUsers: responsePost.likedUsers
+      }      
+      return updatedPost;
+      
     } catch (error) {
       throw new Error("Error adding liking or disliking a post")      
     }
