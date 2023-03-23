@@ -3,6 +3,7 @@ import { IExercise } from "../../../../shared";
 import { useState } from "react";
 import { Popup } from "./Popup";
 import "../../styles/Exercises.css";
+
 type ExerciseProps = {
   exercise: IExercise;
 };
@@ -27,7 +28,11 @@ export const Exercise = (props: ExerciseProps) => {
             <Typography className="exerciseNames">
               {props.exercise.name}
             </Typography>
-            <Typography>{props.exercise.body_part}</Typography>
+            <div className="img-container">
+              {props.exercise.body_part === "waist" && (
+                <img width={90} src="/body-parts/waist.png" />
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
