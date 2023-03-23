@@ -46,7 +46,7 @@ export async function authenticateUser(req: Request, res: Response) {
       return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
 
-    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""] }
+    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:false}
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 
@@ -55,6 +55,7 @@ export async function authenticateUser(req: Request, res: Response) {
       console.log("Added a user to the db");
     }
     else {
+      user = await db.getUser(payLoad.email);
       console.log("User is already signed up");
     }
 

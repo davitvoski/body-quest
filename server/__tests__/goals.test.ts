@@ -42,6 +42,7 @@ const mockSession = {
     picture: "link",
     goals: [],
     favourites: [""],
+    isAdmin:false
   } as IUser,
   cookie: {
     maxAge: 3600000,

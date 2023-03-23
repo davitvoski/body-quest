@@ -7,6 +7,7 @@ import { Grid } from "@mui/material";
 
 type PaginationProps = {
   exercises: IExercise[];
+  isLoading: Boolean;
 };
 
 export default function PaginationForExercises(props: PaginationProps) {
@@ -42,6 +43,15 @@ export default function PaginationForExercises(props: PaginationProps) {
         }}
         count={totalPage}
       />
+      {!props.isLoading && (
+        <Pagination
+          id="pagination"
+          onChange={(e: React.ChangeEvent<unknown>, page: number) => {
+            setCurrentPage(page);
+          }}
+          count={totalPage}
+        />
+      )}
     </>
   );
 }

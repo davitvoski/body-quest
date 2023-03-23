@@ -33,5 +33,14 @@
     "until":"until",
     "bio":"bio here",
     "goals":"Goals",
-    "favourites":"Favourites"
+    "favourites":"Favourites",
+    "changetheme": "Change Theme",
+    "feed":"Feed",
+    "language":"Select Language",
+    "uncheckFavourites":"Unable To Check If In Favourites.",
+    "addTofavoris":"You must be logged in to favourite an exercise.",
+    "popWrongMess": "Something went wrong. Please try again later.",
+    "addedToFavourites":"Added to Favourites!",
+    "removeFavoris":"Removed From Favourites!",
+    "date_requirement":"END DATE MUST BE AFTER START DATE"
   }
