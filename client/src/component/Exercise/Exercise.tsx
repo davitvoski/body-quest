@@ -86,6 +86,13 @@ export const Exercise = (props: ExerciseProps) => {
                 ) : (
                   <img width={90} loading="lazy" src="/body-parts/dark-mode/shoulder.png" />
                 ))}
+
+              {props.exercise.body_part === "lower arms" &&
+                (theme.palette.mode === "dark" ? (
+                  <img width={90} loading="lazy" src="/body-parts/light-mode/lower-arm-white.png" />
+                ) : (
+                  <img width={90} loading="lazy" src="/body-parts/dark-mode/lower-arm.png" />
+                ))}
             </div>
           </CardContent>
         </Card>
