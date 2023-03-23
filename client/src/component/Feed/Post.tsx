@@ -1,12 +1,23 @@
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
-import { IPost } from "../../../../shared";
+import { IPost, IPostLikedUser } from "../../../../shared";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import axios from "axios";
 
 type PostProps = { 
   post: IPost;
+  user?: IPostLikedUser;
 };
 
 export const Post = (props: PostProps) => {  
+  const toggleLikedPost = async () => {
+    if (props.user) {
+      await axios.post("/api/posts/likePost", {post: props.post, user:props.user})
+    }
+    else {
+      
+    }
+  }
+  
   return (
     <Card 
       sx={{width: "500px", marginBottom:"20px" }}
@@ -33,9 +44,10 @@ export const Post = (props: PostProps) => {
       />
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to liked">
+        <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
           <FavoriteBorderIcon />
         </IconButton>
+        <Typography>{props.post.likedUsers.length} Likes</Typography>
       </CardActions>
 
       <CardContent>

@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthenticated } from "../controllers/auth.controller";
-import { createPost, getAllPosts } from "../controllers/post.controller";
+import { createPost, getAllPosts, toggleLikedPost } from "../controllers/post.controller";
 const postRouter = express.Router()
 
 /**
@@ -74,5 +74,7 @@ postRouter.get("/", getAllPosts)
  *     description: Error saving post - server error
  */
 postRouter.post("/createPost", isAuthenticated, createPost)
+
+postRouter.post("/likePost", isAuthenticated, toggleLikedPost)
 
 export default postRouter

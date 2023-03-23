@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { Db, MongoClient, ObjectId } from "mongodb";
-import { IExercise, IGoal, IPost, IUser } from "../../shared";
+import { IExercise, IGoal, IPost, IPostLikedUser, IUser } from "../../shared";
 import { GetGoalsReturnValue } from "../types";
 dotenv.config();
 
@@ -232,6 +232,17 @@ export default class Database {
       throw new Error("Error adding a post in the db")      
     }
   }
+
+  async toggleLikedPost(post:IPost, users:IPostLikedUser[]){
+    try {
+      const collection = db.collection(this.postsCollection); 
+
+      await collection.updateOne({imageUrl: post.imageUrl},{$set: {likedUsers: users}});
+    } catch (error) {
+      throw new Error("Error adding liking or disliking a post")      
+    }
+  }
+
 
   /**
    * This function removes an exercise from the users favourites
