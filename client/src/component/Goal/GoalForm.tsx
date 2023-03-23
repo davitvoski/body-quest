@@ -8,6 +8,8 @@ import {
   Paper,
   Select,
   SelectChangeEvent,
+  Snackbar,
+  SnackbarOrigin,
   Stack,
   TextField,
   Typography,
@@ -23,6 +25,7 @@ import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useNavigate } from "react-router";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 /**
  *
@@ -30,6 +33,7 @@ import { useNavigate } from "react-router";
  *
  * This component is used to create a new goal for a specific exercise
  */
+
 export const GoalForm = () => {
   const { t } = useTranslation();
   let { state } = useLocation();
@@ -101,8 +105,16 @@ export const GoalForm = () => {
 
   const createGoal = async (newGoal: IGoal) => {
     try {
-      await axios.post("/api/goals", newGoal);
-    } catch (error) {
+      await axios.post("/api/goals", {
+        goal: newGoal,
+      });
+      navigate("/", { state: { goalCreated: true } });
+    } catch (error: any) {
+      enqueueSnackbar("Failed to create goal", {
+        autoHideDuration: 2000,
+        preventDuplicate: true,
+        variant: 'error'
+      });
       console.log(error);
     }
   };
@@ -118,13 +130,13 @@ export const GoalForm = () => {
       endDate: endDate,
       completed: false,
     };
-
     await createGoal(newGoal);
-    navigate("/");
   };
 
   return (
     <div className="form-container">
+      <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
+
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
@@ -207,6 +219,11 @@ export const GoalForm = () => {
               justifyContent="center"
               alignItems="center"
               spacing={5}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "baseline",
+              }}
             >
               <FormControl>
                 <ResponsiveDataPicker

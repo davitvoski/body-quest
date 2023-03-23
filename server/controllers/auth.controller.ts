@@ -5,11 +5,6 @@ import Database from "../database/db";
 import dotenv from 'dotenv';
 dotenv.config()
 
-declare module 'express-session' {
-  export interface SessionData {
-    user: IUser;
-  }
-}
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const db = new Database();
@@ -35,7 +30,6 @@ export function getUser(req: Request, res: Response) {
  */
 export async function authenticateUser(req: Request, res: Response) {
   try {
-    //TODO: should validate that the token was sent first
     const { token } = req.body;
 
     const ticket = await client.verifyIdToken({
@@ -52,7 +46,7 @@ export async function authenticateUser(req: Request, res: Response) {
       return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
 
-    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""] }
+    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:false}
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 
@@ -61,6 +55,7 @@ export async function authenticateUser(req: Request, res: Response) {
       console.log("Added a user to the db");
     }
     else {
+      user = await db.getUser(payLoad.email);
       console.log("User is already signed up");
     }
 

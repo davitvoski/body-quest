@@ -23,7 +23,7 @@ const Profile = () => {
     const {t} = useTranslation();
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
-    const [avatar, setAvatar] = useState("")
+    const [picture, setPicture] = useState("")
     const [experience, setExperience] = useState(0)
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
@@ -31,11 +31,11 @@ const Profile = () => {
     const getUser = async () => {
         const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
-        if (data.user !== undefined){            
+        if (data.user !== undefined){     
             setUsername(data.user.username);
             setEmail(data.user.email)
-            setAvatar(data.user.avatar)
             setExperience(0)
+            setPicture(data.user.picture)
         }
     }
 
@@ -61,7 +61,7 @@ const Profile = () => {
 
     return(
         <div className="profile content">
-            <ProfileView username={username} email={email} experience={experience} avatar={avatar} ></ProfileView>
+            <ProfileView username={username} email={email} experience={experience} avatar={picture} ></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
                     <Tab label={t("goals")} sx={{ width: "50%" }} />
