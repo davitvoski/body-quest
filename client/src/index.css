@@ -26,6 +26,9 @@
   --text-primary: #212121;
   --text-secondary: #424242;
 }
+.light .profile {
+  background-color: #EEE8E8;
+}
 .light {
   background-color: #FFFBFF;
 }

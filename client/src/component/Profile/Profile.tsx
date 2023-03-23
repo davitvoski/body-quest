@@ -35,7 +35,7 @@ const Profile = () => {
             setUsername(data.user.username);
             setEmail(data.user.email)
             setAvatar(data.user.avatar)
-            setExperience(data.user.experience)
+            setExperience(0)
         }
     }
 
