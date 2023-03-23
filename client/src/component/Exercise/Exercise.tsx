@@ -38,6 +38,13 @@ export const Exercise = (props: ExerciseProps) => {
               {props.exercise.body_part === "back" && (
                 <img width={90} loading="lazy" src="/body-parts/back.png" />
               )}
+              {props.exercise.body_part === "lower legs" && (
+                <img
+                  width={90}
+                  loading="lazy"
+                  src="/body-parts/lower-leg.png"
+                />
+              )}
             </div>
           </CardContent>
         </Card>
