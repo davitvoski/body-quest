@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 
 type PostProps = {
   post: IPost;
+  removePost: Function;
 };
 
 export const Post = (props: PostProps) => {
@@ -14,7 +15,7 @@ export const Post = (props: PostProps) => {
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
 
   /**
-   * if is admin, then user can delete post
+   * check if is admin user when loggin
    * @returns ifAdmin
    */
   const ifAdmin=async () => {
@@ -26,10 +27,7 @@ export const Post = (props: PostProps) => {
       }
     }
   }
-
-  // const deletePost=(e)=>{
-
-  // }
+ 
   useEffect(() => {
    ifAdmin();
   }, [])
@@ -64,7 +62,7 @@ export const Post = (props: PostProps) => {
         </IconButton>
       
         {/* admin user can delete posts */}
-       {isAdmin && <Button  variant="contained">{t('delete_btn')}</Button>}
+       {isAdmin && <Button onClick={()=>{props.removePost(props.post)}} variant="contained">{t('delete_btn')}</Button>}
       </CardActions>
       <CardContent>
         <Typography align="left">
