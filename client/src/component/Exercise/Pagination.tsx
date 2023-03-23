@@ -32,13 +32,9 @@ export default function PaginationForExercises(props: PaginationProps) {
   return (
     <>
       <div className="exerciseList">
-        <Grid container sx={{ flexGrow: 1, justifyContent: "space-around" }}>
-          {currentData().map((exercise, i) => (
-            <Grid md={2.5} sm={2} margin={1}>
-              <Exercise exercise={exercise} key={i} />
-            </Grid>
-          ))}
-        </Grid>
+        {currentData().map((exercise, i) => (
+          <Exercise exercise={exercise} key={i} />
+        ))}
       </div>
       <Pagination
         onChange={(e: React.ChangeEvent<unknown>, page: number) => {
