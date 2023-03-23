@@ -17,12 +17,6 @@ import {
 import { IExercise } from "../../../../shared";
 import { useTranslation } from "react-i18next";
 
-type PopupProps = {
-  handleClose: () => void;
-  exercise: IExercise;
-  open: boolean;
-};
-
 interface State extends SnackbarOrigin {
   openSnack: boolean;
 }
@@ -82,7 +76,7 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
               fontSize: 50,
             }}
           >
-            title
+            Congratulations!
           </Typography>
         </DialogTitle>
         <DialogContent
@@ -90,16 +84,22 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
           className="scrollbar-container"
         >
           <div className="dialog-header">
-            header
+            You gain
           </div>
-          <div className="img-container">
-            image
-          </div>
-          <div
-            id="dialog-footer"
-            style={{ display: "flex", justifyContent: "right" }}
-          >
-            footer
+            <Typography
+              variant="h1"
+              component="h2"
+              color="primary.contrastText"
+              sx={{
+                textTransform: "uppercase",
+                fontWeight: "900",
+                fontSize: 50,
+              }}
+            >
+              { props.xp }
+            </Typography>
+          <div className="dialog-header">
+            experience!
           </div>
         </DialogContent>
       </Dialog>

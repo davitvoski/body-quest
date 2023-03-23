@@ -52,7 +52,7 @@ const Profile = () => {
         xp += Math.floor(goal / 5); // one XP per 5 amount of goal
 
         setExperience(xp);
-        handlePopup;
+        handlePopup();
     }
 
     const handlePopup = () => {
@@ -69,7 +69,7 @@ const Profile = () => {
                 </Tabs>
             </Item>
             <TabPanel index={0} value={value} {...a11yProps(0)}>
-                <GoalView/>
+                <GoalView completeGoal={completeGoal}/>
             </TabPanel>
             <TabPanel index={1} value={value} {...a11yProps(2)}>
                 <FavouriteView/>

@@ -5,7 +5,7 @@ import { useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
 import { IGoal } from "../../../../shared";
 
-const GoalView = () => {
+const GoalView = (props: { completeGoal: (goal: number, type: string) => void}) => {
     const [goals, setGoals] = useState<IGoal[]>([]);
     const {t} = useTranslation();
     const isCompleted = (goal: any) => goal.completed;
@@ -45,6 +45,8 @@ const GoalView = () => {
         let newgoals = goals
         newgoals.find(g => g.id == goal.id)!.completed = true
         setGoals(newgoals)
+
+        props.completeGoal(goal.goal, goal.type)
     }
 
     return(

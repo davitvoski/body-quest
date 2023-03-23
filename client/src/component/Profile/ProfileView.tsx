@@ -21,15 +21,6 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
         return Math.floor((-5 + Math.sqrt(25+20 * xp)) / 10 + 1)
     }
 
-    /**
-     * Calculates the past XP level of a user
-     * @param xp 
-     * @returns Current level
-     */
-    const pastLevelXP = (xp: number) => {
-        return 10 * ((getLevelFromXP(xp)) * ((getLevelFromXP(xp)) - 1 ) / 2 )
-    }
-
     const currentLevel = getLevelFromXP(props.experience)
 
     /**
@@ -38,7 +29,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
      * @returns XP until next level
      */
     const nextLevel = (xp: number) => {
-        return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 ) - pastLevelXP(xp)
+        return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 )
     } // 10, 20, 30, etc.
     
     return(
@@ -66,7 +57,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Item>LVL { currentLevel }: { nextLevel(props.experience) } XP {t('until')} LVL { currentLevel + 1 } </Item>
+                <Item>LVL { currentLevel }: { nextLevel(props.experience) - props.experience } XP {t('until')} LVL { currentLevel + 1 } </Item>
             </Grid>
         </Grid>
     )
