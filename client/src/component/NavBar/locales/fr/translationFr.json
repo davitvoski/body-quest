@@ -42,5 +42,6 @@
     "popWrongMess": "Un problème s'est produit. Veuillez réessayer plus tard.",
     "addedToFavourites":"Ajouté aux favoris !",
     "removeFavoris":"Retiré !",
-    "date_requirement":"Ne peut pas choisir le jour avant que le début du jour"
+    "date_requirement":"Ne peut pas choisir le jour avant que le début du jour",
+    "delete_btn":"Supprimer"
   }
