@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Popup } from "./Popup";
 import "../../styles/Exercises.css";
 import getDesignTokens from "../../Theme";
+import { height } from "@mui/system";
 
 type ExerciseProps = {
   exercise: IExercise;
@@ -26,7 +27,7 @@ export const Exercise = (props: ExerciseProps) => {
   return (
     <>
       <div className="exerciseArea" onClick={handlePopup}>
-        <Card className="cardExecise" variant="outlined">
+        <Card className="cardExecise" variant="outlined" sx={{ maxwidth: "15em", maxheight: "12em" }}>
           <CardContent className="exerciseContent">
             <Typography className="exerciseNames">{props.exercise.name}</Typography>
             <div className="img-container">
@@ -56,6 +57,13 @@ export const Exercise = (props: ExerciseProps) => {
                   <img width={90} loading="lazy" src="/body-parts/light-mode/lower-leg-white.png" />
                 ) : (
                   <img width={90} loading="lazy" src="/body-parts/dark-mode/lower-leg.png" />
+                ))}
+
+              {props.exercise.body_part === "chest" &&
+                (theme.palette.mode === "dark" ? (
+                  <img width={90} loading="lazy" src="/body-parts/light-mode/chest-white.png" />
+                ) : (
+                  <img width={90} loading="lazy" src="/body-parts/dark-mode/chest.png" />
                 ))}
             </div>
           </CardContent>
