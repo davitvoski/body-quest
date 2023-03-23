@@ -88,7 +88,8 @@ export const PostForm = () => {
         imageUrl: image,
         caption: caption,
         date: currentDate,
-      };
+        likedUsers: []
+      }
       await createPost(newPost);
       navigate("/Feed");
     }

@@ -113,6 +113,7 @@ export const GoalForm = () => {
       enqueueSnackbar("Failed to create goal", {
         autoHideDuration: 2000,
         preventDuplicate: true,
+        variant: 'error'
       });
       console.log(error);
     }

@@ -23,7 +23,7 @@ const Profile = () => {
   const { t } = useTranslation();
   const [username, setUsername] = useState("username here");
   const [email, setEmail] = useState("email here");
-  const [avatar, setAvatar] = useState("");
+  const [picture, setPicture] = useState("");
   const [experience, setExperience] = useState(0);
   const [value, setValue] = useState(0);
   let { state } = useLocation();
@@ -34,7 +34,7 @@ const Profile = () => {
     if (data.user !== undefined) {
       setUsername(data.user.username);
       setEmail(data.user.email);
-      setAvatar(data.user.avatar);
+      setPicture(data.user.picture);
     }
   };
 
@@ -52,7 +52,7 @@ const Profile = () => {
         username={username}
         email={email}
         experience={experience}
-        avatar={avatar}
+        avatar={picture}
       ></ProfileView>
       <Item sx={{ margin: "0 5% 0 5%" }}>
         <Tabs
