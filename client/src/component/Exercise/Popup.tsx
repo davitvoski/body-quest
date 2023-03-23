@@ -209,7 +209,6 @@ export const Popup = (props: PopupProps) => {
                   pathname: "/Goalcreation",
                 }}
                 state={{ exerciseName: exercise.name }}
-                // onClick={handleForm}
               >
                 {t("create_goal")}
               </Link>
