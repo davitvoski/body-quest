@@ -5,13 +5,14 @@ import Item from "../modules/Item";
 import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
-import { useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 
 function a11yProps(index: number) {
-    return {
-        id: `full-width-tab-${index}`,
-        'aria-controls': `full-width-tabpanel-${index}`,
-    };
+  return {
+    id: `full-width-tab-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
+  };
 }
 
 /**
@@ -19,48 +20,60 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
-    const {t} = useTranslation();
-    const [username, setUsername] = useState("username here")
-    const [email, setEmail] = useState("email here")
-    const [avatar, setAvatar] = useState("")
-    const [experience, setExperience] = useState(0)
-    const [value, setValue] = useState(0);
+  const { t } = useTranslation();
+  const [username, setUsername] = useState("username here");
+  const [email, setEmail] = useState("email here");
+  const [avatar, setAvatar] = useState("");
+  const [experience, setExperience] = useState(0);
+  const [value, setValue] = useState(0);
+  let { state } = useLocation();
 
-    const getUser = async () => {
-        const res = await fetch("/api/authentication/getUser");
-        const data = await res.json();
-        if (data.user !== undefined){            
-            setUsername(data.user.username);
-            setEmail(data.user.email)
-            setAvatar(data.user.avatar)
-        }
+  const getUser = async () => {
+    const res = await fetch("/api/authentication/getUser");
+    const data = await res.json();
+    if (data.user !== undefined) {
+      setUsername(data.user.username);
+      setEmail(data.user.email);
+      setAvatar(data.user.avatar);
     }
+  };
 
-    useEffect(() => {
-        getUser();
-    }, []);
+  useEffect(() => {
+    getUser();
+  }, []);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
-    return(
-        <div className="profile">
-            <ProfileView username={username} email={email} experience={experience} avatar={avatar} ></ProfileView>
-            <Item sx={{ margin: "0 5% 0 5%" }}>
-                <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
-                    <Tab label={t("goals")} sx={{ width: "50%" }} />
-                    <Tab label={t("favourites")} sx={{ width: "50%" }} />
-                </Tabs>
-            </Item>
-            <TabPanel index={0} value={value} {...a11yProps(0)}>
-                <GoalView/>
-            </TabPanel>
-            <TabPanel index={1} value={value} {...a11yProps(2)}>
-                <FavouriteView/>
-            </TabPanel>
-        </div>
-    )
-}
+  return (
+    <div className="profile">
+      <ProfileView
+        username={username}
+        email={email}
+        experience={experience}
+        avatar={avatar}
+      ></ProfileView>
+      <Item sx={{ margin: "0 5% 0 5%" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="secondary"
+          variant="fullWidth"
+          textColor="inherit"
+        >
+          <Tab label={t("goals")} sx={{ width: "50%" }} />
+          <Tab label={t("favourites")} sx={{ width: "50%" }} />
+        </Tabs>
+      </Item>
+      <TabPanel index={0} value={value} {...a11yProps(0)}>
+        <GoalView />
+      </TabPanel>
+      <TabPanel index={1} value={value} {...a11yProps(2)}>
+        <FavouriteView />
+      </TabPanel>
+    </div>
+  );
+};
 
 export default Profile;

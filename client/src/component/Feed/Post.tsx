@@ -1,12 +1,16 @@
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
 import { IPost } from "../../../../shared";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useNavigate } from "react-router";
 
 type PostProps = { 
   post: IPost;
 };
 
 export const Post = (props: PostProps) => {  
+
+  let navigate = useNavigate();
+
   return (
     <Card 
       sx={{width: "500px", marginBottom:"20px" }}
@@ -18,6 +22,8 @@ export const Post = (props: PostProps) => {
           <Avatar 
             src={props.post.user.picture}
             alt={`${props.post.user.username}'s post`}
+            onClick={() => { navigate(`/Profile/${props.post.user.username}`, {state: {user: props.post.user}}) }
+          }
           />
         }
         title={props.post.user.username}

@@ -1,4 +1,16 @@
-import { Paper, Typography, Stack, FormControl, InputLabel, Select, SelectChangeEvent, MenuItem, TextField, Button, Box } from "@mui/material";
+import {
+  Paper,
+  Typography,
+  Stack,
+  FormControl,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
+  TextField,
+  Button,
+  Box,
+} from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
@@ -10,7 +22,7 @@ export const PostForm = () => {
   const [caption, setCaption] = useState("");
   let navigate = useNavigate();
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {    
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
@@ -22,8 +34,8 @@ export const PostForm = () => {
       if (!evt?.target?.result) {
         return;
       }
-      setImage(evt.target.result.toString())
-    }
+      setImage(evt.target.result.toString());
+    };
   };
 
   const createPost = async (newPost: IPost) => {
@@ -35,11 +47,21 @@ export const PostForm = () => {
   };
 
   const getCurrentDate = () => {
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    var options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    };
     var today = new Date();
-    const formattedDate = today.toLocaleDateString("en-US", options as Intl.DateTimeFormatOptions);
+    const formattedDate = today.toLocaleDateString(
+      "en-US",
+      options as Intl.DateTimeFormatOptions
+    );
     return formattedDate;
-  }
+  };
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -48,21 +70,25 @@ export const PostForm = () => {
       const userName = data.user.username;
       const email = data.user.email;
       const picture = data.user.picture;
-      return {username: userName, email: email, picture: picture} as IUserPost;
+      return {
+        username: userName,
+        email: email,
+        picture: picture,
+      } as IUserPost;
     }
-    return
+    return;
   };
 
   const handleSubmit = async () => {
     const currentDate = getCurrentDate();
-    const user:IUserPost | undefined = await getUser();
+    const user: IUserPost | undefined = await getUser();
     if (user && image) {
       const newPost: IPost = {
         user: user,
         imageUrl: image,
         caption: caption,
-        date: currentDate
-      }
+        date: currentDate,
+      };
       await createPost(newPost);
       navigate("/Feed");
     }
@@ -77,9 +103,9 @@ export const PostForm = () => {
           </Typography>
         </div>
         <form className="goal-form">
-          <Stack 
-            justifyContent="center" 
-            alignItems="center" 
+          <Stack
+            justifyContent="center"
+            alignItems="center"
             spacing={5}
             width="100%"
           >
@@ -89,37 +115,31 @@ export const PostForm = () => {
               spacing={8}
               width="100%"
             >
-              <FormControl 
-                sx={{ m: 1 }}
-                fullWidth
-              >
+              <FormControl sx={{ m: 1 }} fullWidth>
                 <Button
                   component="label"
                   variant="outlined"
                   startIcon={<UploadFileIcon />}
-                  sx={{alignSelf:"center", marginBottom:"25px"}}
+                  sx={{ alignSelf: "center", marginBottom: "25px" }}
                 >
-                  {image 
-                    ? <>Change Image</>
-                    : <>Upload Post Image</> 
-                  }
-                  <input 
-                    type="file" 
-                    accept="image/gif, image/jpeg, image/jpg, image/png, image/svg" 
-                    hidden 
-                    onChange={(e) => handleImageChange(e)} 
+                  {image ? <>Change Image</> : <>Upload Post Image</>}
+                  <input
+                    type="file"
+                    accept="image/gif, image/jpeg, image/jpg, image/png, image/svg"
+                    hidden
+                    onChange={(e) => handleImageChange(e)}
                   />
                 </Button>
-                {image && 
+                {image && (
                   <Box>
-                    <img 
-                      width="400px" 
-                      id="newUploadImage" 
-                      src={image} 
-                      alt="uploaded image" 
+                    <img
+                      width="400px"
+                      id="newUploadImage"
+                      src={image}
+                      alt="uploaded image"
                     />
                   </Box>
-                }
+                )}
                 {/*image &&
                   <Button
                     component="label"
@@ -130,30 +150,31 @@ export const PostForm = () => {
                     onClick={() => setImage("")}
                   >
                     Remove Image
-                  </Button>  */  
-                }  
+                  </Button>  */}
                 <TextField
-                  sx={{marginTop: "20px", width: "80%", alignSelf:"center"}}
+                  sx={{ marginTop: "20px", width: "80%", alignSelf: "center" }}
                   id="outlined-multiline-static"
                   label="Caption"
                   multiline
                   rows={4}
                   value={caption}
-                  onChange={(event) => {setCaption(event.target.value)}}
+                  onChange={(event) => {
+                    setCaption(event.target.value);
+                  }}
                 />
               </FormControl>
             </Stack>
           </Stack>
-            <Button
-              variant="contained"
-              sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
-              onClick={handleSubmit}
-              disabled={image === undefined}
-            >
-              Create
-            </Button>
+          <Button
+            variant="contained"
+            sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
+            onClick={handleSubmit}
+            disabled={image === undefined}
+          >
+            Create
+          </Button>
         </form>
       </Paper>
     </div>
-  )
-}
+  );
+};
