@@ -10,6 +10,8 @@ import { useTranslation} from "react-i18next";
  * @returns ProfileView
  */
 const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
+    console.log(props.avatar);
+    
     const {t} = useTranslation();
     /**
      * Calculates the current level of a user based on XP

@@ -334,4 +334,14 @@ export default class Database {
       throw new Error("Error get favourite exercises")
     }
   }
+
+  async getUser(email:string){
+    try {
+      const collection = db.collection(this.usersCollection);
+      const user:IUser = await collection.findOne({email: email}) as unknown as IUser;
+      return user;
+    } catch (error) {
+      throw new Error("Cannot fetch user from the db");
+    }
+  }
 }
