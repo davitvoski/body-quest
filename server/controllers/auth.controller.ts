@@ -46,7 +46,7 @@ export async function authenticateUser(req: Request, res: Response) {
       return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
 
-    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""] }
+    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:false}
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 

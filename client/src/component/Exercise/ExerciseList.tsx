@@ -4,6 +4,7 @@ import "../../styles/Exercises.css";
 import PaginationForExercises from "./Pagination";
 type ExerciseListProps = {
     exercises: IExercise[]
+    isLoading: Boolean
 }
 /**
  * All exercises data
@@ -13,7 +14,7 @@ type ExerciseListProps = {
 export const ExerciseList = (props: ExerciseListProps) => {
     return (
         <>
-            <PaginationForExercises exercises={props.exercises} />
+            <PaginationForExercises isLoading={props.isLoading} exercises={props.exercises} />
         </>
     )
 }

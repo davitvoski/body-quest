@@ -5,6 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Typography } from '@mui/material';
 import i18n from "./i18next";
+import { useTranslation } from 'react-i18next';
 
 interface ILanguage {
     [x: string]: { [x: string]: string },
@@ -15,6 +16,7 @@ interface ILanguage {
  * @returns LanguageNav options
  */
 export const LanguageNav = () => {
+    const { t } = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,7 +40,7 @@ export const LanguageNav = () => {
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                title="Select Language"
+                title={t("language") as string}
             >
                 <LanguageIcon sx={{ l: 0.5, color:"white" }} color="inherit" />
             </IconButton>

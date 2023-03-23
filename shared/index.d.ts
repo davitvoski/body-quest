@@ -13,6 +13,7 @@ export interface IUser {
     picture: string,
     goals: IGoal[],
     favourites: [string],
+    isAdmin: boolean = false
 }
 
 export interface IGoal {
