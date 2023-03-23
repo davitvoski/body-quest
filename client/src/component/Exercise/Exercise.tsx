@@ -3,8 +3,6 @@ import { IExercise } from "../../../../shared";
 import { useState } from "react";
 import { Popup } from "./Popup";
 import "../../styles/Exercises.css";
-import getDesignTokens from "../../Theme";
-import { height } from "@mui/system";
 
 type ExerciseProps = {
   exercise: IExercise;
@@ -27,7 +25,7 @@ export const Exercise = (props: ExerciseProps) => {
   return (
     <>
       <div className="exerciseArea" onClick={handlePopup}>
-        <Card className="cardExecise" variant="outlined">
+        <Card className="cardExecise" variant="outlined" sx={{ height: "14em" }}>
           <CardContent className="exerciseContent">
             <Typography className="exerciseNames">{props.exercise.name}</Typography>
             <div className="img-container">
@@ -47,9 +45,9 @@ export const Exercise = (props: ExerciseProps) => {
 
               {props.exercise.body_part === "back" &&
                 (theme.palette.mode === "dark" ? (
-                  <img width={90} loading="lazy" src="/body-parts/light-mode/back-white.png" />
+                  <img width={120} loading="lazy" src="/body-parts/light-mode/back-white.png" />
                 ) : (
-                  <img width={90} loading="lazy" src="/body-parts/dark-mode/back.png" />
+                  <img width={120} loading="lazy" src="/body-parts/dark-mode/back.png" />
                 ))}
 
               {props.exercise.body_part === "lower legs" &&
@@ -61,9 +59,9 @@ export const Exercise = (props: ExerciseProps) => {
 
               {props.exercise.body_part === "chest" &&
                 (theme.palette.mode === "dark" ? (
-                  <img width={90} loading="lazy" src="/body-parts/light-mode/chest-white.png" />
+                  <img width={110} loading="lazy" src="/body-parts/light-mode/chest-white.png" />
                 ) : (
-                  <img width={90} loading="lazy" src="/body-parts/dark-mode/chest.png" />
+                  <img width={110} loading="lazy" src="/body-parts/dark-mode/chest.png" />
                 ))}
 
               {props.exercise.body_part === "upper arms" &&
