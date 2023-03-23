@@ -27,7 +27,7 @@ export const Exercise = (props: ExerciseProps) => {
   return (
     <>
       <div className="exerciseArea" onClick={handlePopup}>
-        <Card className="cardExecise" variant="outlined" sx={{ maxwidth: "15em", maxheight: "12em" }}>
+        <Card className="cardExecise" variant="outlined">
           <CardContent className="exerciseContent">
             <Typography className="exerciseNames">{props.exercise.name}</Typography>
             <div className="img-container">
@@ -64,6 +64,13 @@ export const Exercise = (props: ExerciseProps) => {
                   <img width={90} loading="lazy" src="/body-parts/light-mode/chest-white.png" />
                 ) : (
                   <img width={90} loading="lazy" src="/body-parts/dark-mode/chest.png" />
+                ))}
+
+              {props.exercise.body_part === "upper arms" &&
+                (theme.palette.mode === "dark" ? (
+                  <img width={90} loading="lazy" src="/body-parts/light-mode/upper-arm-white.png" />
+                ) : (
+                  <img width={90} loading="lazy" src="/body-parts/dark-mode/upper-arm.png" />
                 ))}
             </div>
           </CardContent>
