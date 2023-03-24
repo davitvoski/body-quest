@@ -5,7 +5,11 @@ import { useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
 import { IGoal } from "../../../../shared";
 
-const GoalView = (props: { completeGoal: (goal: number, type: string) => void}) => {
+interface goalProps {
+    completeGoal: (goal: number, type: string) => void
+}
+
+const GoalView = (props: goalProps) => {
     const [goals, setGoals] = useState<IGoal[]>([]);
     const {t} = useTranslation();
     const isCompleted = (goal: any) => goal.completed;
