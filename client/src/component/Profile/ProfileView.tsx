@@ -13,6 +13,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
     console.log(props.avatar);
     
     const {t} = useTranslation();
+
     /**
      * Calculates the current level of a user based on XP
      * @param xp 
@@ -31,7 +32,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
      */
     const nextLevel = (xp: number) => {
         return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1 ) / 2 )
-    } 
+    } // 10, 20, 30, etc.
     
     return(
         <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
@@ -58,7 +59,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Item>LVL { currentLevel }: { props.experience }/{ nextLevel(props.experience) } XP {t('until')} LVL { currentLevel + 1 } </Item>
+                <Item>LVL { currentLevel }: { nextLevel(props.experience) - props.experience } XP {t('until')} LVL { currentLevel + 1 } </Item>
             </Grid>
         </Grid>
     )

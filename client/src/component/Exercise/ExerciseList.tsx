@@ -12,11 +12,9 @@ type ExerciseListProps = {
  * @returns ExerciseList
  */
 export const ExerciseList = (props: ExerciseListProps) => {
-  return (
-    <>
-      <div className="content">
-        <PaginationForExercises isLoading={props.isLoading} exercises={props.exercises} />
-      </div>
-    </>
-  );
-};
+    return (
+        <div className="content">
+            <PaginationForExercises isLoading={props.isLoading} exercises={props.exercises} />
+        </div>
+    )
+}
