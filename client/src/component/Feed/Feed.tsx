@@ -2,12 +2,13 @@ import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IPost } from "../../../../shared";
+import { IPost, IPostLikedUser, IUser } from "../../../../shared";
 import { Post } from "./Post";
 
 export const Feed = () => {
   const { t } = useTranslation();
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [user, setUser] = useState<IPostLikedUser>();
 
   const getPosts = async () => {
     const res = await fetch("/api/posts/");
@@ -15,8 +16,18 @@ export const Feed = () => {
     setPosts(data);
   }
 
+  const getUser = async () => {
+    const res = await fetch("/api/authentication/getUser");
+    const data = await res.json();
+    if (data.user !== undefined) {
+      const user:IPostLikedUser = {username: data.user.username, email: data.user.email}
+      setUser(user);
+    }
+  };
+
   useEffect(() => {
     getPosts();
+    getUser();
   }, []);
 
   /**
@@ -47,8 +58,6 @@ export const Feed = () => {
       console.log(error);
     }
   };
-
-
   return (
     <Box
       display="flex"
@@ -57,7 +66,7 @@ export const Feed = () => {
     >
       {posts.length === 0 && <LinearProgress sx={{ width: "100%" }} />}
       {posts && posts.slice(0).reverse().map((post, index) => (
-        <Post removePost={removePost} post={post} key={index} />
+        <Post removePost={removePost} post={post} key={index} user={user} />
       ))}
     </Box>
   );

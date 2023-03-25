@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthenticated } from "../controllers/auth.controller";
-import { createPost, deletePost, getAllPosts } from "../controllers/post.controller";
+import { createPost, deletePost, getAllPosts, toggleLikedPost } from "../controllers/post.controller";
 const postRouter = express.Router()
 
 /**
@@ -76,5 +76,6 @@ postRouter.get("/", getAllPosts)
 postRouter.post("/createPost", isAuthenticated, createPost)
 
 postRouter.delete("/", isAuthenticated, deletePost)
+postRouter.post("/togglelikedPost", isAuthenticated, toggleLikedPost)
 
 export default postRouter

@@ -61,7 +61,8 @@ export const PostForm = () => {
         user: user,
         imageUrl: image,
         caption: caption,
-        date: currentDate
+        date: currentDate,
+        likedUsers: []
       }
       await createPost(newPost);
       navigate("/Feed");

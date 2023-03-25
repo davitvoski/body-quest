@@ -14,6 +14,7 @@ import {
   useMediaQuery,
   Alert,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
@@ -56,6 +57,7 @@ export const Popup = (props: PopupProps) => {
     isError: false,
     message: "",
   });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //Snack bar logic when adding to favourites
   const [snackState, setSnackState] = React.useState<State>({
@@ -76,7 +78,11 @@ export const Popup = (props: PopupProps) => {
 
       const resp = await fetch(`/api/exercises/favourites/${name}`);
       // If not logged in, return
-      if (resp.status === 401) return;
+      if (resp.status === 401) {
+        setIsLoggedIn(false);
+        return;
+      }
+      setIsLoggedIn(true);
       const data = (await resp.json()) as { isFavourite: boolean };
       if (data.isFavourite) setIsFavourite(true);
     }
@@ -159,6 +165,12 @@ export const Popup = (props: PopupProps) => {
         className="dialog-container"
         fullScreen={fullScreen}
       >
+        <div className="dialog-header">
+          <IconButton sx={{ justifyContent: "right" }} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+
         <DialogTitle>
           <Typography
             variant="h1"
@@ -190,16 +202,17 @@ export const Popup = (props: PopupProps) => {
                 <b>{t("target")}:</b> {exercise.target}
               </Typography>
             </div>
-            <Link
-              className="link-button"
-              to={{
-                pathname: "/Goalcreation",
-              }}
-              state={{ exerciseName: exercise.name }}
-              // onClick={handleForm}
-            >
-              {t("create_goal")}
-            </Link>
+            {isLoggedIn && (
+              <Link
+                className="link-button"
+                to={{
+                  pathname: "/Goalcreation",
+                }}
+                state={{ exerciseName: exercise.name }}
+              >
+                {t("create_goal")}
+              </Link>
+            )}
           </div>
           <div className="img-container">
             <img src={exercise.gifUrl} />
@@ -210,7 +223,7 @@ export const Popup = (props: PopupProps) => {
           >
             <IconButton sx={{ outline: "none" }} onClick={handleFavourite}>
               {isFavourite ? (
-                <StarIcon htmlColor="#EFE2A2" />
+                <StarIcon/>
               ) : (
                 <StarBorderIcon sx={{ outline: "none" }} />
               )}

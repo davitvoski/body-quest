@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { Db, MongoClient, ObjectId } from "mongodb";
-import { IExercise, IGoal, IPost, IUser } from "../../shared";
+import { IExercise, IGoal, IPost, IPostLikedUser, IUser } from "../../shared";
 import { GetGoalsReturnValue } from "../types";
 dotenv.config();
 
@@ -248,6 +248,30 @@ export default class Database {
     }
   }
 
+  async toggleLikedPost(post:IPost, users:IPostLikedUser[]){
+    try {
+      const collection = db.collection(this.postsCollection); 
+
+      await collection.updateOne({imageUrl: post.imageUrl},{$set: {likedUsers: users}});
+      
+      let response = await collection.findOne({imageUrl: post.imageUrl});
+
+      let responsePost:IPost = response as unknown as IPost;
+      let updatedPost:IPost = {
+        user: responsePost.user, 
+        imageUrl: responsePost.imageUrl, 
+        caption: responsePost.caption,
+        date: responsePost.date,
+        likedUsers: responsePost.likedUsers
+      }      
+      return updatedPost;
+      
+    } catch (error) {
+      throw new Error("Error adding liking or disliking a post")      
+    }
+  }
+
+
   /**
    * This function removes an exercise from the users favourites
    * @param email Email of the user
@@ -323,6 +347,16 @@ export default class Database {
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
       throw new Error("Error get favourite exercises")
+    }
+  }
+
+  async getUser(email:string){
+    try {
+      const collection = db.collection(this.usersCollection);
+      const user:IUser = await collection.findOne({email: email}) as unknown as IUser;
+      return user;
+    } catch (error) {
+      throw new Error("Cannot fetch user from the db");
     }
   }
 }

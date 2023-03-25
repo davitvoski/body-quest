@@ -83,7 +83,7 @@ goalRouter.get("/", isAuthenticated, getUserGoals)
  *       properties:
  *        goal
  *       example:
- *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
+ *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, type: string, goal: number, completed: boolean, id: number}
  *  responses:
  *    201:
  *     description: Goal updated

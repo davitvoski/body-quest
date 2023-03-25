@@ -32,9 +32,15 @@ export interface IUserPost {
     picture: string,
 }
 
+export interface IPostLikedUser {
+    username: string,
+    email: string,
+}
+
 export interface IPost {
     user: IUserPost,
     imageUrl: string,
     caption: string,
     date: string,
+    likedUsers: IPostLikedUser[]
 }

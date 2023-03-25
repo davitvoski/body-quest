@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BlobServiceClient } from "@azure/storage-blob";
 import Database from "../database/db";
-import { IPost } from "../../shared";
+import { IPost, IPostLikedUser } from "../../shared";
 
 const containerName = "bodyquestcontainer";
 const sasToken = process.env.AZURE_STORAGE_SAS_TOKEN;
@@ -40,7 +40,8 @@ export async function createPost(req: Request, res: Response) {
             },
             imageUrl: imageURL,
             caption: req.body.caption,
-            date: req.body.date
+            date: req.body.date,
+            likedUsers: []
         }
 
         await new Database().addPost(post);
@@ -49,6 +50,37 @@ export async function createPost(req: Request, res: Response) {
     } catch (err) {
         console.log(err);
         res.status(400).json({ message: "Error adding a post, missing a field" })
+    }
+}
+
+export async function toggleLikedPost(req: Request, res: Response){
+    try {
+        const post:IPost = req.body.post;
+        const user:IPostLikedUser = req.body.user;
+        let likedUsers:IPostLikedUser[] = post.likedUsers;
+        const isPresent = likedUsers.some(someUser => someUser.email === user.email);
+
+        let updatedPost = {}
+
+        if (!isPresent) {
+            likedUsers.push(user);
+            updatedPost = await new Database().toggleLikedPost(post, likedUsers);
+        }
+        else {
+            let index = 0;
+            likedUsers.forEach((someUser, i) => {
+                if (someUser.email === user.email) {
+                    index = i;
+                }
+            })
+            likedUsers.splice(index);
+            updatedPost = await new Database().toggleLikedPost(post, likedUsers);
+        }
+
+        res.status(200).json({post: updatedPost});
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: "Error liking a post" })
     }
 }
 
