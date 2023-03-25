@@ -97,8 +97,8 @@ export const Post = (props: PostProps) => {
             {post.caption}
           </Typography>
         </CardContent>
-         {/* admin user can delete posts */}
-       {isAdmin && <Button fullWidth onClick={()=>{props.removePost(props.post)}} variant="contained">{t('delete_btn')}</Button>}
+        {/* admin user can delete posts */}
+        {isAdmin && <Button fullWidth onClick={() => { props.removePost(props.post) }} variant="contained">{t('delete_btn')}</Button>}
       </Card>
     </>
   );

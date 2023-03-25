@@ -20,7 +20,7 @@ export const Feed = () => {
     const res = await fetch("/api/authentication/getUser");
     const data = await res.json();
     if (data.user !== undefined) {
-      const user:IPostLikedUser = {username: data.user.username, email: data.user.email}
+      const user: IPostLikedUser = { username: data.user.username, email: data.user.email }
       setUser(user);
     }
   };
@@ -46,14 +46,10 @@ export const Feed = () => {
   const deletPost = async (post: IPost) => {
     try {
       await axios.delete("/api/posts", {
-        // headers: {
-        //   method: 'DELETE',
-        // },
         data: {
           post: post
         }
       });
-      // await axios.delete("/api/posts/deletePost", post);
     } catch (error) {
       console.log(error);
     }

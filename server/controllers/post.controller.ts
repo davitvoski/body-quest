@@ -109,12 +109,9 @@ async function addImageToAzure(file:string, caption:string){
 /**
  * This function delete a post 
  * @param req Express Request
- * @param res Express Response
  */
-export async function deletePost(req: Request, res: Response) {
+export async function deletePost(req: Request) {
     try {
-        console.log("??"+req.body.post);
-        
         await new Database().removePost(req.body.post);
     } catch (err) {
         console.log(err); 
