@@ -16,7 +16,7 @@ const db = new Database();
  */
 export function getUser(req: Request, res: Response) {
   try {
-    console.log(req.session.user)
+    // console.log(req.session.user)
     if (req.session) return res.json({ user: req.session.user });
     res.json("No user in session")
   } catch (e) {

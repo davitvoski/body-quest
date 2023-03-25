@@ -233,6 +233,21 @@ export default class Database {
     }
   }
 
+   /**
+   * This function delete a post to the db
+   * @param post post object of the user
+   */
+   async removePost(post:IPost){
+    try {
+      const collection = db.collection(this.postsCollection);
+
+      await collection.deleteOne(post);
+
+    } catch (err) {
+      throw new Error("Error adding a post in the db")      
+    }
+  }
+
   /**
    * This function removes an exercise from the users favourites
    * @param email Email of the user
