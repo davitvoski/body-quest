@@ -1,11 +1,11 @@
-import { IExercise } from "../../../../shared"
-import { Exercise } from "./Exercise"
+import { IExercise } from "../../../../shared";
+import { Exercise } from "./Exercise";
 import "../../styles/Exercises.css";
 import PaginationForExercises from "./Pagination";
 type ExerciseListProps = {
-    exercises: IExercise[]
-    isLoading: Boolean
-}
+  exercises: IExercise[];
+  isLoading: Boolean;
+};
 /**
  * All exercises data
  * @param props ExerciseListProps
