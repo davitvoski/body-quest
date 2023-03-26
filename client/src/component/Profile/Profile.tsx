@@ -24,7 +24,8 @@ const Profile = () => {
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
     const [picture, setPicture] = useState("")
-    const [experience, setExperience] = useState(0)
+    const [experience, setExperience] = useState(30)
+    const [experienceGain, setExperienceGain] = useState(0)
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
 
@@ -48,10 +49,11 @@ const Profile = () => {
     };
 
     const completeGoal = (goal: number, type: string) => {
-        let xp = experience + 5; // base 5 increase
+        let xp = 1; // base 1 increase
         xp += Math.floor(goal / 5); // one XP per 5 amount of goal
 
-        setExperience(xp);
+        setExperience(experience + xp);
+        setExperienceGain(xp);
         handlePopup();
     }
 
@@ -78,7 +80,7 @@ const Profile = () => {
             {isOpen &&
                 <GoalCompleted
                     handleClose={handlePopup}
-                    xp={experience!}
+                    xp={experienceGain}
                     open={isOpen}
                 />
             }
