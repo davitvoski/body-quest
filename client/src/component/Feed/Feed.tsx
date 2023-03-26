@@ -1,5 +1,5 @@
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
-import axios from "axios";
+import axios, { all } from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IPost, IPostLikedUser, IUser } from "../../../../shared";
@@ -27,21 +27,23 @@ export const Feed = () => {
 
   useEffect(() => {
     getPosts();
-    getUser();
+    getUser(); 
   }, []);
-
-  /**
-  * if is admin, then user can delete post
-  */
-  const removePost = async (post: IPost) => {
-    let allPosts = posts.filter(elePost => elePost.caption !== post.caption && elePost.date !== post.date);
-    let response = confirm(`${t('confrimDeletePost') as string}`);
-    if (response) {
-      setPosts(allPosts);
-    }
-
-    await deletPost(post);
+ 
+ /**
+   * if is admin, then user can delete post
+   */
+ const removePost = (post:IPost) =>{
+  let allPosts = posts.filter(elePost => elePost.caption !== post.caption && elePost.date !== post.date);
+  console.log(allPosts);
+  let response = confirm(`${t('confrimDeletePost') as string}`); 
+  if(response){
+    deletPost(post);
+    getPosts();
   }
+}
+
+
 
   const deletPost = async (post: IPost) => {
     try {
@@ -54,6 +56,7 @@ export const Feed = () => {
       console.log(error);
     }
   };
+
   return (
     <Box
       display="flex"
