@@ -45,6 +45,10 @@ export const Post = (props: PostProps) => {
       }
     }
   }
+
+  /**
+   * check if loggin user is admin or not
+   */
   useEffect(() => {
     ifAdmin();
   }, [])

@@ -27,21 +27,20 @@ export const Feed = () => {
 
   useEffect(() => {
     getPosts();
-    getUser(); 
+    getUser();
   }, []);
- 
- /**
-   * if is admin, then user can delete post
-   */
- const removePost = (post:IPost) =>{
-  let allPosts = posts.filter(elePost => elePost.caption !== post.caption && elePost.date !== post.date);
-  console.log(allPosts);
-  let response = confirm(`${t('confrimDeletePost') as string}`); 
-  if(response){
-    deletPost(post);
-    getPosts();
+
+  /**
+    * if is admin, then user can delete post
+    */
+  const removePost = (post: IPost) => {
+    let allPosts: IPost[] = posts.filter(currentPost => currentPost.date !== post.date);
+    let response = confirm(`${t('confrimDeletePost') as string}`);
+    if (response) {
+      deletPost(post);
+      setPosts(allPosts);
+    }
   }
-}
 
 
 
@@ -65,7 +64,7 @@ export const Feed = () => {
     >
       {posts.length === 0 && <LinearProgress sx={{ width: "100%" }} />}
       {posts && posts.slice(0).reverse().map((post, index) => (
-        <Post removePost={removePost} post={post} key={index} user={user} />
+        <Post removePost={removePost} post={post} key={index + post.date} user={user} />
       ))}
     </Box>
   );
