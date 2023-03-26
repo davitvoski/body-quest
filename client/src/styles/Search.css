@@ -8,21 +8,16 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: white;
 }
 
 #searchInput {
     margin: 0;
     padding-bottom: 10px;
-    color: white;
-    border: solid 1px white;
     border-radius: 10px;
 }
 
 #searchInput:hover {
     margin: 0;
     padding-bottom: 10px;
-    background-color: #1c242c;
-    color: white;
     border-radius: 10px;
 }

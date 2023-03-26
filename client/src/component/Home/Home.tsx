@@ -72,11 +72,9 @@ const Home = () => {
         <Search allExercises={allExercises} setExercise={setExercise} />
         <FilterView allExercises={allExercises} setExercise={setExercise} />
       </Toolbar>
-
-      <div className="exercisesBox">
-        {isLoading && (
-          <LinearProgress sx={{ width: "60%", marginBottom: "50px" }} />
-        )}
+       
+      <div className='exercisesBox'>
+        {isLoading && <LinearProgress sx={{ width:"60%", margin:"5% auto 5% auto"}}/>}
         <ExerciseList exercises={exercises} isLoading={isLoading} />
       </div>
     </div>

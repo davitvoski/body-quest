@@ -6,7 +6,7 @@ import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
+import { GoalCompleted } from "./GoalCompleted";
 
 function a11yProps(index: number) {
   return {
@@ -26,49 +26,41 @@ const Profile = () => {
   const [picture, setPicture] = useState("");
   const [experience, setExperience] = useState(0);
   const [value, setValue] = useState(0);
-  let { state } = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const getUser = async () => {
-    let res;
-    let data;
-    console.log("state: ", state);
-
-    if (state?.user) {
-      res = await fetch("/api/authentication/getSpecificUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: state.user.email }),
-      });
-      data = await res.json();
-    } else {
-      res = await fetch("/api/authentication/getUser");
-      data = await res.json();
-    }
-
-    console.log("data.user: ", data.user);
-
+    const res = await fetch("/api/authentication/getUser");
+    const data = await res.json();
     if (data.user !== undefined) {
       setUsername(data.user.username);
       setEmail(data.user.email);
+      setExperience(0);
       setPicture(data.user.picture);
     }
   };
 
   useEffect(() => {
-    if (state?.isUser) {
-      return;
-    }
     getUser();
-  }, [state?.isUser, state?.user]);
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  const completeGoal = (goal: number, type: string) => {
+    let xp = experience + 5; // base 5 increase
+    xp += Math.floor(goal / 5); // one XP per 5 amount of goal
+
+    setExperience(xp);
+    handlePopup();
+  };
+
+  const handlePopup = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="profile">
+    <div className="profile content">
       <ProfileView
         username={username}
         email={email}
@@ -88,11 +80,19 @@ const Profile = () => {
         </Tabs>
       </Item>
       <TabPanel index={0} value={value} {...a11yProps(0)}>
-        <GoalView />
+        <GoalView completeGoal={completeGoal} />
       </TabPanel>
       <TabPanel index={1} value={value} {...a11yProps(2)}>
         <FavouriteView />
       </TabPanel>
+
+      {isOpen && (
+        <GoalCompleted
+          handleClose={handlePopup}
+          xp={experience!}
+          open={isOpen}
+        />
+      )}
     </div>
   );
 };

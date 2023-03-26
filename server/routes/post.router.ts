@@ -8,30 +8,25 @@ const postRouter = express.Router()
  * @swagger
  * /api/posts/:
  *  get:
- *      summary: Get posts
- *      description: Gets all the posts from the db 
- *      tags:
- *          - posts
- *      parameters:
- *          - in: query
- *            name: limit
- *            schema:
- *              type: object
- *              properties: IPost[]
- *            description: An array of IPosts
- *      responses:
- *          200:
- *              description: returns IPosts[]
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: IPosts[]
- *          400:
- *              description: 400 error
- *              content:
- *                  application/json
- *                      schema:
- *                          type: error
+ *   summary: Get posts
+ *   description: Gets all the posts from the db 
+ *   tags:
+ *    - Post
+ *   parameters:
+ *    - in: query
+ *      name: limit
+ *      schema:
+ *        type: object
+ *        properties: IPost[]
+ *   responses:
+ *    200:
+ *     description: returns IPosts[]
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: IPosts[]
+ *    400:
+ *     description: Something went wrong
  */
 postRouter.get("/", getAllPosts)
 
@@ -40,10 +35,13 @@ postRouter.get("/", getAllPosts)
  * /api/posts/:
  *  post:
  *   summary: Saves a post to the database.
+ *   description: Saves a post to the database.
+ *   tags:
+ *    - Post
  *   requestBody:
  *    required: true
  *    content:
- *     application/json:
+ *     application/json: 
  *      schema:
  *       type: object
  *       properties:
@@ -51,27 +49,23 @@ postRouter.get("/", getAllPosts)
  *        date,
  *        imageUrl,      
  *        user  
- *      example:
- *       user: "{
- *               username: 'Raphael Canciani',
- *               email: 'raphaelcanciani@gmail.com',
- *               picture: 'https://lh3.googleusercontent.com/a/AGNmyxZrovTZZNVb71vMBomQtt7LyDOtKOKbJyWsddkf=s96-c'     
- *              }",
- *       imageUrl: "base64string",
- *       caption:  "test caption",
- *       date:     "Wednesday, March 16, 2023 at 11:28 am"
- *   tags:
- *    - Post
- *   description: Saves a post to the database.
- *   produces:
- *    - application/json
- *   responses:
- *    200:
- *     description: Successfully saved post
- *    400:
- *     description: Error adding a post, missing a field
- *    500:
- *     description: Error saving post - server error
+ *       example: {
+ *        user: {
+ *         username: Raphael Canciani,
+ *         email: raphaelcanciani@gmail.com,
+ *         picture: https://lh3.googleusercontent.com/a/AGNmyxZrovTZZNVb71vMBomQtt7LyDOtKOKbJyWsddkf=s96-c   
+ *          },
+ *        imageUrl: base64string,
+ *        caption:  test caption,
+ *        date:     Wednesday, March 16, 2023 at 11:28 am
+ *       }
+ *  responses:
+ *   200:
+ *    description: Successfully saved post
+ *   400:
+ *    description: Error adding a post, missing a field
+ *   500:
+ *    description: Error saving post - server error
  */
 postRouter.post("/createPost", isAuthenticated, createPost)
 

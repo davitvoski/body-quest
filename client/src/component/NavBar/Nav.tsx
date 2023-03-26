@@ -147,25 +147,19 @@ export default function NavBar(props: {
           </Box>
           <Box
             display="flex"
-            width="15%"
+            width="10%"
             flexDirection="row"
             alignItems="center"
             justifyContent="space-around"
           >
             <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to={"/Feed"}
-            >
-              <IconButton
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  textTransform: "none",
-                  fontSize: "1rem",
-                  padding: "0",
-                }}
-                title={t("feed") as string}
+              style={{ textDecoration: "none", color: "white"}}
+              to={'/Feed'}
               >
+                <IconButton
+                  sx={{ color: "white" }}
+                  title={t("feed") as string}
+                >
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -175,13 +169,7 @@ export default function NavBar(props: {
             <>
               {username == "" ? (
                 <IconButton
-                  style={{
-                    textDecoration: "none",
-                    color: "white",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                    padding: "0",
-                  }}
+                  sx={{ color: "white" }}
                   onClick={handleClickOpen}
                   title={t("login") as string}
                 >
@@ -189,15 +177,9 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/">
+                  <Link to="/" style={{display: "inline-block", color: "white"}}>
                     <IconButton
-                      style={{
-                        textDecoration: "none",
-                        color: "white",
-                        textTransform: "none",
-                        fontSize: "1rem",
-                        padding: "0",
-                      }}
+                      color="inherit"
                       onClick={handleLogout}
                       title={t("logout") as string}
                       href="/"
@@ -206,17 +188,10 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile" state={{ isUser: true }}>
+                  <Link to="/Profile" style={{display: "inline-block", color: "white"}}>
                     <IconButton
-                      style={{
-                        textDecoration: "none",
-                        color: "white",
-                        textTransform: "none",
-                        fontSize: "1rem",
-                        padding: "0",
-                      }}
-                      title={t("go_profile") as string}
-                    >
+                      color="inherit"
+                      title={t("go_profile") as string}>
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>
