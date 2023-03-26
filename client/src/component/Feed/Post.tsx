@@ -1,68 +1,77 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { IPost, IPostLikedUser } from "../../../../shared";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
-type PostProps = { 
+type PostProps = {
   post: IPost;
   user?: IPostLikedUser;
 };
 
-export const Post = (props: PostProps) => { 
+export const Post = (props: PostProps) => {
   let navigate = useNavigate();
 
-  const [post, setPost] = useState<IPost>(props.post); 
+  const [post, setPost] = useState<IPost>(props.post);
   const toggleLikedPost = async () => {
     if (props.user) {
-      let response = await axios.post("/api/posts/togglelikedPost", {post: post, user:props.user})      
+      let response = await axios.post("/api/posts/togglelikedPost", {
+        post: post,
+        user: props.user,
+      });
       setPost(response.data.post);
-    }
-    else {
+    } else {
       enqueueSnackbar("Log in to like a post", {
         autoHideDuration: 2000,
-        variant: 'error'
+        variant: "error",
       });
     }
-  }
+  };
 
-  useEffect(() => {
+  useEffect(() => {}, [post]);
 
-  },[post]);
-  
   return (
-    <Card 
-      sx={{width: "500px", marginBottom:"20px" }}
-      elevation={12} 
-    >
+    <Card sx={{ width: "500px", marginBottom: "20px" }} elevation={12}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
 
-      <CardHeader 
-        sx={{textAlign:"left"}}
+      <CardHeader
+        sx={{ textAlign: "left" }}
         avatar={
-          <Avatar 
+          <Avatar
             src={props.post.user.picture}
             alt={`${props.post.user.username}'s post`}
-            onClick={() => { navigate(`/Profile/${props.post.user.username}`, {state: {user: props.post.user}}) }
-          }
+            onClick={() => {
+              navigate(`/Profile/${props.post.user.username}`, {
+                state: { user: props.post.user },
+              });
+            }}
           />
         }
         title={post.user.username}
         subheader={post.date}
       />
 
-      <CardMedia 
+      <CardMedia
         component="img"
         image={post.imageUrl}
-        alt={`${post.user.username}'s image`} 
-        width="100%"   
-        height="500vh"    
+        alt={`${post.user.username}'s image`}
+        width="100%"
+        height="500vh"
       />
 
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
           {(post.likedUsers.some(someUser => someUser.email === props.user?.email)
             &&  <FavoriteIcon sx={{ color: "red"}}/>)
@@ -70,14 +79,11 @@ export const Post = (props: PostProps) => {
           }
         </IconButton>
         <Typography>{post.likedUsers.length} Likes</Typography>
-      </CardActions>
+      </CardActions> */}
 
       <CardContent>
-        <Typography align="left">
-          {post.caption}
-        </Typography>
+        <Typography align="left">{post.caption}</Typography>
       </CardContent>
-
     </Card>
   );
-}
+};
