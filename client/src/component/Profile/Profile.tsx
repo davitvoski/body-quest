@@ -29,8 +29,26 @@ const Profile = () => {
   let { state } = useLocation();
 
   const getUser = async () => {
-    const res = await fetch("/api/authentication/getUser");
-    const data = await res.json();
+    let res;
+    let data;
+    console.log("state: ", state);
+
+    if (state?.user) {
+      res = await fetch("/api/authentication/getSpecificUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: state.user.email }),
+      });
+      data = await res.json();
+    } else {
+      res = await fetch("/api/authentication/getUser");
+      data = await res.json();
+    }
+
+    console.log("data.user: ", data.user);
+
     if (data.user !== undefined) {
       setUsername(data.user.username);
       setEmail(data.user.email);
@@ -39,8 +57,11 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    if (state?.isUser) {
+      return;
+    }
     getUser();
-  }, []);
+  }, [state?.isUser, state?.user]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

@@ -23,8 +23,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "../../styles/NavBar.css";
 import { ThemeNav } from "./ThemeNav";
-import AddIcon from '@mui/icons-material/Add';
-import FeedIcon from '@mui/icons-material/Feed';
+import AddIcon from "@mui/icons-material/Add";
+import FeedIcon from "@mui/icons-material/Feed";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -81,8 +81,8 @@ export default function NavBar(props: {
 
   useEffect(() => {
     getUser();
-    //either hide or show add post button    
-    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false)    
+    //either hide or show add post button
+    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false);
   });
 
   const handleError = () => {
@@ -102,18 +102,10 @@ export default function NavBar(props: {
   };
 
   return (
-    <Box id="navBar" 
-      position="fixed"
-      width="100%"
-      zIndex="2"
-    >
+    <Box id="navBar" position="fixed" width="100%" zIndex="2">
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            width="20%"
-          >
+          <Box display="flex" justifyContent="space-between" width="20%">
             <Box
               display="flex"
               width="60%"
@@ -134,26 +126,24 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-                    title={t("home") as string }
+                    title={t("home") as string}
                   />
                 )}
               </Link>
             </Box>
-            {isFeed && username !== "" && 
-              <Box
-                alignSelf="center"
-              >
-                <Button 
-                    variant="contained" 
-                    startIcon={<AddIcon />}  
-                    size="small"     
-                    //sx={{marginLeft: "3vw"}}
-                    href="#/Postcreation"
+            {isFeed && username !== "" && (
+              <Box alignSelf="center">
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  size="small"
+                  //sx={{marginLeft: "3vw"}}
+                  href="#/Postcreation"
                 >
                   Add Post
                 </Button>
               </Box>
-              }
+            )}
           </Box>
           <Box
             display="flex"
@@ -163,9 +153,9 @@ export default function NavBar(props: {
             justifyContent="space-around"
           >
             <Link
-              style={{ textDecoration: "none", color: "white"}}
-              to={'/Feed'}
-              >
+              style={{ textDecoration: "none", color: "white" }}
+              to={"/Feed"}
+            >
               <IconButton
                 style={{
                   textDecoration: "none",
@@ -177,7 +167,7 @@ export default function NavBar(props: {
                 title={t("feed") as string}
               >
                 <FeedIcon />
-              </IconButton>              
+              </IconButton>
             </Link>
             <LanguageNav />
             <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme} />
@@ -216,7 +206,7 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile">
+                  <Link to="/Profile" state={{ isUser: true }}>
                     <IconButton
                       style={{
                         textDecoration: "none",
