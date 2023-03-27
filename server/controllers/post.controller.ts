@@ -105,3 +105,15 @@ async function addImageToAzure(file:string, caption:string){
     let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${caption + today + ".png"}`
     return imageUrl;
 }
+
+/**
+ * This function delete a post 
+ * @param req Express Request
+ */
+export async function deletePost(req: Request) {
+    try {
+        await new Database().removePost(req.body.post);
+    } catch (err) {
+        console.log(err); 
+    }
+}

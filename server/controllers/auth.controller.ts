@@ -16,6 +16,7 @@ const db = new Database();
  */
 export function getUser(req: Request, res: Response) {
   try {
+    // console.log(req.session.user)
     if (req.session) return res.json({ user: req.session.user });
     res.json("No user in session")
   } catch (e) {
@@ -46,7 +47,7 @@ export async function authenticateUser(req: Request, res: Response) {
       return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
 
-    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:false}
+    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:true}
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 
