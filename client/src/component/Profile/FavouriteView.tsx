@@ -54,7 +54,7 @@ const FavouriteView = () => {
             </Item>
           </div>
         ) :
-        <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No favourites.</Item>
+        <Item sx={{ p:2, textAlign: "center", opacity:"60%"}}>No favourites.</Item>
       }
       
       {currentFav != undefined &&
