@@ -71,7 +71,7 @@ export const PostForm = () => {
 
   return (
     <div className="form-container">
-      <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%" }}>
+      <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%", maxHeight: "90%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
             Add a Post
@@ -114,7 +114,8 @@ export const PostForm = () => {
                 {image && 
                   <Box>
                     <img 
-                      width="400px" 
+                      width="30%" 
+                      height="30%"
                       id="newUploadImage" 
                       src={image} 
                       alt="uploaded image" 
