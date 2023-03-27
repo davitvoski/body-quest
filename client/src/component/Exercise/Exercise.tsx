@@ -22,8 +22,8 @@ export const Exercise = (props: ExerciseProps) => {
     setIsOpen(!isOpen);
   };
 
-  const renderImage = (mode: string, bodyPart: string) => {
-    let src = "/body-parts/"+mode+"-mode/"
+  const renderImage = (bodyPart: string) => {
+    let src = "/body-parts/"
 
     switch(bodyPart) {
       case "waist" : src += "waist.png"; break;
@@ -38,7 +38,7 @@ export const Exercise = (props: ExerciseProps) => {
       case "neck" : src += "neck.png"; break;
     }
     
-    return ( <img width={90} loading="lazy" src={ src } /> )
+    return ( <img width={90} loading="lazy" src={ src } className="exerciseIcon" /> )
   }
 
   return (
@@ -48,7 +48,7 @@ export const Exercise = (props: ExerciseProps) => {
           <CardContent className="exerciseContent">
             <Typography className="exerciseNames">{props.exercise.name}</Typography>
             <div className="img-container">
-              { renderImage(theme.palette.mode, props.exercise.body_part) }
+              { renderImage(props.exercise.body_part) }
             </div>
           </CardContent>
         </Card>
