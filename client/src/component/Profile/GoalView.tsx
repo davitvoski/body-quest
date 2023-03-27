@@ -59,7 +59,7 @@ const GoalView = (props: goalProps) => {
                 goals.filter(isIncomplete).map(goal => 
                 <Item sx={{ m: "0% 0 1% 0", p:2}}>
                     <Typography sx={{ m: "0% 0 -2% 0" }} display="block" variant="caption" color="primary" align="right">{ goal.startDate } - { goal.endDate }</Typography>
-                    <Checkbox sx={{ color: "white"}} onChange={() => completeGoal(goal)} inputProps={{ 'aria-label': 'controlled' }} />
+                    <Checkbox sx={{ color: "inherit"}} onChange={() => completeGoal(goal)} inputProps={{ 'aria-label': 'controlled' }} />
                     <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                 </Item>
                 ) :
