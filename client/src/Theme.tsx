@@ -1,6 +1,16 @@
 import { PaletteMode } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    logo: Palette['primary'];
+  }
+
+  interface PaletteOptions {
+    logo: PaletteOptions['primary'];
+  }
+}
+
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
@@ -18,6 +28,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
         default: '#FFFBFF',
         paper: '#EEE8E8',
       },
+      logo: {
+        light: '#616161',
+        main: '#404040',
+        dark: '#000000',
+      }
     } : {
       primary: {
         main: '#FEB6BA',
@@ -31,6 +46,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
         default: '#1D181E',
         paper: '#251F29',
       },
+      logo: {
+        light: '#ffffff',
+        main: '#e0e0e0',
+        dark: '#bababa',
+      }
     }),
     text: {
       ...(mode === 'light'
