@@ -1,4 +1,4 @@
-import { Avatar, Grid, Paper, styled, useTheme } from "@mui/material";
+import { Avatar, Button, Grid, Paper, styled, TextField, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 import Item from "../modules/Item";
@@ -11,8 +11,17 @@ import ExperienceBar from "./ExperienceBar";
  * @returns ProfileView
  */
 const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
+    const [isEditing, setIsEditing] = useState(false)
     const theme = useTheme();
     const {t} = useTranslation();
+
+    const saveProfile = () => {
+        setIsEditing(!isEditing)
+    }
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    }
 
     return(
         <Grid container spacing={2}>
@@ -25,11 +34,40 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                         sx={{ width: "auto", height: "100%", margin: "auto", borderRadius: 0 }}/>
                 </Item>
             </Grid>
+            {isEditing &&   
+                <Grid item xs={12} height={"100%"}>
+                    <Item sx={{ height: "100%", textAlign: "center" }}>
+                        <Typography>Change Profile Picture:</Typography>
+                        <input id="newImage" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={(e) => handleImageChange(e)} />
+                    </Item>
+                </Grid>
+            }
             <Grid item xs={12}>
-                <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>@{ props.username }</Item>
+                <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
+                    {isEditing ? 
+                        <>
+                            <Typography>Change Username:</Typography>
+                            <TextField value={props.username} variant="standard" fullWidth/>
+                        </>
+                        : ("@"+props.username) }
+                </Item>
             </Grid>
             <Grid item xs={12}>
-                <Item sx={{ textAlign: "center" }}>{ props.email }</Item>
+                <Item sx={{ textAlign: "center" }}>
+                    {!isEditing ? 
+                        <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                            Edit User
+                        </Button> :
+                        <>
+                            <Button onClick={() => saveProfile()} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                                Save
+                            </Button>
+                            <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                                Cancel
+                            </Button>
+                        </>
+                    }
+                </Item>
             </Grid>
         </Grid>
     )
