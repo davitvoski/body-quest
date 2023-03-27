@@ -8,6 +8,8 @@ import FavouriteView from "./FavouriteView";
 import { useTranslation } from "react-i18next";
 import { GoalCompleted } from "./GoalCompleted";
 import { useLocation } from "react-router";
+import UserGoalView from "./UserGoalView";
+import UserFavouriteView from "./UserFavouriteView";
 
 function a11yProps(index: number) {
   return {
@@ -92,14 +94,10 @@ const UserProfile = () => {
         </Tabs>
       </Item>
       <TabPanel index={0} value={value} {...a11yProps(0)}>
-        <GoalView
-          completeGoal={completeGoal}
-          userGoals={goals}
-          isOtherUser={true}
-        />
+        <UserGoalView userGoals={goals} />
       </TabPanel>
       <TabPanel index={1} value={value} {...a11yProps(2)}>
-        <FavouriteView favourites={favourites} isOtherUser={true} />
+        <UserFavouriteView favourites={favourites} />
       </TabPanel>
 
       {isOpen && (

@@ -19,22 +19,11 @@ const GoalView = (props: goalProps) => {
 
   // Display Users Goals
   useEffect(() => {
-    /**
-     * This function gets a users goals
-     */
-    async function getGoals() {
-      const resp = await fetch(`/api/goals`);
-      // If not logged in, return
-      if (resp.status === 401) return;
-      const data = (await resp.json()) as IGoal[];
-
-      setGoals(data);
-    }
-
     // NOTE: IF THE GOALS ARE NOT DISPLAYING
     // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY GOALS
+
     if (props.userGoals) {
-      console.log("setting goals: ", props.userGoals);
+      console.log("props goals: ", props.userGoals);
       setGoals(props.userGoals);
     } else {
       getGoals().catch((err) => {
@@ -42,6 +31,18 @@ const GoalView = (props: goalProps) => {
       });
     }
   }, []);
+
+  /**
+   * This function gets a users goals
+   */
+  async function getGoals() {
+    const resp = await fetch(`/api/goals`);
+    // If not logged in, return
+    if (resp.status === 401) return;
+    const data = (await resp.json()) as IGoal[];
+
+    setGoals(data);
+  }
 
   const completeGoal = async (goal: IGoal) => {
     let resp;

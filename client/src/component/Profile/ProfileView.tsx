@@ -21,8 +21,6 @@ const ProfileView = (props: {
   experience: number;
   avatar?: string;
 }) => {
-  console.log(props.avatar);
-  console.log("profile view");
   const { t } = useTranslation();
 
   /**

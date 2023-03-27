@@ -57,6 +57,7 @@ export const Post = (props: PostProps) => {
                 state: { user: props.post.user },
               });
             }}
+            sx={{ cursor: "pointer" }}
           />
         }
         title={post.user.username}
