@@ -1,4 +1,4 @@
-import { Avatar, Grid, Paper, styled } from "@mui/material";
+import { Avatar, Grid, Paper, styled, useTheme } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 import Item from "../modules/Item";
@@ -11,8 +11,7 @@ import ExperienceBar from "./ExperienceBar";
  * @returns ProfileView
  */
 const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
-    console.log(props.avatar);
-    
+    const theme = useTheme();
     const {t} = useTranslation();
 
     /**
@@ -81,7 +80,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Item sx={{ backgroundColor: "secondary" }}>
+                <Item>
                     <ExperienceBar xp={ props.experience - prevLevels(currentLevel) } xpNext={ nextLevel(props.experience) } level={ currentLevel }/>
                 </Item>
             </Grid>
