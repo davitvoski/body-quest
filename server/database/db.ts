@@ -244,7 +244,7 @@ export default class Database {
       await collection.deleteOne(post);
 
     } catch (err) {
-      throw new Error("Error adding a post in the db")      
+      throw new Error("Error deleting a post in the db")      
     }
   }
 

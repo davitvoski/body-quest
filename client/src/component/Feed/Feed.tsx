@@ -34,7 +34,7 @@ export const Feed = () => {
     * if is admin, then user can delete post
     */
   const removePost = (post: IPost) => {
-    let allPosts: IPost[] = posts.filter(currentPost => currentPost.date !== post.date);
+    let allPosts: IPost[] = posts.filter(currentPost => currentPost.imageUrl !== post.imageUrl);
     let response = confirm(`${t('confrimDeletePost') as string}`);
     if (response) {
       deletPost(post);
@@ -64,7 +64,7 @@ export const Feed = () => {
     >
       {posts.length === 0 && <LinearProgress sx={{ width: "100%" }} />}
       {posts && posts.slice(0).reverse().map((post, index) => (
-        <Post removePost={removePost} post={post} key={index + post.date} user={user} />
+        <Post removePost={removePost} post={post} key={index + post.imageUrl} user={user} />
       ))}
     </Box>
   );
