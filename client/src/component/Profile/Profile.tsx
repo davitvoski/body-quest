@@ -27,7 +27,7 @@ const Profile = () => {
     const [experience, setExperience] = useState(0)
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
-
+    const [isAdmin, setIsAdmin] = useState(false);
     const getUser = async () => {
         const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
@@ -36,6 +36,9 @@ const Profile = () => {
             setEmail(data.user.email)
             setExperience(0)
             setPicture(data.user.picture)
+            if(data.user.isAdmin){
+                setIsAdmin(true)
+            }
         }
     }
 
@@ -61,7 +64,7 @@ const Profile = () => {
 
     return(
         <div className="profile content">
-            <ProfileView username={username} email={email} experience={experience} avatar={picture} ></ProfileView>
+            <ProfileView isAdmin={isAdmin} username={username} email={email} experience={experience} avatar={picture} ></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
                     <Tab label={t("goals")} sx={{ width: "50%" }} />
