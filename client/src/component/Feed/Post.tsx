@@ -18,6 +18,7 @@ type PostProps = {
 export const Post = (props: PostProps) => {
   const { t } = useTranslation();
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
+  // check if the post belong to current user
   const [currentUserPosts, setCurrentUserPosts] = useState<Boolean>(false);
   const [post, setPost] = useState<IPost>(props.post);
   const toggleLikedPost = async () => {
@@ -105,7 +106,7 @@ export const Post = (props: PostProps) => {
             {post.caption}
           </Typography>
         </CardContent>
-        {/* admin user can delete posts */}
+        {/* admin user or the owner of post can delete posts */}
         {(isAdmin || currentUserPosts) && <Button fullWidth onClick={() => { props.removePost(post) }} variant="contained">{t('delete_btn')}</Button>}
       </Card>
     </>
