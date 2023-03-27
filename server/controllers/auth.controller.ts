@@ -47,7 +47,7 @@ export async function authenticateUser(req: Request, res: Response) {
       return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
     }
 
-    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:true}
+    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin: true }
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 
@@ -108,4 +108,16 @@ export function logout(req: Request, res: Response) {
  */
 export function protectedTest(res: Response) {
   res.sendStatus(200);
+}
+
+/**
+ * This function delete a user profile 
+ * @param req Express Request
+ */
+export async function deleteAuthenticateUser(req: Request) {
+  try {
+    await db.deleteUser(req.body.user);
+  } catch (err) {
+    console.log(err);
+  }
 }

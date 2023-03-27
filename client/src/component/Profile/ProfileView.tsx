@@ -9,10 +9,10 @@ import { useTranslation } from "react-i18next";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string; isAdmin: boolean }) => {
+const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string; isAdmin: boolean; removeUserProfile:Function}) => {
     console.log(props.avatar);
 
-    const { t } = useTranslation();
+    const { t } = useTranslation(); 
 
     /**
      * Calculates the current level of a user based on XP
@@ -55,11 +55,11 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                     </Grid>
                     <Grid item xs={12}>
                         <Item>{t('bio')}</Item>
-                    </Grid>
+                    </Grid> 
 
-                    {/* admin can delete system user*/}
+                    {/* Admin can delete system user*/}
                     <Grid item xs={12}>
-                        {props.isAdmin && <Button variant="contained"> Delete user profile </Button>}
+                        {props.isAdmin && <Button variant="contained" > Delete user profile </Button>}
                     </Grid>
                 </Grid>
             </Grid>

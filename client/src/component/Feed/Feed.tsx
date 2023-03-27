@@ -43,7 +43,10 @@ export const Feed = () => {
   }
 
 
-
+  /**
+   * delete post, send request to server
+   * @param post IPost
+   */
   const deletPost = async (post: IPost) => {
     try {
       await axios.delete("/api/posts", {

@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, authenticateUser, isAuthenticated, logout, protectedTest } from "../controllers/auth.controller";
+import { getUser, authenticateUser, isAuthenticated, logout, protectedTest, deleteAuthenticateUser } from "../controllers/auth.controller";
 const authRouter = express.Router()
 
 /**
@@ -119,5 +119,10 @@ authRouter.get("/logout", isAuthenticated, logout);
  *                          type: error
  */
 authRouter.get("/protected", isAuthenticated, protectedTest);
+
+/**
+ * delete user profile
+ */
+authRouter.delete("/auth", isAuthenticated, deleteAuthenticateUser);
 
 export default authRouter;

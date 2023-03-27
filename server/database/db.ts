@@ -61,6 +61,16 @@ export default class Database {
     await db.collection("users").insertOne(user);
   }
 
+
+  /**
+     * This function delete a user to the database
+     * @param user The user to delete to the database
+     */
+  public async deleteUser(user: IUser) {
+    await db.collection("users").deleteOne(user);
+  }
+
+
   /**
    * This function gets all exercises from the database
    * @param limit The number of exercises to return
@@ -128,14 +138,14 @@ export default class Database {
    * This function gets all the posts from the db to show to any user
    * @returns {IPost[]}
    */
-  async getAllPosts(){
+  async getAllPosts() {
     try {
       const collection = db.collection(this.postsCollection)
 
       const posts = await collection
         .find({}, { projection: { _id: 0 } })
         .toArray() as unknown as IPost[];
-            
+
       return posts;
     } catch (err) {
       if (err instanceof Error) throw new Error(err.message)
@@ -222,52 +232,52 @@ export default class Database {
    * This function adds a post to the db
    * @param post post object of the user
    */
-  async addPost(post:IPost){
+  async addPost(post: IPost) {
     try {
       const collection = db.collection(this.postsCollection);
 
       await collection.insertOne(post);
 
     } catch (err) {
-      throw new Error("Error adding a post in the db")      
+      throw new Error("Error adding a post in the db")
     }
   }
 
-   /**
-   * This function delete a post to the db
-   * @param post post object of the user
-   */
-   async removePost(post:IPost){
+  /**
+  * This function delete a post to the db
+  * @param post post object of the user
+  */
+  async removePost(post: IPost) {
     try {
       const collection = db.collection(this.postsCollection);
 
       await collection.deleteOne(post);
 
     } catch (err) {
-      throw new Error("Error deleting a post in the db")      
+      throw new Error("Error deleting a post in the db")
     }
   }
 
-  async toggleLikedPost(post:IPost, users:IPostLikedUser[]){
+  async toggleLikedPost(post: IPost, users: IPostLikedUser[]) {
     try {
-      const collection = db.collection(this.postsCollection); 
+      const collection = db.collection(this.postsCollection);
 
-      await collection.updateOne({imageUrl: post.imageUrl},{$set: {likedUsers: users}});
-      
-      let response = await collection.findOne({imageUrl: post.imageUrl});
+      await collection.updateOne({ imageUrl: post.imageUrl }, { $set: { likedUsers: users } });
 
-      let responsePost:IPost = response as unknown as IPost;
-      let updatedPost:IPost = {
-        user: responsePost.user, 
-        imageUrl: responsePost.imageUrl, 
+      let response = await collection.findOne({ imageUrl: post.imageUrl });
+
+      let responsePost: IPost = response as unknown as IPost;
+      let updatedPost: IPost = {
+        user: responsePost.user,
+        imageUrl: responsePost.imageUrl,
         caption: responsePost.caption,
         date: responsePost.date,
         likedUsers: responsePost.likedUsers
-      }      
+      }
       return updatedPost;
-      
+
     } catch (error) {
-      throw new Error("Error adding liking or disliking a post")      
+      throw new Error("Error adding liking or disliking a post")
     }
   }
 
@@ -350,10 +360,10 @@ export default class Database {
     }
   }
 
-  async getUser(email:string){
+  async getUser(email: string) {
     try {
       const collection = db.collection(this.usersCollection);
-      const user:IUser = await collection.findOne({email: email}) as unknown as IUser;
+      const user: IUser = await collection.findOne({ email: email }) as unknown as IUser;
       return user;
     } catch (error) {
       throw new Error("Cannot fetch user from the db");

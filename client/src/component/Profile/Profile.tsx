@@ -5,8 +5,10 @@ import Item from "../modules/Item";
 import TabPanel from "../modules/TabPanel";
 import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
-import { useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { GoalCompleted } from "./GoalCompleted";
+import { IUser } from "../../../../shared";
+import axios from "axios";
 
 function a11yProps(index: number) {
     return {
@@ -20,7 +22,7 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
     const [picture, setPicture] = useState("")
@@ -28,19 +30,50 @@ const Profile = () => {
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
     const [isAdmin, setIsAdmin] = useState(false);
+    const [user, setUser] = useState<IUser>();
     const getUser = async () => {
         const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
-        if (data.user !== undefined){     
+        if (data.user !== undefined) {
+            setUser(data.user);
             setUsername(data.user.username);
             setEmail(data.user.email)
             setExperience(0)
             setPicture(data.user.picture)
-            if(data.user.isAdmin){
+            if (data.user.isAdmin) {
                 setIsAdmin(true)
             }
         }
     }
+
+    /**
+     * Remove user profile when admin delete user
+     * @param user IUser
+     */
+    const removeUserProfile = async () => {
+        const response = confirm("Are you sure you want to delete this user?");
+        if (response) {
+            await fetch("api/authentication/logout");
+            setUsername("");
+            // deletUser(user);
+        }
+    }
+    /**
+     * delete user, send request to server
+     * @param user IUser
+     */
+    const deletUser = async (user: IUser) => {
+        try {
+            await axios.delete("/api/auth", {
+                data: {
+                    user: user
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     useEffect(() => {
         getUser();
@@ -62,9 +95,9 @@ const Profile = () => {
         setIsOpen(!isOpen);
     };
 
-    return(
+    return (
         <div className="profile content">
-            <ProfileView isAdmin={isAdmin} username={username} email={email} experience={experience} avatar={picture} ></ProfileView>
+            <ProfileView removeUserProfile={removeUserProfile} isAdmin={isAdmin} username={username} email={email} experience={experience} avatar={picture} ></ProfileView>
             <Item sx={{ margin: "0 5% 0 5%" }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
                     <Tab label={t("goals")} sx={{ width: "50%" }} />
@@ -72,12 +105,12 @@ const Profile = () => {
                 </Tabs>
             </Item>
             <TabPanel index={0} value={value} {...a11yProps(0)}>
-                <GoalView completeGoal={completeGoal}/>
+                <GoalView completeGoal={completeGoal} />
             </TabPanel>
             <TabPanel index={1} value={value} {...a11yProps(2)}>
-                <FavouriteView/>
+                <FavouriteView />
             </TabPanel>
-            
+
             {isOpen &&
                 <GoalCompleted
                     handleClose={handlePopup}
