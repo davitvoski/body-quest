@@ -224,7 +224,7 @@ export const Popup = (props: PopupProps) => {
           >
             <IconButton sx={{ outline: "none" }} onClick={handleFavourite}>
               {isFavourite ? (
-                <StarIcon/>
+                <StarIcon color="warning"/>
               ) : (
                 <StarBorderIcon sx={{ outline: "none" }} />
               )}
