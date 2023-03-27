@@ -44,7 +44,7 @@ export const Exercise = (props: ExerciseProps) => {
   return (
     <>
       <div className="exerciseArea" onClick={handlePopup}>
-        <Card className="cardExecise" variant="outlined" sx={{ height: "14em" }}>
+        <Card className="cardExecise" sx={{ height: "14em", borderRadius: 0 }}>
           <CardContent className="exerciseContent">
             <Typography className="exerciseNames">{props.exercise.name}</Typography>
             <div className="img-container">

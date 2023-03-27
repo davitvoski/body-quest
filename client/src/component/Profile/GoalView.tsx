@@ -57,22 +57,22 @@ const GoalView = (props: goalProps) => {
         <div>
             {goals.filter(isIncomplete).length > 0 ?
                 goals.filter(isIncomplete).map(goal => 
-                <Item sx={{ m: "1% 0 1% 0", p:2}}>
+                <Item sx={{ m: "0% 0 1% 0", p:2}}>
                     <Typography sx={{ m: "0% 0 -2% 0" }} display="block" variant="caption" color="primary" align="right">{ goal.startDate } - { goal.endDate }</Typography>
                     <Checkbox sx={{ color: "white"}} onChange={() => completeGoal(goal)} inputProps={{ 'aria-label': 'controlled' }} />
                     <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                 </Item>
                 ) :
-                <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No current goals.</Item>
+                <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No current goals.</Item>
             }
             {goals.filter(isCompleted).length > 0 &&
-                <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>
+                <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%", fontFamily: "Silkscreen", fontSize: 20 }}>
                     COMPLETED GOALS
                 </Item>
             }
             {goals.filter(isCompleted).length > 0 &&
                 goals.filter(isCompleted).map(goal => 
-                    <Item sx={{ m: "1% 0 1% 0", p:2, opacity:"60%"}}>
+                    <Item sx={{ m: "0% 0 1% 0", p:2, opacity:"60%"}}>
                         <Typography sx={{ m: "0% 0 -2% 0" }} display="block" variant="caption" color="primary" align="right">{ goal.startDate } - { goal.endDate }</Typography>
                         <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                         <Link
