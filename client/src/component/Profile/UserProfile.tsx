@@ -28,10 +28,11 @@ const UserProfile = () => {
   const [experience, setExperience] = useState(0);
   const [value, setValue] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [goals, setGoals] = useState([]);
+  const [favourites, setFavourites] = useState([]);
   const { state } = useLocation();
 
   const getUser = async () => {
-    console.log("getting user");
     const res = await fetch("/api/authentication/getSpecificUser", {
       method: "POST",
       headers: {
@@ -45,6 +46,8 @@ const UserProfile = () => {
       setEmail(data.user.email);
       setExperience(0);
       setPicture(data.user.picture);
+      setGoals(data.user.goals);
+      setFavourites(data.user.favourites);
     }
   };
 
@@ -70,7 +73,6 @@ const UserProfile = () => {
 
   return (
     <div className="profile content">
-      <h1>USER PROFILES</h1>
       <ProfileView
         username={username}
         email={email}
@@ -90,10 +92,14 @@ const UserProfile = () => {
         </Tabs>
       </Item>
       <TabPanel index={0} value={value} {...a11yProps(0)}>
-        <GoalView completeGoal={completeGoal} />
+        <GoalView
+          completeGoal={completeGoal}
+          userGoals={goals}
+          isOtherUser={true}
+        />
       </TabPanel>
       <TabPanel index={1} value={value} {...a11yProps(2)}>
-        <FavouriteView />
+        <FavouriteView favourites={favourites} isOtherUser={true} />
       </TabPanel>
 
       {isOpen && (

@@ -24,7 +24,6 @@ export function getUser(req: Request, res: Response) {
 
 export async function getSpecificUser(req: Request, res: Response) {
   try {
-    console.log(req);
     const { email } = req.body;
     const user = await db.getUser(email);
     res.status(200).json({ user: user });

@@ -53,7 +53,7 @@ export const Post = (props: PostProps) => {
             src={props.post.user.picture}
             alt={`${props.post.user.username}'s post`}
             onClick={() => {
-              navigate(`/Profile/${props.post.user.username}`, {
+              navigate(`/users/${props.post.user.username}`, {
                 state: { user: props.post.user },
               });
             }}
@@ -71,15 +71,16 @@ export const Post = (props: PostProps) => {
         height="500vh"
       />
 
-      {/* <CardActions disableSpacing>
+      <CardActions disableSpacing>
         <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
-          {(post.likedUsers.some(someUser => someUser.email === props.user?.email)
-            &&  <FavoriteIcon sx={{ color: "red"}}/>)
-            ||  <FavoriteBorderIcon />
-          }
+          {(post.likedUsers.some(
+            (someUser) => someUser.email === props.user?.email
+          ) && <FavoriteIcon sx={{ color: "red" }} />) || (
+            <FavoriteBorderIcon />
+          )}
         </IconButton>
         <Typography>{post.likedUsers.length} Likes</Typography>
-      </CardActions> */}
+      </CardActions>
 
       <CardContent>
         <Typography align="left">{post.caption}</Typography>

@@ -29,12 +29,10 @@ const router = createHashRouter([
       {
         path: "/Profile",
         element: <Profile />,
-        children: [
-          {
-            path: "/Profile/:id",
-            element: <UserProfile />,
-          },
-        ],
+      },
+      {
+        path: "/users/:id",
+        element: <UserProfile />,
       },
       {
         path: "/Goalcreation",

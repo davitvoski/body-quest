@@ -7,10 +7,15 @@ import Item from "../modules/Item";
 /**
  * This component displays a users favourite exercises in a pannel
  */
-const FavouriteView = () => {
+interface favProps {
+  isOtherUser?: boolean;
+  favourites?: IExercise[];
+}
+
+const FavouriteView = (props: favProps) => {
   const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
-  const [isOpen, setIsOpen] = useState(false)
-  const [currentFav, setCurrentFav] = useState<IExercise>()
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentFav, setCurrentFav] = useState<IExercise>();
 
   // Display Users Favourites
   useEffect(() => {
@@ -28,12 +33,21 @@ const FavouriteView = () => {
 
     // NOTE: IF THE FAVOURITES ARE NOT DISPLAYING
     // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY FAVOURITES
-    getFavourties().catch((err) => {
-      console.log(err);
-    });
+    if (props.favourites) {
+      console.log("true");
+      console.log(props.favourites);
+      setFavouriteExercises(props.favourites);
+      console.log("state: ", favouriteExercises);
+    } else {
+      getFavourties().catch((err) => {
+        console.log(err);
+      });
+      
+    }
   }, []);
-  
+
   const handlePopup = (fav: IExercise) => {
+    console.log(favouriteExercises);
     setCurrentFav(fav);
     setIsOpen(!isOpen);
   };
@@ -43,30 +57,38 @@ const FavouriteView = () => {
   return (
     <div>
       {/* Real Data */}
-      
-      {favouriteExercises.length > 0 ? 
-        favouriteExercises.map(fav => 
+
+      {favouriteExercises.length > 0 ? (
+        favouriteExercises.map((fav) => (
           <div className="clickableDiv">
-            <Item sx={{ m: "1% 0 1% 0", p:2}} onClick={() => handlePopup(fav)}>
-              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-                {fav.name} {fav.body_part} {fav.target}
-              </Typography>
+            <Item
+              sx={{ m: "1% 0 1% 0", p: 2 }}
+              onClick={() => handlePopup(fav)}
+            >
+              {!props.isOtherUser ? (
+                <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                  {fav.name} {fav.body_part} {fav.target}
+                </Typography>
+              ) : (
+                <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                  {fav}
+                </Typography>
+              )}
             </Item>
           </div>
-        ) :
-        <Item sx={{ m: "1% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No favourites.</Item>
-      }
-      
-      {currentFav != undefined &&
-        <Popup
-        handleClose={closePopup}
-        exercise={currentFav!}
-        open={isOpen}
-        />
-      }
-      
-    </div>
+        ))
+      ) : (
+        <Item
+          sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
+        >
+          No favourites.
+        </Item>
+      )}
 
+      {currentFav != undefined && (
+        <Popup handleClose={closePopup} exercise={currentFav!} open={isOpen} />
+      )}
+    </div>
   );
 };
 
