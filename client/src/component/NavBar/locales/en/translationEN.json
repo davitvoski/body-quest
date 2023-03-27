@@ -44,5 +44,11 @@
     "removeFavoris":"Removed From Favourites!",
     "date_requirement":"END DATE MUST BE AFTER START DATE",
     "delete_btn":"Delete",
-    "confrimDeletePost":"Are you sure you want to delete this post?"
+    "confrimDeletePost":"Are you sure you want to delete this post?",
+    "likes":"likes",
+    "add_post":"Add post",
+    "upload_image":"Upload Post Image",
+    "change_image":"Change Image",
+    "caption":"Caption",
+    "create":"Create"
   }

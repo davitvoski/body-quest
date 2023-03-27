@@ -4,8 +4,10 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
 import { IPost, IUserPost } from "../../../../../shared";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export const PostForm = () => {
+  const { t } = useTranslation();
   const [image, setImage] = useState<string>();
   const [caption, setCaption] = useState("");
   let navigate = useNavigate();
@@ -74,7 +76,7 @@ export const PostForm = () => {
       <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
-            Add a Post
+          {t('add_post')}
           </Typography>
         </div>
         <form className="goal-form">
@@ -101,8 +103,8 @@ export const PostForm = () => {
                   sx={{alignSelf:"center", marginBottom:"25px"}}
                 >
                   {image 
-                    ? <>Change Image</>
-                    : <>Upload Post Image</> 
+                    ? <>{t('change_image')}</>
+                    : <>{t('upload_image')}</> 
                   }
                   <input 
                     type="file" 
@@ -136,7 +138,7 @@ export const PostForm = () => {
                 <TextField
                   sx={{marginTop: "20px", width: "80%", alignSelf:"center"}}
                   id="outlined-multiline-static"
-                  label="Caption"
+                  label={t('caption')}
                   multiline
                   rows={4}
                   value={caption}
@@ -151,7 +153,7 @@ export const PostForm = () => {
               onClick={handleSubmit}
               disabled={image === undefined}
             >
-              Create
+              {t('create')}
             </Button>
         </form>
       </Paper>

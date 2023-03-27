@@ -43,5 +43,11 @@
     "addedToFavourites":"Ajouté aux favoris !",
     "removeFavoris":"Retiré !",
     "date_requirement":"Ne peut pas choisir le jour avant que le début du jour",
-    "delete_btn":"Supprimer"
+    "delete_btn":"Supprimer",
+    "likes":"j'aime",
+    "add_post":"Ajouter un post",
+    "upload_image":"Télécharger l'image",
+    "change_image":"Modifier l'image",
+    "caption":"Légende",
+    "create":"Créer"
   }
