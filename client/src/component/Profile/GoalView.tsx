@@ -7,8 +7,6 @@ import { IGoal } from "../../../../shared";
 
 interface goalProps {
   completeGoal: (goal: number, type: string) => void;
-  userGoals?: IGoal[];
-  isOtherUser?: boolean;
 }
 
 const GoalView = (props: goalProps) => {
@@ -22,14 +20,9 @@ const GoalView = (props: goalProps) => {
     // NOTE: IF THE GOALS ARE NOT DISPLAYING
     // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY GOALS
 
-    if (props.userGoals) {
-      console.log("props goals: ", props.userGoals);
-      setGoals(props.userGoals);
-    } else {
-      getGoals().catch((err) => {
-        console.log(err);
-      });
-    }
+    getGoals().catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   /**
@@ -75,13 +68,11 @@ const GoalView = (props: goalProps) => {
             >
               {goal.startDate} - {goal.endDate}
             </Typography>
-            {!props.isOtherUser && (
-              <Checkbox
-                sx={{ color: "white" }}
-                onChange={() => completeGoal(goal)}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-            )}
+            <Checkbox
+              sx={{ color: "white" }}
+              onChange={() => completeGoal(goal)}
+              inputProps={{ "aria-label": "controlled" }}
+            />
             <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">
               {goal.goal} {goal.type}: {goal.exercise}
             </Typography>
@@ -116,16 +107,14 @@ const GoalView = (props: goalProps) => {
             <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">
               {goal.goal} {goal.type}: {goal.exercise}
             </Typography>
-            {!props.isOtherUser && (
-              <Link
-                to={{
-                  pathname: "/Goalcreation",
-                }}
-                state={{ exerciseName: goal.exercise, type: goal.type }}
-              >
-                <Button>Do Again</Button>
-              </Link>
-            )}
+            <Link
+              to={{
+                pathname: "/Goalcreation",
+              }}
+              state={{ exerciseName: goal.exercise, type: goal.type }}
+            >
+              <Button>Do Again</Button>
+            </Link>
           </Item>
         ))}
     </div>

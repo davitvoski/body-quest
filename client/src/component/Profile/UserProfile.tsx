@@ -29,7 +29,6 @@ const UserProfile = () => {
   const [picture, setPicture] = useState("");
   const [experience, setExperience] = useState(0);
   const [value, setValue] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
   const [goals, setGoals] = useState([]);
   const [favourites, setFavourites] = useState([]);
   const { state } = useLocation();
@@ -61,18 +60,6 @@ const UserProfile = () => {
     setValue(newValue);
   };
 
-  const completeGoal = (goal: number, type: string) => {
-    let xp = experience + 5; // base 5 increase
-    xp += Math.floor(goal / 5); // one XP per 5 amount of goal
-
-    setExperience(xp);
-    handlePopup();
-  };
-
-  const handlePopup = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <div className="profile content">
       <ProfileView
@@ -97,16 +84,8 @@ const UserProfile = () => {
         <UserGoalView userGoals={goals} />
       </TabPanel>
       <TabPanel index={1} value={value} {...a11yProps(2)}>
-        <UserFavouriteView favourites={favourites} />
+        <UserFavouriteView favourites={favourites} email={email} />
       </TabPanel>
-
-      {isOpen && (
-        <GoalCompleted
-          handleClose={handlePopup}
-          xp={experience!}
-          open={isOpen}
-        />
-      )}
     </div>
   );
 };

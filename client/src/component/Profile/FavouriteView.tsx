@@ -7,12 +7,7 @@ import Item from "../modules/Item";
 /**
  * This component displays a users favourite exercises in a pannel
  */
-interface favProps {
-  isOtherUser?: boolean;
-  favourites?: IExercise[];
-}
-
-const FavouriteView = (props: favProps) => {
+const FavouriteView = () => {
   const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [currentFav, setCurrentFav] = useState<IExercise>();
@@ -33,17 +28,9 @@ const FavouriteView = (props: favProps) => {
 
     // NOTE: IF THE FAVOURITES ARE NOT DISPLAYING
     // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY FAVOURITES
-    if (props.favourites) {
-      console.log("true");
-      console.log(props.favourites);
-      setFavouriteExercises(props.favourites);
-      console.log("state: ", favouriteExercises);
-    } else {
-      getFavourties().catch((err) => {
-        console.log(err);
-      });
-      
-    }
+    getFavourties().catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   const handlePopup = (fav: IExercise) => {
@@ -65,15 +52,9 @@ const FavouriteView = (props: favProps) => {
               sx={{ m: "1% 0 1% 0", p: 2 }}
               onClick={() => handlePopup(fav)}
             >
-              {!props.isOtherUser ? (
-                <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-                  {fav.name} {fav.body_part} {fav.target}
-                </Typography>
-              ) : (
-                <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-                  {fav}
-                </Typography>
-              )}
+              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                {fav.name} {fav.body_part} {fav.target}
+              </Typography>
             </Item>
           </div>
         ))
