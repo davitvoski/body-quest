@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material";
 const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
     const theme = useTheme();
     const height = window.innerHeight
-    const width = window.innerWidth * 0.10
+    const width = window.innerWidth * 0.08
     console.log(width)
     const end = width - 4
 
@@ -41,7 +41,7 @@ const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
             <path stroke={ theme.palette.logo.dark } d={"M"+(end+2)+" 4h1M"+(end+2)+" 5h1M"+(end+2)+" 6h1M"+(end+2)+" 7h1M"+(end+2)+" 8h2M"+(end+2)+" 9h1M"+(end+2)+" 10h1M"+(end+2)+" 11h1M"+(end+1)+" 12h2M"+(end+1)+" 13h1M"+(end+1)+" 14h1"} />
             <path stroke={ theme.palette.logo.dark } d={"M"+(end)+" 10h1M"+(end)+" 11h1M"+(end)+" 12h1M"+(end)+" 13h1M"+(end)+" 14h1"} />
             
-            <text x={ end-12 } y="4" fontSize={3} fontFamily={"Silkscreen"} fill={ theme.palette.text.primary }>LVL { props.level }</text>
+            <text x="5" y="14" fontSize={3} fontFamily={"Silkscreen"} fill={ theme.palette.text.primary }>LVL { props.level }</text>
             <text x="5" y="4" fontSize={3} fontFamily={"Silkscreen"} fill={ theme.palette.text.primary }>{ props.xp } / { props.xpNext }</text>
         </svg>
     )

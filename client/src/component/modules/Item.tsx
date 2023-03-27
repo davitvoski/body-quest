@@ -7,7 +7,8 @@ const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode == 'dark'? '#37313b' : '#FFFBFF',
     ...theme.typography.body1,
     padding: theme.spacing(1),
-    textAlign: 'left'
+    textAlign: 'left',
+    borderRadius: 0,
 }));
 
 export default Item;

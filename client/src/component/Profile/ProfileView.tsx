@@ -63,7 +63,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                         alt={ props.username } 
                         src={ props.avatar ? props.avatar : ""} 
                         variant="rounded"
-                        sx={{ width: "auto", height: "100%", margin: "auto" }}/>
+                        sx={{ width: "auto", height: "100%", margin: "auto", borderRadius: 0 }}/>
                 </Item>
             </Grid>
             <Grid item xs>
@@ -80,7 +80,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Item>
+                <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
                     <ExperienceBar xp={ props.experience - prevLevels(currentLevel) } xpNext={ nextLevel(props.experience) } level={ currentLevel }/>
                 </Item>
             </Grid>
