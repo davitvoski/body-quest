@@ -26,7 +26,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 </Item>
             </Grid>
             <Grid item xs={12}>
-                <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>{ props.username }</Item>
+                <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>@{ props.username }</Item>
             </Grid>
             <Grid item xs={12}>
                 <Item sx={{ textAlign: "center" }}>{ props.email }</Item>
