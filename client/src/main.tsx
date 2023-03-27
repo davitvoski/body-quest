@@ -15,6 +15,7 @@ import Profile from "./component/Profile/Profile";
 import { GoalForm } from "./component/Goal/GoalForm";
 import { Feed } from "./component/Feed/Feed";
 import { PostForm } from "./component/Feed/PostForm/PostForm";
+import NotFound from "./component/NotFound";
 
 const router = createHashRouter([
   {
@@ -40,6 +41,10 @@ const router = createHashRouter([
       {
         path: "/Postcreation",
         element: <PostForm />,
+      },
+      {
+        path: "/*",
+        element: <NotFound />,
       },
     ],
   },
