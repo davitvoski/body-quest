@@ -6,6 +6,7 @@ import "../../styles/Exercises.css";
 
 type ExerciseProps = {
   exercise: IExercise;
+  isLoggedIn: Boolean;
 };
 
 /**
@@ -102,7 +103,7 @@ export const Exercise = (props: ExerciseProps) => {
           </CardContent>
         </Card>
       </div>
-      {isOpen && <Popup handleClose={handlePopup} exercise={props.exercise} open={isOpen} />}
+      {isOpen && <Popup isLoggedIn={props.isLoggedIn} handleClose={handlePopup} exercise={props.exercise} open={isOpen} />}
     </>
   );
 };

@@ -8,6 +8,7 @@ import { Grid } from "@mui/material";
 type PaginationProps = {
   exercises: IExercise[];
   isLoading: Boolean;
+  isLoggedIn: Boolean;
 };
 
 export default function PaginationForExercises(props: PaginationProps) {
@@ -34,15 +35,9 @@ export default function PaginationForExercises(props: PaginationProps) {
     <>
       <div className="exerciseList">
         {currentData().map((exercise, i) => (
-          <Exercise exercise={exercise} key={i} />
+          <Exercise exercise={exercise} key={i} isLoggedIn={props.isLoggedIn}/>
         ))}
       </div>
-      <Pagination
-        onChange={(e: React.ChangeEvent<unknown>, page: number) => {
-          setCurrentPage(page);
-        }}
-        count={totalPage}
-      />
       {!props.isLoading && (
         <Pagination
           id="pagination"

@@ -25,6 +25,7 @@ type PopupProps = {
   handleClose: () => void;
   exercise: IExercise;
   open: boolean;
+  isLoggedIn: Boolean;
 };
 
 interface State extends SnackbarOrigin {
@@ -202,7 +203,7 @@ export const Popup = (props: PopupProps) => {
                 <b>{t("target")}:</b> {exercise.target}
               </Typography>
             </div>
-            {isLoggedIn && (
+            {props.isLoggedIn && (
               <Link
                 className="link-button"
                 to={{
