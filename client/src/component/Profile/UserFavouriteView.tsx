@@ -33,7 +33,6 @@ const UserFavouriteView = (props: favProps) => {
       // If not logged in, return
       if (res.status === 401) return;
       const data = (await res.json()).exercises as IExercise[];
-      console.log(data);
       setFavouriteExercises(data);
     }
 

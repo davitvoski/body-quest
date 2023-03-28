@@ -60,7 +60,7 @@ const ProfileView = (props: {
           />
         </Item>
       </Grid>
-      {!props.isOtherUser && isEditing && (
+      {isEditing && (
         <Grid item xs={12} height={"100%"}>
           <Item sx={{ height: "100%", textAlign: "center" }}>
             <Typography>Change Profile Picture:</Typography>
