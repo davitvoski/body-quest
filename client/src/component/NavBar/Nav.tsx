@@ -105,7 +105,10 @@ export default function NavBar(props: {
     <Box id="navBar" position="fixed" width="100%" zIndex="2">
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Box display="flex" justifyContent="space-between" width="20%">
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            marginLeft={5}>
             <Box
               display="flex"
               width="60%"
@@ -147,7 +150,7 @@ export default function NavBar(props: {
           </Box>
           <Box
             display="flex"
-            width="10%"
+            marginLeft={5}
             flexDirection="row"
             alignItems="center"
             justifyContent="space-around"

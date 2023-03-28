@@ -42,5 +42,6 @@
     "popWrongMess": "错误. 请稍后尝试.",
     "addedToFavourites":"添加到收藏！",
     "removeFavoris":"移除 !",
-    "date_requirement":"结束日期始于开始日期之前"
+    "date_requirement":"结束日期始于开始日期之前",
+    "delete_btn":"删除"
   }

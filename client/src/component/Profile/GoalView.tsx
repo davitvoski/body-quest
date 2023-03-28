@@ -17,25 +17,24 @@ const GoalView = (props: goalProps) => {
 
   // Display Users Goals
   useEffect(() => {
+    /**
+     * This function gets a users goals
+     */
+    async function getGoals() {
+      const resp = await fetch(`/api/goals`);
+      // If not logged in, return
+      if (resp.status === 401) return;
+      const data = (await resp.json()) as IGoal[];
+
+      setGoals(data);
+    }
+
     // NOTE: IF THE GOALS ARE NOT DISPLAYING
     // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY GOALS
-
     getGoals().catch((err) => {
       console.log(err);
     });
   }, []);
-
-  /**
-   * This function gets a users goals
-   */
-  async function getGoals() {
-    const resp = await fetch(`/api/goals`);
-    // If not logged in, return
-    if (resp.status === 401) return;
-    const data = (await resp.json()) as IGoal[];
-
-    setGoals(data);
-  }
 
   const completeGoal = async (goal: IGoal) => {
     let resp;
@@ -58,7 +57,7 @@ const GoalView = (props: goalProps) => {
     <div>
       {goals.filter(isIncomplete).length > 0 ? (
         goals.filter(isIncomplete).map((goal) => (
-          <Item sx={{ m: "1% 0 1% 0", p: 2 }}>
+          <Item sx={{ m: "0% 0 1% 0", p: 2 }}>
             <Typography
               sx={{ m: "0% 0 -2% 0" }}
               display="block"
@@ -69,7 +68,7 @@ const GoalView = (props: goalProps) => {
               {goal.startDate} - {goal.endDate}
             </Typography>
             <Checkbox
-              sx={{ color: "white" }}
+              sx={{ color: "inherit" }}
               onChange={() => completeGoal(goal)}
               inputProps={{ "aria-label": "controlled" }}
             />
@@ -80,21 +79,28 @@ const GoalView = (props: goalProps) => {
         ))
       ) : (
         <Item
-          sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
+          sx={{ m: "0% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
         >
           No current goals.
         </Item>
       )}
       {goals.filter(isCompleted).length > 0 && (
         <Item
-          sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
+          sx={{
+            m: "0% 0 1% 0",
+            p: 2,
+            textAlign: "center",
+            opacity: "60%",
+            fontFamily: "Silkscreen",
+            fontSize: 20,
+          }}
         >
           COMPLETED GOALS
         </Item>
       )}
       {goals.filter(isCompleted).length > 0 &&
         goals.filter(isCompleted).map((goal) => (
-          <Item sx={{ m: "1% 0 1% 0", p: 2, opacity: "60%" }}>
+          <Item sx={{ m: "0% 0 1% 0", p: 2, opacity: "60%" }}>
             <Typography
               sx={{ m: "0% 0 -2% 0" }}
               display="block"

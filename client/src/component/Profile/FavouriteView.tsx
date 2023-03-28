@@ -34,7 +34,6 @@ const FavouriteView = () => {
   }, []);
 
   const handlePopup = (fav: IExercise) => {
-    console.log(favouriteExercises);
     setCurrentFav(fav);
     setIsOpen(!isOpen);
   };
@@ -59,9 +58,7 @@ const FavouriteView = () => {
           </div>
         ))
       ) : (
-        <Item
-          sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
-        >
+        <Item sx={{ p: 2, textAlign: "center", opacity: "60%" }}>
           No favourites.
         </Item>
       )}
