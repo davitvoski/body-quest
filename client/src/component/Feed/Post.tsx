@@ -60,7 +60,7 @@ export const Post = (props: PostProps) => {
   return (
     <>
       <Card
-        sx={{ width: "500px", marginBottom: "20px" }}
+        sx={{ width: "500px", margin: "auto auto 5% auto" }}
         elevation={12}
       >
         <SnackbarProvider autoHideDuration={2000} maxSnack={1} />

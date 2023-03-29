@@ -138,21 +138,6 @@ export default function NavBar(props: {
                 )}
               </Link>
             </Box>
-            {isFeed && username !== "" && 
-              <Box
-                alignSelf="center"
-              >
-                <Button 
-                    variant="contained" 
-                    startIcon={<AddIcon />}  
-                    size="small"     
-                    //sx={{marginLeft: "3vw"}}
-                    href="#/Postcreation"
-                >
-                  Add Post
-                </Button>
-              </Box>
-              }
           </Box>
           <Box
             display="flex"

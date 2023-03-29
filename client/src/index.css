@@ -131,3 +131,10 @@ a :hover {
 .clickableDiv:hover {
   cursor: pointer;
 }
+
+/*
+.feed {
+  display: flex;
+  flex-wrap: wrap;
+}
+*/
