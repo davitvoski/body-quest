@@ -9,7 +9,7 @@ import HeaderLayout from "./HeaderLayout";
 import LinearProgress from "@mui/material/LinearProgress";
 import "../../styles/Home.css";
 import { useLocation } from "react-router";
-import { Snackbar, SnackbarOrigin } from "@mui/material";
+import { Box, Snackbar, SnackbarOrigin } from "@mui/material";
 import React from "react";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
@@ -66,8 +66,11 @@ const Home = () => {
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
       <HeaderLayout />
+      <Box id="footer" width="100%" height="5rem" sx={{ backgroundColor: "secondary.main"}} display="flex" flexDirection={"column"} justifyContent="center" alignItems="center">
+        <h2 id="workout-otd">{t("workout")}</h2>
+      </Box>
+      <div className="content profile">
       <div className="recommandtions"></div>
-      <h2 id="workout-otd">{t("workout")}</h2>
       <Toolbar className="searchBar">
         <Search allExercises={allExercises} setExercise={setExercise} />
         <FilterView allExercises={allExercises} setExercise={setExercise} />
@@ -76,6 +79,7 @@ const Home = () => {
       <div className='exercisesBox'>
         {isLoading && <LinearProgress sx={{ width:"60%", margin:"5% auto 5% auto"}}/>}
         <ExerciseList exercises={exercises} isLoading={isLoading} />
+      </div>
       </div>
     </div>
   );

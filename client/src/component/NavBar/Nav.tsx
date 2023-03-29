@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -48,6 +49,7 @@ export default function NavBar(props: {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isFeed, setIsFeed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -63,6 +65,7 @@ export default function NavBar(props: {
   };
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
+    setIsLoading(true)
     const res = await fetch("/api/authentication/auth", {
       method: "POST",
       body: JSON.stringify({
@@ -74,6 +77,7 @@ export default function NavBar(props: {
     });
     const data = await res.json();
     setUsername(data.user.Username);
+    setIsLoading(false)
 
     handleClose();
     navigate("/Profile");
@@ -204,9 +208,12 @@ export default function NavBar(props: {
         open={open}
         TransitionComponent={Transition}
       >
-        <DialogTitle color="black">{t("login_str")}</DialogTitle>
-        <DialogContent>
-          <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+        <DialogTitle>{t("login_str")}</DialogTitle>
+        <DialogContent sx={{display: "flex", justifyContent: "center"}}>
+          {!isLoading ? 
+            <GoogleLogin onSuccess={handleLogin} onError={handleError} />:
+            <CircularProgress />
+          }
         </DialogContent>
       </Dialog>
     </Box>

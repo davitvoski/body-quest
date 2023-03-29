@@ -359,4 +359,20 @@ export default class Database {
       throw new Error("Cannot fetch user from the db");
     }
   }
+
+  async updateUserExperience(newExperience: number, email: string) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      collection.findOneAndUpdate({
+        email: email,
+      }, {
+        $set: {
+          experience: newExperience
+        }
+      }
+      )
+    } catch (e) {
+      throw new Error("Error while updating user experience in the database");
+    }
+  }
 }

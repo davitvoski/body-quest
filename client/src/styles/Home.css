@@ -74,13 +74,6 @@ h1 {
     overflow: visible;
 }
 
-.light #workout-otd {
-    color: var(--secondary);
-}
-.dark #workout-otd {
-    color: var(--primary);
-}
-
 #fitness {
     margin: 0;
     width: 500px;
