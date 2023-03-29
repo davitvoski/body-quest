@@ -149,7 +149,7 @@ export default function NavBar(props: {
                     //sx={{marginLeft: "3vw"}}
                     href="#/Postcreation"
                 >
-                  Add Post
+                  {t('add_post')}
                 </Button>
               </Box>
               }

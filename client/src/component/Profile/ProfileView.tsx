@@ -2,7 +2,7 @@ import { Avatar, Button, Grid, Paper, styled, TextField, Typography, useTheme } 
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 import Item from "../modules/Item";
-import { useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import ExperienceBar from "./ExperienceBar";
 
 /**
@@ -10,10 +10,10 @@ import ExperienceBar from "./ExperienceBar";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string}) => {
+const ProfileView = (props: {username: string; email: string; experience: number; avatar?: string }) => {
     const [isEditing, setIsEditing] = useState(false)
     const theme = useTheme();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const saveProfile = () => {
         setIsEditing(!isEditing)
@@ -23,47 +23,47 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
 
     }
 
-    return(
+    return (
         <Grid container spacing={2}>
             <Grid item xs={12} height={"100%"}>
                 <Item sx={{ height: "100%" }}>
-                    <Avatar 
-                        alt={ props.username } 
-                        src={ props.avatar ? props.avatar : ""} 
+                    <Avatar
+                        alt={props.username}
+                        src={props.avatar ? props.avatar : ""}
                         variant="rounded"
-                        sx={{ width: "auto", height: "100%", margin: "auto", borderRadius: 0 }}/>
+                        sx={{ width: "auto", height: "100%", margin: "auto", borderRadius: 0 }} />
                 </Item>
             </Grid>
-            {isEditing &&   
+            {isEditing &&
                 <Grid item xs={12} height={"100%"}>
                     <Item sx={{ height: "100%", textAlign: "center" }}>
-                        <Typography>Change Profile Picture:</Typography>
+                        <Typography>{t('change_profile_picture')}:</Typography>
                         <input id="newImage" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={(e) => handleImageChange(e)} />
                     </Item>
                 </Grid>
             }
             <Grid item xs={12}>
                 <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
-                    {isEditing ? 
+                    {isEditing ?
                         <>
-                            <Typography>Change Username:</Typography>
-                            <TextField value={props.username} variant="standard" fullWidth/>
+                            <Typography>{t('change_username')}:</Typography>
+                            <TextField value={props.username} variant="standard" fullWidth />
                         </>
-                        : ("@"+props.username) }
+                        : ("@" + props.username)}
                 </Item>
             </Grid>
             <Grid item xs={12}>
                 <Item sx={{ textAlign: "center" }}>
-                    {!isEditing ? 
+                    {!isEditing ?
                         <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                            Edit User
+                            {t('edit_user')}
                         </Button> :
                         <>
                             <Button onClick={() => saveProfile()} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                                Save
+                                {t('save')}
                             </Button>
                             <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                                Cancel
+                                {t("cancel")}
                             </Button>
                         </>
                     }
