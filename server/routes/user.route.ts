@@ -6,7 +6,7 @@ import Database from "../database/db";
 const userRouter = express.Router()
 
 const containerName = "bodyquestprofilepictures";
-const sasToken = process.env.AZURE_STORAGE_SAS_TOKEN;
+const sasToken = process.env.AZURE_STORAGE_USER_PROFILE_SAS_TOKEN;
 const storageAccountName = process.env.AZURE_STORAGE_RESOURCE_NAME;
 const uploadUrl = `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`;
 const blobService = new BlobServiceClient(uploadUrl);
@@ -43,7 +43,6 @@ userRouter.patch("/", isAuthenticated, async (req: Request, res: Response) => {
 })
 
 /**
-/**
  * This function saves the image to the azure blob storage using the caption and current time,
  * this is done so that no other file will have the same name
  * @param file base64 string
@@ -52,17 +51,20 @@ userRouter.patch("/", isAuthenticated, async (req: Request, res: Response) => {
 async function addProfilePictureToAzure(file: string, username: string) {
     const secondhalf = file.split(":")[1];
     const mimetype = secondhalf.split(";")[0];
+
+    console.log("second half", secondhalf)
+    console.log("mimetype", mimetype)
     var today = Date.now();
 
-    const fileName = `${username}profile${today}.png`
-    const blobClient = containerClient.getBlockBlobClient(fileName.toLocaleLowerCase());
+    const fileName = `${username}profile${today}.png`.toLocaleLowerCase()
+    const blobClient = containerClient.getBlockBlobClient(fileName);
     const options = { blobHTTPHeaders: { blobContentType: mimetype } };
 
     const base64Image = file.split(';base64,').pop() as string;
     var buf = Buffer.from(base64Image, 'base64');
 
     await blobClient.uploadData(buf, options);
-    let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${fileName.toLocaleLowerCase()}}`
+    let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${username}profile${today}.png`
     return imageUrl;
 }
 
