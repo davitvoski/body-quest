@@ -105,10 +105,7 @@ export default function NavBar(props: {
     <Box id="navBar" position="fixed" width="100%" zIndex="2">
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            marginLeft={5}>
+          <Box display="flex" justifyContent="space-between" marginLeft={5}>
             <Box
               display="flex"
               width="60%"
@@ -156,13 +153,10 @@ export default function NavBar(props: {
             justifyContent="space-around"
           >
             <Link
-              style={{ textDecoration: "none", color: "white"}}
-              to={'/Feed'}
-              >
-                <IconButton
-                  sx={{ color: "white" }}
-                  title={t("feed") as string}
-                >
+              style={{ textDecoration: "none", color: "white" }}
+              to={"/Feed"}
+            >
+              <IconButton sx={{ color: "white" }} title={t("feed") as string}>
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -180,7 +174,10 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/" style={{display: "inline-block", color: "white"}}>
+                  <Link
+                    to="/"
+                    style={{ display: "inline-block", color: "white" }}
+                  >
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -191,10 +188,14 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile" style={{display: "inline-block", color: "white"}}>
+                  <Link
+                    to="/Profile"
+                    style={{ display: "inline-block", color: "white" }}
+                  >
                     <IconButton
                       color="inherit"
-                      title={t("go_profile") as string}>
+                      title={t("go_profile") as string}
+                    >
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>
