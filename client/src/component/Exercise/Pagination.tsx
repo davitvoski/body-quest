@@ -4,6 +4,7 @@ import { IExercise } from "../../../../shared";
 import { useEffect, useState } from "react";
 import { Exercise } from "./Exercise";
 import { Grid } from "@mui/material";
+import { useMediaQuery } from "react-responsive";
 
 type PaginationProps = {
   exercises: IExercise[];
@@ -16,6 +17,8 @@ export default function PaginationForExercises(props: PaginationProps) {
   // total page
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+
   useEffect(() => {
     setTotalPage(Math.ceil(props.exercises.length / perPage));
   }, [props.exercises]);
@@ -26,7 +29,10 @@ export default function PaginationForExercises(props: PaginationProps) {
    */
   function currentData(): IExercise[] {
     const begin = (currentPage - 1) * perPage;
-    const end = begin + perPage;
+    let end = begin + perPage;
+    if (isTabletOrMobile) end = 5;
+    console.log(end);
+    console.log(props.exercises.slice(begin, end));
     return props.exercises.slice(begin, end);
   }
 
