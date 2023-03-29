@@ -4,6 +4,7 @@ import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useSta
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import ExperienceBar from "./ExperienceBar";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
@@ -24,20 +25,37 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
   }, [props.avatar]);
 
   async function saveProfile() {
-    async function changeUserInformation() {
-      await fetch("/api/users", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          avatar: avatar,
-        }),
+    console.log("saving profile");
+    const resp = await fetch("/api/users", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        avatar: avatar,
+      }),
+    });
+
+    console.log(resp);
+    if (resp.status === 204) {
+      enqueueSnackbar("No Changes Made", {
+        autoHideDuration: 2000,
+        variant: "info",
+      });
+    }
+
+    // Change user
+    if (resp.status === 200) {
+    }
+
+    if (!resp.ok) {
+      enqueueSnackbar("Could not make changes", {
+        autoHideDuration: 2000,
+        variant: "error",
       });
     }
     // setUser(user)
-    await changeUserInformation();
     setIsEditing(!isEditing);
   }
 
@@ -60,6 +78,8 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
 
   return (
     <Grid container spacing={2}>
+      <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+
       <Grid item xs={12} height={"100%"}>
         <Item sx={{ height: "100%" }}>
           <Avatar
