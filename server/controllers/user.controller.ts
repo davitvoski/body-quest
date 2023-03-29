@@ -18,8 +18,10 @@ const containerClient = blobService.getContainerClient(containerName);
  */
 export async function updateUserInformationPATCH(req: Request, res: Response) {
     try {
-        const newUserImage = req.body.avatar
-        const newUsername = req.body.username
+        const newUserImage = req.body.avatar as string
+        const newUsername = req.body.username as string
+        console.log("new user", newUsername)
+        console.log("new image", newUserImage.slice(0, 20))
         // Check for changes
         if (newUsername === req.session.user?.username &&
             newUserImage === req.session.user?.picture) {
@@ -30,10 +32,11 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
         const azureImageUrl = await addProfilePictureToAzure(newUserImage, newUsername, req.session.user?.picture as string)
 
         // Change user in database.
-        new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email as string)
+        await new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email as string)
         const updatedUser = await new Database().getUser(req.session.user?.email as string)
         req.session.user = updatedUser
-
+        console.log(req.session.user)
+        console.log(updatedUser)
         res.status(200).json({ user: req.session.user })
     } catch (e) {
         if (e instanceof Error) {

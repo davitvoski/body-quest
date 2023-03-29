@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { GoalCompleted } from "./GoalCompleted";
 import ExperienceBar from "./ExperienceBar";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
+import { IUser } from "../../../../shared";
 
 function a11yProps(index: number) {
   return {
@@ -56,9 +57,6 @@ const Profile = () => {
       setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
       setExperience(experience);
     }
-  }, []);
-
-  useEffect(() => {
     getUser();
   }, []);
 
@@ -83,12 +81,8 @@ const Profile = () => {
     <div className="profile content">
       <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
         <Grid item xs={profileWidth}>
-          <ProfileView
-            username={username}
-            email={email}
-            experience={experience}
-            avatar={picture}
-          ></ProfileView>
+          {/* <ProfileView username={username} email={email} experience={experience} avatar={picture} /> */}
+          <ProfileView />
         </Grid>
 
         <Grid item xs={contentWidth}>
