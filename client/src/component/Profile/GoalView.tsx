@@ -63,11 +63,11 @@ const GoalView = (props: goalProps) => {
                     <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                 </Item>
                 ) :
-                <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No current goals.</Item>
+                <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>{t('no_current_goals')}.</Item>
             }
             {goals.filter(isCompleted).length > 0 &&
                 <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%", fontFamily: "Silkscreen", fontSize: 20 }}>
-                    COMPLETED GOALS
+                    {t('completed_goals')}
                 </Item>
             }
             {goals.filter(isCompleted).length > 0 &&
@@ -81,7 +81,7 @@ const GoalView = (props: goalProps) => {
                             }}
                             state={{ exerciseName: goal.exercise,  type: goal.type }}
                         >
-                            <Button>Do Again</Button>
+                            <Button>{t('do_again')}</Button>
                         </Link>
                     </Item>
                 )

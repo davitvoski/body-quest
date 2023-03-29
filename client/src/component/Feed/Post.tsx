@@ -98,7 +98,7 @@ export const Post = (props: PostProps) => {
             }
           </IconButton>
 
-          <Typography>{post.likedUsers.length} Likes</Typography>
+          <Typography>{post.likedUsers.length} {t('likes')}</Typography>
         </CardActions>
 
         <CardContent>

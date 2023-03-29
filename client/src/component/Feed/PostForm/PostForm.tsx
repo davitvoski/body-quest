@@ -1,16 +1,20 @@
-import { Paper, Typography, Stack, FormControl, InputLabel, Select, SelectChangeEvent, MenuItem, TextField, Button, Box } from "@mui/material";
+import { Paper, Typography, Stack, FormControl, InputLabel, Select, SelectChangeEvent, MenuItem, TextField, Button, Box, IconButton } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
 import { IPost, IUserPost } from "../../../../../shared";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import CloseIcon from '@mui/icons-material/Close';
+import "../../../styles/Post.css";
 
 export const PostForm = () => {
+  const { t } = useTranslation();
   const [image, setImage] = useState<string>();
   const [caption, setCaption] = useState("");
   let navigate = useNavigate();
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {    
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
@@ -48,14 +52,14 @@ export const PostForm = () => {
       const userName = data.user.username;
       const email = data.user.email;
       const picture = data.user.picture;
-      return {username: userName, email: email, picture: picture} as IUserPost;
+      return { username: userName, email: email, picture: picture } as IUserPost;
     }
     return
   };
 
   const handleSubmit = async () => {
     const currentDate = getCurrentDate();
-    const user:IUserPost | undefined = await getUser();
+    const user: IUserPost | undefined = await getUser();
     if (user && image) {
       const newPost: IPost = {
         user: user,
@@ -69,18 +73,31 @@ export const PostForm = () => {
     }
   };
 
+  /**
+   * close the post form 
+   */
+  const closePostForm = () => {
+    navigate("/Feed");
+  }
   return (
     <div className="form-container">
       <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%" }}>
-        <div className="header">
+        <div className="header" id="addPost">
           <Typography variant="h4" component="h4">
-            Add a Post
+            {t('add_post')}
           </Typography>
+          <IconButton
+            sx={{ color: "white" }}
+            title={t("close") as string}
+            onClick={closePostForm}
+          >
+            <CloseIcon />
+          </IconButton>
         </div>
         <form className="goal-form">
-          <Stack 
-            justifyContent="center" 
-            alignItems="center" 
+          <Stack
+            justifyContent="center"
+            alignItems="center"
             spacing={5}
             width="100%"
           >
@@ -90,7 +107,7 @@ export const PostForm = () => {
               spacing={8}
               width="100%"
             >
-              <FormControl 
+              <FormControl
                 sx={{ m: 1 }}
                 fullWidth
               >
@@ -98,26 +115,26 @@ export const PostForm = () => {
                   component="label"
                   variant="outlined"
                   startIcon={<UploadFileIcon />}
-                  sx={{alignSelf:"center", marginBottom:"25px"}}
+                  sx={{ alignSelf: "center", marginBottom: "25px" }}
                 >
-                  {image 
-                    ? <>Change Image</>
-                    : <>Upload Post Image</> 
+                  {image
+                    ? <>{t('change_image')}</>
+                    : <>{t('upload_image')}</>
                   }
-                  <input 
-                    type="file" 
-                    accept="image/gif, image/jpeg, image/jpg, image/png, image/svg" 
-                    hidden 
-                    onChange={(e) => handleImageChange(e)} 
+                  <input
+                    type="file"
+                    accept="image/gif, image/jpeg, image/jpg, image/png, image/svg"
+                    hidden
+                    onChange={(e) => handleImageChange(e)}
                   />
                 </Button>
-                {image && 
+                {image &&
                   <Box>
-                    <img 
-                      width="400px" 
-                      id="newUploadImage" 
-                      src={image} 
-                      alt="uploaded image" 
+                    <img
+                      width="400px"
+                      id="newUploadImage"
+                      src={image}
+                      alt="uploaded image"
                     />
                   </Box>
                 }
@@ -131,28 +148,28 @@ export const PostForm = () => {
                     onClick={() => setImage("")}
                   >
                     Remove Image
-                  </Button>  */  
-                }  
+                  </Button>  */
+                }
                 <TextField
-                  sx={{marginTop: "20px", width: "80%", alignSelf:"center"}}
+                  sx={{ marginTop: "20px", width: "80%", alignSelf: "center" }}
                   id="outlined-multiline-static"
-                  label="Caption"
+                  label={t('caption')}
                   multiline
                   rows={4}
                   value={caption}
-                  onChange={(event) => {setCaption(event.target.value)}}
+                  onChange={(event) => { setCaption(event.target.value) }}
                 />
               </FormControl>
             </Stack>
           </Stack>
-            <Button
-              variant="contained"
-              sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
-              onClick={handleSubmit}
-              disabled={image === undefined}
-            >
-              Create
-            </Button>
+          <Button
+            variant="contained"
+            sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
+            onClick={handleSubmit}
+            disabled={image === undefined}
+          >
+            {t('create')}
+          </Button>
         </form>
       </Paper>
     </div>
