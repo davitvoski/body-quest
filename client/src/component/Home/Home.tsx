@@ -66,7 +66,6 @@ const Home = () => {
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
       <HeaderLayout />
-      <div className="recommandtions"></div>
       <h2 id="workout-otd">{t("workout")}</h2>
       <Toolbar className="searchBar">
         <Search allExercises={allExercises} setExercise={setExercise} />

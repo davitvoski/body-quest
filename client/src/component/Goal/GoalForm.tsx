@@ -145,9 +145,10 @@ export const GoalForm = () => {
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header" id="addPost">
-          <Typography variant="h4" component="h4">
+          <Typography variant="h4" component="h4" sx={{textTransform: "uppercase"}}>
             {t("goal_creation")}: {state.exerciseName}
           </Typography>
+          {/* colse goal form when click X icon */}
           <IconButton
             id="cancelbtn"
             sx={{ color: "white" }}
