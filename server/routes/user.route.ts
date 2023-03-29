@@ -4,9 +4,6 @@ import { updateUserInformationPATCH } from "../controllers/user.controller";
 
 const userRouter = express.Router()
 
-
 userRouter.patch("/", isAuthenticated, updateUserInformationPATCH)
-
-
 
 export default userRouter

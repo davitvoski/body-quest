@@ -27,14 +27,14 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
         }
 
         // Add image to blob storage
-        const azureImageUrl = await addProfilePictureToAzure(newUserImage, newUsername)
+        const azureImageUrl = await addProfilePictureToAzure(newUserImage, newUsername, req.session.user?.picture as string)
 
         // Change user in database.
         new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email as string)
         const updatedUser = await new Database().getUser(req.session.user?.email as string)
         req.session.user = updatedUser
 
-        res.send(200).json({ user: req.session.user })
+        res.status(200).json({ user: req.session.user })
     } catch (e) {
         if (e instanceof Error) {
             return res.status(400).send(e.message);
@@ -43,30 +43,41 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
     }
 }
 
-}
 
 
 /**
  * This function adds an image to azure blob storage
  * @param file File to upload to azure
  * @param username New username of user
- * @returns {string} Url of image in azure
+ * @returns {Promise<string>} Url of image in azure
  */
-async function addProfilePictureToAzure(file: string, username: string): string {
-    const secondhalf = file.split(":")[1];
-    const mimetype = secondhalf.split(";")[0];
+async function addProfilePictureToAzure(file: string, username: string, oldBlob: string): Promise<string> {
+    (async () => {
+        try {
+            const blobClient = containerClient.getBlockBlobClient(oldBlob);
+            blobClient.deleteIfExists()
+        } catch (e) {
+            // Would log this in a log or something
+            console.log("Failed to delete old blob")
+        }
+    })()
 
-    console.log("second half", secondhalf)
-    console.log("mimetype", mimetype)
+    try {
+        const secondhalf = file.split(":")[1];
+        const mimetype = secondhalf.split(";")[0];
 
-    const fileName = `${username}profile.png`.toLocaleLowerCase()
-    const blobClient = containerClient.getBlockBlobClient(fileName);
-    const options = { blobHTTPHeaders: { blobContentType: mimetype } };
+        const fileName = `${username}profile.png`.toLocaleLowerCase()
 
-    const base64Image = file.split(';base64,').pop() as string;
-    var buf = Buffer.from(base64Image, 'base64');
+        const blobClient = containerClient.getBlockBlobClient(fileName);
+        const options = { blobHTTPHeaders: { blobContentType: mimetype } };
 
-    await blobClient.uploadData(buf, options);
-    let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${fileName}`
-    return imageUrl;
+        const base64Image = file.split(';base64,').pop() as string;
+        var buf = Buffer.from(base64Image, 'base64');
+
+        await blobClient.uploadData(buf, options);
+        let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${fileName}`
+        return imageUrl
+    } catch (e) {
+        throw new Error("Could not upload image to azure")
+    }
 }
