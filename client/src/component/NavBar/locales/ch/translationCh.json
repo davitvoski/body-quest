@@ -49,5 +49,19 @@
     "upload_image":"上传图片",
     "change_image":"更换图片",
     "caption":"主题",
-    "create":"创建"
+    "create":"创建",
+    "edit_user":"编辑用户",
+    "save":"保存",
+    "cancel":"取消",
+    "change_username":"名字",
+    "change_profile_picture":"头像",
+    "no_current_goals":"目前没有目标",
+    "do_again":"再来一次",
+    "completed_goals":"已完成",
+    "congratulations":"恭喜",
+    "you_gain":"您赢得了",
+    "experience":"经验",
+    "no_favourites":"还没有收藏，赶快去收藏",
+    "XP_out_of":"XP",
+    "until_Level":"到等级"
   }

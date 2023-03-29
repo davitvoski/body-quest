@@ -50,5 +50,19 @@
     "upload_image":"Upload Post Image",
     "change_image":"Change Image",
     "caption":"Caption",
-    "create":"Create"
+    "create":"Create",
+    "edit_user":"Edit User",
+    "save":"Save",
+    "cancel":"Cancel",
+    "change_username":"Change Username",
+    "change_profile_picture":"Change Profile Picture",
+    "no_current_goals":"No current goals",
+    "do_again":"Do Again",
+    "completed_goals":"COMPLETED GOALS",
+    "congratulations":"Congratulations",
+    "you_gain":"You gain",
+    "experience":"experience",
+    "no_favourites":"No favourites",
+    "XP_out_of":"XP out of",
+    "until_Level":"until level"
   }

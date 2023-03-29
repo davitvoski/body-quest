@@ -49,5 +49,19 @@
     "upload_image":"Télécharger l'image",
     "change_image":"Modifier l'image",
     "caption":"Légende",
-    "create":"Créer"
+    "create":"Créer",
+    "edit_user":"Éditer",
+    "save":"Enregistrer",
+    "cancel":"Annuler",
+    "change_username":"Modifier le nom d'utilisateur",
+    "change_profile_picture":"Modifier votre avatar",
+    "no_current_goals":"Pas de but encore",
+    "do_again":"Faire encore",
+    "completed_goals":"BUTS ATTEINTS",
+    "congratulations":"Félicitations",
+    "you_gain":"Vous gagnez",
+    "experience":"experiences",
+    "no_favourites":"Aucun favori",
+    "XP_out_of":"XP ",
+    "until_Level":"jusqu'au level"
   }
