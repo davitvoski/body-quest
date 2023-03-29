@@ -21,6 +21,7 @@ const ProfileView = () => {
   let originalAvatar = useRef<string>();
   let originialUsername = useRef<string>();
 
+  // Get user
   useEffect(() => {
     fetch("/api/authentication/getUser")
       .then((res) => res.json())
