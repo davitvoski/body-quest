@@ -32,9 +32,12 @@ userRouter.patch("/", isAuthenticated, async (req: Request, res: Response) => {
 
     // Add image to blob storage
     const azureImageUrl = await addProfilePictureToAzure(newUserImage, newUsername)
-    const user = new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email)
+
     // Change user in database.
-    res.sendStatus(404)
+    new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email as string)
+    const updatedUser = await new Database().getUser(req.session.user?.email as string)
+    req.session.user = updatedUser
+    res.sendStatus(200)
 
 
 })
