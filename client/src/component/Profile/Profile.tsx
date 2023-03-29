@@ -95,14 +95,14 @@ const Profile = () => {
                         <Grid item xs={12}>
                             <Item sx={{ m: "0% 0 1% 0"}}>
                                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
-                                    <Tab label={t("goals")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} />
-                                    <Tab label={t("favourites")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} />
+                                    <Tab label={t("goals")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} tabIndex={0} />
+                                    <Tab label={t("favourites")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} tabIndex={0} />
                                 </Tabs>
                             </Item>
                             <TabPanel index={0} value={value} {...a11yProps(0)}>
                                 <GoalView completeGoal={completeGoal}/>
                             </TabPanel>
-                            <TabPanel index={1} value={value} {...a11yProps(2)}>
+                            <TabPanel index={1} value={value} {...a11yProps(1)}>
                                 <FavouriteView/>
                             </TabPanel>
                         </Grid>

@@ -120,13 +120,14 @@ export default function NavBar(props: {
               alignItems="center"
               justifyContent="space-around"
             >
-              <Link to={"/"}>
+              <Link to={"/"} tabIndex={0}>
                 {props.Theme.palette.mode === "dark" ? (
                   <img
                     className="logo"
                     src="/logo-dark.svg"
                     alt="BodyQuest Logo"
                     title="Home"
+                    role="button"
                   />
                 ) : (
                   <img
@@ -134,6 +135,7 @@ export default function NavBar(props: {
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
                     title={t("home") as string }
+                    role="button"
                   />
                 )}
               </Link>
@@ -149,6 +151,7 @@ export default function NavBar(props: {
             <Link
               style={{ textDecoration: "none", color: "white"}}
               to={'/Feed'}
+              tabIndex={0}
               >
                 <IconButton
                   sx={{ color: "white" }}
@@ -167,11 +170,11 @@ export default function NavBar(props: {
                   onClick={handleClickOpen}
                   title={t("login") as string}
                 >
-                  <LoginIcon color="inherit" />
+                  <LoginIcon color="inherit" tabIndex={0} />
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/" style={{display: "inline-block", color: "white"}}>
+                  <Link to="/" style={{display: "inline-block", color: "white"}} tabIndex={0}>
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -182,7 +185,7 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile" style={{display: "inline-block", color: "white"}}>
+                  <Link to="/Profile" style={{display: "inline-block", color: "white"}} tabIndex={0}>
                     <IconButton
                       color="inherit"
                       title={t("go_profile") as string}>

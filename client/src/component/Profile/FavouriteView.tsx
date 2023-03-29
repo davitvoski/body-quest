@@ -47,7 +47,7 @@ const FavouriteView = () => {
       {favouriteExercises.length > 0 ? 
         favouriteExercises.map(fav => 
           <div className="clickableDiv">
-            <Item sx={{ m: "1% 0 1% 0", p:2}} onClick={() => handlePopup(fav)}>
+            <Item sx={{ m: "1% 0 1% 0", p:2}} onClick={() => handlePopup(fav)} tabIndex={0}>
               <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
                 {fav.name} {fav.body_part} {fav.target}
               </Typography>

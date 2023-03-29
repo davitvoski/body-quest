@@ -48,6 +48,8 @@ export const Search = (props: searchProps) => {
         <SearchIcon />
         <TextField
           id="searchInput"
+          label="Filter exercises by key word"
+          role="search"
           placeholder={t('search') as string}
           onChange={getSearchValue}
         />

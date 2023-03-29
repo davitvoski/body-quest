@@ -60,6 +60,25 @@ export const Feed = () => {
 
   return (
     <div className="content">
+        
+      {user !== undefined &&
+        <Box
+          alignSelf="center"
+          position={"fixed"}
+          bottom={20}
+          right={20}
+          width={"20%"}
+        >
+          <Button 
+            variant="contained" 
+            href="#/Postcreation"
+            fullWidth
+            color="secondary">
+              <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>+ Add Post</Typography>
+          </Button>
+        </Box>
+      }
+      
       <Box
         display="flex"
         flexDirection="column"
@@ -71,24 +90,6 @@ export const Feed = () => {
             <Post removePost={removePost} post={post} key={index + post.imageUrl} user={user} />
           ))}
         </div>
-        
-        {user !== undefined &&
-          <Box
-            alignSelf="center"
-            position={"fixed"}
-            bottom={20}
-            right={20}
-            width={"20%"}
-          >
-            <Button 
-              variant="contained" 
-              href="#/Postcreation"
-              fullWidth
-              color="secondary">
-                <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>+ Add Post</Typography>
-            </Button>
-          </Box>
-        }
       </Box>
     </div>
   );

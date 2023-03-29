@@ -63,7 +63,7 @@ const GoalView = (props: goalProps) => {
                     <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">{ goal.goal } { goal.type }: { goal.exercise }</Typography>
                 </Item>
                 ) :
-                <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}}>No current goals.</Item>
+                <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%"}} tabIndex={0}>No current goals.</Item>
             }
             {goals.filter(isCompleted).length > 0 &&
                 <Item sx={{ m: "0% 0 1% 0", p:2, textAlign: "center", opacity:"60%", fontFamily: "Silkscreen", fontSize: 20 }}>
