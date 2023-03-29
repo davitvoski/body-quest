@@ -1,70 +1,73 @@
-import { Avatar, Button, Grid, Paper, styled } from "@mui/material";
+import { Avatar, Button, Grid, Paper, styled, TextField, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
+import ExperienceBar from "./ExperienceBar";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string; isAdmin: boolean; removeUserProfile:Function}) => {
-    console.log(props.avatar);
+const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string; isAdmin: boolean; removeUserProfile: Function }) => {
+    const { t } = useTranslation();
+    const [isEditing, setIsEditing] = useState(false)
+    const theme = useTheme();
 
-    const { t } = useTranslation(); 
-
-    /**
-     * Calculates the current level of a user based on XP
-     * @param xp 
-     * @returns Current level
-     */
-    const getLevelFromXP = (xp: number) => {
-        return Math.floor((-5 + Math.sqrt(25 + 20 * xp)) / 10 + 1)
+    const saveProfile = () => {
+        setIsEditing(!isEditing)
     }
 
-    const currentLevel = getLevelFromXP(props.experience)
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-    /**
-     * Calculates how much XP is needed to reach the next level 
-     * @param xp 
-     * @returns XP until next level
-     */
-    const nextLevel = (xp: number) => {
-        return 10 * ((getLevelFromXP(xp) + 1) * ((getLevelFromXP(xp) + 1) - 1) / 2)
-    } // 10, 20, 30, etc.
+    }
 
     return (
-        <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
-            <Grid item xs={4}>
-                <Item sx={{ width: "auto", height: "100%" }}>
+        <Grid container spacing={2}>
+            <Grid item xs={12} height={"100%"}>
+                <Item sx={{ height: "100%" }}>
                     <Avatar
                         alt={props.username}
                         src={props.avatar ? props.avatar : ""}
                         variant="rounded"
-                        sx={{ width: "auto", height: "100%", margin: "auto" }} />
+                        sx={{ width: "auto", height: "100%", margin: "auto", borderRadius: 0 }} />
                 </Item>
             </Grid>
-            <Grid item xs>
-                <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                        <Item>{props.username}</Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item>{props.email}</Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item>{t('bio')}</Item>
-                    </Grid> 
-
-                    {/* Admin can delete system user*/}
-                    <Grid item xs={12}>
-                        {props.isAdmin && <Button variant="contained" > Delete user profile </Button>}
-                    </Grid>
+            {isEditing &&
+                <Grid item xs={12} height={"100%"}>
+                    <Item sx={{ height: "100%", textAlign: "center" }}>
+                        <Typography>Change Profile Picture:</Typography>
+                        <input id="newImage" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={(e) => handleImageChange(e)} />
+                    </Item>
                 </Grid>
+            }
+            <Grid item xs={12}>
+                <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
+                    {isEditing ?
+                        <>
+                            <Typography>Change Username:</Typography>
+                            <TextField value={props.username} variant="standard" fullWidth />
+                        </>
+                        : ("@" + props.username)}
+                </Item>
             </Grid>
             <Grid item xs={12}>
-                <Item>LVL {currentLevel}: {nextLevel(props.experience) - props.experience} XP {t('until')} LVL {currentLevel + 1} </Item>
+                <Item sx={{ textAlign: "center" }}>
+                    {!isEditing ?
+                        <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                            Edit User
+                        </Button> :
+                        <>
+                            <Button onClick={() => saveProfile()} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                                Save
+                            </Button>
+                            <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                                Cancel
+                            </Button>
+                        </>
+                    }
+                </Item>
             </Grid>
         </Grid>
     )
