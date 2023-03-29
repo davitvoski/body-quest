@@ -76,7 +76,7 @@ export const PostForm = () => {
   /**
    * close the post form 
    */
-  const closePostForm=()=>{
+  const closePostForm = () => {
     navigate("/Feed");
   }
   return (
@@ -87,12 +87,12 @@ export const PostForm = () => {
             {t('add_post')}
           </Typography>
           <IconButton
-              sx={{ color: "white"}}
-              title={t("close") as string}
-              onClick={closePostForm}
-            >
-              <CloseIcon />
-            </IconButton>
+            sx={{ color: "white" }}
+            title={t("close") as string}
+            onClick={closePostForm}
+          >
+            <CloseIcon />
+          </IconButton>
         </div>
         <form className="goal-form">
           <Stack

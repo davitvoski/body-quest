@@ -3,3 +3,10 @@
     flex-direction: row;
     justify-content: space-between;
 }
+#cancelbtn{
+    background-color: transparent;
+}
+
+#cancelbtn:hover{
+    transform: scale(1.5);
+}

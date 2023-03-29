@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -26,7 +27,8 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useNavigate } from "react-router";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-
+import CloseIcon from '@mui/icons-material/Close';
+import "../../styles/Post.css";
 /**
  *
  * @author Santiago Luna
@@ -132,16 +134,28 @@ export const GoalForm = () => {
     };
     await createGoal(newGoal);
   };
-
+  /**
+     * close the add goal form 
+     */
+  const closeGoalForm = () => {
+    navigate("/");
+  }
   return (
     <div className="form-container">
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
-
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
-        <div className="header">
+        <div className="header" id="addPost">
           <Typography variant="h4" component="h4">
             {t("goal_creation")}: {state.exerciseName}
           </Typography>
+          <IconButton
+            id="cancelbtn"
+            sx={{ color: "white" }}
+            title={t("close") as string}
+            onClick={closeGoalForm}
+          >
+            <CloseIcon />
+          </IconButton>
         </div>
         <form className="goal-form">
           <Stack justifyContent="center" alignItems="center" spacing={5}>
