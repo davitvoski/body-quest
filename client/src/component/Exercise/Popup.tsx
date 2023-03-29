@@ -55,11 +55,6 @@ export const Popup = (props: PopupProps) => {
   const { t } = useTranslation();
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
-  const [errorHandling, setErrorHandling] = useState({
-    isError: false,
-    message: "",
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -72,10 +67,8 @@ export const Popup = (props: PopupProps) => {
       const resp = await fetch(`/api/exercises/favourites/${name}`);
       // If not logged in, return
       if (resp.status === 401) {
-        setIsLoggedIn(false);
         return;
       }
-      setIsLoggedIn(true);
       const data = (await resp.json()) as { isFavourite: boolean };
       if (data.isFavourite) setIsFavourite(true);
     }

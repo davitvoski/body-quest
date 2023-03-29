@@ -60,9 +60,10 @@ const FavouriteView = () => {
       
       {currentFav != undefined &&
         <Popup
-        handleClose={closePopup}
-        exercise={currentFav!}
-        open={isOpen}
+          handleClose={closePopup}
+          exercise={currentFav!}
+          open={isOpen}
+          isLoggedIn={true}
         />
       }
       
