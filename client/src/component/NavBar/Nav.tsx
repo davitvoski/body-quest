@@ -170,7 +170,7 @@ export default function NavBar(props: {
                   onClick={handleClickOpen}
                   title={t("login") as string}
                 >
-                  <LoginIcon color="inherit" tabIndex={0} />
+                  <LoginIcon color="inherit" />
                 </IconButton>
               ) : (
                 <>
