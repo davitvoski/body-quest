@@ -10,10 +10,10 @@ import ExperienceBar from "./ExperienceBar";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: { username: string; email: string; experience: number; avatar?: string; isAdmin: boolean; removeUserProfile: Function }) => {
-    const { t } = useTranslation();
+const ProfileView = (props: {username: string; email: string; experience: number; avatar?: string; isAdmin: boolean; removeUserProfile: Function  }) => {
     const [isEditing, setIsEditing] = useState(false)
     const theme = useTheme();
+    const { t } = useTranslation();
 
     const saveProfile = () => {
         setIsEditing(!isEditing)
@@ -37,7 +37,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
             {isEditing &&
                 <Grid item xs={12} height={"100%"}>
                     <Item sx={{ height: "100%", textAlign: "center" }}>
-                        <Typography>Change Profile Picture:</Typography>
+                        <Typography>{t('change_profile_picture')}:</Typography>
                         <input id="newImage" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={(e) => handleImageChange(e)} />
                     </Item>
                 </Grid>
@@ -46,7 +46,7 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
                     {isEditing ?
                         <>
-                            <Typography>Change Username:</Typography>
+                            <Typography>{t('change_username')}:</Typography>
                             <TextField value={props.username} variant="standard" fullWidth />
                         </>
                         : ("@" + props.username)}
@@ -56,14 +56,14 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
                 <Item sx={{ textAlign: "center" }}>
                     {!isEditing ?
                         <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                            Edit User
+                            {t('edit_user')}
                         </Button> :
                         <>
                             <Button onClick={() => saveProfile()} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                                Save
+                                {t('save')}
                             </Button>
                             <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                                Cancel
+                                {t("cancel")}
                             </Button>
                         </>
                     }
