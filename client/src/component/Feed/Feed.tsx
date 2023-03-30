@@ -59,7 +59,7 @@ export const Feed = () => {
   };
 
   return (
-    <div className="content">
+    <div className="content profile">
         
       {user !== undefined &&
         <Box
