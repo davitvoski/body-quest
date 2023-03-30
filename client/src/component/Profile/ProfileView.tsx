@@ -5,6 +5,8 @@ import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { IUser } from "../../../../shared";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
@@ -20,7 +22,9 @@ const ProfileView = () => {
   const [isLoading, setIsLoading] = useState(false);
   let originalAvatar = useRef<string>();
   let originialUsername = useRef<string>();
-
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   // Get user
   useEffect(() => {
     fetch("/api/authentication/getUser")
@@ -32,6 +36,8 @@ const ProfileView = () => {
         });
         originalAvatar.current = data.user.picture;
         originialUsername.current = data.user.username;
+        setIsAdmin(data.user.isAdmin);
+        // setIsAdmin(true)
       })
       .catch((err) => console.log(err));
     return () => {
@@ -103,10 +109,50 @@ const ProfileView = () => {
     };
   }
 
+
+  /**
+ * Remove user profile when admin delete user
+ * @param user IUser
+ */
+  const removeUserProfile = async () => {
+    const response = confirm("Are you sure you want to delete this user profile?");
+    if (response) {
+      if (user !== undefined) {
+        deletUser(user);
+      }
+      await fetch("api/authentication/logout");
+    }
+  }
+  /**
+  * delete user, send request to server
+  * @param user IUser
+  */
+  const deletUser = async (user: IUser) => {
+    try {
+      await axios.delete("/api/authentication/getUser", {
+        data: {
+          user: user
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Grid container spacing={2}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
-
+      {isAdmin && <Grid item xs={12}>
+        <Item sx={{ textAlign: "center" }}>
+          <Button
+            onClick={()=>{removeUserProfile()}}
+            sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
+            href="/"
+          >
+            {t('delete_user')}
+          </Button>
+        </Item>
+      </Grid>}
       <Grid item xs={12} height={"100%"}>
         <Item sx={{ height: "100%" }}>
           <Avatar
@@ -120,7 +166,7 @@ const ProfileView = () => {
       {isEditing && (
         <Grid item xs={12} height={"100%"}>
           <Item sx={{ height: "100%", textAlign: "center" }}>
-            <Typography>Change Profile Picture:</Typography>
+            <Typography>{t('change_profile_picture')}:</Typography>
             <input
               id="newImage"
               type="file"
@@ -134,7 +180,7 @@ const ProfileView = () => {
         <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
           {isEditing ? (
             <>
-              <Typography>Change Username:</Typography>
+              <Typography>{t('change_username')}:</Typography>
               <TextField
                 value={user?.username}
                 variant="standard"
@@ -160,12 +206,12 @@ const ProfileView = () => {
               onClick={() => setIsEditing(!isEditing)}
               sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
             >
-              Edit User
+              {t('edit_user')}
             </Button>
           ) : (
             <>
               <Button onClick={saveProfile} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                Save
+              {t('save')}
               </Button>
               <Button
                 onClick={() => {
@@ -183,7 +229,7 @@ const ProfileView = () => {
                 }}
                 sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
               >
-                Cancel
+                {t('cancel')}
               </Button>
             </>
           )}

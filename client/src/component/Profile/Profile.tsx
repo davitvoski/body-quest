@@ -26,7 +26,6 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
-    let navigate = useNavigate();
     const { t } = useTranslation();
     const theme = useTheme();
     const [username, setUsername] = useState("username here")
@@ -36,9 +35,7 @@ const Profile = () => {
     const [experienceGain, setExperienceGain] = useState(0)
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
-    const [isAdmin, setIsAdmin] = useState(true);
-    const [user, setUser] = useState<IUser>();
-
+  
     const [profileWidth, setProfileWidth] = useState(3);
     const [contentWidth, setContentWidth] = useState(9);
 
@@ -48,48 +45,12 @@ const Profile = () => {
         const res = await fetch("/api/authentication/getUser");
         const data = await res.json();
         if (data.user !== undefined) {
-            setUser(data.user);
             setUsername(data.user.username);
             setEmail(data.user.email)
             setExperience(0)
             setPicture(data.user.picture)
-            if (data.user.isAdmin) {
-                setIsAdmin(true)
-            }
         }
     }
-
-
-/**
- * Remove user profile when admin delete user
- * @param user IUser
- */
-const removeUserProfile = async () => {
-    const response = confirm("Are you sure you want to delete this user profile?");
-    if (response) {
-        if (user !== undefined) {
-            deletUser(user);
-        }
-        await fetch("api/authentication/logout");
-        navigate("/");
-    }
-}
-/**
- * delete user, send request to server
- * @param user IUser
- */
-const deletUser = async (user: IUser) => {
-    try {
-        await axios.delete("/api/authentication/getUser", {
-            data: {
-                user: user
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-};
-
 
 useEffect(() => {
     function handleResize() {
@@ -123,7 +84,7 @@ return (
         <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={profileWidth}>
                 {/* <ProfileView username={username} email={email} experience={experience} avatar={picture} /> */}
-                <ProfileView isAdmin={isAdmin} removeUserProfile={removeUserProfile} />
+                <ProfileView/>
             </Grid>
 
             <Grid item xs={contentWidth}>
