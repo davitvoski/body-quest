@@ -20,11 +20,13 @@ import StarIcon from "@mui/icons-material/Star";
 import { IExercise } from "../../../../shared";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 type PopupProps = {
   handleClose: () => void;
   exercise: IExercise;
   open: boolean;
+  isLoggedIn: Boolean;
 };
 
 interface State extends SnackbarOrigin {
@@ -53,23 +55,9 @@ export const Popup = (props: PopupProps) => {
   const { t } = useTranslation();
   const { handleClose, open, exercise } = props;
   const [isFavourite, setIsFavourite] = useState(false);
-  const [errorHandling, setErrorHandling] = useState({
-    isError: false,
-    message: "",
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  //Snack bar logic when adding to favourites
-  const [snackState, setSnackState] = React.useState<State>({
-    openSnack: false,
-    vertical: "top",
-    horizontal: "center",
-  });
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const { vertical, horizontal, openSnack } = snackState;
 
   // Check if exercise is already a favourite
   useEffect(() => {
@@ -79,18 +67,15 @@ export const Popup = (props: PopupProps) => {
       const resp = await fetch(`/api/exercises/favourites/${name}`);
       // If not logged in, return
       if (resp.status === 401) {
-        setIsLoggedIn(false);
         return;
       }
-      setIsLoggedIn(true);
       const data = (await resp.json()) as { isFavourite: boolean };
       if (data.isFavourite) setIsFavourite(true);
     }
 
     checkFavourite().catch((err) => {
-      setErrorHandling({
-        isError: true,
-        message: `${t('uncheckFavourites') as string}`,
+      enqueueSnackbar(`${t('addTofavoris') as string }`, {
+        variant: 'error'
       });
     });
   }, []);
@@ -122,38 +107,31 @@ export const Popup = (props: PopupProps) => {
 
     // Handle unathorized
     if (resp.status === 401) {
-      setErrorHandling({
-        isError: true,
-        // message: "You must be logged in to favourite an exercise.",
-        message:`${t('addTofavoris') as string }`,
+      enqueueSnackbar(`${t('addTofavoris') as string }`, {
+        variant: 'error'
       });
       return;
     }
 
     // If code other than in 200 range, return
-    if (!resp.ok)
-      setErrorHandling({
-        isError: true,
-        message:`${t('popWrongMess') as string }`,
+    if (!resp.ok){
+      enqueueSnackbar(`${t('popWrongMess') as string }`, {
+        variant: "error"
       });
+      return;
+    } 
 
-    // Change states
-    setErrorHandling({ isError: false, message: "" });
     setIsFavourite(!isFavourite);
-    setSnackState({
-      ...snackState,
-      openSnack: true,
-      vertical: "bottom",
-      horizontal: "center",
-    });
+    if (isFavourite) {
+      enqueueSnackbar(`${t('removeFavoris') as string }`, {
+        variant: "success"
+      });
+    }else {
+      enqueueSnackbar(`${t('addedToFavourites') as string }`, {
+        variant: "success"
+      });
+    }
   }
-
-  /**
-   * This function handles the closing of the snack bar.
-   */
-  const handleSnackClose = () => {
-    setSnackState({ ...snackState, openSnack: false });
-  };
 
   return (
     <>
@@ -202,7 +180,7 @@ export const Popup = (props: PopupProps) => {
                 <b>{t("target")}:</b> {exercise.target}
               </Typography>
             </div>
-            {isLoggedIn && (
+            {props.isLoggedIn && (
               <Link
                 className="link-button"
                 to={{
@@ -223,7 +201,7 @@ export const Popup = (props: PopupProps) => {
           >
             <IconButton sx={{ outline: "none" }} onClick={handleFavourite}>
               {isFavourite ? (
-                <StarIcon/>
+                <StarIcon color="warning"/>
               ) : (
                 <StarBorderIcon sx={{ outline: "none" }} />
               )}
@@ -232,32 +210,11 @@ export const Popup = (props: PopupProps) => {
         </DialogContent>
       </Dialog>
 
-      {isFavourite ? (
-        <Snackbar
-          anchorOrigin={{ vertical, horizontal }}
-          open={openSnack}
-          onClose={handleSnackClose}
-          message= {t('addedToFavourites') as string}
-          key={vertical + horizontal}
-        />
-      ) : (
-        <Snackbar
-          anchorOrigin={{ vertical, horizontal }}
-          open={openSnack}
-          onClose={handleSnackClose}
-          message={t('removeFavoris') as string}
-          key={vertical + horizontal}
-        />
-      )}
-
-      {errorHandling.isError && (
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          open={errorHandling.isError}
-          onClose={handleSnackClose}
-          message={errorHandling.message}
-        />
-      )}
+      <SnackbarProvider 
+        autoHideDuration={1000} 
+        anchorOrigin={{vertical: "bottom", horizontal: "center"}}
+        maxSnack={1}
+      /> 
     </>
   );
 };
