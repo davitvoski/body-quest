@@ -76,20 +76,9 @@ export const Search = (props: searchProps) => {
       color="background.default"
       padding={"5%"}
       width={"100%"}>
-
         <StyledTextField 
           label={<Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>Search exercises</Typography>}
-          defaultValue={t('search') as string}
           onChange={getSearchValue} />
-
-      {/* <TextField
-        id="searchInput"
-        label="Filter exercises by key word"
-        placeholder={t('search') as string}
-        onChange={getSearchValue}
-        variant="filled"
-        sx={{width: "100%", margin: "5%", border: "none", fontFamily: "Silkscreen", backgroundColor: "white"}}
-      /> */}
     </Box>
   )
 }

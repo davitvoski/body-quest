@@ -68,7 +68,7 @@ export const Post = (props: PostProps) => {
         sx={{ width: "500px", margin: "auto auto 5% auto" }}
         elevation={12}
       >
-        <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+        <SnackbarProvider autoHideDuration={2000} />
 
         <CardHeader
           sx={{ textAlign: "left" }}
@@ -98,7 +98,7 @@ export const Post = (props: PostProps) => {
             }
           </IconButton>
 
-          <Typography>{post.likedUsers.length} Likes</Typography>
+          <Typography>{post.likedUsers.length} {t('likes')}</Typography>
         </CardActions>
 
         <CardContent>

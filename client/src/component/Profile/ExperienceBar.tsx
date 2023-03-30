@@ -1,7 +1,9 @@
 import { useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
     const theme = useTheme();
+    const { t } = useTranslation();
     const height = window.innerHeight
     const width = window.innerWidth * 0.08
     const end = width - 4
@@ -14,7 +16,7 @@ const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
 
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox={ "0 -0.5 "+width+" 17" } shape-rendering="crispEdges">
-            <title>{ props.xp } XP out of { props.xpNext } until level { props.level + 1}</title>
+            <title>{ props.xp } {t('XP_out_of')} { props.xpNext } {t('until_Level')} { props.level + 1}</title>
             {/** Left Wight */}
             <path stroke={ theme.palette.logo.light } d="M2 2h1M1 4h1M1 5h1M1 6h1" />
             <path stroke={ theme.palette.logo.main } d="M3 2h1M2 3h1M2 4h1M1 7h1M1 8h1M1 9h1" />
@@ -46,4 +48,4 @@ const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
     )
 }
 
-export default ExperienceBar;
+export default ExperienceBar

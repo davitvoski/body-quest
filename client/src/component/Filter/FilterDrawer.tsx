@@ -87,7 +87,7 @@ export const FilterDrawer = (props: FilterDrawer) => {
             }
         }
         getFavourties();
-    }, [favouriteExercises]);
+    }, []);
 
 
 
