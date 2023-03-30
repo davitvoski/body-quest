@@ -81,18 +81,11 @@ export const PostForm = () => {
   }
   return (
     <div className="form-container">
-      <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%" }}>
-        <div className="header" id="addPost">
+      <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%", maxHeight: "90%" }}>
+        <div className="header">
           <Typography variant="h4" component="h4">
             {t('add_post')}
           </Typography>
-          <IconButton
-            sx={{ color: "white" }}
-            title={t("close") as string}
-            onClick={closePostForm}
-          >
-            <CloseIcon />
-          </IconButton>
         </div>
         <form className="goal-form">
           <Stack
@@ -130,25 +123,14 @@ export const PostForm = () => {
                 </Button>
                 {image &&
                   <Box>
-                    <img
-                      width="400px"
-                      id="newUploadImage"
-                      src={image}
-                      alt="uploaded image"
+                    <img 
+                      width="30%" 
+                      height="30%"
+                      id="newUploadImage" 
+                      src={image} 
+                      alt="uploaded image" 
                     />
                   </Box>
-                }
-                {/*image &&
-                  <Button
-                    component="label"
-                    variant="outlined"
-                    startIcon={<DeleteIcon />}
-                    color="error"
-                    sx={{alignSelf:"center"}}
-                    onClick={() => setImage("")}
-                  >
-                    Remove Image
-                  </Button>  */
                 }
                 <TextField
                   sx={{ marginTop: "20px", width: "80%", alignSelf: "center" }}
@@ -162,14 +144,23 @@ export const PostForm = () => {
               </FormControl>
             </Stack>
           </Stack>
-          <Button
-            variant="contained"
-            sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
-            onClick={handleSubmit}
-            disabled={image === undefined}
-          >
-            {t('create')}
-          </Button>
+          <Box>
+            <Button
+              variant="contained"
+              sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
+              onClick={handleSubmit}
+              disabled={image === undefined}
+            >
+              {t('create')}
+            </Button>
+            <IconButton
+              sx={{ color: "white" }}
+              title={t("close") as string}
+              onClick={closePostForm}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
         </form>
       </Paper>
     </div>
