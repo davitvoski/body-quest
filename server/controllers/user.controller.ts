@@ -19,12 +19,17 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
             return res.status(204).send("No changes.")
         }
 
+        let azureImageUrl: string = req.session.user?.picture as string;
         // Add image to blob storage
-        const azureImageUrl = await addProfilePictureToAzure(newUserImage, newUsername, req.session.user?.picture as string)
+        if (newUserImage !== req.session.user?.picture) {
+            azureImageUrl = await addProfilePictureToAzure(newUserImage, newUsername, req.session.user?.picture as string)
+
+        }
 
         // Change user in database.
         await new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email as string)
         const updatedUser = await new Database().getUser(req.session.user?.email as string)
+        console.log("updated user", updatedUser)
         req.session.user = updatedUser
         res.status(200).json({ user: req.session.user })
     } catch (e) {

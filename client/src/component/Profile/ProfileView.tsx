@@ -34,6 +34,9 @@ const ProfileView = () => {
         originialUsername.current = data.user.username;
       })
       .catch((err) => console.log(err));
+    return () => {
+      setUser(undefined);
+    };
   }, [didUserUpdate]);
 
   async function saveProfile() {
@@ -58,8 +61,13 @@ const ProfileView = () => {
 
     // Change user
     if (resp.status === 200) {
+      enqueueSnackbar("Changes Saved", {
+        autoHideDuration: 2000,
+        variant: "success",
+      });
       const data = await resp.json();
       const newUser = data.user as IUser;
+      console.log("data", newUser);
       setDidUserUpdate(!didUserUpdate);
       originalAvatar.current = newUser.picture;
       originialUsername.current = newUser.username;

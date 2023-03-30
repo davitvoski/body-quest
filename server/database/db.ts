@@ -374,7 +374,7 @@ export default class Database {
   async updateUserInformation(newUsername: string, newImage: string, email: string) {
     try {
       const collection = db.collection(this.usersCollection);
-      collection.findOneAndUpdate({
+      await collection.findOneAndUpdate({
         email: email,
       }, {
         $set: {
