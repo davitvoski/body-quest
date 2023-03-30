@@ -18,6 +18,8 @@ type PostProps = {
 export const Post = (props: PostProps) => {
   const { t } = useTranslation();
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
+  // check if the post belong to current user
+  const [currentUserPosts, setCurrentUserPosts] = useState<Boolean>(false);
   const [post, setPost] = useState<IPost>(props.post);
   const toggleLikedPost = async () => {
     if (props.user) {
@@ -43,6 +45,9 @@ export const Post = (props: PostProps) => {
       if (checkUser.user.isAdmin) {
         setIsAdmin(true);
       }
+      if (checkUser.user.username === props.post.user.username) {
+        setCurrentUserPosts(true);
+      }
     }
   }
 
@@ -63,7 +68,7 @@ export const Post = (props: PostProps) => {
         sx={{ width: "500px", marginBottom: "20px" }}
         elevation={12}
       >
-        <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+        <SnackbarProvider autoHideDuration={2000} />
 
         <CardHeader
           sx={{ textAlign: "left" }}
@@ -93,7 +98,7 @@ export const Post = (props: PostProps) => {
             }
           </IconButton>
 
-          <Typography>{post.likedUsers.length} Likes</Typography>
+          <Typography>{post.likedUsers.length} {t('likes')}</Typography>
         </CardActions>
 
         <CardContent>
@@ -101,8 +106,8 @@ export const Post = (props: PostProps) => {
             {post.caption}
           </Typography>
         </CardContent>
-        {/* admin user can delete posts */}
-        {isAdmin && <Button fullWidth onClick={() => { props.removePost(post) }} variant="contained">{t('delete_btn')}</Button>}
+        {/* admin user or the owner of post can delete posts */}
+        {(isAdmin || currentUserPosts) && <Button fullWidth onClick={() => { props.removePost(post) }} variant="contained">{t('delete_btn')}</Button>}
       </Card>
     </>
   );
