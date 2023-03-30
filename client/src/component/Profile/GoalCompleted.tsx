@@ -76,7 +76,7 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
               fontSize: 50,
             }}
           >
-            Congratulations!
+            {t('congratulations')}!
           </Typography>
         </DialogTitle>
         <DialogContent
@@ -84,7 +84,7 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
           className="scrollbar-container"
         >
           <div className="dialog-header">
-            You gain
+            {t('you_gain')}
           </div>
             <Typography
               variant="h1"
@@ -99,7 +99,7 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
               { props.xp }
             </Typography>
           <div className="dialog-header">
-            experience!
+            {t('experience')}!
           </div>
         </DialogContent>
       </Dialog>

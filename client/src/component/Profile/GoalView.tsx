@@ -67,21 +67,18 @@ const GoalView = (props: goalProps) => {
             >
               {goal.startDate} - {goal.endDate}
             </Typography>
-            <Checkbox
-              sx={{ color: "inherit" }}
-              onChange={() => completeGoal(goal)}
-              inputProps={{ "aria-label": "controlled" }}
-            />
             <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">
               {goal.goal} {goal.type}: {goal.exercise}
             </Typography>
+            <Button onClick={() => completeGoal(goal)}>Complete Goal</Button>
           </Item>
         ))
       ) : (
         <Item
           sx={{ m: "0% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
+          tabIndex={0}
         >
-          No current goals.
+          {t("no_current_goals")}.
         </Item>
       )}
       {goals.filter(isCompleted).length > 0 && (
@@ -95,7 +92,7 @@ const GoalView = (props: goalProps) => {
             fontSize: 20,
           }}
         >
-          COMPLETED GOALS
+          {t("completed_goals")}
         </Item>
       )}
       {goals.filter(isCompleted).length > 0 &&
@@ -119,7 +116,7 @@ const GoalView = (props: goalProps) => {
               }}
               state={{ exerciseName: goal.exercise, type: goal.type }}
             >
-              <Button>Do Again</Button>
+              <Button>{t("do_again")}</Button>
             </Link>
           </Item>
         ))}

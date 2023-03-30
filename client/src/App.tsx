@@ -15,6 +15,7 @@ import Home from "./component/Home/Home";
 import { Feed } from "./component/Feed/Feed";
 import { PostForm } from "./component/Feed/PostForm/PostForm";
 import { useEffect, useState } from "react";
+import Footer from "./component/Footer";
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -42,7 +43,7 @@ function App() {
     <ThemeProvider theme={Theme}>
       <div className={Theme.palette.mode + " App"}>
         <NavBar Theme={Theme} changeTheme={changeTheme}/>
-        <Box marginTop="90px">
+        <Box marginTop="90px" className="main" >
           <Outlet />
         </Box>
         {/* <Routes>
@@ -51,6 +52,7 @@ function App() {
           <Route path="Goalcreation" element={<GoalForm />} />  
           <Route path="Postcreation" element={<PostForm />} />
         </Routes> */}
+        <Footer />
       </div>
     </ThemeProvider>
   );

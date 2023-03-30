@@ -84,9 +84,9 @@ goalRouter.get("/", isAuthenticated, getUserGoals)
  *        goal
  *       example:
  *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, type: string, goal: number, completed: boolean, id: number}
- *  responses:
+ *   responses:
  *    201:
- *     description: Goal updated
+ *     description: Goal update
  *    400:
  *     description: Database error
  *    401:

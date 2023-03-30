@@ -1,56 +1,126 @@
 import {
   Avatar,
   Button,
+  CircularProgress,
   Grid,
-  Paper,
-  styled,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
-import React from "react";
-import {
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
+import { useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
-import ExperienceBar from "./ExperienceBar";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { IUser } from "../../../../shared";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
  * @param props username, email, experience
  * @returns ProfileView
  */
-const ProfileView = (props: {
-  username: string;
-  email: string;
-  experience: number;
-  avatar?: string;
-  isOtherUser?: boolean;
-}) => {
+const ProfileView = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const theme = useTheme();
-  const { t } = useTranslation();
+  const [user, setUser] = useState<IUser>();
+  // This is a hacky way to force a re-render
+  const [didUserUpdate, setDidUserUpdate] = useState(false);
 
-  const saveProfile = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  let originalAvatar = useRef<string>();
+  let originialUsername = useRef<string>();
+
+  // Get user
+  useEffect(() => {
+    fetch("/api/authentication/getUser")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data", data.user);
+        setUser({
+          ...data.user,
+        });
+        originalAvatar.current = data.user.picture;
+        originialUsername.current = data.user.username;
+      })
+      .catch((err) => console.log(err));
+    return () => {
+      setUser(undefined);
+    };
+  }, [didUserUpdate]);
+
+  async function saveProfile() {
+    setIsLoading(true);
+    const resp = await fetch("/api/users", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user!.username,
+        avatar: user!.picture,
+      }),
+    });
+
+    if (resp.status === 204) {
+      enqueueSnackbar("No Changes Made", {
+        autoHideDuration: 2000,
+        variant: "info",
+      });
+    }
+
+    // Change user
+    if (resp.status === 200) {
+      enqueueSnackbar("Changes Saved", {
+        autoHideDuration: 2000,
+        variant: "success",
+      });
+      const data = await resp.json();
+      const newUser = data.user as IUser;
+      console.log("data", newUser);
+      setDidUserUpdate(!didUserUpdate);
+      originalAvatar.current = newUser.picture;
+      originialUsername.current = newUser.username;
+    }
+
+    if (!resp.ok) {
+      enqueueSnackbar("Could not make changes", {
+        autoHideDuration: 2000,
+        variant: "error",
+      });
+    }
+    // setUser(user)
+    setIsLoading(false);
     setIsEditing(!isEditing);
-  };
+  }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) {
+      return;
+    }
+
+    let uploadedImage = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(uploadedImage);
+
+    reader.onload = (evt) => {
+      if (!evt?.target?.result) {
+        return;
+      }
+      setUser((curr) => {
+        return { ...curr!, picture: evt.target!.result!.toString() };
+      });
+    };
+  }
 
   return (
     <Grid container spacing={2}>
+      <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+
       <Grid item xs={12} height={"100%"}>
         <Item sx={{ height: "100%" }}>
           <Avatar
-            alt={props.username}
-            src={props.avatar ? props.avatar : ""}
+            alt={user?.username}
+            src={user?.picture}
             variant="rounded"
-            className="profile-avatar"
             sx={{
               width: "auto",
               height: "100%",
@@ -73,7 +143,6 @@ const ProfileView = (props: {
           </Item>
         </Grid>
       )}
-
       <Grid item xs={12}>
         <Item
           sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}
@@ -81,43 +150,62 @@ const ProfileView = (props: {
           {isEditing ? (
             <>
               <Typography>Change Username:</Typography>
-              <TextField value={props.username} variant="standard" fullWidth />
+              <TextField
+                value={user?.username}
+                variant="standard"
+                fullWidth
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setUser((cur) => {
+                    return { ...user, username: event.target.value } as IUser;
+                  });
+                }}
+              />
             </>
           ) : (
-            "@" + props.username
+            "@" + user?.username
           )}
         </Item>
       </Grid>
       <Grid item xs={12}>
-        {!props.isOtherUser ? (
-          !isEditing ? (
-            <Item sx={{ textAlign: "center" }}>
-              <Button
-                onClick={() => setIsEditing(!isEditing)}
-                sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
-              >
-                Edit User
-              </Button>
-            </Item>
+        <Item sx={{ textAlign: "center" }}>
+          {isLoading ? (
+            <CircularProgress color="secondary" />
+          ) : !isEditing ? (
+            <Button
+              onClick={() => setIsEditing(!isEditing)}
+              sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
+            >
+              Edit User
+            </Button>
           ) : (
-            <Item sx={{ textAlign: "center" }}>
+            <>
               <Button
-                onClick={() => saveProfile()}
+                onClick={saveProfile}
                 sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
               >
                 Save
               </Button>
               <Button
-                onClick={() => setIsEditing(!isEditing)}
+                onClick={() => {
+                  console.log(originalAvatar.current);
+                  console.log(originialUsername.current);
+                  setUser((cur) => {
+                    return {
+                      ...user,
+                      picture: originalAvatar.current,
+                      username: originialUsername.current,
+                    } as IUser;
+                  });
+
+                  setIsEditing(!isEditing);
+                }}
                 sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
               >
                 Cancel
               </Button>
-            </Item>
-          )
-        ) : (
-          ""
-        )}
+            </>
+          )}
+        </Item>
       </Grid>
     </Grid>
   );

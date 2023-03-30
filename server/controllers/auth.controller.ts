@@ -66,6 +66,7 @@ export async function authenticateUser(req: Request, res: Response) {
       goals: [],
       favourites: [""],
       isAdmin: false,
+      experience: 0,
     };
 
     const isSignedUp = await db.userIsSignedUp(user.email);

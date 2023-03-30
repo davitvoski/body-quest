@@ -87,12 +87,12 @@ export const FilterDrawer = (props: FilterDrawer) => {
             }
         }
         getFavourties();
-    }, [favouriteExercises]);
+    }, []);
 
 
 
     return (
-        <div id='filterDrawer'>
+        <div id='filterDrawer' tabIndex={-1}>
             <Drawer anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
                 <FilterList listDataByOption={listDataByOption} filterName={t('target')} filterList={targetList} keyExerercise="target" />
                 <FilterList listDataByOption={listDataByOption} filterName={t('equipement')} filterList={equipments} keyExerercise="equipment" />
