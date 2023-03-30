@@ -45,7 +45,7 @@ export const Post = (props: PostProps) => {
       if (checkUser.user.isAdmin) {
         setIsAdmin(true);
       }
-      if (checkUser.user.username === props.post.user.username) {
+      if (checkUser.user.email === props.post.user.email) {
         setCurrentUserPosts(true);
       }
     }
@@ -65,7 +65,7 @@ export const Post = (props: PostProps) => {
   return (
     <>
       <Card
-        sx={{ width: "500px", marginBottom: "20px" }}
+        sx={{ width: "500px", margin: "auto auto 5% auto" }}
         elevation={12}
       >
         <SnackbarProvider autoHideDuration={2000} />

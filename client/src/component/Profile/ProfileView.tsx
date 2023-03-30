@@ -37,7 +37,7 @@ const ProfileView = () => {
         originalAvatar.current = data.user.picture;
         originialUsername.current = data.user.username;
         setIsAdmin(data.user.isAdmin);
-        // setIsAdmin(true)
+        setIsAdmin(true)
       })
       .catch((err) => console.log(err));
     return () => {

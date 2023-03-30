@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IPost, IPostLikedUser, IUser } from "../../../../shared";
 import { Post } from "./Post";
+import AddIcon from '@mui/icons-material/Add';
 
 export const Feed = () => {
   const { t } = useTranslation();
   const [posts, setPosts] = useState<IPost[]>([]);
   const [user, setUser] = useState<IPostLikedUser>();
+  console.log(user)
 
   const getPosts = async () => {
     const res = await fetch("/api/posts/");
@@ -60,15 +62,38 @@ export const Feed = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-    >
-      {posts.length === 0 && <LinearProgress sx={{ width: "100%" }} />}
-      {posts && posts.slice(0).reverse().map((post, index) => (
-        <Post removePost={removePost} post={post} key={index + post.imageUrl} user={user} />
-      ))}
-    </Box>
+    <div className="content profile">
+        
+      {user !== undefined &&
+        <Box
+          alignSelf="center"
+          position={"fixed"}
+          bottom={20}
+          right={20}
+          width={"20%"}
+        >
+          <Button 
+            variant="contained" 
+            href="#/Postcreation"
+            fullWidth
+            color="primary">
+              <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>+ Add Post</Typography>
+          </Button>
+        </Box>
+      }
+      
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        {posts.length === 0 && <LinearProgress sx={{ width: "60%" }} />}
+        <div className="feed">
+          {posts && posts.slice(0).reverse().map((post, index) => (
+            <Post removePost={removePost} post={post} key={index + post.imageUrl} user={user} />
+          ))}
+        </div>
+      </Box>
+    </div>
   );
 }

@@ -35,7 +35,7 @@ const Profile = () => {
     const [experienceGain, setExperienceGain] = useState(0)
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
-  
+
     const [profileWidth, setProfileWidth] = useState(3);
     const [contentWidth, setContentWidth] = useState(9);
 
@@ -47,88 +47,101 @@ const Profile = () => {
         if (data.user !== undefined) {
             setUsername(data.user.username);
             setEmail(data.user.email)
-            setExperience(0)
+            setExperience(data.user.experience)
             setPicture(data.user.picture)
         }
     }
 
-useEffect(() => {
-    function handleResize() {
-        setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
-        setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
-        setExperience(experience);
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        getUser();
+
+        function handleResize() {
+            setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
+            setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
+            setExperience(experience)
+        }
+
+    }, []);
+
+    const completeGoal = async (goal: number, type: string) => {
+        let xp = 1; // base 1 increase
+        xp += Math.floor(goal / 5); // one XP per 5 amount of goal
+
+        setExperience(experience + xp);
+        setExperienceGain(xp);
+        handlePopup();
+
+        let resp;
+        resp = await fetch("/api/users/experience", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ experience: experience + xp }),
+        });
+        console.log(resp)
     }
-    getUser();
-    window.addEventListener('resize', handleResize)
-}, []);
 
-const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-};
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
 
-const completeGoal = (goal: number, type: string) => {
-    let xp = 1; // base 1 increase
-    xp += Math.floor(goal / 5); // one XP per 5 amount of goal
+    const handlePopup = () => {
+        setIsOpen(!isOpen);
+    };
 
-    setExperience(experience + xp);
-    setExperienceGain(xp);
-    handlePopup();
-};
+    return (
+        <div className="profile content">
+            <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
+                <Grid item xs={profileWidth}>
+                    {/* <ProfileView username={username} email={email} experience={experience} avatar={picture} /> */}
+                    <ProfileView />
+                </Grid>
 
-const handlePopup = () => {
-    setIsOpen(!isOpen);
-};
-
-return (
-    <div className="profile content">
-        <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
-            <Grid item xs={profileWidth}>
-                {/* <ProfileView username={username} email={email} experience={experience} avatar={picture} /> */}
-                <ProfileView/>
-            </Grid>
-
-            <Grid item xs={contentWidth}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
-                            <ExperienceBar
-                                xp={experience - prevLevels(currentLevel)}
-                                xpNext={nextLevel(experience)}
-                                level={currentLevel}
-                            />
-                        </Item>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Item sx={{ m: "0% 0 1% 0" }}>
-                            <Tabs
-                                value={value}
-                                onChange={handleChange}
-                                indicatorColor="secondary"
-                                variant="fullWidth"
-                                textColor="inherit"
-                            >
-                                <Tab label={t("goals")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} />
-                                <Tab
-                                    label={t("favourites")}
-                                    sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }}
+                <Grid item xs={contentWidth}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
+                                <ExperienceBar
+                                    xp={experience - prevLevels(currentLevel)}
+                                    xpNext={nextLevel(experience)}
+                                    level={currentLevel}
                                 />
-                            </Tabs>
-                        </Item>
-                        <TabPanel index={0} value={value} {...a11yProps(0)}>
-                            <GoalView completeGoal={completeGoal} />
-                        </TabPanel>
-                        <TabPanel index={1} value={value} {...a11yProps(2)}>
-                            <FavouriteView />
-                        </TabPanel>
+                            </Item>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Item sx={{ m: "0% 0 1% 0" }}>
+                                <Tabs
+                                    value={value}
+                                    onChange={handleChange}
+                                    indicatorColor="secondary"
+                                    variant="fullWidth"
+                                    textColor="inherit"
+                                >
+                                    <Tab label={t("goals")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} />
+                                    <Tab
+                                        label={t("favourites")}
+                                        sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }}
+                                    />
+                                </Tabs>
+                            </Item>
+                            <TabPanel index={0} value={value} {...a11yProps(0)}>
+                                <GoalView completeGoal={completeGoal} />
+                            </TabPanel>
+                            <TabPanel index={1} value={value} {...a11yProps(2)}>
+                                <FavouriteView />
+                            </TabPanel>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
 
-        {isOpen && <GoalCompleted handleClose={handlePopup} xp={experienceGain} open={isOpen} />}
-    </div>
-);
+            {isOpen && <GoalCompleted handleClose={handlePopup} xp={experienceGain} open={isOpen} />}
+        </div>
+    );
 };
 
 export default Profile;

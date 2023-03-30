@@ -19,6 +19,10 @@
   --secondary: #6D0305;
 }
 
+.main {
+  min-height: calc(100vh - 10rem - 90px);
+}
+
 .light :root {
   color: #212121;
   --background-default: #FFFBFF;
@@ -131,3 +135,10 @@ a :hover {
 .clickableDiv:hover {
   cursor: pointer;
 }
+
+/*
+.feed {
+  display: flex;
+  flex-wrap: wrap;
+}
+*/

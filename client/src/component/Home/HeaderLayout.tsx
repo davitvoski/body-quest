@@ -79,7 +79,7 @@ const HeaderLayout = () => {
         <h1>{t("body_shape")}</h1>
         <p id="pSlogan">{t("slogan")}</p>
         {/* when click it will go to login/sign page */}
-        <button id="startBtn" onClick={handleClickOpen}>{t("start_now")} </button>
+        <button id="startBtn" onClick={handleClickOpen} tabIndex={-1}>{t("start_now")} </button>
         <Dialog
           onClose={handleClose}
           open={open}
@@ -93,7 +93,7 @@ const HeaderLayout = () => {
       </div>
       {/* rigth side fitness image */}
       <div className="inner">
-        <img id="fitness" src="/fitness.png" />
+        <img id="fitness" src="/fitness.png" alt="Man holding a dumbbell and woman stretching" />
       </div>
     </div>
   );

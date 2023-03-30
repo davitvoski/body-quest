@@ -13,15 +13,19 @@
     flex: 0 0 20%;
     padding: 0;
     transition: transform 0.2s;
+    border: none;
+    border-radius: 0;
 }
 
+/*
 .exerciseArea .MuiPaper-root {
     box-shadow: 0px 7px 17px -1px rgba(0, 0, 0, 0.72);
-
 }
+*/
 
-.exerciseArea:hover {
+.exerciseArea:hover, .exerciseArea:focus {
     transform: scale(1.2);
+    border-radius: 0;
 }
 
 .exerciseContent {
