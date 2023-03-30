@@ -1,4 +1,4 @@
-import { Grid, Tab, Tabs, useTheme } from "@mui/material";
+import { Grid, Stack, Tab, Tabs, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import ProfileView from "./ProfileView";
 import Item from "../modules/Item";
@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { GoalCompleted } from "./GoalCompleted";
 import ExperienceBar from "./ExperienceBar";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
+import { useMediaQuery } from "react-responsive";
 
 function a11yProps(index: number) {
   return {
@@ -77,67 +78,125 @@ const Profile = () => {
     setIsOpen(!isOpen);
   };
 
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+
   return (
     <div className="profile content">
-      <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
-        <Grid item xs={profileWidth}>
+      {isDesktopOrLaptop && (
+        <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
+          <Grid item xs={profileWidth}>
+            <ProfileView
+              username={username}
+              email={email}
+              experience={experience}
+              avatar={picture}
+            ></ProfileView>
+          </Grid>
+
+          <Grid item xs={contentWidth}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
+                  <ExperienceBar
+                    xp={experience - prevLevels(currentLevel)}
+                    xpNext={nextLevel(experience)}
+                    level={currentLevel}
+                  />
+                </Item>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Item sx={{ m: "0% 0 1% 0" }}>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="secondary"
+                    variant="fullWidth"
+                    textColor="inherit"
+                  >
+                    <Tab
+                      label={t("goals")}
+                      sx={{
+                        width: "50%",
+                        fontFamily: "Silkscreen",
+                        fontSize: 20,
+                      }}
+                    />
+                    <Tab
+                      label={t("favourites")}
+                      sx={{
+                        width: "50%",
+                        fontFamily: "Silkscreen",
+                        fontSize: 20,
+                      }}
+                    />
+                  </Tabs>
+                </Item>
+                <TabPanel index={0} value={value} {...a11yProps(0)}>
+                  <GoalView completeGoal={completeGoal} />
+                </TabPanel>
+                <TabPanel index={1} value={value} {...a11yProps(2)}>
+                  <FavouriteView />
+                </TabPanel>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
+      {isTabletOrMobile && (
+        <Stack spacing={2}>
           <ProfileView
             username={username}
             email={email}
             experience={experience}
             avatar={picture}
           ></ProfileView>
-        </Grid>
 
-        <Grid item xs={contentWidth}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
-                <ExperienceBar
-                  xp={experience - prevLevels(currentLevel)}
-                  xpNext={nextLevel(experience)}
-                  level={currentLevel}
-                />
-              </Item>
-            </Grid>
+          <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
+            <ExperienceBar
+              xp={experience - prevLevels(currentLevel)}
+              xpNext={nextLevel(experience)}
+              level={currentLevel}
+            />
+          </Item>
 
-            <Grid item xs={12}>
-              <Item sx={{ m: "0% 0 1% 0" }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  indicatorColor="secondary"
-                  variant="fullWidth"
-                  textColor="inherit"
-                >
-                  <Tab
-                    label={t("goals")}
-                    sx={{
-                      width: "50%",
-                      fontFamily: "Silkscreen",
-                      fontSize: 20,
-                    }}
-                  />
-                  <Tab
-                    label={t("favourites")}
-                    sx={{
-                      width: "50%",
-                      fontFamily: "Silkscreen",
-                      fontSize: 20,
-                    }}
-                  />
-                </Tabs>
-              </Item>
-              <TabPanel index={0} value={value} {...a11yProps(0)}>
-                <GoalView completeGoal={completeGoal} />
-              </TabPanel>
-              <TabPanel index={1} value={value} {...a11yProps(2)}>
-                <FavouriteView />
-              </TabPanel>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+          <Item sx={{ m: "0% 0 1% 0" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="secondary"
+              variant="fullWidth"
+              textColor="inherit"
+            >
+              <Tab
+                label={t("goals")}
+                sx={{
+                  width: "50%",
+                  fontFamily: "Silkscreen",
+                  fontSize: 20,
+                }}
+              />
+              <Tab
+                label={t("favourites")}
+                sx={{
+                  width: "50%",
+                  fontFamily: "Silkscreen",
+                  fontSize: 20,
+                }}
+              />
+            </Tabs>
+          </Item>
+          <TabPanel index={0} value={value} {...a11yProps(0)}>
+            <GoalView completeGoal={completeGoal} />
+          </TabPanel>
+          <TabPanel index={1} value={value} {...a11yProps(2)}>
+            <FavouriteView />
+          </TabPanel>
+        </Stack>
+      )}
 
       {isOpen && (
         <GoalCompleted

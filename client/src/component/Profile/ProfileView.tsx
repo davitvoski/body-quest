@@ -19,6 +19,7 @@ import {
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import ExperienceBar from "./ExperienceBar";
+import { useMediaQuery } from "react-responsive";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level

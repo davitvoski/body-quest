@@ -101,20 +101,26 @@ button:focus-visible {
   padding: 0;
 }
 
-@media only screen and (max-width: 600px) {
-  .dark .logo {
-    height: 2em;
-    background-color: #1d181e;
-    padding: 0;
-  }
-}
-
 .light .logo {
   height: 4em;
   margin: 0.5em;
   margin-top: 1em;
   background-color: #fffbff;
   padding: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .dark .logo {
+    height: 2em;
+    background-color: #1d181e;
+    padding: 0;
+  }
+
+  .light .logo {
+    height: 2em;
+    background-color: #fffbff;
+    padding: 0;
+  }
 }
 
 a :hover {
