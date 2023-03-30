@@ -43,7 +43,7 @@ function App() {
     <ThemeProvider theme={Theme}>
       <div className={Theme.palette.mode + " App"}>
         <NavBar Theme={Theme} changeTheme={changeTheme}/>
-        <Box marginTop="90px" className="main">
+        <Box marginTop="90px" className="main" >
           <Outlet />
         </Box>
         {/* <Routes>

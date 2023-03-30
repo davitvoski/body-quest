@@ -25,6 +25,23 @@ const ProfileView = (props: { username: string; email: string; experience: numbe
 
     return(
         <Grid container spacing={2}>
+        <Grid item xs={12}>
+            <Item sx={{ textAlign: "center" }}>
+                {!isEditing ? 
+                    <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                        Edit User
+                    </Button> :
+                    <>
+                        <Button onClick={() => saveProfile()} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                            Save
+                        </Button>
+                        <Button onClick={() => setIsEditing(!isEditing)} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                            Cancel
+                        </Button>
+                    </>
+                }
+            </Item>
+        </Grid>
             <Grid item xs={12} height={"100%"}>
                 <Item sx={{ height: "100%" }}>
                     <Avatar 

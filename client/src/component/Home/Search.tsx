@@ -43,17 +43,15 @@ export const Search = (props: searchProps) => {
   };
 
   return (
-    <div id="searchBox">
-      <form id="searchForm" onSubmit={e => { e.preventDefault(); }}>
-        <SearchIcon />
-        <TextField
-          id="searchInput"
-          label="Filter exercises by key word"
-          role="search"
-          placeholder={t('search') as string}
-          onChange={getSearchValue}
-        />
-      </form>
-    </div >
+    <form id="searchBox searchForm" onSubmit={e => { e.preventDefault(); }}>
+      <TextField
+        id="searchInput"
+        label="Filter exercises by key word"
+        role="search"
+        placeholder={t('search') as string}
+        onChange={getSearchValue}
+        sx={{width: "100%"}}
+      />
+    </form>
   )
 }

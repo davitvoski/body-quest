@@ -66,20 +66,18 @@ const Home = () => {
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
       <HeaderLayout />
-      <Box id="footer" width="100%" height="5rem" sx={{ backgroundColor: "secondary.main"}} display="flex" flexDirection={"column"} justifyContent="center" alignItems="center">
+      <Box width="100%" height="5rem" sx={{ backgroundColor: "background.banner"}} display="flex" flexDirection={"row"} justifyContent="center" alignItems="center">
         <h2 id="workout-otd">{t("workout")}</h2>
       </Box>
       <div className="content profile">
-      <div className="recommandtions"></div>
-      <Toolbar className="searchBar">
-        <Search allExercises={allExercises} setExercise={setExercise} />
-        <FilterView allExercises={allExercises} setExercise={setExercise} />
-      </Toolbar>
-       
-      <div className='exercisesBox'>
-        {isLoading && <LinearProgress sx={{ width:"60%", margin:"5% auto 5% auto"}}/>}
-        <ExerciseList exercises={exercises} isLoading={isLoading} />
-      </div>
+        <Box sx={{width: "100%"}}>
+          <Search allExercises={allExercises} setExercise={setExercise} />
+          <FilterView allExercises={allExercises} setExercise={setExercise} />
+        </Box>
+        <div className='exercisesBox'>
+          {isLoading && <LinearProgress sx={{ width:"60%", margin:"3% auto 3% auto"}}/>}
+          <ExerciseList exercises={exercises} isLoading={isLoading} />
+        </div>
       </div>
     </div>
   );

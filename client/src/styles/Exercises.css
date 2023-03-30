@@ -16,9 +16,11 @@
     border-radius: 0;
 }
 
+/*
 .exerciseArea .MuiPaper-root {
     box-shadow: 0px 7px 17px -1px rgba(0, 0, 0, 0.72);
 }
+*/
 
 .exerciseArea:hover, .exerciseArea:focus {
     transform: scale(1.2);

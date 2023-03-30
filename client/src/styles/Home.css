@@ -74,6 +74,11 @@ h1 {
     overflow: visible;
 }
 
+.dark .inner {
+    border-right: 300px solid #251F29;
+    border-bottom: 500px solid #251F29;
+}
+
 #fitness {
     margin: 0;
     width: 500px;
