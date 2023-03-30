@@ -3,7 +3,6 @@ import React from "react";
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation} from "react-i18next";
-import ExperienceBar from "./ExperienceBar";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
