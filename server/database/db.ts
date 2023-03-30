@@ -350,6 +350,11 @@ export default class Database {
     }
   }
 
+  /**
+   * This function gets the user from the database
+   * @param email Email of the user
+   * @returns {IUser} user object
+   */
   async getUser(email: string) {
     try {
       const collection = db.collection(this.usersCollection);
@@ -360,6 +365,12 @@ export default class Database {
     }
   }
 
+  /**
+   * This function updates the user information in the database (Username and Profile Picture)
+   * @param newUsername New Username to update to
+   * @param newImage New Profile Picture to update to
+   * @param email Email of the user
+   */
   async updateUserInformation(newUsername: string, newImage: string, email: string) {
     try {
       const collection = db.collection(this.usersCollection);
