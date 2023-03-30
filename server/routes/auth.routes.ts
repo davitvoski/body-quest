@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, authenticateUser, isAuthenticated, logout, protectedTest, deleteAuthenticateUser } from "../controllers/auth.controller";
+import { getUser, authenticateUser, isAuthenticated, logout, protectedTest, deleteUser } from "../controllers/auth.controller";
 const authRouter = express.Router()
 
 /**
@@ -121,8 +121,21 @@ authRouter.get("/logout", isAuthenticated, logout);
 authRouter.get("/protected", isAuthenticated, protectedTest);
 
 /**
- * delete user profile
+ * This function will delete the user from the session
+ * @swagger
+ * /api/authentication/:
+ *  delete:
+ *      summary: delete user
+ *      description: deletes the user
+ *      tags:
+ *          - authentication
+ *      parameters:
+ *          - in: query
+ *            name: limit
+ *            schema:
+ *              type: string
+ *            description: delete user
  */
-authRouter.delete("/auth", isAuthenticated, deleteAuthenticateUser);
+authRouter.delete("/getUser", isAuthenticated, deleteUser)
 
 export default authRouter;

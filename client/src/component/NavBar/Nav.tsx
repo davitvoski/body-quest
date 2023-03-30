@@ -82,7 +82,7 @@ export default function NavBar(props: {
   useEffect(() => {
     getUser();
     //either hide or show add post button    
-    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false)    
+    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false)
   });
 
   const handleError = () => {
@@ -102,7 +102,7 @@ export default function NavBar(props: {
   };
 
   return (
-    <Box id="navBar" 
+    <Box id="navBar"
       position="fixed"
       width="100%"
       zIndex="2"
@@ -133,26 +133,26 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-                    title={t("home") as string }
+                    title={t("home") as string}
                   />
                 )}
               </Link>
             </Box>
-            {isFeed && username !== "" && 
+            {isFeed && username !== "" &&
               <Box
                 alignSelf="center"
               >
-                <Button 
-                    variant="contained" 
-                    startIcon={<AddIcon />}  
-                    size="small"     
-                    //sx={{marginLeft: "3vw"}}
-                    href="#/Postcreation"
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  size="small"
+                  //sx={{marginLeft: "3vw"}}
+                  href="#/Postcreation"
                 >
                   {t('add_post')}
                 </Button>
               </Box>
-              }
+            }
           </Box>
           <Box
             display="flex"
@@ -162,15 +162,15 @@ export default function NavBar(props: {
             justifyContent="space-around"
           >
             <Link
-              style={{ textDecoration: "none", color: "white"}}
+              style={{ textDecoration: "none", color: "white" }}
               to={'/Feed'}
+            >
+              <IconButton
+                sx={{ color: "white" }}
+                title={t("feed") as string}
               >
-                <IconButton
-                  sx={{ color: "white" }}
-                  title={t("feed") as string}
-                >
                 <FeedIcon />
-              </IconButton>              
+              </IconButton>
             </Link>
             <LanguageNav />
             <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme} />
@@ -186,7 +186,7 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/" style={{display: "inline-block", color: "white"}}>
+                  <Link to="/" style={{ display: "inline-block", color: "white" }}>
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -197,7 +197,7 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile" style={{display: "inline-block", color: "white"}}>
+                  <Link to="/Profile" style={{ display: "inline-block", color: "white" }}>
                     <IconButton
                       color="inherit"
                       title={t("go_profile") as string}>

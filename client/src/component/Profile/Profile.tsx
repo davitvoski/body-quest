@@ -11,6 +11,7 @@ import { IUser } from "../../../../shared";
 import axios from "axios";
 import ExperienceBar from "./ExperienceBar";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
+import { useNavigate } from "react-router";
 
 function a11yProps(index: number) {
     return {
@@ -24,6 +25,7 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
+    let navigate = useNavigate();
     const { t } = useTranslation();
     const theme = useTheme();
     const [username, setUsername] = useState("username here")
@@ -33,7 +35,7 @@ const Profile = () => {
     const [experienceGain, setExperienceGain] = useState(0)
     const [value, setValue] = useState(0);
     const [isOpen, setIsOpen] = useState(false)
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(true);
     const [user, setUser] = useState<IUser>();
 
     const [profileWidth, setProfileWidth] = useState(3)
@@ -63,9 +65,11 @@ const Profile = () => {
     const removeUserProfile = async () => {
         const response = confirm("Are you sure you want to delete this user profile?");
         if (response) {
+            if (user !== undefined) {
+                deletUser(user);
+            }
             await fetch("api/authentication/logout");
-            setUsername("");
-            // deletUser(user);
+            navigate("/");
         }
     }
     /**
@@ -74,7 +78,7 @@ const Profile = () => {
      */
     const deletUser = async (user: IUser) => {
         try {
-            await axios.delete("/api/auth", {
+            await axios.delete("/api/authentication/getUser", {
                 data: {
                     user: user
                 }
@@ -87,7 +91,7 @@ const Profile = () => {
 
     useEffect(() => {
         getUser();
-            
+
         window.addEventListener('resize', handleResize)
 
         function handleResize() {
@@ -117,36 +121,36 @@ const Profile = () => {
     return (
         <div className="profile content">
             <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
-                <Grid item xs={ profileWidth}>
+                <Grid item xs={profileWidth}>
                     <ProfileView isAdmin={isAdmin} removeUserProfile={removeUserProfile} username={username} email={email} experience={experience} avatar={picture} ></ProfileView>
                 </Grid>
 
-                <Grid item xs={ contentWidth }>
+                <Grid item xs={contentWidth}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
-                                <ExperienceBar xp={ experience - prevLevels(currentLevel) } xpNext={ nextLevel(experience) } level={ currentLevel }/>
+                                <ExperienceBar xp={experience - prevLevels(currentLevel)} xpNext={nextLevel(experience)} level={currentLevel} />
                             </Item>
                         </Grid>
 
                         <Grid item xs={12}>
-                            <Item sx={{ m: "0% 0 1% 0"}}>
+                            <Item sx={{ m: "0% 0 1% 0" }}>
                                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" variant="fullWidth" textColor="inherit">
                                     <Tab label={t("goals")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} />
                                     <Tab label={t("favourites")} sx={{ width: "50%", fontFamily: "Silkscreen", fontSize: 20 }} />
                                 </Tabs>
                             </Item>
                             <TabPanel index={0} value={value} {...a11yProps(0)}>
-                                <GoalView completeGoal={completeGoal}/>
+                                <GoalView completeGoal={completeGoal} />
                             </TabPanel>
                             <TabPanel index={1} value={value} {...a11yProps(2)}>
-                                <FavouriteView/>
+                                <FavouriteView />
                             </TabPanel>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-            
+
             {isOpen &&
                 <GoalCompleted
                     handleClose={handlePopup}

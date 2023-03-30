@@ -67,7 +67,12 @@ export default class Database {
      * @param user The user to delete to the database
      */
   public async deleteUser(user: IUser) {
-    await db.collection("users").deleteOne(user);
+    try {
+      const collection = db.collection(this.usersCollection);
+      await collection.deleteOne({ email: user.email });
+    } catch (err) {
+      throw new Error("Error deleting user in the db")
+    }
   }
 
 
