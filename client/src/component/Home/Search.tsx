@@ -77,7 +77,7 @@ export const Search = (props: searchProps) => {
       padding={"5%"}
       width={"100%"}>
         <StyledTextField 
-          label={<Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>Search exercises</Typography>}
+          label={<Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>Search exercises...</Typography>}
           onChange={getSearchValue} />
     </Box>
   )
