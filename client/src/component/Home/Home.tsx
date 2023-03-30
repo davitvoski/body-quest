@@ -9,7 +9,7 @@ import HeaderLayout from "./HeaderLayout";
 import LinearProgress from "@mui/material/LinearProgress";
 import "../../styles/Home.css";
 import { useLocation } from "react-router";
-import { Snackbar, SnackbarOrigin } from "@mui/material";
+import { Box, Grid, Snackbar, SnackbarOrigin } from "@mui/material";
 import React from "react";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import { Exercise } from "../Exercise/Exercise";
@@ -77,14 +77,18 @@ const Home = () => {
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
       <HeaderLayout />
-      <Toolbar className="searchBar">
-        <Search allExercises={allExercises} setExercise={setExercise} />
-        <FilterView allExercises={allExercises} setExercise={setExercise} />
-      </Toolbar>
-       
-      <div className='exercisesBox'>
-        {isLoading && <LinearProgress sx={{ width:"100%", margin:"5% auto 5% auto"}}/>}
-        <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn}/>
+      <Box width="100%" height="5rem" sx={{ backgroundColor: "background.banner"}} display="flex" flexDirection={"row"} justifyContent="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center" paddingLeft={"15%"} paddingRight={"15%"}>
+          <Grid item xs={3}><Search allExercises={allExercises} setExercise={setExercise} /></Grid>
+          <Grid item xs={6}><h2 id="workout-otd">{t("workout")}</h2></Grid>
+          <Grid item xs={3}><FilterView allExercises={allExercises} setExercise={setExercise} /></Grid>
+        </Grid>
+      </Box>
+      <div className="content profile">
+        <div className='exercisesBox'>
+          {isLoading && <LinearProgress sx={{ width:"60%", margin:"5% auto 5% auto"}}/>}
+          <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn}/>
+        </div>
       </div>
     </div>
   );

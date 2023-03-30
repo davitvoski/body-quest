@@ -25,13 +25,13 @@ function a11yProps(index: number) {
 const Profile = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const [username, setUsername] = useState("username here");
-  const [email, setEmail] = useState("email here");
-  const [picture, setPicture] = useState("");
-  const [experience, setExperience] = useState(30);
-  const [experienceGain, setExperienceGain] = useState(0);
+  const [username, setUsername] = useState("username")
+  const [email, setEmail] = useState("email")
+  const [picture, setPicture] = useState("")
+  const [experience, setExperience] = useState(0)
+  const [experienceGain, setExperienceGain] = useState(0)
   const [value, setValue] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   const [profileWidth, setProfileWidth] = useState(3);
   const [contentWidth, setContentWidth] = useState(9);
@@ -41,36 +41,46 @@ const Profile = () => {
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
     const data = await res.json();
-    if (data.user !== undefined) {
+    if (data.user !== undefined){     
       setUsername(data.user.username);
-      setEmail(data.user.email);
-      setExperience(0);
-      setPicture(data.user.picture);
+      setEmail(data.user.email)
+      setExperience(data.user.experience)
+      setPicture(data.user.picture)
     }
-  };
+  }
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
+    getUser();
 
     function handleResize() {
-      setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
-      setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
-      setExperience(experience);
+        setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
+        setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
+        setExperience(experience)
     }
-    getUser();
   }, []);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const completeGoal = (goal: number, type: string) => {
+  const completeGoal = async (goal: number, type: string) => {
     let xp = 1; // base 1 increase
     xp += Math.floor(goal / 5); // one XP per 5 amount of goal
 
     setExperience(experience + xp);
     setExperienceGain(xp);
     handlePopup();
+
+    let resp;
+    resp = await fetch("/api/users/experience", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({experience: experience + xp}),
+    });
+    console.log(resp)
+  }
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
   const handlePopup = () => {

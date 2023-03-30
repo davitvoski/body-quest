@@ -39,13 +39,13 @@ export const Exercise = (props: ExerciseProps) => {
       case "neck" : src += "neck.png"; break;
     }
     
-    return ( <img width={90} loading="lazy" src={ src } className="exerciseIcon" /> )
+    return ( <img width={90} loading="lazy" src={ src } className="exerciseIcon" alt={bodyPart} /> )
   }
 
   return (
     <>
-      <div className="exerciseArea" onClick={handlePopup}>
-        <Card className="cardExecise" sx={{ height: "14em", borderRadius: 0 }}>
+      <button className="exerciseArea" onClick={handlePopup} tabIndex={0}>
+        <Card className="cardExecise" sx={{ height: "14em", borderRadius: 0, backgroundColor: "background.cards" }}>
           <CardContent className="exerciseContent">
             <Typography className="exerciseNames">{props.exercise.name}</Typography>
             <div className="img-container">
@@ -53,7 +53,7 @@ export const Exercise = (props: ExerciseProps) => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </button>
       {isOpen && <Popup isLoggedIn={props.isLoggedIn} handleClose={handlePopup} exercise={props.exercise} open={isOpen} />}
     </>
   );
