@@ -86,7 +86,7 @@ const Home = () => {
       </Box>
       <div className="content profile">
         <div className='exercisesBox'>
-          {isLoading && <LinearProgress sx={{ width:"100%", margin:"5% auto 5% auto"}}/>}
+          {isLoading && <LinearProgress sx={{ width:"60%", margin:"5% auto 5% auto"}}/>}
           <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn}/>
         </div>
       </div>

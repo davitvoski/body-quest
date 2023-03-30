@@ -73,7 +73,7 @@ export const Feed = () => {
             variant="contained" 
             href="#/Postcreation"
             fullWidth
-            color="secondary">
+            color="primary">
               <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>+ Add Post</Typography>
           </Button>
         </Box>
@@ -84,7 +84,7 @@ export const Feed = () => {
         flexDirection="column"
         alignItems="center"
       >
-        {posts.length === 0 && <LinearProgress sx={{ width: "100%" }} />}
+        {posts.length === 0 && <LinearProgress sx={{ width: "60%" }} />}
         <div className="feed">
           {posts && posts.slice(0).reverse().map((post, index) => (
             <Post removePost={removePost} post={post} key={index + post.imageUrl} user={user} />
