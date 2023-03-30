@@ -6,7 +6,6 @@ const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
     const { t } = useTranslation();
     const height = window.innerHeight
     const width = window.innerWidth * 0.08
-    console.log(width)
     const end = width - 4
 
     const xp = props.xp / props.xpNext * end + 2
@@ -49,4 +48,4 @@ const ExperienceBar = (props: {xp: number, xpNext: number, level: number}) => {
     )
 }
 
-export default ExperienceBar;
+export default ExperienceBar
