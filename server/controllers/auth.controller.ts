@@ -16,10 +16,12 @@ const db = new Database();
  */
 export function getUser(req: Request, res: Response) {
   try {
-    if (req.session) return res.json({ user: req.session.user });
-    res.status(404).json("No user in session");
+    if (req.session.user) {
+      return res.send({ user: req.session.user });
+    }
+    res.status(404).send("No user in session");
   } catch (e) {
-    res.status(500).json("No user in session");
+    res.status(500).send("No user in session");
   }
 }
 
