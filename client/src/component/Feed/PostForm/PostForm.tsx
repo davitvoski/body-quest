@@ -32,7 +32,6 @@ export const PostForm = () => {
     async function checkUser() {
       await fetch("/api/authentication/getUser")
         .then((res) => {
-          console.log(res);
           if (!res.ok) {
             navigate("/unauthorized");
           }
