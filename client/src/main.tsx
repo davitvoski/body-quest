@@ -10,6 +10,7 @@ import Profile from "./component/Profile/Profile";
 import { GoalForm } from "./component/Goal/GoalForm";
 import { Feed } from "./component/Feed/Feed";
 import { PostForm } from "./component/Feed/PostForm/PostForm";
+import UserProfile from "./component/Profile/UserProfile";
 import NotFound from "./component/NotFound";
 
 const router = createHashRouter([
@@ -24,6 +25,10 @@ const router = createHashRouter([
       {
         path: "/Profile",
         element: <Profile />,
+      },
+      {
+        path: "/users/:id",
+        element: <UserProfile />,
       },
       {
         path: "/Goalcreation",

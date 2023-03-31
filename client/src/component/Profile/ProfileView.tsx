@@ -1,4 +1,12 @@
-import { Avatar, Button, CircularProgress, Grid, TextField, Typography, useTheme } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  Grid,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { ChangeEvent, useEffect, useRef } from "react";
 import { useState } from "react";
 import Item from "../modules/Item";
@@ -113,7 +121,12 @@ const ProfileView = () => {
             alt={user?.username}
             src={user?.picture}
             variant="rounded"
-            sx={{ width: "auto", height: "100%", margin: "auto", borderRadius: 0 }}
+            sx={{
+              width: "auto",
+              height: "100%",
+              margin: "auto",
+              borderRadius: 0,
+            }}
           />
         </Item>
       </Grid>
@@ -131,7 +144,9 @@ const ProfileView = () => {
         </Grid>
       )}
       <Grid item xs={12}>
-        <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
+        <Item
+          sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}
+        >
           {isEditing ? (
             <>
               <Typography>Change Username:</Typography>
@@ -164,7 +179,10 @@ const ProfileView = () => {
             </Button>
           ) : (
             <>
-              <Button onClick={saveProfile} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+              <Button
+                onClick={saveProfile}
+                sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
+              >
                 Save
               </Button>
               <Button
