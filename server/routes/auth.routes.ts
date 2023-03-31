@@ -14,23 +14,13 @@ const authRouter = express.Router();
  * @swagger
  * /api/authentication/:
  *  get:
- *      summary: Get user
- *      description: Gets the user
- *      tags:
- *          - authentication
- *      parameters:
- *          - in: query
- *            name: limit
- *            schema:
- *              type: string
- *            description: The number of exercises to return
- *      responses:
- *          200:
- *              description: returns IUser
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: IUser
+ *   summary: Get user
+ *   description: Gets the user
+ *   tags:
+ *    - authentication
+ *   responses:
+ *    200:
+ *     description: returns IUser
  */
 authRouter.get("/getUser", getUser);
 
@@ -38,18 +28,14 @@ authRouter.get("/getUser", getUser);
  * This function will get the user from the session
  * @swagger
  * /api/authentication/:
- * get:
- *     summary: Get specific user
- *    description: Gets the specific user
+ *  get:
+ *   summary: Get specific user
+ *   description: Gets the specific user
  *   tags:
- *      - authentication
- * responses:
- * 200:
+ *     - authentication
+ *   responses:
+ *    200:
  *     description: returns IUser
- *   content:
- *     application/json:
- *        schema:
- *           type: IUser
  */
 authRouter.post("/getSpecificUser", getSpecificUser);
 
