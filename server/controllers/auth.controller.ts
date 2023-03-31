@@ -23,6 +23,11 @@ export function getUser(req: Request, res: Response) {
   }
 }
 
+/**
+ * This function returns the specific user if it is in the database
+ * @param req Express Request
+ * @param res Express Response
+ */
 export async function getSpecificUser(req: Request, res: Response) {
   try {
     console.log(req.body);

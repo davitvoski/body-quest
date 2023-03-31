@@ -60,8 +60,8 @@ const UserProfile = () => {
       setExperience(0);
       setPicture(data.user.picture);
       setGoals(data.user.goals);
-      console.log("goals: ", data.user.goals);
       setFavourites(data.user.favourites);
+      setExperience(data.user.experience);
     }
   };
 
