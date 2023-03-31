@@ -38,9 +38,7 @@ const Home = () => {
       method: "GET",
     });
     if (response.status === 404) {
-      throw new Error(
-        `Failed to fetch ${response.status}: ${response.statusText}`
-      );
+      throw new Error(`Failed to fetch ${response.status}: ${response.statusText}`);
     }
     const jsonData = (await response.json()) as IExercise[];
     setIsloading(false);
@@ -59,7 +57,7 @@ const Home = () => {
   useEffect(() => {
     setIsloading(true);
     fetchExercises();
-    getUser();
+    getUser().catch((err) => {});
     if (state?.goalCreated) {
       goalCreationPopup();
     }
@@ -77,17 +75,31 @@ const Home = () => {
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
       <HeaderLayout />
-      <Box width="100%" height="5rem" sx={{ backgroundColor: "background.banner"}} display="flex" flexDirection={"row"} justifyContent="center" alignItems="center">
+      <Box
+        width="100%"
+        height="5rem"
+        sx={{ backgroundColor: "background.banner" }}
+        display="flex"
+        flexDirection={"row"}
+        justifyContent="center"
+        alignItems="center"
+      >
         <Grid container justifyContent="center" alignItems="center" paddingLeft={"15%"} paddingRight={"15%"}>
-          <Grid item xs={3}><Search allExercises={allExercises} setExercise={setExercise} /></Grid>
-          <Grid item xs={6}><h2 id="workout-otd">{t("workout")}</h2></Grid>
-          <Grid item xs={3}><FilterView allExercises={allExercises} setExercise={setExercise} /></Grid>
+          <Grid item xs={3}>
+            <Search allExercises={allExercises} setExercise={setExercise} />
+          </Grid>
+          <Grid item xs={6}>
+            <h2 id="workout-otd">{t("workout")}</h2>
+          </Grid>
+          <Grid item xs={3}>
+            <FilterView allExercises={allExercises} setExercise={setExercise} />
+          </Grid>
         </Grid>
       </Box>
       <div className="content profile">
-        <div className='exercisesBox'>
-          {isLoading && <LinearProgress sx={{ width:"60%", margin:"5% auto 5% auto"}}/>}
-          <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn}/>
+        <div className="exercisesBox">
+          {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+          <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn} />
         </div>
       </div>
     </div>

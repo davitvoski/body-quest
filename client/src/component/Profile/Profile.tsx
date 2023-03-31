@@ -28,6 +28,7 @@ function a11yProps(index: number) {
 const Profile = () => {
     const { t } = useTranslation();
     const theme = useTheme();
+    const navigate = useNavigate();
     const [username, setUsername] = useState("username here")
     const [email, setEmail] = useState("email here")
     const [picture, setPicture] = useState("")
@@ -49,13 +50,15 @@ const Profile = () => {
             setEmail(data.user.email)
             setExperience(data.user.experience)
             setPicture(data.user.picture)
+        }else{
+            navigate("/unauthorized")
         }
     }
 
 
     useEffect(() => {
         window.addEventListener("resize", handleResize);
-        getUser();
+        getUser().catch((err) => {});
 
         function handleResize() {
             setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
@@ -81,7 +84,6 @@ const Profile = () => {
             },
             body: JSON.stringify({ experience: experience + xp }),
         });
-        console.log(resp)
     }
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
