@@ -77,7 +77,7 @@ export const Feed = () => {
             href="#/Postcreation"
             fullWidth
             color="primary">
-              <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>+ Add Post</Typography>
+              <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>+ {t('add_post')}</Typography>
           </Button>
         </Box>
       }

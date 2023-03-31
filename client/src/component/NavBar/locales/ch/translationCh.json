@@ -44,6 +44,7 @@
     "removeFavoris":"移除 !",
     "date_requirement":"结束日期始于开始日期之前",
     "delete_btn":"删除",
+    "confrimDeletePost":"您确定要删除这个帖子吗？",
     "likes":"喜欢",
     "add_post":"分享",
     "upload_image":"上传图片",
@@ -65,5 +66,10 @@
     "XP_out_of":"经验值, 还需",
     "until_Level":"到等级",
     "close":"关闭",
-    "delete_user":"删除该用户"
+    "delete_user":"删除该用户",
+    "changes_saved":"更改已保存",
+    "no_changes_made":"未做任何改变",
+    "could_not_make_changes":"无法进行修改",
+    "delete_profile_confirm":"你确定要删除这个用户资料吗？",
+    "search_exercises":"搜索运动"
   }

@@ -59,7 +59,7 @@ const ProfileView = () => {
     });
 
     if (resp.status === 204) {
-      enqueueSnackbar("No Changes Made", {
+      enqueueSnackbar(`${t('no_changes_made')}`, {
         autoHideDuration: 2000,
         variant: "info",
       });
@@ -67,7 +67,7 @@ const ProfileView = () => {
 
     // Change user
     if (resp.status === 200) {
-      enqueueSnackbar("Changes Saved", {
+      enqueueSnackbar(`${t('changes_saved')}`, {
         autoHideDuration: 2000,
         variant: "success",
       });
@@ -80,7 +80,7 @@ const ProfileView = () => {
     }
 
     if (!resp.ok) {
-      enqueueSnackbar("Could not make changes", {
+      enqueueSnackbar(`${t('could_not_make_changes')}`, {
         autoHideDuration: 2000,
         variant: "error",
       });
@@ -114,15 +114,15 @@ const ProfileView = () => {
  * Remove user profile when admin delete user
  * @param user IUser
  */
-  const removeUserProfile = async (e) => {
-    const response = confirm("Are you sure you want to delete this user profile?");
+  const removeUserProfile = async (e: any) => {
+    const response = confirm(`${t('delete_profile_confirm')}`);
     if (response) {
       if (user !== undefined) {
         deletALLPost(user);
         deletUser(user);
       }
       await fetch("api/authentication/logout");
-    }else{
+    } else {
       e.preventDefault();
     }
   }
@@ -143,7 +143,7 @@ const ProfileView = () => {
   };
 
   /**
-   * delete all post, send request to server
+   * delete all posts related to the user when user deleted
    * @param user IUser
    */
   const deletALLPost = async (user: IUser) => {

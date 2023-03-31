@@ -45,6 +45,7 @@
     "date_requirement":"Ne peut pas choisir le jour avant que le début du jour",
     "delete_btn":"Supprimer",
     "likes":"j'aime",
+    "confrimDeletePost":"Êtes-vous sûr de supprimer ce message ?",
     "add_post":"Ajouter un post",
     "upload_image":"Télécharger l'image",
     "change_image":"Modifier l'image",
@@ -65,5 +66,10 @@
     "XP_out_of":"XP / ",
     "until_Level":"jusqu'au level",
     "close":"fermer",
-    "delete_user":"Supprimer l'utilisateur"
+    "delete_user":"Supprimer l'utilisateur",
+    "changes_saved":"Changements enregistrés",
+    "no_changes_made":"Aucune modification",
+    "could_not_make_changes":"Impossible de modifier",
+    "delete_profile_confirm":"Êtes-vous sûr de supprimer ce profil d'utilisateur ?",
+    "search_exercises":"Rechercher"
   }
