@@ -12,7 +12,7 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
 import { IPost } from "../../../../../shared";
@@ -27,6 +27,20 @@ export const PostForm = () => {
   const [image, setImage] = useState<string>();
   const [caption, setCaption] = useState("");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    async function checkUser() {
+      await fetch("/api/authentication/getUser")
+        .then((res) => {
+          console.log(res);
+          if (!res.ok) {
+            navigate("/unauthorized");
+          }
+        })
+        .catch((err) => {});
+    }
+    checkUser();
+  }, []);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
