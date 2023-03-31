@@ -24,8 +24,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "../../styles/NavBar.css";
 import { ThemeNav } from "./ThemeNav";
-import AddIcon from "@mui/icons-material/Add";
-import FeedIcon from "@mui/icons-material/Feed";
+import AddIcon from '@mui/icons-material/Add';
+import FeedIcon from '@mui/icons-material/Feed';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -85,8 +85,8 @@ export default function NavBar(props: {
 
   useEffect(() => {
     getUser();
-    //either hide or show add post button
-    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false);
+    //either hide or show add post button    
+    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false)    
   });
 
   const handleError = () => {
@@ -106,10 +106,17 @@ export default function NavBar(props: {
   };
 
   return (
-    <Box id="navBar" position="fixed" width="100%" zIndex="2">
+    <Box id="navBar" 
+      position="fixed"
+      width="100%"
+      zIndex="2"
+    >
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Box display="flex" justifyContent="space-between" marginLeft={5}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            marginLeft={5}>
             <Box
               display="flex"
               width="60%"
@@ -131,32 +138,12 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-<<<<<<< HEAD
-                    title={t("home") as string}
-=======
                     title={t("home") as string }
                     role="button"
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                   />
                 )}
               </Link>
             </Box>
-<<<<<<< HEAD
-            {isFeed && username !== "" && (
-              <Box alignSelf="center">
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  size="small"
-                  //sx={{marginLeft: "3vw"}}
-                  href="#/Postcreation"
-                >
-                  Add Post
-                </Button>
-              </Box>
-            )}
-=======
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
           </Box>
           <Box
             display="flex"
@@ -166,12 +153,6 @@ export default function NavBar(props: {
             justifyContent="space-around"
           >
             <Link
-<<<<<<< HEAD
-              style={{ textDecoration: "none", color: "white" }}
-              to={"/Feed"}
-            >
-              <IconButton sx={{ color: "white" }} title={t("feed") as string}>
-=======
               style={{ textDecoration: "none", color: "white"}}
               to={'/Feed'}
               tabIndex={0}
@@ -180,9 +161,8 @@ export default function NavBar(props: {
                   sx={{ color: "white" }}
                   title={t("feed") as string}
                 >
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                 <FeedIcon />
-              </IconButton>
+              </IconButton>              
             </Link>
             <LanguageNav />
             <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme} />
@@ -198,14 +178,7 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-<<<<<<< HEAD
-                  <Link
-                    to="/"
-                    style={{ display: "inline-block", color: "white" }}
-                  >
-=======
                   <Link to="/" style={{display: "inline-block", color: "white"}} tabIndex={0}>
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -216,18 +189,10 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-<<<<<<< HEAD
-                  <Link
-                    to="/Profile"
-                    style={{ display: "inline-block", color: "white" }}
-                  >
-=======
                   <Link to="/Profile" style={{display: "inline-block", color: "white"}} tabIndex={0}>
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                     <IconButton
                       color="inherit"
-                      title={t("go_profile") as string}
-                    >
+                      title={t("go_profile") as string}>
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>

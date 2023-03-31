@@ -23,8 +23,14 @@ export function getUser(req: Request, res: Response) {
   }
 }
 
+/**
+ * This function returns the specific user if it is in the database
+ * @param req Express Request
+ * @param res Express Response
+ */
 export async function getSpecificUser(req: Request, res: Response) {
   try {
+    console.log(req.body);
     const { email } = req.body;
     const user = await db.getUser(email);
     res.status(200).json({ user: user });
@@ -59,7 +65,15 @@ export async function authenticateUser(req: Request, res: Response) {
         );
     }
 
-    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:false, experience:0}
+    let user: IUser = {
+      username: payLoad.name,
+      email: payLoad.email,
+      picture: payLoad.picture,
+      goals: [],
+      favourites: [""],
+      isAdmin: false,
+      experience: 0,
+    };
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 
