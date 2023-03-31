@@ -102,5 +102,4 @@ authRouter.post("/auth", authenticateUser);
  */
 authRouter.get("/logout", isAuthenticated, logout);
 
-
 export default authRouter;
