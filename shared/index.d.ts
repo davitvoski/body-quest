@@ -27,19 +27,25 @@ export interface IGoal {
     completed: boolean = false,
 }
 
-export interface IUserPost {
-    username: string,
-    email: string,
-    picture: string,
-}
+// export interface IUserPost {
+//     username: string,
+//     email: string,
+//     picture: string,
+// }
 
 export interface IPostLikedUser {
     username: string,
     email: string,
 }
 
+export interface IFeedPosts {
+    username: string,
+    email: string,
+    picture: string,
+    posts: IPost[],
+}
+
 export interface IPost {
-    user: IUserPost,
     imageUrl: string,
     caption: string,
     date: string,
