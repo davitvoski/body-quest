@@ -1,4 +1,4 @@
-import { Grid, Tab, Tabs, useTheme } from "@mui/material";
+import { Grid, LinearProgress, Tab, Tabs, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import ProfileView from "./ProfileView";
 import Item from "../modules/Item";
@@ -29,13 +29,12 @@ function a11yProps(index: number) {
  */
 const UserProfile = () => {
   const { t } = useTranslation();
-  const [username, setUsername] = useState("username here");
   const [email, setEmail] = useState("email here");
-  const [picture, setPicture] = useState("");
   const [experience, setExperience] = useState(0);
   const [value, setValue] = useState(0);
   const [goals, setGoals] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
 
   const [profileWidth, setProfileWidth] = useState(3);
@@ -57,13 +56,12 @@ const UserProfile = () => {
       },
       body: JSON.stringify({ email: state.user.email }),
     });
+
     const data = await res.json();
-    console.log("user in userprofile", data.user.username);
+
     if (data.user !== undefined) {
-      setUsername(data.user.username);
       setEmail(data.user.email);
       setExperience(0);
-      setPicture(data.user.picture);
       setGoals(data.user.goals);
       setFavourites(data.user.favourites);
       setExperience(data.user.experience);
@@ -71,9 +69,12 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getUser().catch((err) => {
       setNoUser(true);
     });
+    ifAdmin().catch((err) => {});
+    setTimeout(() => setIsLoading(false), 200);
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -95,12 +96,6 @@ const UserProfile = () => {
     }
   };
 
-  /**
-   * check if loggin user is admin or not
-   */
-  useEffect(() => {
-    ifAdmin();
-  }, []);
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 600px)",
   });
@@ -108,7 +103,8 @@ const UserProfile = () => {
 
   return (
     <>
-      {!noUser ? (
+      {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+      {!noUser && isLoading === false ? (
         <>
           {isDesktopOrLaptop && (
             <div className="profile content">
@@ -236,16 +232,20 @@ const UserProfile = () => {
           )}
         </>
       ) : (
-        <h1
-          className="themed-text"
-          style={{
-            margin: "auto",
-            width: "50%",
-            padding: "10px",
-          }}
-        >
-          User Does Not Exist
-        </h1>
+        <>
+          {noUser && isLoading === false && (
+            <h1
+              className="themed-text"
+              style={{
+                margin: "auto",
+                width: "50%",
+                padding: "10px",
+              }}
+            >
+              User Does Not Exist
+            </h1>
+          )}
+        </>
       )}
     </>
   );
