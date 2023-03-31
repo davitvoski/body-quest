@@ -33,7 +33,6 @@ export default class Database {
       client = new MongoClient(dbUrl);
       await client.connect();
       db = client.db(dbName);
-      console.log("Successfully connected to MongoDB database");
     }
     return instance
   }
@@ -243,12 +242,18 @@ export default class Database {
 
       await collection.updateOne({ email: email },
         { $pull: { posts: post } })
-      console.log("Delete successful")
     } catch (err) {
       throw new Error("Error deleting a post in the db")
     }
   }
 
+  /**
+   * This function adds the user to the liked users list of the post
+   * @param post {IPost} Post to toggle like
+   * @param users Users that liked the post
+   * @param ownerEmail Owner of the post
+   * @returns {IPost} Updated post
+   */
   async toggleLikedPost(post: IPost, users: IPostLikedUser[], ownerEmail: string) {
     try {
       const collection = db.collection(this.usersCollection);
@@ -402,7 +407,11 @@ export default class Database {
     }
   }
 
-
+  /**
+   * This function updates the user experience in the database
+   * @param newExperience Experience to update to
+   * @param email Email of the user
+   */
   async updateUserExperience(newExperience: number, email: string) {
     try {
       const collection = db.collection(this.usersCollection);

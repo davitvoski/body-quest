@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Database from "../database/db";
 
 /**
+ * Router controller
  * This controller gets all exercises from the database
  * It can be limited by a query parameter limit
  * @param req Express Request
@@ -18,6 +19,7 @@ export async function getAllExercises(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This controller adds the favourited exercise to the users favourites.
  * @param req Express Request
  * @param res Express Response
@@ -38,6 +40,7 @@ export async function favouriteExercisePOST(req: Request, res: Response) {
 }
 
 /**
+ *  Router controller
  *  This controller controls the /api/exercises/favourites/:name DELETE endpoint.
  *  It removes the exercise from the users favourites.
  * @param req Express Request
@@ -59,6 +62,7 @@ export async function favouriteExerciseDELETE(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This controller checks if the exercise is favourited by the user
  * @param req Express Request
  * @param res Express Response
@@ -79,6 +83,7 @@ export async function getFavourtieExerciseByName(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function gets the favourited exercises of the users
  * @param req Express Request
  * @param res Express Response
@@ -99,17 +104,14 @@ export async function getAllFavouriteExercises(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function gets the favourited exercises of a specific user
  * @param req Express Request
  * @param res Express Response
  */
-export async function getSpecificUserFavouriteExercises(
-  req: Request,
-  res: Response
-) {
+export async function getSpecificUserFavouriteExercises(req: Request, res: Response) {
   try {
     const email = req.body.email;
-
     const exercises = await new Database().getFavouriteExercises(email);
 
     res.json({ exercises: exercises });

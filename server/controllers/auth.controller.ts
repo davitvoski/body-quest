@@ -9,6 +9,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const db = new Database();
 
 /**
+ * Router controller
  * This function returns the user if it is in the session
  * @param req Express Request
  * @param res Express Response
@@ -24,6 +25,7 @@ export function getUser(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function returns the specific user if it is in the database
  * @param req Express Request
  * @param res Express Response
@@ -40,6 +42,7 @@ export async function getSpecificUser(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function authenticates the user when they login
  * @param req Express Request
  * @param res Express Response
@@ -98,16 +101,13 @@ export async function authenticateUser(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function returns 200 if the user is authenticated or else it returns 401
  * @param req Express Request
  * @param res Express Response
  * @param next Express NextFunction
  */
-export function isAuthenticated(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
   if (!req.session.user) {
     return res.sendStatus(401);
   }
@@ -115,6 +115,7 @@ export function isAuthenticated(
 }
 
 /**
+ * Router controller
  * This function logs out the user if they are logged in
  * @param req Express Request
  * @param res Express Response
@@ -130,6 +131,7 @@ export function logout(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function is a test function to see if the user is protected,
  * will be used for administration and guests
  * @param res Express Response

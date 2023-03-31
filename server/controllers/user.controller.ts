@@ -12,6 +12,7 @@ const blobService = new BlobServiceClient(uploadUrl);
 const containerClient = blobService.getContainerClient(containerName);
 
 /**
+ * Router controller
  * Patch method for updating user information
  * @param req Express Request
  * @param res Express Response
@@ -48,8 +49,9 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
 
 
 /**
+ * Router controller
  * Patch method for updating experience
- *  @param req Express Request
+ * @param req Express Request
  * @param res Express Response
  */
 export async function updateUserExperiencePATCH(req: Request, res: Response) {

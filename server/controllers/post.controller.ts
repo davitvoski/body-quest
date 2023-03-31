@@ -11,6 +11,7 @@ const blobService = new BlobServiceClient(uploadUrl);
 const containerClient = blobService.getContainerClient(containerName);
 
 /**
+ * Router controller
  * This function returns all the posts in the database of every user
  * @param _ Express Request
  * @param res Express Response
@@ -25,6 +26,7 @@ export async function getAllPosts(_: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function creates a post to save to the database
  * @param req Express Request
  * @param res Express Response
@@ -47,6 +49,11 @@ export async function createPost(req: Request, res: Response) {
     }
 }
 
+/**
+ * Router controller: This method likes/unlikes a post
+ * @param req Express Request
+ * @param res Express Response
+ */
 export async function toggleLikedPost(req: Request, res: Response) {
     try {
         const post: IPost = req.body.post;
@@ -80,6 +87,7 @@ export async function toggleLikedPost(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function saves the image to the azure blob storage using the caption and current time,
  * this is done so that no other file will have the same name
  * @param file base64 string
@@ -102,8 +110,10 @@ async function addImageToAzure(file: string, caption: string) {
 }
 
 /**
- * This function delete a post 
+ * Router controller
+ * This function deletes a post from the database
  * @param req Express Request
+ * @param res Express Response
  */
 export async function deletePost(req: Request, res: Response) {
     try {
@@ -111,11 +121,6 @@ export async function deletePost(req: Request, res: Response) {
         if (!postOwnerEmail) throw new Error("No post owner email provided")
         await new Database().removePost(req.body.post, postOwnerEmail);
         
-        try{
-
-        }catch(err){
-            return
-        }
         res.status(200).send("Post deleted")
     } catch (err) {
         if (err instanceof Error) {

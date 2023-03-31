@@ -20,8 +20,8 @@ export async function addProfilePictureToAzure(file: string, username: string, o
             const blobClient = containerClient.getBlockBlobClient(oldBlob);
             blobClient.deleteIfExists()
         } catch (e) {
-            // Would log this in a log or something
-            console.log("Failed to delete old blob")
+            // Would log this in a log storage service
+            // console.log("Failed to delete old blob")
         }
     })()
 
