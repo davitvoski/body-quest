@@ -4,7 +4,7 @@ import { useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import { IUser } from "../../../../shared";
+import { IUser, IUserPost } from "../../../../shared";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -118,6 +118,7 @@ const ProfileView = () => {
     const response = confirm("Are you sure you want to delete this user profile?");
     if (response) {
       if (user !== undefined) {
+        deletALLPost(user);
         deletUser(user);
       }
       await fetch("api/authentication/logout");
@@ -139,13 +140,29 @@ const ProfileView = () => {
     }
   };
 
+  /**
+   * delete all post, send request to server
+   * @param user IUser
+   */
+  const deletALLPost = async (user: IUser) => {
+    try {
+      await axios.delete("/api/posts/deleteallposts", {
+        data: {
+          user: user
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Grid container spacing={2}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
       {isAdmin && <Grid item xs={12}>
         <Item sx={{ textAlign: "center" }}>
           <Button
-            onClick={()=>{removeUserProfile()}}
+            onClick={() => { removeUserProfile() }}
             sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
             href="/"
           >
@@ -211,7 +228,7 @@ const ProfileView = () => {
           ) : (
             <>
               <Button onClick={saveProfile} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-              {t('save')}
+                {t('save')}
               </Button>
               <Button
                 onClick={() => {

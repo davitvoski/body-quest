@@ -117,3 +117,15 @@ export async function deletePost(req: Request) {
         console.log(err); 
     }
 }
+
+/**
+ * This function delete a post 
+ * @param req Express Request
+ */
+export async function deleteAllPostByUser(req: Request) {
+    try {
+        await new Database().removeAllPosts(req.body.user);
+    } catch (err) {
+        console.log(err); 
+    }
+}
