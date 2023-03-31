@@ -31,20 +31,15 @@ export async function getAllPosts(_: Request, res: Response) {
  */
 export async function createPost(req: Request, res: Response) {
     try {
-        const imageURL = await addImageToAzure(req.body.imageUrl, req.body.caption);        
-        const post:IPost = {
-            user: {
-                username: req.body.user.username,
-                email: req.body.user.email,
-                picture: req.body.user.picture,
-            },
+        const imageURL = await addImageToAzure(req.body.imageUrl, req.body.caption);
+        const post: IPost = {
             imageUrl: imageURL,
             caption: req.body.caption,
             date: req.body.date,
             likedUsers: []
         }
 
-        await new Database().addPost(post);
+        await new Database().addPost(post, req.session.user?.email as string);
 
         res.json(200);
     } catch (err) {
@@ -53,18 +48,20 @@ export async function createPost(req: Request, res: Response) {
     }
 }
 
-export async function toggleLikedPost(req: Request, res: Response){
+export async function toggleLikedPost(req: Request, res: Response) {
     try {
-        const post:IPost = req.body.post;
-        const user:IPostLikedUser = req.body.user;
-        let likedUsers:IPostLikedUser[] = post.likedUsers;
+        const post: IPost = req.body.post;
+        const user: IPostLikedUser = req.body.user;
+        const ownerEmail: string = req.body.ownerEmail
+
+        let likedUsers: IPostLikedUser[] = post.likedUsers;
         const isPresent = likedUsers.some(someUser => someUser.email === user.email);
 
         let updatedPost = {}
 
         if (!isPresent) {
             likedUsers.push(user);
-            updatedPost = await new Database().toggleLikedPost(post, likedUsers);
+            updatedPost = await new Database().toggleLikedPost(post, likedUsers, ownerEmail);
         }
         else {
             let index = 0;
@@ -74,10 +71,10 @@ export async function toggleLikedPost(req: Request, res: Response){
                 }
             })
             likedUsers.splice(index);
-            updatedPost = await new Database().toggleLikedPost(post, likedUsers);
+            updatedPost = await new Database().toggleLikedPost(post, likedUsers, ownerEmail);
         }
 
-        res.status(200).json({post: updatedPost});
+        res.status(200).json({ post: updatedPost });
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: "Error liking a post" })
@@ -90,18 +87,21 @@ export async function toggleLikedPost(req: Request, res: Response){
  * @param file base64 string
  * @param caption string
  */
-async function addImageToAzure(file:string, caption:string){
+async function addImageToAzure(file: string, caption: string) {
     const secondhalf = file.split(":")[1];
     const mimetype = secondhalf.split(";")[0];
-    var today = Date.now();
+    const today = Date.now();
 
-    const blobClient = containerClient.getBlockBlobClient(`${caption + today +".png"}`);
+    const blobClient = containerClient.getBlockBlobClient(`${caption + today + ".png"}`);
     const options = { blobHTTPHeaders: { blobContentType: mimetype } };
 
+    console.log("FAIL HERE 1")
     const base64Image = file.split(';base64,').pop() as string;
-    var buf = Buffer.from(base64Image, 'base64');
+    const buf = Buffer.from(base64Image, 'base64');
+    console.log("FAIL HERE 1")
 
     await blobClient.uploadData(buf, options);
+    console.log("FAIL HERE 1")
     let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${caption + today + ".png"}`
     return imageUrl;
 }
@@ -114,6 +114,6 @@ export async function deletePost(req: Request) {
     try {
         await new Database().removePost(req.body.post);
     } catch (err) {
-        console.log(err); 
+        console.log(err);
     }
 }

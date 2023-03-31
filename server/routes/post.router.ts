@@ -67,9 +67,10 @@ postRouter.get("/", getAllPosts)
  *   500:
  *    description: Error saving post - server error
  */
-postRouter.post("/createPost", isAuthenticated, createPost)
+postRouter.post("/", isAuthenticated, createPost)
 
 postRouter.delete("/", isAuthenticated, deletePost)
+
 postRouter.post("/togglelikedPost", isAuthenticated, toggleLikedPost)
 
 export default postRouter
