@@ -6,6 +6,7 @@ import "../../styles/Search.css";
 type searchProps = {
   setExercise: Function;
   allExercises: IExercise[];
+  isMobile?: boolean;
 };
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -43,6 +44,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
  */
 export const Search = (props: searchProps) => {
   const { t } = useTranslation();
+  const width = !props.isMobile ? "100%" : "90%";
 
   /**
    * Will list all exercises based on the values entered by the user.
@@ -77,7 +79,8 @@ export const Search = (props: searchProps) => {
       padding={"5%"}
       width={"100%"}>
         <StyledTextField 
-          label={<Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>{t('search_exercises')}...</Typography>}
+        sx={{width: width}}
+          label={<Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>Search exercises...</Typography>}
           onChange={getSearchValue} />
     </Box>
   )

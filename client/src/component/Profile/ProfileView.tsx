@@ -12,10 +12,9 @@ import { useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import { IUser, IUserPost } from "../../../../shared";
-import axios from "axios";
-import { useNavigate } from "react-router";
+import { IUser } from "../../../../shared";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
