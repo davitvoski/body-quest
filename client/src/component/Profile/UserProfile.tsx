@@ -12,6 +12,7 @@ import UserGoalView from "./UserGoalView";
 import UserFavouriteView from "./UserFavouriteView";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
 import ExperienceBar from "./ExperienceBar";
+import UserProfileView from "./UserProfileView";
 
 function a11yProps(index: number) {
   return {
@@ -50,12 +51,14 @@ const UserProfile = () => {
       body: JSON.stringify({ email: state.user.email }),
     });
     const data = await res.json();
+    console.log("user in userprofile", data.user.username);
     if (data.user !== undefined) {
       setUsername(data.user.username);
       setEmail(data.user.email);
       setExperience(0);
       setPicture(data.user.picture);
       setGoals(data.user.goals);
+      console.log("goals: ", data.user.goals);
       setFavourites(data.user.favourites);
     }
   };
@@ -72,13 +75,7 @@ const UserProfile = () => {
     <div className="profile content">
       <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
         <Grid item xs={profileWidth}>
-          <ProfileView
-            username={username}
-            email={email}
-            experience={experience}
-            avatar={picture}
-            isOtherUser={true}
-          ></ProfileView>
+          <UserProfileView email={email}></UserProfileView>
         </Grid>
 
         <Grid item xs={contentWidth}>

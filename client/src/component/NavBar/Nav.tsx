@@ -49,7 +49,7 @@ export default function NavBar(props: {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isFeed, setIsFeed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -65,7 +65,7 @@ export default function NavBar(props: {
   };
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
-    setIsLoading(true)
+    setIsLoading(true);
     const res = await fetch("/api/authentication/auth", {
       method: "POST",
       body: JSON.stringify({
@@ -77,7 +77,7 @@ export default function NavBar(props: {
     });
     const data = await res.json();
     setUsername(data.user.Username);
-    setIsLoading(false)
+    setIsLoading(false);
 
     handleClose();
     navigate("/Profile");
@@ -109,10 +109,7 @@ export default function NavBar(props: {
     <Box id="navBar" position="fixed" width="100%" zIndex="2">
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            marginLeft={5}>
+          <Box display="flex" justifyContent="space-between" marginLeft={5}>
             <Box
               display="flex"
               width="60%"
@@ -134,32 +131,12 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-<<<<<<< HEAD
                     title={t("home") as string}
-=======
-                    title={t("home") as string }
                     role="button"
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                   />
                 )}
               </Link>
             </Box>
-<<<<<<< HEAD
-            {isFeed && username !== "" && (
-              <Box alignSelf="center">
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  size="small"
-                  //sx={{marginLeft: "3vw"}}
-                  href="#/Postcreation"
-                >
-                  Add Post
-                </Button>
-              </Box>
-            )}
-=======
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
           </Box>
           <Box
             display="flex"
@@ -169,14 +146,11 @@ export default function NavBar(props: {
             justifyContent="space-around"
           >
             <Link
-              style={{ textDecoration: "none", color: "white"}}
-              to={'/Feed'}
+              style={{ textDecoration: "none", color: "white" }}
+              to={"/Feed"}
               tabIndex={0}
-              >
-                <IconButton
-                  sx={{ color: "white" }}
-                  title={t("feed") as string}
-                >
+            >
+              <IconButton sx={{ color: "white" }} title={t("feed") as string}>
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -194,7 +168,11 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/" style={{display: "inline-block", color: "white"}} tabIndex={0}>
+                  <Link
+                    to="/"
+                    style={{ display: "inline-block", color: "white" }}
+                    tabIndex={0}
+                  >
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -205,10 +183,15 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile" style={{display: "inline-block", color: "white"}} tabIndex={0}>
+                  <Link
+                    to="/Profile"
+                    style={{ display: "inline-block", color: "white" }}
+                    tabIndex={0}
+                  >
                     <IconButton
                       color="inherit"
-                      title={t("go_profile") as string}>
+                      title={t("go_profile") as string}
+                    >
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>
@@ -225,11 +208,12 @@ export default function NavBar(props: {
         TransitionComponent={Transition}
       >
         <DialogTitle>{t("login_str")}</DialogTitle>
-        <DialogContent sx={{display: "flex", justifyContent: "center"}}>
-          {!isLoading ? 
-            <GoogleLogin onSuccess={handleLogin} onError={handleError} />:
+        <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+          {!isLoading ? (
+            <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+          ) : (
             <CircularProgress />
-          }
+          )}
         </DialogContent>
       </Dialog>
     </Box>
