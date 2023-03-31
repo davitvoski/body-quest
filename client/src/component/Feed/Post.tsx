@@ -175,10 +175,6 @@ export const Post = (props: PostProps) => {
             height="200vh"
           />
 
-          <CardContent>
-            <Typography align="left">{post.caption}</Typography>
-          </CardContent>
-
           <CardActions disableSpacing>
             <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
               {(post.likedUsers.some((someUser) => someUser.email === props.user?.email) && (
