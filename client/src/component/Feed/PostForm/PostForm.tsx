@@ -1,12 +1,26 @@
-import { Paper, Typography, Stack, FormControl, InputLabel, Select, SelectChangeEvent, MenuItem, TextField, Button, Box, IconButton } from "@mui/material";
+import {
+  Paper,
+  Typography,
+  Stack,
+  FormControl,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
+  TextField,
+  Button,
+  Box,
+  IconButton,
+} from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
-import { IPost, IUserPost } from "../../../../../shared";
+import { IPost } from "../../../../../shared";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import "../../../styles/Post.css";
+import { enqueueSnackbar } from "notistack";
 
 export const PostForm = () => {
   const { t } = useTranslation();
@@ -26,94 +40,74 @@ export const PostForm = () => {
       if (!evt?.target?.result) {
         return;
       }
-      setImage(evt.target.result.toString())
-    }
+      setImage(evt.target.result.toString());
+    };
   };
 
   const createPost = async (newPost: IPost) => {
     try {
-      await axios.post("/api/posts/createPost", newPost);
+      await axios.post("/api/posts/", newPost);
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Could not create post", {
+        autoHideDuration: 2000,
+        variant: "error",
+      });
     }
   };
 
   const getCurrentDate = () => {
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    var options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    };
     var today = new Date();
     const formattedDate = today.toLocaleDateString("en-US", options as Intl.DateTimeFormatOptions);
     return formattedDate;
-  }
-
-  const getUser = async () => {
-    const res = await fetch("/api/authentication/getUser");
-    const data = await res.json();
-    if (data.user !== undefined) {
-      const userName = data.user.username;
-      const email = data.user.email;
-      const picture = data.user.picture;
-      return { username: userName, email: email, picture: picture } as IUserPost;
-    }
-    return
   };
 
   const handleSubmit = async () => {
     const currentDate = getCurrentDate();
-    const user: IUserPost | undefined = await getUser();
-    if (user && image) {
+    if (image) {
       const newPost: IPost = {
-        user: user,
         imageUrl: image,
         caption: caption,
         date: currentDate,
-        likedUsers: []
-      }
+        likedUsers: [],
+      };
       await createPost(newPost);
       navigate("/Feed");
     }
   };
 
   /**
-   * close the post form 
+   * close the post form
    */
   const closePostForm = () => {
     navigate("/Feed");
-  }
+  };
   return (
     <div className="form-container">
       <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%", maxHeight: "90%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
-            {t('add_post')}
+            {t("add_post")}
           </Typography>
         </div>
         <form className="goal-form">
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            spacing={5}
-            width="100%"
-          >
-            <Stack
-              justifyContent="center"
-              alignItems="center"
-              spacing={8}
-              width="100%"
-            >
-              <FormControl
-                sx={{ m: 1 }}
-                fullWidth
-              >
+          <Stack justifyContent="center" alignItems="center" spacing={5} width="100%">
+            <Stack justifyContent="center" alignItems="center" spacing={8} width="100%">
+              <FormControl sx={{ m: 1 }} fullWidth>
                 <Button
                   component="label"
                   variant="outlined"
                   startIcon={<UploadFileIcon />}
                   sx={{ alignSelf: "center", marginBottom: "25px" }}
                 >
-                  {image
-                    ? <>{t('change_image')}</>
-                    : <>{t('upload_image')}</>
-                  }
+                  {image ? <>{t("change_image")}</> : <>{t("upload_image")}</>}
                   <input
                     type="file"
                     accept="image/gif, image/jpeg, image/jpg, image/png, image/svg"
@@ -121,25 +115,21 @@ export const PostForm = () => {
                     onChange={(e) => handleImageChange(e)}
                   />
                 </Button>
-                {image &&
+                {image && (
                   <Box>
-                    <img 
-                      width="30%" 
-                      height="30%"
-                      id="newUploadImage" 
-                      src={image} 
-                      alt="uploaded image" 
-                    />
+                    <img width="30%" height="30%" id="newUploadImage" src={image} alt="uploaded image" />
                   </Box>
-                }
+                )}
                 <TextField
                   sx={{ marginTop: "20px", width: "80%", alignSelf: "center" }}
                   id="outlined-multiline-static"
-                  label={t('caption')}
+                  label={t("caption")}
                   multiline
                   rows={4}
                   value={caption}
-                  onChange={(event) => { setCaption(event.target.value) }}
+                  onChange={(event) => {
+                    setCaption(event.target.value);
+                  }}
                 />
               </FormControl>
             </Stack>
@@ -151,18 +141,14 @@ export const PostForm = () => {
               onClick={handleSubmit}
               disabled={image === undefined}
             >
-              {t('create')}
+              {t("create")}
             </Button>
-            <IconButton
-              sx={{ color: "white" }}
-              title={t("close") as string}
-              onClick={closePostForm}
-            >
+            <IconButton sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}>
               <CloseIcon />
             </IconButton>
           </Box>
         </form>
       </Paper>
     </div>
-  )
-}
+  );
+};
