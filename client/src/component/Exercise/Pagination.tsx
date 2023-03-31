@@ -9,6 +9,7 @@ import { useMediaQuery } from "react-responsive";
 type PaginationProps = {
   exercises: IExercise[];
   isLoading: Boolean;
+  isLoggedIn: Boolean;
 };
 
 export default function PaginationForExercises(props: PaginationProps) {
@@ -40,7 +41,7 @@ export default function PaginationForExercises(props: PaginationProps) {
     <>
       <div className="exerciseList">
         {currentData().map((exercise, i) => (
-          <Exercise exercise={exercise} key={i} />
+          <Exercise exercise={exercise} key={i} isLoggedIn={props.isLoggedIn}/>
         ))}
       </div>
       {!props.isLoading && (

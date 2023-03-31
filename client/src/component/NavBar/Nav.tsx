@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -48,6 +49,7 @@ export default function NavBar(props: {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isFeed, setIsFeed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -63,6 +65,7 @@ export default function NavBar(props: {
   };
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
+    setIsLoading(true)
     const res = await fetch("/api/authentication/auth", {
       method: "POST",
       body: JSON.stringify({
@@ -74,6 +77,7 @@ export default function NavBar(props: {
     });
     const data = await res.json();
     setUsername(data.user.Username);
+    setIsLoading(false)
 
     handleClose();
     navigate("/Profile");
@@ -113,24 +117,31 @@ export default function NavBar(props: {
               alignItems="center"
               justifyContent="space-around"
             >
-              <Link to={"/"}>
+              <Link to={"/"} tabIndex={0}>
                 {props.Theme.palette.mode === "dark" ? (
                   <img
                     className="logo"
                     src="/logo-dark.svg"
                     alt="BodyQuest Logo"
                     title="Home"
+                    role="button"
                   />
                 ) : (
                   <img
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
+<<<<<<< HEAD
                     title={t("home") as string}
+=======
+                    title={t("home") as string }
+                    role="button"
+>>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                   />
                 )}
               </Link>
             </Box>
+<<<<<<< HEAD
             {isFeed && username !== "" && (
               <Box alignSelf="center">
                 <Button
@@ -144,6 +155,8 @@ export default function NavBar(props: {
                 </Button>
               </Box>
             )}
+=======
+>>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
           </Box>
           <Box
             display="flex"
@@ -153,10 +166,21 @@ export default function NavBar(props: {
             justifyContent="space-around"
           >
             <Link
+<<<<<<< HEAD
               style={{ textDecoration: "none", color: "white" }}
               to={"/Feed"}
             >
               <IconButton sx={{ color: "white" }} title={t("feed") as string}>
+=======
+              style={{ textDecoration: "none", color: "white"}}
+              to={'/Feed'}
+              tabIndex={0}
+              >
+                <IconButton
+                  sx={{ color: "white" }}
+                  title={t("feed") as string}
+                >
+>>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -174,10 +198,14 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
+<<<<<<< HEAD
                   <Link
                     to="/"
                     style={{ display: "inline-block", color: "white" }}
                   >
+=======
+                  <Link to="/" style={{display: "inline-block", color: "white"}} tabIndex={0}>
+>>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -188,10 +216,14 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
+<<<<<<< HEAD
                   <Link
                     to="/Profile"
                     style={{ display: "inline-block", color: "white" }}
                   >
+=======
+                  <Link to="/Profile" style={{display: "inline-block", color: "white"}} tabIndex={0}>
+>>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
                     <IconButton
                       color="inherit"
                       title={t("go_profile") as string}
@@ -211,9 +243,12 @@ export default function NavBar(props: {
         open={open}
         TransitionComponent={Transition}
       >
-        <DialogTitle color="black">{t("login_str")}</DialogTitle>
-        <DialogContent>
-          <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+        <DialogTitle>{t("login_str")}</DialogTitle>
+        <DialogContent sx={{display: "flex", justifyContent: "center"}}>
+          {!isLoading ? 
+            <GoogleLogin onSuccess={handleLogin} onError={handleError} />:
+            <CircularProgress />
+          }
         </DialogContent>
       </Dialog>
     </Box>

@@ -72,13 +72,7 @@ const UserProfile = () => {
     <div className="profile content">
       <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
         <Grid item xs={profileWidth}>
-          <ProfileView
-            username={username}
-            email={email}
-            experience={experience}
-            avatar={picture}
-            isOtherUser={true}
-          ></ProfileView>
+          <ProfileView></ProfileView>
         </Grid>
 
         <Grid item xs={contentWidth}>

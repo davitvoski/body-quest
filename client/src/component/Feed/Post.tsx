@@ -81,8 +81,11 @@ export const Post = (props: PostProps) => {
   return (
     <>
       {isDesktopOrLaptop && (
-        <Card sx={{ width: "500px", marginBottom: "20px" }} elevation={12}>
-          <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+        <Card
+          sx={{ width: "500px", margin: "auto auto 5% auto" }}
+          elevation={12}
+        >
+          <SnackbarProvider autoHideDuration={2000} />
 
           <CardHeader
             sx={{ textAlign: "left" }}
@@ -90,12 +93,6 @@ export const Post = (props: PostProps) => {
               <Avatar
                 src={post.user.picture}
                 alt={`${post.user.username}'s post`}
-                onClick={() => {
-                  navigate(`/users/${props.post.user.username}`, {
-                    state: { user: props.post.user },
-                  });
-                }}
-                sx={{ cursor: "pointer" }}
               />
             }
             title={post.user.username}
@@ -119,7 +116,9 @@ export const Post = (props: PostProps) => {
               )}
             </IconButton>
 
-            <Typography>{post.likedUsers.length} Likes</Typography>
+            <Typography>
+              {post.likedUsers.length} {t("likes")}
+            </Typography>
           </CardActions>
 
           <CardContent>
@@ -139,9 +138,10 @@ export const Post = (props: PostProps) => {
           )}
         </Card>
       )}
+
       {isTabletOrMobile && (
         <Card sx={{ width: "280px", marginBottom: "20px" }} elevation={12}>
-          <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
+          <SnackbarProvider autoHideDuration={2000} />
 
           <CardHeader
             sx={{ textAlign: "left" }}
@@ -149,12 +149,6 @@ export const Post = (props: PostProps) => {
               <Avatar
                 src={post.user.picture}
                 alt={`${post.user.username}'s post`}
-                onClick={() => {
-                  navigate(`/users/${props.post.user.username}`, {
-                    state: { user: props.post.user },
-                  });
-                }}
-                sx={{ cursor: "pointer" }}
               />
             }
             title={post.user.username}
@@ -178,7 +172,9 @@ export const Post = (props: PostProps) => {
               )}
             </IconButton>
 
-            <Typography>{post.likedUsers.length} Likes</Typography>
+            <Typography>
+              {post.likedUsers.length} {t("likes")}
+            </Typography>
           </CardActions>
 
           <CardContent>

@@ -59,14 +59,7 @@ export async function authenticateUser(req: Request, res: Response) {
         );
     }
 
-    let user: IUser = {
-      username: payLoad.name,
-      email: payLoad.email,
-      picture: payLoad.picture,
-      goals: [],
-      favourites: [""],
-      isAdmin: false,
-    };
+    let user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""], isAdmin:false, experience:0}
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 

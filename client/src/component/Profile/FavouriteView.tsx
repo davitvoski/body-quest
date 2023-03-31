@@ -3,14 +3,15 @@ import { IExercise } from "../../../../shared";
 import { useEffect, useState } from "react";
 import { Popup } from "../Exercise/Popup";
 import Item from "../modules/Item";
+import { t } from "i18next";
 
 /**
  * This component displays a users favourite exercises in a pannel
  */
 const FavouriteView = () => {
   const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentFav, setCurrentFav] = useState<IExercise>();
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentFav, setCurrentFav] = useState<IExercise>()
 
   // Display Users Favourites
   useEffect(() => {
@@ -32,7 +33,7 @@ const FavouriteView = () => {
       console.log(err);
     });
   }, []);
-
+  
   const handlePopup = (fav: IExercise) => {
     setCurrentFav(fav);
     setIsOpen(!isOpen);
@@ -43,30 +44,31 @@ const FavouriteView = () => {
   return (
     <div>
       {/* Real Data */}
-
-      {favouriteExercises.length > 0 ? (
-        favouriteExercises.map((fav) => (
+      
+      {favouriteExercises.length > 0 ? 
+        favouriteExercises.map(fav => 
           <div className="clickableDiv">
-            <Item
-              sx={{ m: "1% 0 1% 0", p: 2 }}
-              onClick={() => handlePopup(fav)}
-            >
+            <Item sx={{ m: "1% 0 1% 0", p:2}} onClick={() => handlePopup(fav)} tabIndex={0}>
               <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
                 {fav.name} {fav.body_part} {fav.target}
               </Typography>
             </Item>
           </div>
-        ))
-      ) : (
-        <Item sx={{ p: 2, textAlign: "center", opacity: "60%" }}>
-          No favourites.
-        </Item>
-      )}
-
-      {currentFav != undefined && (
-        <Popup handleClose={closePopup} exercise={currentFav!} open={isOpen} />
-      )}
+        ) :
+        <Item sx={{ p:2, textAlign: "center", opacity:"60%"}}>{t('no_favourites')}.</Item>
+      }
+      
+      {currentFav != undefined &&
+        <Popup
+          handleClose={closePopup}
+          exercise={currentFav!}
+          open={isOpen}
+          isLoggedIn={true}
+        />
+      }
+      
     </div>
+
   );
 };
 

@@ -27,6 +27,8 @@ const getDesignTokens = (mode: PaletteMode) => ({
       background: {
         default: '#FFFBFF',
         paper: '#EEE8E8',
+        banner: '#6D0305',
+        cards: '#FFFBFF'
       },
       logo: {
         light: '#616161',
@@ -35,16 +37,18 @@ const getDesignTokens = (mode: PaletteMode) => ({
       }
     } : {
       primary: {
-        main: '#FEB6BA',
-        contrastText: '#FFFBFF'
-      },
-      secondary: {
         main: '#DD3F40',
         contrastText: '#EEE8E8'
+      },
+      secondary: {
+        main: '#FEB6BA',
+        contrastText: '#FFFBFF'
       },
       background: {
         default: '#1D181E',
         paper: '#251F29',
+        banner: '#38333c',
+        cards: '#251F29'
       },
       logo: {
         light: '#ffffff',
