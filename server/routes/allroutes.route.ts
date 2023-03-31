@@ -4,6 +4,7 @@ import goalRouter from "./goal.router";
 import authRouter from "./auth.routes";
 import postRouter from "./post.router";
 import userRouter from "./user.router";
+
 const allRouters = express.Router()
 
 allRouters.use("/authentication", authRouter)

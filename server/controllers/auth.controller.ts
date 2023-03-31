@@ -16,7 +16,6 @@ const db = new Database();
  */
 export function getUser(req: Request, res: Response) {
   try {
-    // console.log(req.session.user)
     if (req.session) return res.json({ user: req.session.user });
     res.json("No user in session");
   } catch (e) {
@@ -32,7 +31,6 @@ export function getUser(req: Request, res: Response) {
  */
 export async function getSpecificUser(req: Request, res: Response) {
   try {
-    console.log(req.body);
     const { email } = req.body;
     const user = await db.getUser(email);
     res.status(200).json({ user: user });
@@ -128,14 +126,4 @@ export function logout(req: Request, res: Response) {
     res.clearCookie("id");
     res.sendStatus(200);
   });
-}
-
-/**
- * Router controller
- * This function is a test function to see if the user is protected,
- * will be used for administration and guests
- * @param res Express Response
- */
-export function protectedTest(res: Response) {
-  res.sendStatus(200);
 }
