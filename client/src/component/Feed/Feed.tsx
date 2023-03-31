@@ -7,6 +7,7 @@ import { Post } from "./Post";
 import AddIcon from "@mui/icons-material/Add";
 import { enqueueSnackbar } from "notistack";
 import { useMediaQuery } from "react-responsive";
+import dayjs from "dayjs";
 
 export const Feed = () => {
   const { t } = useTranslation();
@@ -28,7 +29,24 @@ export const Feed = () => {
       return;
     }
     setIsLoading(false);
-    setPosts(data);
+
+    const sortedPosts = data.sort((a, b) => {
+      const aLatestPostDate = dayjs(
+        a.posts.reduce((latestDate, post) => {
+          const postDate = dayjs(post.date);
+          return postDate.isAfter(latestDate) ? post.date : latestDate;
+        }, "1970-01-01")
+      );
+      const bLatestPostDate = dayjs(
+        b.posts.reduce((latestDate, post) => {
+          const postDate = dayjs(post.date);
+          return postDate.isAfter(latestDate) ? post.date : latestDate;
+        }, "1970-01-01")
+      );
+      return bLatestPostDate.diff(aLatestPostDate); // Sort in descending order based on date
+    });
+    
+    setPosts(sortedPosts);
   };
 
   const getUser = async () => {
