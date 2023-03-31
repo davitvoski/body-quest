@@ -19,7 +19,7 @@ import React from "react";
 import { useLocation } from "react-router";
 import ResponsiveDataPicker from "./ResponsiveDataPicker";
 import "../../styles/GoalForm.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { IGoal } from "../../../../shared";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useNavigate } from "react-router";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import "../../styles/Post.css";
 /**
  *
@@ -39,7 +39,7 @@ import "../../styles/Post.css";
 export const GoalForm = () => {
   const { t } = useTranslation();
   let { state } = useLocation();
-  const [goalType, setGoalType] = useState(state.type as string);
+  const [goalType, setGoalType] = useState(state?.type as string);
   const [goalValue, setGoalValue] = useState(0);
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
@@ -51,9 +51,14 @@ export const GoalForm = () => {
   dayjs.extend(customParseFormat);
   let navigate = useNavigate();
 
-  const handleGoalValueChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  useEffect(() => {
+    console.log(state);
+    if (state?.type === undefined) {
+      navigate("/unauthorized");
+    }
+  }, []);
+
+  const handleGoalValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.valueAsNumber;
     setGoalValue(value);
     if (value) {
@@ -85,11 +90,11 @@ export const GoalForm = () => {
   function handleEndDateInput(newValue: any) {
     if (newValue !== null) {
       if (!Number.isNaN(newValue.$y)) {
-        let currentEndDate = formatDate(
-          `${newValue.$D}-${newValue.$M + 1}-${newValue.$y}`
-        );
+        let currentEndDate = formatDate(`${newValue.$D}-${newValue.$M + 1}-${newValue.$y}`);
 
-        if (currentEndDate > startDate) {
+        const areDateCorrect = dayjs(startDate, "DD-MM-YYYY").isBefore(dayjs(currentEndDate, "DD-MM-YYYY"));
+
+        if (areDateCorrect) {
           setIsEndDateValid(true);
           setEndDateAfterStartDate(true);
           setEndDate(currentEndDate);
@@ -115,7 +120,7 @@ export const GoalForm = () => {
       enqueueSnackbar("Failed to create goal", {
         autoHideDuration: 2000,
         preventDuplicate: true,
-        variant: 'error'
+        variant: "error",
       });
       console.log(error);
     }
@@ -125,7 +130,7 @@ export const GoalForm = () => {
     // TODO: find better way to track ID
     const newGoal: IGoal = {
       id: Date.now(),
-      exercise: state.exerciseName,
+      exercise: state?.exerciseName,
       type: goalType,
       goal: goalValue,
       startDate: startDate,
@@ -135,18 +140,18 @@ export const GoalForm = () => {
     await createGoal(newGoal);
   };
   /**
-     * close the add goal form 
-     */
+   * close the add goal form
+   */
   const closeGoalForm = () => {
     navigate("/");
-  }
+  };
   return (
     <div className="form-container">
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
       <Paper elevation={3} sx={{ maxWidth: "50%" }}>
         <div className="header" id="addPost">
-          <Typography variant="h4" component="h4" sx={{textTransform: "uppercase"}}>
-            {t("goal_creation")}: {state.exerciseName}
+          <Typography variant="h4" component="h4" sx={{ textTransform: "uppercase" }}>
+            {t("goal_creation")}: {state?.exerciseName}
           </Typography>
           {/* colse goal form when click X icon */}
           <IconButton
@@ -160,16 +165,9 @@ export const GoalForm = () => {
         </div>
         <form className="goal-form">
           <Stack justifyContent="center" alignItems="center" spacing={5}>
-            <Stack
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              spacing={8}
-            >
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={8}>
               <FormControl sx={{ m: 1, minWidth: 80 }}>
-                <InputLabel htmlFor="goal-type-label">
-                  {t("goal_input_type")}
-                </InputLabel>
+                <InputLabel htmlFor="goal-type-label">{t("goal_input_type")}</InputLabel>
                 <Select
                   autoWidth
                   labelId="goal-type-label"

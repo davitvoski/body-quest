@@ -179,7 +179,7 @@ export const Popup = (props: PopupProps) => {
                 to={{
                   pathname: "/Goalcreation",
                 }}
-                state={{ exerciseName: exercise.name }}
+                state={{ exerciseName: exercise.name, type: exercise.target }}
               >
                 {t("create_goal")}
               </Link>
