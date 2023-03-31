@@ -106,7 +106,7 @@ authRouter.get("/logout", isAuthenticated, logout);
 /**
  * This function will delete the user from the session
  * @swagger
- * /api/authentication/:
+ * /api/authentication/getUser:
  *  delete:
  *      summary: delete user
  *      description: deletes the user

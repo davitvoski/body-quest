@@ -129,8 +129,10 @@ export function logout(req: Request, res: Response) {
 }
 
 /**
+ * Route controller
  * This function delete a user profile 
  * @param req Express Request
+ * @param res Express Response
  */
 export async function deleteUser(req: Request, res: Response) {
   try {
