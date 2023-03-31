@@ -43,7 +43,6 @@ export async function createPost(req: Request, res: Response) {
 
         res.json(200);
     } catch (err) {
-        console.log(err);
         res.status(400).json({ message: "Error adding a post, missing a field" })
     }
 }
@@ -76,7 +75,6 @@ export async function toggleLikedPost(req: Request, res: Response) {
 
         res.status(200).json({ post: updatedPost });
     } catch (error) {
-        console.log(error);
         res.status(400).json({ message: "Error liking a post" })
     }
 }
@@ -95,13 +93,10 @@ async function addImageToAzure(file: string, caption: string) {
     const blobClient = containerClient.getBlockBlobClient(`${caption + today + ".png"}`);
     const options = { blobHTTPHeaders: { blobContentType: mimetype } };
 
-    console.log("FAIL HERE 1")
     const base64Image = file.split(';base64,').pop() as string;
     const buf = Buffer.from(base64Image, 'base64');
-    console.log("FAIL HERE 1")
 
     await blobClient.uploadData(buf, options);
-    console.log("FAIL HERE 1")
     let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${caption + today + ".png"}`
     return imageUrl;
 }
@@ -110,10 +105,22 @@ async function addImageToAzure(file: string, caption: string) {
  * This function delete a post 
  * @param req Express Request
  */
-export async function deletePost(req: Request) {
+export async function deletePost(req: Request, res: Response) {
     try {
-        await new Database().removePost(req.body.post);
+        const postOwnerEmail = req.body.postOwnerEmail
+        if (!postOwnerEmail) throw new Error("No post owner email provided")
+        await new Database().removePost(req.body.post, postOwnerEmail);
+        
+        try{
+
+        }catch(err){
+            return
+        }
+        res.status(200).send("Post deleted")
     } catch (err) {
-        console.log(err);
+        if (err instanceof Error) {
+            return res.status(400).json(err.message);
+        }
+        res.status(500).send("Could Delete Post");
     }
 }

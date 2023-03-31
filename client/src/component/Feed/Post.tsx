@@ -129,7 +129,7 @@ export const Post = (props: PostProps) => {
           <Button
             fullWidth
             onClick={() => {
-              props.removePost(post);
+              props.removePost(post, props.postOwnerEmail);
             }}
             variant="contained"
           >

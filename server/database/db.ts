@@ -237,12 +237,13 @@ export default class Database {
   * This function delete a post to the db
   * @param post post object of the user
   */
-  async removePost(post: IPost) {
+  async removePost(post: IPost, email: string) {
     try {
-      const collection = db.collection(this.postsCollection);
+      const collection = db.collection(this.usersCollection);
 
-      await collection.deleteOne(post);
-
+      await collection.updateOne({ email: email },
+        { $pull: { posts: post } })
+      console.log("Delete successful")
     } catch (err) {
       throw new Error("Error deleting a post in the db")
     }

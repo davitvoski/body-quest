@@ -29,10 +29,6 @@ type PopupProps = {
   isLoggedIn: Boolean;
 };
 
-interface State extends SnackbarOrigin {
-  openSnack: boolean;
-}
-
 /**
  * This function ensures that the exercise name is HTTP safe
  * Meaning that when passed through the URL, it is not interpreted as a path
@@ -107,7 +103,6 @@ export const Popup = (props: PopupProps) => {
 
     // Handle unathorized
     if (resp.status === 401) {
-      console.log("error");
       enqueueSnackbar(`${t("addTofavoris") as string}`, {
         variant: "error",
       });

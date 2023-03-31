@@ -53,29 +53,30 @@ export const Feed = () => {
   /**
    * if is admin, then user can delete post
    */
-  const removePost = (post: IPost) => {
-    let allPosts: IFeedPosts[] = posts.filter((currentPost) => currentPost.picture !== post.imageUrl);
+  async function removePost(currentPost: IPost, postOwnerEmail: string) {
     let response = confirm(`${t("confrimDeletePost") as string}`);
     if (response) {
-      deletPost(post);
-      setPosts(allPosts);
+      await deletePost(currentPost, postOwnerEmail);
     }
-  };
+  }
 
-  const deletPost = async (post: IPost) => {
+  async function deletePost(post: IPost, postOwnerEmail: string) {
     try {
       await axios.delete("/api/posts", {
         data: {
           post: post,
+          postOwnerEmail: postOwnerEmail,
         },
       });
+
+      setPosts((await (await fetch("/api/posts/")).json()) as IFeedPosts[]);
     } catch (error) {
-      enqueueSnackbar("Could not delete", {
+      enqueueSnackbar("Could not delete post", {
         autoHideDuration: 2000,
         variant: "error",
       });
     }
-  };
+  }
 
   return (
     <div className="content profile">
