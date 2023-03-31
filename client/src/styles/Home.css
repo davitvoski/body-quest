@@ -74,17 +74,16 @@ body,
   overflow: visible;
 }
 
-<<<<<<< HEAD
 .light #workout-otd {
   color: var(--secondary);
 }
 .dark #workout-otd {
   color: var(--primary);
-=======
+}
+
 .dark .inner {
-    border-right: 300px solid #251F29;
-    border-bottom: 500px solid #251F29;
->>>>>>> 1ef4d621ba813b3257fb9e59dbc760a406106a4e
+  border-right: 300px solid #251f29;
+  border-bottom: 500px solid #251f29;
 }
 
 #fitness {
