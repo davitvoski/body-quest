@@ -93,6 +93,13 @@ export const Post = (props: PostProps) => {
               <Avatar
                 src={post.user.picture}
                 alt={`${post.user.username}'s post`}
+                onClick={() => {
+                  console.log(props.post.user);
+                  navigate(`/users/${props.post.user.username}`, {
+                    state: { user: props.post.user },
+                  });
+                }}
+                sx={{ cursor: "pointer" }}
               />
             }
             title={post.user.username}
@@ -149,6 +156,13 @@ export const Post = (props: PostProps) => {
               <Avatar
                 src={post.user.picture}
                 alt={`${post.user.username}'s post`}
+                onClick={() => {
+                  console.log(props.post.user);
+                  navigate(`/users/${props.post.user.username}`, {
+                    state: { user: props.post.user },
+                  });
+                }}
+                sx={{ cursor: "pointer" }}
               />
             }
             title={post.user.username}

@@ -32,8 +32,6 @@ export default function PaginationForExercises(props: PaginationProps) {
     const begin = (currentPage - 1) * perPage;
     let end = begin + perPage;
     if (isTabletOrMobile) end = 5;
-    console.log(end);
-    console.log(props.exercises.slice(begin, end));
     return props.exercises.slice(begin, end);
   }
 
@@ -41,7 +39,7 @@ export default function PaginationForExercises(props: PaginationProps) {
     <>
       <div className="exerciseList">
         {currentData().map((exercise, i) => (
-          <Exercise exercise={exercise} key={i} isLoggedIn={props.isLoggedIn}/>
+          <Exercise exercise={exercise} key={i} isLoggedIn={props.isLoggedIn} />
         ))}
       </div>
       {!props.isLoading && (

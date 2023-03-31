@@ -166,11 +166,7 @@ const Profile = () => {
       )}
       {isTabletOrMobile && (
         <div className="profile content">
-          <Grid
-            container
-            spacing={5}
-            direction="column"
-          >
+          <Grid container spacing={5} direction="column">
             <Grid item xs={profileWidth}>
               {/* <ProfileView username={username} email={email} experience={experience} avatar={picture} /> */}
               <ProfileView />
