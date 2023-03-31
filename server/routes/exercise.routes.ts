@@ -103,7 +103,7 @@ exerciseRouter.get("/favourites", isAuthenticated, getAllFavouriteExercises);
  *     description: Server failed
  *          
  */
-exerciseRouter.post("/favourites", getSpecificUserFavouriteExercises);
+exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST);
 
 /**
  * This function gets all goals from the database of a user.
