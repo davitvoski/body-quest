@@ -29,7 +29,7 @@ export async function addProfilePictureToAzure(file: string, username: string, o
         const secondhalf = file.split(":")[1];
         const mimetype = secondhalf.split(";")[0];
 
-        const fileName = `${username}profile.png`.toLocaleLowerCase()
+        const fileName = `${username}${Date.now()}profile.png`.toLocaleLowerCase()
 
         const blobClient = containerClient.getBlockBlobClient(fileName);
         const options = { blobHTTPHeaders: { blobContentType: mimetype } };

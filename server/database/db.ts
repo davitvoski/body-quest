@@ -62,9 +62,9 @@ export default class Database {
 
 
   /**
-     * This function delete a user to the database
-     * @param user The user to delete to the database
-     */
+   * This function delete a user to the database
+   * @param user The user to delete to the database
+   */
   public async deleteUser(user: IUser) {
     try {
       const collection = db.collection(this.usersCollection);
@@ -73,7 +73,6 @@ export default class Database {
       throw new Error("Error deleting user in the db")
     }
   }
-
 
   /**
    * This function gets all exercises from the database

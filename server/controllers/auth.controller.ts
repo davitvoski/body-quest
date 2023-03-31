@@ -132,12 +132,16 @@ export function logout(req: Request, res: Response) {
  * This function delete a user profile 
  * @param req Express Request
  */
-export async function deleteUser(req: Request) {
+export async function deleteUser(req: Request, res: Response) {
   try {
     const user = req.body.user as IUser
+    if (!user) throw new Error("No user in request body")
     await db.deleteUser(user);
-    console.log("delete user to the db");
+    res.status(200).send("User deleted");
   } catch (err) {
-    console.log(err);
+    if (err instanceof Error) {
+      return res.status(400).json(err.message);
+    }
+    res.status(500).send("Could not delete user");
   }
 }

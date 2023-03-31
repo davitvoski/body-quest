@@ -129,15 +129,3 @@ export async function deletePost(req: Request, res: Response) {
         res.status(500).send("Could Delete Post");
     }
 }
-
-/**
- * This function delete a post 
- * @param req Express Request
- */
-export async function deleteAllPostByUser(req: Request) {
-    try {
-        await new Database().removeAllPosts(req.body.user);
-    } catch (err) {
-        console.log(err); 
-    }
-}
