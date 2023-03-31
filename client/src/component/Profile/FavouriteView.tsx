@@ -3,6 +3,7 @@ import { IExercise } from "../../../../shared";
 import { useEffect, useState } from "react";
 import { Popup } from "../Exercise/Popup";
 import Item from "../modules/Item";
+import { t } from "i18next";
 
 /**
  * This component displays a users favourite exercises in a pannel
@@ -50,6 +51,7 @@ const FavouriteView = () => {
             <Item
               sx={{ m: "1% 0 1% 0", p: 2 }}
               onClick={() => handlePopup(fav)}
+              tabIndex={0}
             >
               <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
                 {fav.name} {fav.body_part} {fav.target}
@@ -59,12 +61,17 @@ const FavouriteView = () => {
         ))
       ) : (
         <Item sx={{ p: 2, textAlign: "center", opacity: "60%" }}>
-          No favourites.
+          {t("no_favourites")}.
         </Item>
       )}
 
       {currentFav != undefined && (
-        <Popup handleClose={closePopup} exercise={currentFav!} open={isOpen} />
+        <Popup
+          handleClose={closePopup}
+          exercise={currentFav!}
+          open={isOpen}
+          isLoggedIn={true}
+        />
       )}
     </div>
   );

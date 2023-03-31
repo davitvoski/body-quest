@@ -7,15 +7,19 @@ import GoalView from "./GoalView";
 import FavouriteView from "./FavouriteView";
 import { useTranslation } from "react-i18next";
 import { GoalCompleted } from "./GoalCompleted";
+import { IUser } from "../../../../shared";
+import axios from "axios";
 import ExperienceBar from "./ExperienceBar";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router";
+
 
 function a11yProps(index: number) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
+    return {
+        id: `full-width-tab-${index}`,
+        "aria-controls": `full-width-tabpanel-${index}`,
+    };
 }
 
 /**
@@ -23,60 +27,71 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
-  const theme = useTheme();
-  const { t } = useTranslation();
-  const [username, setUsername] = useState("username here");
-  const [email, setEmail] = useState("email here");
-  const [picture, setPicture] = useState("");
-  const [experience, setExperience] = useState(30);
-  const [experienceGain, setExperienceGain] = useState(0);
-  const [value, setValue] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+    const { t } = useTranslation();
+    const theme = useTheme();
+    const [username, setUsername] = useState("username here")
+    const [email, setEmail] = useState("email here")
+    const [picture, setPicture] = useState("")
+    const [experience, setExperience] = useState(30)
+    const [experienceGain, setExperienceGain] = useState(0)
+    const [value, setValue] = useState(0);
+    const [isOpen, setIsOpen] = useState(false)
 
-  const [profileWidth, setProfileWidth] = useState(3);
-  const [contentWidth, setContentWidth] = useState(9);
+    const [profileWidth, setProfileWidth] = useState(3);
+    const [contentWidth, setContentWidth] = useState(9);
 
-  const currentLevel = getLevelFromXP(experience);
+    const currentLevel = getLevelFromXP(experience);
 
-  const getUser = async () => {
-    const res = await fetch("/api/authentication/getUser");
-    const data = await res.json();
-    if (data.user !== undefined) {
-      setUsername(data.user.username);
-      setEmail(data.user.email);
-      setExperience(0);
-      setPicture(data.user.picture);
+    const getUser = async () => {
+        const res = await fetch("/api/authentication/getUser");
+        const data = await res.json();
+        if (data.user !== undefined) {
+            setUsername(data.user.username);
+            setEmail(data.user.email)
+            setExperience(data.user.experience)
+            setPicture(data.user.picture)
+        }
     }
-  };
 
-  useEffect(() => {
-    getUser();
 
-    window.addEventListener("resize", handleResize);
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        getUser();
 
-    function handleResize() {
-      setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
-      setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
-      setExperience(experience);
+        function handleResize() {
+            setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
+            setContentWidth(window.innerWidth > 750 ? 8.5 : 12);
+            setExperience(experience)
+        }
+
+    }, []);
+
+    const completeGoal = async (goal: number, type: string) => {
+        let xp = 1; // base 1 increase
+        xp += Math.floor(goal / 5); // one XP per 5 amount of goal
+
+        setExperience(experience + xp);
+        setExperienceGain(xp);
+        handlePopup();
+
+        let resp;
+        resp = await fetch("/api/users/experience", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ experience: experience + xp }),
+        });
+        console.log(resp)
     }
-  }, []);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
 
-  const completeGoal = (goal: number, type: string) => {
-    let xp = 1; // base 1 increase
-    xp += Math.floor(goal / 5); // one XP per 5 amount of goal
-
-    setExperience(experience + xp);
-    setExperienceGain(xp);
-    handlePopup();
-  };
-
-  const handlePopup = () => {
-    setIsOpen(!isOpen);
-  };
+    const handlePopup = () => {
+        setIsOpen(!isOpen);
+    };
 
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
@@ -88,12 +103,7 @@ const Profile = () => {
       {isDesktopOrLaptop && (
         <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
           <Grid item xs={profileWidth}>
-            <ProfileView
-              username={username}
-              email={email}
-              experience={experience}
-              avatar={picture}
-            ></ProfileView>
+            <ProfileView/>
           </Grid>
 
           <Grid item xs={contentWidth}>
@@ -148,12 +158,7 @@ const Profile = () => {
       )}
       {isTabletOrMobile && (
         <Stack spacing={2}>
-          <ProfileView
-            username={username}
-            email={email}
-            experience={experience}
-            avatar={picture}
-          ></ProfileView>
+          <ProfileView/>
 
           <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
             <ExperienceBar

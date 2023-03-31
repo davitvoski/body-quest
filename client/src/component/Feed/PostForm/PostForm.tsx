@@ -10,14 +10,19 @@ import {
   TextField,
   Button,
   Box,
+  IconButton,
 } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
 import { IPost, IUserPost } from "../../../../../shared";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import CloseIcon from "@mui/icons-material/Close";
+import "../../../styles/Post.css";
 
 export const PostForm = () => {
+  const { t } = useTranslation();
   const [image, setImage] = useState<string>();
   const [caption, setCaption] = useState("");
   let navigate = useNavigate();
@@ -88,19 +93,28 @@ export const PostForm = () => {
         imageUrl: image,
         caption: caption,
         date: currentDate,
-        likedUsers: []
-      }
+        likedUsers: [],
+      };
       await createPost(newPost);
       navigate("/Feed");
     }
   };
 
+  /**
+   * close the post form
+   */
+  const closePostForm = () => {
+    navigate("/Feed");
+  };
   return (
     <div className="form-container">
-      <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%" }}>
+      <Paper
+        elevation={3}
+        sx={{ width: "50%", maxWidth: "50%", maxHeight: "90%" }}
+      >
         <div className="header">
           <Typography variant="h4" component="h4">
-            Add a Post
+            {t("add_post")}
           </Typography>
         </div>
         <form className="goal-form">
@@ -123,7 +137,7 @@ export const PostForm = () => {
                   startIcon={<UploadFileIcon />}
                   sx={{ alignSelf: "center", marginBottom: "25px" }}
                 >
-                  {image ? <>Change Image</> : <>Upload Post Image</>}
+                  {image ? <>{t("change_image")}</> : <>{t("upload_image")}</>}
                   <input
                     type="file"
                     accept="image/gif, image/jpeg, image/jpg, image/png, image/svg"
@@ -134,28 +148,18 @@ export const PostForm = () => {
                 {image && (
                   <Box>
                     <img
-                      width="400px"
+                      width="30%"
+                      height="30%"
                       id="newUploadImage"
                       src={image}
                       alt="uploaded image"
                     />
                   </Box>
                 )}
-                {/*image &&
-                  <Button
-                    component="label"
-                    variant="outlined"
-                    startIcon={<DeleteIcon />}
-                    color="error"
-                    sx={{alignSelf:"center"}}
-                    onClick={() => setImage("")}
-                  >
-                    Remove Image
-                  </Button>  */}
                 <TextField
                   sx={{ marginTop: "20px", width: "80%", alignSelf: "center" }}
                   id="outlined-multiline-static"
-                  label="Caption"
+                  label={t("caption")}
                   multiline
                   rows={4}
                   value={caption}
@@ -166,14 +170,23 @@ export const PostForm = () => {
               </FormControl>
             </Stack>
           </Stack>
-          <Button
-            variant="contained"
-            sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
-            onClick={handleSubmit}
-            disabled={image === undefined}
-          >
-            Create
-          </Button>
+          <Box>
+            <Button
+              variant="contained"
+              sx={{ margin: "10px", backgroundColor: "black", color: "white" }}
+              onClick={handleSubmit}
+              disabled={image === undefined}
+            >
+              {t("create")}
+            </Button>
+            <Button
+              sx={{ color: "white" }}
+              title={t("close") as string}
+              onClick={closePostForm}
+            >
+              {t('cancel')}
+            </Button>
+          </Box>
         </form>
       </Paper>
     </div>

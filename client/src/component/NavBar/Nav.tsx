@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -48,6 +49,7 @@ export default function NavBar(props: {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isFeed, setIsFeed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -63,6 +65,7 @@ export default function NavBar(props: {
   };
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
+    setIsLoading(true);
     const res = await fetch("/api/authentication/auth", {
       method: "POST",
       body: JSON.stringify({
@@ -74,6 +77,7 @@ export default function NavBar(props: {
     });
     const data = await res.json();
     setUsername(data.user.Username);
+    setIsLoading(false);
 
     handleClose();
     navigate("/Profile");
@@ -113,13 +117,14 @@ export default function NavBar(props: {
               alignItems="center"
               justifyContent="space-around"
             >
-              <Link to={"/"}>
+              <Link to={"/"} tabIndex={0}>
                 {props.Theme.palette.mode === "dark" ? (
                   <img
                     className="logo"
                     src="/logo-dark.svg"
                     alt="BodyQuest Logo"
                     title="Home"
+                    role="button"
                   />
                 ) : (
                   <img
@@ -127,23 +132,11 @@ export default function NavBar(props: {
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
                     title={t("home") as string}
+                    role="button"
                   />
                 )}
               </Link>
             </Box>
-            {isFeed && username !== "" && (
-              <Box alignSelf="center">
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  size="small"
-                  //sx={{marginLeft: "3vw"}}
-                  href="#/Postcreation"
-                >
-                  Add Post
-                </Button>
-              </Box>
-            )}
           </Box>
           <Box
             display="flex"
@@ -154,9 +147,13 @@ export default function NavBar(props: {
           >
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={"/Feed"}
+              to={'/Feed'}
             >
-              <IconButton sx={{ color: "white" }} title={t("feed") as string}>
+              <IconButton
+                sx={{ color: "white" }}
+                title={t("feed") as string}
+                tabIndex={0}
+              >
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -174,10 +171,7 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link
-                    to="/"
-                    style={{ display: "inline-block", color: "white" }}
-                  >
+                  <Link to="/" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -188,10 +182,7 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link
-                    to="/Profile"
-                    style={{ display: "inline-block", color: "white" }}
-                  >
+                  <Link to="/Profile" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
                     <IconButton
                       color="inherit"
                       title={t("go_profile") as string}
@@ -200,22 +191,27 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
                 </>
-              )}
+              )
+              }
             </>
-          </Box>
-        </Toolbar>
-      </AppBar>
+          </Box >
+        </Toolbar >
+      </AppBar >
 
       <Dialog
         onClose={handleClose}
         open={open}
         TransitionComponent={Transition}
       >
-        <DialogTitle color="black">{t("login_str")}</DialogTitle>
-        <DialogContent>
-          <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+        <DialogTitle>{t("login_str")}</DialogTitle>
+        <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+          {!isLoading ? (
+            <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+          ) : (
+            <CircularProgress />
+          )}
         </DialogContent>
       </Dialog>
-    </Box>
+    </Box >
   );
 }

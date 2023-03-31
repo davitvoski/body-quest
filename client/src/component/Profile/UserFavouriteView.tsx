@@ -74,7 +74,12 @@ const UserFavouriteView = (props: favProps) => {
       )}
 
       {currentFav != undefined && (
-        <Popup handleClose={closePopup} exercise={currentFav!} open={isOpen} />
+        <Popup
+          handleClose={closePopup}
+          exercise={currentFav!}
+          open={isOpen}
+          isLoggedIn={false}
+        />
       )}
     </div>
   );

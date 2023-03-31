@@ -6,6 +6,7 @@ import {
   logout,
   protectedTest,
   getSpecificUser,
+  deleteUser
 } from "../controllers/auth.controller";
 const authRouter = express.Router();
 
@@ -146,4 +147,23 @@ authRouter.get("/logout", isAuthenticated, logout);
  */
 authRouter.get("/protected", isAuthenticated, protectedTest);
 
+/**
+ * This function will delete the user from the session
+ * @swagger
+ * /api/authentication/:
+ *  delete:
+ *      summary: delete user
+ *      description: deletes the user
+ *      tags:
+ *          - authentication
+ *      parameters:
+ *          - in: query
+ *            name: limit
+ *            schema:
+ *              type: string
+ *            description: delete user
+ */
+authRouter.delete("/getUser", isAuthenticated, deleteUser)
+
 export default authRouter;
+

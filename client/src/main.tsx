@@ -2,12 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import {
-  BrowserRouter,
-  createBrowserRouter,
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { BrowserRouter, createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Home from "./component/Home/Home";
 import ProfileView from "./component/Profile/ProfileView";
@@ -16,6 +11,7 @@ import { GoalForm } from "./component/Goal/GoalForm";
 import { Feed } from "./component/Feed/Feed";
 import { PostForm } from "./component/Feed/PostForm/PostForm";
 import UserProfile from "./component/Profile/UserProfile";
+import NotFound from "./component/NotFound";
 
 const router = createHashRouter([
   {
@@ -46,17 +42,19 @@ const router = createHashRouter([
         path: "/Postcreation",
         element: <PostForm />,
       },
+      {
+        path: "/*",
+        element: <NotFound />,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <RouterProvider router={router} />
-      {/* <BrowserRouter>
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <RouterProvider router={router} />
+    {/* <BrowserRouter>
         <App />
       </BrowserRouter> */}
-    </GoogleOAuthProvider>
-  </React.StrictMode>
+  </GoogleOAuthProvider>
 );

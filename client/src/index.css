@@ -19,6 +19,10 @@
   --secondary: #6d0305;
 }
 
+.main {
+  min-height: calc(100vh - 10rem - 90px);
+}
+
 .light :root {
   color: #212121;
   --background-default: #fffbff;

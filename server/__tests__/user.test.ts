@@ -20,7 +20,12 @@ let user: IUser = {
     picture: "link",
     goals: [],
     favourites: [""],
+<<<<<<< HEAD
     isAdmin: false
+=======
+    isAdmin: false,
+    experience: 0
+>>>>>>> e438536861a02a36d36f88d48ff5989faaac1e1b
 }
 const mockSession = {
     user: user,
