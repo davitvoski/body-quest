@@ -36,7 +36,6 @@ const userRouter = express.Router()
 */
 userRouter.patch("/", isAuthenticated, updateUserInformationPATCH)
 
-// Generate swagger comment
 /**
  * This function updates the goal completed to true.
  * @swagger

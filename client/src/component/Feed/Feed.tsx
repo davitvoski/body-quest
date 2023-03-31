@@ -43,7 +43,7 @@ export const Feed = () => {
     });
 
     getUser().catch((err) => {
-      enqueueSnackbar("Failed to het your information", {
+      enqueueSnackbar("Failed to get your information", {
         autoHideDuration: 2000,
         variant: "error",
       });
@@ -59,7 +59,10 @@ export const Feed = () => {
       await deletePost(currentPost, postOwnerEmail);
     }
   }
-
+  /**
+   * delete post, send request to server
+   * @param post IPost
+   */
   async function deletePost(post: IPost, postOwnerEmail: string) {
     try {
       await axios.delete("/api/posts", {
@@ -84,12 +87,11 @@ export const Feed = () => {
         <Box alignSelf="center" position={"fixed"} bottom={20} right={20} width={"20%"}>
           <Button variant="contained" href="#/Postcreation" fullWidth color="primary">
             <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>
-              + Add Post
+              + {t("add_post")}
             </Typography>
           </Button>
         </Box>
       )}
-
       <Box display="flex" flexDirection="column" alignItems="center">
         {isLoading && <LinearProgress sx={{ width: "60%" }} />}
         {posts.length === 0 && isLoading === false && "No posts yet"}

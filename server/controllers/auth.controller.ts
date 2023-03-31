@@ -127,3 +127,17 @@ export function logout(req: Request, res: Response) {
     res.sendStatus(200);
   });
 }
+
+/**
+ * This function delete a user profile 
+ * @param req Express Request
+ */
+export async function deleteUser(req: Request) {
+  try {
+    const user = req.body.user as IUser
+    await db.deleteUser(user);
+    console.log("delete user to the db");
+  } catch (err) {
+    console.log(err);
+  }
+}

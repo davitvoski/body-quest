@@ -60,6 +60,21 @@ export default class Database {
     await db.collection("users").insertOne(user);
   }
 
+
+  /**
+     * This function delete a user to the database
+     * @param user The user to delete to the database
+     */
+  public async deleteUser(user: IUser) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      await collection.deleteOne({ email: user.email });
+    } catch (err) {
+      throw new Error("Error deleting user in the db")
+    }
+  }
+
+
   /**
    * This function gets all exercises from the database
    * @param limit The number of exercises to return
@@ -255,6 +270,7 @@ export default class Database {
    * @returns {IPost} Updated post
    */
   async toggleLikedPost(post: IPost, users: IPostLikedUser[], ownerEmail: string) {
+
     try {
       const collection = db.collection(this.usersCollection);
 

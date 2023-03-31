@@ -146,6 +146,9 @@ export const PostForm = () => {
             <IconButton sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}>
               <CloseIcon />
             </IconButton>
+            <Button sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}>
+              {t("cancel")}
+            </Button>
           </Box>
         </form>
       </Paper>

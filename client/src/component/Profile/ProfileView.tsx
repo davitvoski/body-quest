@@ -12,7 +12,9 @@ import { useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import { IUser } from "../../../../shared";
+import { IUser, IUserPost } from "../../../../shared";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
@@ -28,7 +30,9 @@ const ProfileView = () => {
   const [isLoading, setIsLoading] = useState(false);
   let originalAvatar = useRef<string>();
   let originialUsername = useRef<string>();
-
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   // Get user
   useEffect(() => {
     fetch("/api/authentication/getUser")
@@ -40,6 +44,8 @@ const ProfileView = () => {
         });
         originalAvatar.current = data.user.picture;
         originialUsername.current = data.user.username;
+        setIsAdmin(data.user.isAdmin);
+        setIsAdmin(true)
       })
       .catch((err) => console.log(err));
     return () => {
@@ -61,7 +67,7 @@ const ProfileView = () => {
     });
 
     if (resp.status === 204) {
-      enqueueSnackbar("No Changes Made", {
+      enqueueSnackbar(`${t('no_changes_made')}`, {
         autoHideDuration: 2000,
         variant: "info",
       });
@@ -69,7 +75,7 @@ const ProfileView = () => {
 
     // Change user
     if (resp.status === 200) {
-      enqueueSnackbar("Changes Saved", {
+      enqueueSnackbar(`${t('changes_saved')}`, {
         autoHideDuration: 2000,
         variant: "success",
       });
@@ -82,7 +88,7 @@ const ProfileView = () => {
     }
 
     if (!resp.ok) {
-      enqueueSnackbar("Could not make changes", {
+      enqueueSnackbar(`${t('could_not_make_changes')}`, {
         autoHideDuration: 2000,
         variant: "error",
       });
@@ -114,7 +120,6 @@ const ProfileView = () => {
   return (
     <Grid container spacing={2}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
-
       <Grid item xs={12} height={"100%"}>
         <Item sx={{ height: "100%" }}>
           <Avatar
@@ -133,7 +138,7 @@ const ProfileView = () => {
       {isEditing && (
         <Grid item xs={12} height={"100%"}>
           <Item sx={{ height: "100%", textAlign: "center" }}>
-            <Typography>Change Profile Picture:</Typography>
+            <Typography>{t('change_profile_picture')}:</Typography>
             <input
               id="newImage"
               type="file"
@@ -149,7 +154,7 @@ const ProfileView = () => {
         >
           {isEditing ? (
             <>
-              <Typography>Change Username:</Typography>
+              <Typography>{t('change_username')}:</Typography>
               <TextField
                 value={user?.username}
                 variant="standard"
@@ -175,15 +180,12 @@ const ProfileView = () => {
               onClick={() => setIsEditing(!isEditing)}
               sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
             >
-              Edit User
+              {t('edit_user')}
             </Button>
           ) : (
             <>
-              <Button
-                onClick={saveProfile}
-                sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
-              >
-                Save
+              <Button onClick={saveProfile} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
+                {t('save')}
               </Button>
               <Button
                 onClick={() => {
@@ -201,7 +203,7 @@ const ProfileView = () => {
                 }}
                 sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
               >
-                Cancel
+                {t('cancel')}
               </Button>
             </>
           )}
