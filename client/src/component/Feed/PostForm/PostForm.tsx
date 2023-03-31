@@ -79,10 +79,7 @@ export const PostForm = () => {
       minute: "numeric",
     };
     let today = new Date();
-    const formattedDate = today.toLocaleDateString(
-      "en-US",
-      options as Intl.DateTimeFormatOptions
-    );
+    const formattedDate = today.toLocaleDateString("en-US", options as Intl.DateTimeFormatOptions);
     return formattedDate;
   };
 
@@ -134,7 +131,7 @@ export const PostForm = () => {
                 </Button>
                 {image && (
                   <Box>
-                    <img width="30%" height="30%" id="newUploadImage" src={image} alt="uploaded image" />
+                    <img width="200" height="200" id="newUploadImage" src={image} alt="uploaded image" />
                   </Box>
                 )}
                 <TextField
@@ -160,11 +157,8 @@ export const PostForm = () => {
             >
               {t("create")}
             </Button>
-            <IconButton sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}>
-              <CloseIcon />
-            </IconButton>
-            {/* <Button sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}> */}
             <Button
+              variant="contained"
               sx={{ color: "white" }}
               title={t("close") as string}
               onClick={closePostForm}
