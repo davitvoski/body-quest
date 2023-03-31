@@ -147,10 +147,13 @@ export default function NavBar(props: {
           >
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={"/Feed"}
-              tabIndex={0}
+              to={'/Feed'}
             >
-              <IconButton sx={{ color: "white" }} title={t("feed") as string}>
+              <IconButton
+                sx={{ color: "white" }}
+                title={t("feed") as string}
+                tabIndex={0}
+              >
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -168,11 +171,7 @@ export default function NavBar(props: {
                 </IconButton>
               ) : (
                 <>
-                  <Link
-                    to="/"
-                    style={{ display: "inline-block", color: "white" }}
-                    tabIndex={0}
-                  >
+                  <Link to="/" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
                     <IconButton
                       color="inherit"
                       onClick={handleLogout}
@@ -183,11 +182,7 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
 
-                  <Link
-                    to="/Profile"
-                    style={{ display: "inline-block", color: "white" }}
-                    tabIndex={0}
-                  >
+                  <Link to="/Profile" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
                     <IconButton
                       color="inherit"
                       title={t("go_profile") as string}
@@ -196,11 +191,12 @@ export default function NavBar(props: {
                     </IconButton>
                   </Link>
                 </>
-              )}
+              )
+              }
             </>
-          </Box>
-        </Toolbar>
-      </AppBar>
+          </Box >
+        </Toolbar >
+      </AppBar >
 
       <Dialog
         onClose={handleClose}
@@ -216,6 +212,6 @@ export default function NavBar(props: {
           )}
         </DialogContent>
       </Dialog>
-    </Box>
+    </Box >
   );
 }

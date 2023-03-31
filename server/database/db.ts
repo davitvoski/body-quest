@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { Db, MongoClient, ObjectId } from "mongodb";
-import { IExercise, IGoal, IPost, IPostLikedUser, IUser } from "../../shared";
+import { IExercise, IGoal, IPost, IPostLikedUser, IUser, IUserPost } from "../../shared";
 import { GetGoalsReturnValue } from "../types";
 dotenv.config();
 
@@ -60,6 +60,21 @@ export default class Database {
   public async addUser(user: IUser) {
     await db.collection("users").insertOne(user);
   }
+
+
+  /**
+     * This function delete a user to the database
+     * @param user The user to delete to the database
+     */
+  public async deleteUser(user: IUser) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      await collection.deleteOne({ email: user.email });
+    } catch (err) {
+      throw new Error("Error deleting user in the db")
+    }
+  }
+
 
   /**
    * This function gets all exercises from the database
@@ -245,6 +260,22 @@ export default class Database {
 
     } catch (err) {
       throw new Error("Error deleting a post in the db")
+    }
+  }
+
+  /**
+  * This function delete all post when user is not exist
+  * @param posts posts object of the user
+  */
+  async removeAllPosts(user: IUser) {
+    try {
+      const postUser:IUserPost = {username: user.username, email: user.email, picture: user.picture}
+      console.log("???"+user.email);
+      const collection = db.collection(this.postsCollection);
+      await collection.deleteMany({"user.email":user.email});
+
+    } catch (err) {
+      throw new Error("Error deleting all post in the db")
     }
   }
 

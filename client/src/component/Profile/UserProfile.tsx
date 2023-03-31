@@ -43,6 +43,9 @@ const UserProfile = () => {
 
   const currentLevel = getLevelFromXP(experience);
   const theme = useTheme();
+  
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getSpecificUser", {
@@ -76,13 +79,35 @@ const UserProfile = () => {
     setValue(newValue);
   };
 
+  /**
+   * check if is admin user when loggin
+   * @returns ifAdmin
+   */
+  const ifAdmin = async () => {
+    const res = await fetch("/api/authentication/getUser");
+    const currentUser = await res.json();
+    if (currentUser.user !== undefined) {
+      if (currentUser.user.isAdmin) {
+        setIsAdmin(true);
+      } 
+      setCurrentUserEmail(currentUser.user.email)
+    }
+  }; 
+
+  /**
+   * check if loggin user is admin or not
+   */
+  useEffect(() => {
+    ifAdmin();
+  }, []);
+
   return (
     <>
       {!noUser ? (
         <div className="profile content">
           <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={profileWidth}>
-              <UserProfileView email={state.user.email}></UserProfileView>
+              <UserProfileView currentUserEmail={currentUserEmail} isAdmin={isAdmin} email={state.user.email}></UserProfileView>
             </Grid>
 
             <Grid item xs={contentWidth}>

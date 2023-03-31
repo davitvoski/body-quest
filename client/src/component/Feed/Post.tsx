@@ -57,7 +57,7 @@ export const Post = (props: PostProps) => {
       if (checkUser.user.isAdmin) {
         setIsAdmin(true);
       }
-      if (checkUser.user.username === props.post.user.username) {
+      if (checkUser.user.email === props.post.user.email) {
         setCurrentUserPosts(true);
       }
     }

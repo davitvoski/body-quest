@@ -179,13 +179,13 @@ export const PostForm = () => {
             >
               {t("create")}
             </Button>
-            <IconButton
+            <Button
               sx={{ color: "white" }}
               title={t("close") as string}
               onClick={closePostForm}
             >
-              <CloseIcon />
-            </IconButton>
+              {t('cancel')}
+            </Button>
           </Box>
         </form>
       </Paper>
