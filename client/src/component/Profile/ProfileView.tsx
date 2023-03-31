@@ -114,7 +114,7 @@ const ProfileView = () => {
  * Remove user profile when admin delete user
  * @param user IUser
  */
-  const removeUserProfile = async () => {
+  const removeUserProfile = async (e) => {
     const response = confirm("Are you sure you want to delete this user profile?");
     if (response) {
       if (user !== undefined) {
@@ -122,6 +122,8 @@ const ProfileView = () => {
         deletUser(user);
       }
       await fetch("api/authentication/logout");
+    }else{
+      e.preventDefault();
     }
   }
   /**
@@ -162,7 +164,7 @@ const ProfileView = () => {
       {isAdmin && <Grid item xs={12}>
         <Item sx={{ textAlign: "center" }}>
           <Button
-            onClick={() => { removeUserProfile() }}
+            onClick={(e) => { removeUserProfile(e) }}
             sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
             href="/"
           >
