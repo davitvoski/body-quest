@@ -33,14 +33,14 @@ export async function getAllPosts(_: Request, res: Response) {
  */
 export async function createPost(req: Request, res: Response) {
     try {
-        const imageURL = await addImageToAzure(req.body.imageUrl, req.body.caption);
+        const imageURL = await addImageToAzure(req.body.imageUrl);
         const post: IPost = {
             imageUrl: imageURL,
             caption: req.body.caption,
             date: req.body.date,
             likedUsers: []
         }
-
+        
         await new Database().addPost(post, req.session.user?.email as string);
 
         res.json(200);
@@ -93,19 +93,20 @@ export async function toggleLikedPost(req: Request, res: Response) {
  * @param file base64 string
  * @param caption string
  */
-async function addImageToAzure(file: string, caption: string) {
+async function addImageToAzure(file: string) {
     const secondhalf = file.split(":")[1];
     const mimetype = secondhalf.split(";")[0];
     const today = Date.now();
 
-    const blobClient = containerClient.getBlockBlobClient(`${caption + today + ".png"}`);
+    const blobClient = containerClient.getBlockBlobClient(`${today + ".png"}`);
+    
     const options = { blobHTTPHeaders: { blobContentType: mimetype } };
 
     const base64Image = file.split(';base64,').pop() as string;
     const buf = Buffer.from(base64Image, 'base64');
 
     await blobClient.uploadData(buf, options);
-    let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${caption + today + ".png"}`
+    let imageUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${today + ".png"}`
     return imageUrl;
 }
 
