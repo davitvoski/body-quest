@@ -3,15 +3,19 @@ import { IExercise } from "../../../../shared";
 import { useEffect, useState } from "react";
 import { Popup } from "../Exercise/Popup";
 import Item from "../modules/Item";
-import { t } from "i18next";
 
 /**
  * This component displays a users favourite exercises in a pannel
  */
-const FavouriteView = () => {
-  const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
+interface favProps {
+  favourites: IExercise[];
+  email: string;
+}
+
+const UserFavouriteView = (props: favProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentFav, setCurrentFav] = useState<IExercise>();
+  const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
 
   // Display Users Favourites
   useEffect(() => {
@@ -19,11 +23,16 @@ const FavouriteView = () => {
      * This function gets a users favourite exercises
      */
     async function getFavourties() {
-      const resp = await fetch(`/api/exercises/favourites`);
+      const res = await fetch("/api/exercises/favourites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: props.email }),
+      });
       // If not logged in, return
-      if (resp.status === 401) return;
-      const data = (await resp.json()).exercises as IExercise[];
-
+      if (res.status === 401) return;
+      const data = (await res.json()).exercises as IExercise[];
       setFavouriteExercises(data);
     }
 
@@ -43,15 +52,12 @@ const FavouriteView = () => {
 
   return (
     <div>
-      {/* Real Data */}
-
       {favouriteExercises.length > 0 ? (
         favouriteExercises.map((fav) => (
           <div className="clickableDiv">
             <Item
               sx={{ m: "1% 0 1% 0", p: 2 }}
               onClick={() => handlePopup(fav)}
-              tabIndex={0}
             >
               <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
                 {fav.name} {fav.body_part} {fav.target}
@@ -60,8 +66,10 @@ const FavouriteView = () => {
           </div>
         ))
       ) : (
-        <Item sx={{ p: 2, textAlign: "center", opacity: "60%" }}>
-          {t("no_favourites")}.
+        <Item
+          sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
+        >
+          No favourites.
         </Item>
       )}
 
@@ -70,11 +78,11 @@ const FavouriteView = () => {
           handleClose={closePopup}
           exercise={currentFav!}
           open={isOpen}
-          isLoggedIn={true}
+          isLoggedIn={false}
         />
       )}
     </div>
   );
 };
 
-export default FavouriteView;
+export default UserFavouriteView;

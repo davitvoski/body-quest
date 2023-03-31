@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { IPost, IPostLikedUser } from "../../../../shared";
+import { useNavigate } from "react-router";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
@@ -27,6 +28,7 @@ type PostProps = {
 };
 
 export const Post = (props: PostProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
 
@@ -83,7 +85,18 @@ export const Post = (props: PostProps) => {
 
         <CardHeader
           sx={{ textAlign: "left" }}
-          avatar={<Avatar src={props.postOwnerPicture} alt={`${props.postOwnerUsername}'s post`} />}
+          avatar={
+            <Avatar
+              src={props.postOwnerPicture}
+              alt={`${props.postOwnerUsername}'s post`}
+              onClick={() => {
+                navigate(`/users/${props.postOwnerUsername}`, {
+                  state: { user: { email: props.postOwnerEmail } },
+                });
+              }}
+              sx={{ cursor: "pointer" }}
+            />
+          }
           title={props.postOwnerUsername}
           subheader={post.date}
         />
