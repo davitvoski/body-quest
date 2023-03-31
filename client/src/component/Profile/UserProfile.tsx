@@ -103,7 +103,7 @@ const UserProfile = () => {
 
   return (
     <>
-      {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+      {isLoading && <LinearProgress sx={{ width: "60%", margin: "10% auto 5% auto" }} />}
       {!noUser && isLoading === false ? (
         <>
           {isDesktopOrLaptop && (
