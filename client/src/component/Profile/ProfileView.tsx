@@ -117,69 +117,9 @@ const ProfileView = () => {
     };
   }
 
-
-  /**
- * Remove user profile when admin delete user
- * @param user IUser
- */
-  const removeUserProfile = async (e: any) => {
-    const response = confirm(`${t('delete_profile_confirm')}`);
-    if (response) {
-      if (user !== undefined) {
-        deletALLPost(user);
-        deletUser(user);
-      }
-      await fetch("api/authentication/logout");
-    } else {
-      e.preventDefault();
-    }
-  }
-  /**
-  * delete user, send request to server
-  * @param user IUser
-  */
-  const deletUser = async (user: IUser) => {
-    try {
-      await axios.delete("/api/authentication/getUser", {
-        data: {
-          user: user
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /**
-   * delete all posts related to the user when user deleted
-   * @param user IUser
-   */
-  const deletALLPost = async (user: IUser) => {
-    try {
-      await axios.delete("/api/posts/deleteallposts", {
-        data: {
-          user: user
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <Grid container spacing={2}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
-      {isAdmin && <Grid item xs={12}>
-        <Item sx={{ textAlign: "center" }}>
-          <Button
-            onClick={(e) => { removeUserProfile(e) }}
-            sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
-            href="/"
-          >
-            {t('delete_user')}
-          </Button>
-        </Item>
-      </Grid>}
       <Grid item xs={12} height={"100%"}>
         <Item sx={{ height: "100%" }}>
           <Avatar
