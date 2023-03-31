@@ -45,7 +45,7 @@ export const GoalForm = () => {
   const [isGoalValueValid, setIsGoalValueValid] = useState(false);
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(false);
-  let [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
+  const [startDate, setStartDate] = useState(dayjs().format("DD-MM-YYYY"));
   const [endDate, setEndDate] = useState("");
   const [endDateAfterStartDate, setEndDateAfterStartDate] = useState(false);
 
