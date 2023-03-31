@@ -13,6 +13,8 @@ import UserFavouriteView from "./UserFavouriteView";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
 import ExperienceBar from "./ExperienceBar";
 import UserProfileView from "./UserProfileView";
+import { useMediaQuery } from "react-responsive";
+import "../../styles/UserProfile.css";
 
 function a11yProps(index: number) {
   return {
@@ -70,7 +72,6 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUser().catch((err) => {
-      console.log(err);
       setNoUser(true);
     });
   }, []);
@@ -100,72 +101,143 @@ const UserProfile = () => {
   useEffect(() => {
     ifAdmin();
   }, []);
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 600px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
   return (
     <>
       {!noUser ? (
-        <div className="profile content">
-          <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
-            <Grid item xs={profileWidth}>
-              <UserProfileView
-                currentUserEmail={currentUserEmail}
-                isAdmin={isAdmin}
-                email={state.user.email}
-              ></UserProfileView>
-            </Grid>
-
-            <Grid item xs={contentWidth}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
-                    <ExperienceBar
-                      xp={experience - prevLevels(currentLevel)}
-                      xpNext={nextLevel(experience)}
-                      level={currentLevel}
-                    />
-                  </Item>
+        <>
+          {isDesktopOrLaptop && (
+            <div className="profile content">
+              <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
+                <Grid item xs={profileWidth}>
+                  <UserProfileView
+                    currentUserEmail={currentUserEmail}
+                    isAdmin={isAdmin}
+                    email={state.user.email}
+                  ></UserProfileView>
                 </Grid>
 
-                <Grid item xs={12}>
-                  <Item sx={{ m: "0% 0 1% 0" }}>
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      indicatorColor="secondary"
-                      variant="fullWidth"
-                      textColor="inherit"
-                    >
-                      <Tab
-                        label={t("goals")}
-                        sx={{
-                          width: "50%",
-                          fontFamily: "Silkscreen",
-                          fontSize: 20,
-                        }}
-                      />
-                      <Tab
-                        label={t("favourites")}
-                        sx={{
-                          width: "50%",
-                          fontFamily: "Silkscreen",
-                          fontSize: 20,
-                        }}
-                      />
-                    </Tabs>
-                  </Item>
-                  <TabPanel index={0} value={value} {...a11yProps(0)}>
-                    <UserGoalView userGoals={goals} />
-                  </TabPanel>
-                  <TabPanel index={1} value={value} {...a11yProps(2)}>
-                    <UserFavouriteView favourites={favourites} email={email} />
-                  </TabPanel>
+                <Grid item xs={contentWidth}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
+                        <ExperienceBar
+                          xp={experience - prevLevels(currentLevel)}
+                          xpNext={nextLevel(experience)}
+                          level={currentLevel}
+                        />
+                      </Item>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Item sx={{ m: "0% 0 1% 0" }}>
+                        <Tabs
+                          value={value}
+                          onChange={handleChange}
+                          indicatorColor="secondary"
+                          variant="fullWidth"
+                          textColor="inherit"
+                        >
+                          <Tab
+                            label={t("goals")}
+                            sx={{
+                              width: "50%",
+                              fontFamily: "Silkscreen",
+                              fontSize: 20,
+                            }}
+                          />
+                          <Tab
+                            label={t("favourites")}
+                            sx={{
+                              width: "50%",
+                              fontFamily: "Silkscreen",
+                              fontSize: 20,
+                            }}
+                          />
+                        </Tabs>
+                      </Item>
+                      <TabPanel index={0} value={value} {...a11yProps(0)}>
+                        <UserGoalView userGoals={goals} />
+                      </TabPanel>
+                      <TabPanel index={1} value={value} {...a11yProps(2)}>
+                        <UserFavouriteView favourites={favourites} email={email} />
+                      </TabPanel>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        </div>
+            </div>
+          )}
+          {isTabletOrMobile && (
+            <div className="profile content">
+              <Grid container spacing={5} direction="column">
+                <Grid item xs={profileWidth}>
+                  <UserProfileView
+                    currentUserEmail={currentUserEmail}
+                    isAdmin={isAdmin}
+                    email={state.user.email}
+                  ></UserProfileView>
+                </Grid>
+
+                <Grid item xs={contentWidth}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
+                        <ExperienceBar
+                          xp={experience - prevLevels(currentLevel)}
+                          xpNext={nextLevel(experience)}
+                          level={currentLevel}
+                        />
+                      </Item>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Item sx={{ m: "0% 0 1% 0" }}>
+                        <Tabs
+                          value={value}
+                          onChange={handleChange}
+                          indicatorColor="secondary"
+                          variant="fullWidth"
+                          textColor="inherit"
+                        >
+                          <Tab
+                            label={t("goals")}
+                            sx={{
+                              width: "50%",
+                              fontFamily: "Silkscreen",
+                              fontSize: 20,
+                            }}
+                          />
+                          <Tab
+                            label={t("favourites")}
+                            sx={{
+                              width: "50%",
+                              fontFamily: "Silkscreen",
+                              fontSize: 20,
+                            }}
+                          />
+                        </Tabs>
+                      </Item>
+                      <TabPanel index={0} value={value} {...a11yProps(0)}>
+                        <UserGoalView userGoals={goals} />
+                      </TabPanel>
+                      <TabPanel index={1} value={value} {...a11yProps(2)}>
+                        <UserFavouriteView favourites={favourites} email={email} />
+                      </TabPanel>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </div>
+          )}
+        </>
       ) : (
         <h1
+          className="themed-text"
           style={{
             margin: "auto",
             width: "50%",

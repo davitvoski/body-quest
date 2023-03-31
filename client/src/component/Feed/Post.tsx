@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { useMediaQuery } from "react-responsive";
 
 type PostProps = {
   post: IPost;
@@ -78,65 +79,135 @@ export const Post = (props: PostProps) => {
 
   useEffect(() => {}, [post]);
 
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+
   return (
     <>
-      <Card sx={{ width: "500px", margin: "auto auto 5% auto" }} elevation={12}>
-        <SnackbarProvider autoHideDuration={2000} />
+      {isDesktopOrLaptop && (
+        <Card sx={{ width: "500px", margin: "auto auto 5% auto" }} elevation={12}>
+          <SnackbarProvider autoHideDuration={2000} />
 
-        <CardHeader
-          sx={{ textAlign: "left" }}
-          avatar={
-            <Avatar
-              src={props.postOwnerPicture}
-              alt={`${props.postOwnerUsername}'s post`}
+          <CardHeader
+            sx={{ textAlign: "left" }}
+            avatar={
+              <Avatar
+                src={props.postOwnerPicture}
+                alt={`${props.postOwnerUsername}'s post`}
+                onClick={() => {
+                  navigate(`/users/${props.postOwnerUsername}`, {
+                    state: { user: { email: props.postOwnerEmail } },
+                  });
+                }}
+                sx={{ cursor: "pointer" }}
+              />
+            }
+            title={props.postOwnerUsername}
+            subheader={post.date}
+          />
+
+          <CardMedia
+            component="img"
+            image={post.imageUrl}
+            alt={`${props.postOwnerUsername}'s image`}
+            width="100%"
+            height="500vh"
+          />
+
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
+              {(post.likedUsers.some((someUser) => someUser.email === props.user?.email) && (
+                <FavoriteIcon sx={{ color: "red" }} />
+              )) || <FavoriteBorderIcon />}
+            </IconButton>
+
+            <Typography>
+              {post.likedUsers.length} {t("likes")}
+            </Typography>
+          </CardActions>
+
+          <CardContent>
+            <Typography align="left">{post.caption}</Typography>
+          </CardContent>
+          {/* admin user or the owner of post can delete posts */}
+          {(isAdmin || currentUserPosts) && (
+            <Button
+              fullWidth
               onClick={() => {
-                navigate(`/users/${props.postOwnerUsername}`, {
-                  state: { user: { email: props.postOwnerEmail } },
-                });
+                props.removePost(post, props.postOwnerEmail);
               }}
-              sx={{ cursor: "pointer" }}
-            />
-          }
-          title={props.postOwnerUsername}
-          subheader={post.date}
-        />
+              variant="contained"
+            >
+              {t("delete_btn")}
+            </Button>
+          )}
+        </Card>
+      )}
 
-        <CardMedia
-          component="img"
-          image={post.imageUrl}
-          alt={`${props.postOwnerUsername}'s image`}
-          width="100%"
-          height="500vh"
-        />
+      {isTabletOrMobile && (
+        <Card sx={{ width: "280px", marginBottom: "20px" }} elevation={12}>
+          <SnackbarProvider autoHideDuration={2000} />
 
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
-            {(post.likedUsers.some((someUser) => someUser.email === props.user?.email) && (
-              <FavoriteIcon sx={{ color: "red" }} />
-            )) || <FavoriteBorderIcon />}
-          </IconButton>
+          <CardHeader
+            sx={{ textAlign: "left" }}
+            avatar={
+              <Avatar
+                src={props.postOwnerPicture}
+                alt={`${props.postOwnerUsername}'s post`}
+                onClick={() => {
+                  navigate(`/users/${props.postOwnerUsername}`, {
+                    state: { user: { email: props.postOwnerEmail } },
+                  });
+                }}
+                sx={{ cursor: "pointer" }}
+              />
+            }
+            title={props.postOwnerUsername}
+            subheader={post.date}
+          />
+          <CardMedia
+            component="img"
+            image={post.imageUrl}
+            alt={`${props.postOwnerUsername}'s image`}
+            width="100%"
+            height="200vh"
+          />
 
-          <Typography>
-            {post.likedUsers.length} {t("likes")}
-          </Typography>
-        </CardActions>
+          <CardContent>
+            <Typography align="left">{post.caption}</Typography>
+          </CardContent>
 
-        <CardContent>
-          <Typography align="left">{post.caption}</Typography>
-        </CardContent>
-        {/* admin user or the owner of post can delete posts */}
-        {(isAdmin || currentUserPosts) && (
-          <Button
-            fullWidth
-            onClick={() => {
-              props.removePost(post, props.postOwnerEmail);
-            }}
-            variant="contained"
-          >
-            {t("delete_btn")}
-          </Button>
-        )}
-      </Card>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
+              {(post.likedUsers.some((someUser) => someUser.email === props.user?.email) && (
+                <FavoriteIcon sx={{ color: "red" }} />
+              )) || <FavoriteBorderIcon />}
+            </IconButton>
+
+            <Typography>
+              {post.likedUsers.length} {t("likes")}
+            </Typography>
+          </CardActions>
+
+          <CardContent>
+            <Typography align="left">{post.caption}</Typography>
+          </CardContent>
+          {/* admin user or the owner of post can delete posts */}
+          {(isAdmin || currentUserPosts) && (
+            <Button
+              fullWidth
+              onClick={() => {
+                props.removePost(post, props.postOwnerEmail);
+              }}
+              variant="contained"
+            >
+              {t("delete_btn")}
+            </Button>
+          )}
+        </Card>
+      )}
     </>
   );
 };

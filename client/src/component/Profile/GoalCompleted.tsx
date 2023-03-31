@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import { IExercise } from "../../../../shared";
 import { useTranslation } from "react-i18next";
+import CloseIcon from "@mui/icons-material/Close";
+import { useMediaQuery as MQ } from "react-responsive";
 
 interface State extends SnackbarOrigin {
   openSnack: boolean;
@@ -29,7 +31,7 @@ interface State extends SnackbarOrigin {
  *
  * @author Santiago Luna, Davit Voskerchyan
  */
-export const GoalCompleted = (props: {xp: number, handleClose: () => void, open: boolean}) => {
+export const GoalCompleted = (props: { xp: number; handleClose: () => void; open: boolean }) => {
   const { t } = useTranslation();
   const [errorHandling, setErrorHandling] = useState({
     isError: false,
@@ -55,6 +57,11 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
     setSnackState({ ...snackState, openSnack: false });
   };
 
+  const isDesktopOrLaptop = MQ({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = MQ({ query: "(max-width: 1224px)" });
+
   return (
     <>
       <Dialog
@@ -66,26 +73,10 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
         fullScreen={fullScreen}
       >
         <DialogTitle>
-          <Typography
-            variant="h1"
-            component="h2"
-            color="primary.contrastText"
-            sx={{
-              textTransform: "uppercase",
-              fontWeight: "900",
-              fontSize: 50,
-            }}
-          >
-            {t('congratulations')}!
-          </Typography>
-        </DialogTitle>
-        <DialogContent
-          sx={{ overflow: "auto" }}
-          className="scrollbar-container"
-        >
-          <div className="dialog-header">
-            {t('you_gain')}
-          </div>
+          <IconButton sx={{ justifyContent: "right" }} onClick={props.handleClose}>
+            <CloseIcon />
+          </IconButton>
+          {isDesktopOrLaptop ? (
             <Typography
               variant="h1"
               component="h2"
@@ -96,11 +87,38 @@ export const GoalCompleted = (props: {xp: number, handleClose: () => void, open:
                 fontSize: 50,
               }}
             >
-              { props.xp }
+              {t("congratulations")}!
             </Typography>
-          <div className="dialog-header">
-            {t('experience')}!
-          </div>
+          ) : (
+            <Typography
+              variant="h1"
+              component="h2"
+              color="primary.contrastText"
+              sx={{
+                textTransform: "uppercase",
+                fontWeight: "900",
+                fontSize: 30,
+              }}
+            >
+              {t("congratulations")}!
+            </Typography>
+          )}
+        </DialogTitle>
+        <DialogContent sx={{ overflow: "auto" }} className="scrollbar-container">
+          <div className="dialog-header">{t("you_gain")}</div>
+          <Typography
+            variant="h1"
+            component="h2"
+            color="primary.contrastText"
+            sx={{
+              textTransform: "uppercase",
+              fontWeight: "900",
+              fontSize: 50,
+            }}
+          >
+            {props.xp}
+          </Typography>
+          <div className="dialog-header">{t("experience")}!</div>
         </DialogContent>
       </Dialog>
 

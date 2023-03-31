@@ -6,12 +6,19 @@ import { IFeedPosts, IPost, IPostLikedUser, IUser } from "../../../../shared";
 import { Post } from "./Post";
 import AddIcon from "@mui/icons-material/Add";
 import { enqueueSnackbar } from "notistack";
+import { useMediaQuery } from "react-responsive";
 
 export const Feed = () => {
   const { t } = useTranslation();
   const [posts, setPosts] = useState<IFeedPosts[]>([]);
   const [user, setUser] = useState<IPostLikedUser>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const getPosts = async () => {
     const res = await fetch("/api/posts/");
@@ -59,6 +66,7 @@ export const Feed = () => {
       await deletePost(currentPost, postOwnerEmail);
     }
   }
+
   /**
    * delete post, send request to server
    * @param post IPost
@@ -84,14 +92,29 @@ export const Feed = () => {
   return (
     <div className="content profile">
       {user !== undefined && (
-        <Box alignSelf="center" position={"fixed"} bottom={20} right={20} width={"20%"}>
-          <Button variant="contained" href="#/Postcreation" fullWidth color="primary">
-            <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>
-              + {t("add_post")}
-            </Typography>
-          </Button>
-        </Box>
+        <>
+          {isDesktopOrLaptop && (
+            <Box alignSelf="center" position={"fixed"} bottom={20} right={20} width={"20%"}>
+              <Button variant="contained" href="#/Postcreation" fullWidth color="primary">
+                <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={30}>
+                  + {t("add_post")}
+                </Typography>
+              </Button>
+            </Box>
+          )}
+
+          {isTabletOrMobile && (
+            <Box alignSelf="center" position={"fixed"} bottom={20} right={20} width={"20%"}>
+              <Button variant="contained" href="#/Postcreation" fullWidth color="primary">
+                <Typography color="background.paper" fontFamily={"Silkscreen"} variant="button" fontSize={20}>
+                  + {t("add_post")}
+                </Typography>
+              </Button>
+            </Box>
+          )}
+        </>
       )}
+
       <Box display="flex" flexDirection="column" alignItems="center">
         {isLoading && <LinearProgress sx={{ width: "60%" }} />}
         {posts.length === 0 && isLoading === false && "No posts yet"}

@@ -70,7 +70,7 @@ export const PostForm = () => {
   };
 
   const getCurrentDate = () => {
-    var options = {
+    let options = {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -78,8 +78,11 @@ export const PostForm = () => {
       hour: "numeric",
       minute: "numeric",
     };
-    var today = new Date();
-    const formattedDate = today.toLocaleDateString("en-US", options as Intl.DateTimeFormatOptions);
+    let today = new Date();
+    const formattedDate = today.toLocaleDateString(
+      "en-US",
+      options as Intl.DateTimeFormatOptions
+    );
     return formattedDate;
   };
 
@@ -160,7 +163,12 @@ export const PostForm = () => {
             <IconButton sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}>
               <CloseIcon />
             </IconButton>
-            <Button sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}>
+            {/* <Button sx={{ color: "white" }} title={t("close") as string} onClick={closePostForm}> */}
+            <Button
+              sx={{ color: "white" }}
+              title={t("close") as string}
+              onClick={closePostForm}
+            >
               {t("cancel")}
             </Button>
           </Box>

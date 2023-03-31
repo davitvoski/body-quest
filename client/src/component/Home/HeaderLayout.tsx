@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import "../../styles/Home.css";
+import MediaQuery, { useMediaQuery } from "react-responsive";
 
 /**
  * Inspired by https://dribbble.com/shots/16371194-Fitness-Landing-Page
@@ -71,15 +72,24 @@ const HeaderLayout = () => {
     setOpen(true);
   };
 
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+
   return (
-    <div className="outer">
+    <>
+    {isDesktopOrLaptop && (
+      <div className="outer">
       {/* left part of the main page, slogan of the webiste*/}
       <div className="slogan">
         <p id="make_your">{t("makeyour")}</p>
         <h1>{t("body_shape")}</h1>
         <p id="pSlogan">{t("slogan")}</p>
         {/* when click it will go to login/sign page */}
-        <button id="startBtn" onClick={handleClickOpen} tabIndex={-1}>{t("start_now")} </button>
+        <button id="startBtn" onClick={handleClickOpen} tabIndex={-1}>
+          {t("start_now")}{" "}
+        </button>
         <Dialog
           onClose={handleClose}
           open={open}
@@ -93,9 +103,26 @@ const HeaderLayout = () => {
       </div>
       {/* rigth side fitness image */}
       <div className="inner">
-        <img id="fitness" src="/fitness.png" alt="Man holding a dumbbell and woman stretching" />
+        <img
+          id="fitness"
+          src="/fitness.png"
+          alt="Man holding a dumbbell and woman stretching"
+        />
       </div>
     </div>
+    )}
+    {isTabletOrMobile && (
+      <div className="container">
+      <img src="/fitness.png" />
+      <div className="center">
+        <p>{t("makeyour")}</p>
+        <h1>{t("body_shape")}</h1>
+        <p>{t("slogan")}</p>
+      </div>
+    </div>
+    )}
+    </>
+    
   );
 };
 

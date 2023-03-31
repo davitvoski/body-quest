@@ -40,10 +40,7 @@ const Transition = React.forwardRef(function Transition(
  * Nav bar
  * @returns NavBar
  */
-export default function NavBar(props: {
-  Theme: Theme;
-  changeTheme: (current: string) => void;
-}) {
+export default function NavBar(props: { Theme: Theme; changeTheme: (current: string) => void }) {
   const [username, setUsername] = useState("");
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
@@ -145,15 +142,8 @@ export default function NavBar(props: {
             alignItems="center"
             justifyContent="space-around"
           >
-            <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to={'/Feed'}
-            >
-              <IconButton
-                sx={{ color: "white" }}
-                title={t("feed") as string}
-                tabIndex={0}
-              >
+            <Link style={{ textDecoration: "none", color: "white" }} to={"/Feed"}>
+              <IconButton sx={{ color: "white" }} title={t("feed") as string} tabIndex={0}>
                 <FeedIcon />
               </IconButton>
             </Link>
@@ -162,56 +152,35 @@ export default function NavBar(props: {
 
             <>
               {username == "" ? (
-                <IconButton
-                  sx={{ color: "white" }}
-                  onClick={handleClickOpen}
-                  title={t("login") as string}
-                >
+                <IconButton sx={{ color: "white" }} onClick={handleClickOpen} title={t("login") as string}>
                   <LoginIcon color="inherit" />
                 </IconButton>
               ) : (
                 <>
                   <Link to="/" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
-                    <IconButton
-                      color="inherit"
-                      onClick={handleLogout}
-                      title={t("logout") as string}
-                      href="/"
-                    >
+                    <IconButton color="inherit" onClick={handleLogout} title={t("logout") as string} href="/">
                       <LogoutIcon color="inherit" />
                     </IconButton>
                   </Link>
 
                   <Link to="/Profile" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
-                    <IconButton
-                      color="inherit"
-                      title={t("go_profile") as string}
-                    >
+                    <IconButton color="inherit" title={t("go_profile") as string}>
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>
                 </>
-              )
-              }
+              )}
             </>
-          </Box >
-        </Toolbar >
-      </AppBar >
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-      <Dialog
-        onClose={handleClose}
-        open={open}
-        TransitionComponent={Transition}
-      >
+      <Dialog onClose={handleClose} open={open} TransitionComponent={Transition}>
         <DialogTitle>{t("login_str")}</DialogTitle>
         <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
-          {!isLoading ? (
-            <GoogleLogin onSuccess={handleLogin} onError={handleError} />
-          ) : (
-            <CircularProgress />
-          )}
+          {!isLoading ? <GoogleLogin onSuccess={handleLogin} onError={handleError} /> : <CircularProgress />}
         </DialogContent>
       </Dialog>
-    </Box >
+    </Box>
   );
 }

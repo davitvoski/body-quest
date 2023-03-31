@@ -9,10 +9,12 @@ import HeaderLayout from "./HeaderLayout";
 import LinearProgress from "@mui/material/LinearProgress";
 import "../../styles/Home.css";
 import { useLocation } from "react-router";
-import { Box, Grid, Snackbar, SnackbarOrigin } from "@mui/material";
+import { Box, Grid, Snackbar, SnackbarOrigin, Stack } from "@mui/material";
 import React from "react";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import { Exercise } from "../Exercise/Exercise";
+import { useMediaQuery } from "react-responsive";
+import Item from "../modules/Item";
 
 interface State extends SnackbarOrigin {
   openSnack: boolean;
@@ -70,39 +72,89 @@ const Home = () => {
     });
   };
 
-  return (
-    <div className="homePage">
-      <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
-      <HeaderLayout />
-      <Box
-        width="100%"
-        height="5rem"
-        sx={{ backgroundColor: "background.banner" }}
-        display="flex"
-        flexDirection={"row"}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Grid container justifyContent="center" alignItems="center" paddingLeft={"15%"} paddingRight={"15%"}>
-          <Grid item xs={3}>
-            <Search allExercises={allExercises} setExercise={setExercise} />
-          </Grid>
-          <Grid item xs={6}>
-            <h2 id="workout-otd">{t("workout")}</h2>
-          </Grid>
-          <Grid item xs={3}>
-            <FilterView allExercises={allExercises} setExercise={setExercise} />
-          </Grid>
-        </Grid>
-      </Box>
-      <div className="content profile">
-        <div className="exercisesBox">
-          {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
-          <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn} />
+  return (
+    <>
+      {isDesktopOrLaptop && (
+        <div className="homePage">
+          <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
+
+          <HeaderLayout />
+          <Box
+            width="100%"
+            height="5rem"
+            sx={{ backgroundColor: "background.banner" }}
+            display="flex"
+            flexDirection={"row"}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              paddingLeft={"15%"}
+              paddingRight={"15%"}
+            >
+              <Grid item xs={3}>
+                <Search allExercises={allExercises} setExercise={setExercise} />
+              </Grid>
+              <Grid item xs={6}>
+                <h2 id="workout-otd">{t("workout")}</h2>
+              </Grid>
+              <Grid item xs={3}>
+                <FilterView allExercises={allExercises} setExercise={setExercise} />
+              </Grid>
+            </Grid>
+          </Box>
+          <div className="content profile">
+            <div className="exercisesBox">
+              {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+              <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn} />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+      {isTabletOrMobile && (
+        <div className="homePage">
+          <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
+
+          <HeaderLayout />
+          <Box
+            width="100%"
+            height="21rem"
+            sx={{ backgroundColor: "background.banner" }}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Stack spacing={2}>
+              <Item>
+                <Search allExercises={allExercises} setExercise={setExercise} isMobile={true} />
+              </Item>
+              <Item>
+                <FilterView allExercises={allExercises} setExercise={setExercise} isMobile={true} />
+              </Item>
+
+              <Item>
+                <h2 id="workout-otd" style={{ textAlign: "center" }}>
+                  {t("workout")}
+                </h2>
+              </Item>
+            </Stack>
+          </Box>
+          <div className="content profile">
+            <div className="exercisesBox">
+              {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+              <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn} />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
