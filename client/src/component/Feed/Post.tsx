@@ -1,10 +1,20 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { IPost, IPostLikedUser } from "../../../../shared";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useNavigate } from "react-router";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
@@ -14,8 +24,8 @@ type PostProps = {
   user?: IPostLikedUser;
 };
 
-
 export const Post = (props: PostProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
   // check if the post belong to current user
@@ -23,16 +33,18 @@ export const Post = (props: PostProps) => {
   const [post, setPost] = useState<IPost>(props.post);
   const toggleLikedPost = async () => {
     if (props.user) {
-      let response = await axios.post("/api/posts/togglelikedPost", { post: post, user: props.user })
+      let response = await axios.post("/api/posts/togglelikedPost", {
+        post: post,
+        user: props.user,
+      });
       setPost(response.data.post);
-    }
-    else {
+    } else {
       enqueueSnackbar("Log in to like a post", {
         autoHideDuration: 2000,
-        variant: 'error'
+        variant: "error",
       });
     }
-  }
+  };
 
   /**
    * check if is admin user when loggin
@@ -49,25 +61,20 @@ export const Post = (props: PostProps) => {
         setCurrentUserPosts(true);
       }
     }
-  }
+  };
 
   /**
    * check if loggin user is admin or not
    */
   useEffect(() => {
     ifAdmin();
-  }, [])
+  }, []);
 
-  useEffect(() => {
-
-  }, [post]);
+  useEffect(() => {}, [post]);
 
   return (
     <>
-      <Card
-        sx={{ width: "500px", margin: "auto auto 5% auto" }}
-        elevation={12}
-      >
+      <Card sx={{ width: "500px", margin: "auto auto 5% auto" }} elevation={12}>
         <SnackbarProvider autoHideDuration={2000} />
 
         <CardHeader
@@ -76,6 +83,13 @@ export const Post = (props: PostProps) => {
             <Avatar
               src={post.user.picture}
               alt={`${post.user.username}'s post`}
+              onClick={() => {
+                console.log(props.post.user);
+                navigate(`/users/${props.post.user.username}`, {
+                  state: { user: props.post.user },
+                });
+              }}
+              sx={{ cursor: "pointer" }}
             />
           }
           title={post.user.username}
@@ -92,23 +106,34 @@ export const Post = (props: PostProps) => {
 
         <CardActions disableSpacing>
           <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
-            {(post.likedUsers.some(someUser => someUser.email === props.user?.email)
-              && <FavoriteIcon sx={{ color: "red" }} />)
-              || <FavoriteBorderIcon />
-            }
+            {(post.likedUsers.some(
+              (someUser) => someUser.email === props.user?.email
+            ) && <FavoriteIcon sx={{ color: "red" }} />) || (
+              <FavoriteBorderIcon />
+            )}
           </IconButton>
 
-          <Typography>{post.likedUsers.length} {t('likes')}</Typography>
+          <Typography>
+            {post.likedUsers.length} {t("likes")}
+          </Typography>
         </CardActions>
 
         <CardContent>
-          <Typography align="left">
-            {post.caption}
-          </Typography>
+          <Typography align="left">{post.caption}</Typography>
         </CardContent>
         {/* admin user or the owner of post can delete posts */}
-        {(isAdmin || currentUserPosts) && <Button fullWidth onClick={() => { props.removePost(post) }} variant="contained">{t('delete_btn')}</Button>}
+        {(isAdmin || currentUserPosts) && (
+          <Button
+            fullWidth
+            onClick={() => {
+              props.removePost(post);
+            }}
+            variant="contained"
+          >
+            {t("delete_btn")}
+          </Button>
+        )}
       </Card>
     </>
   );
-}
+};

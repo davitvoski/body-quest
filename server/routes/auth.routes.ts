@@ -1,6 +1,14 @@
 import express from "express";
-import { getUser, authenticateUser, isAuthenticated, logout, protectedTest, deleteUser } from "../controllers/auth.controller";
-const authRouter = express.Router()
+import {
+  getUser,
+  authenticateUser,
+  isAuthenticated,
+  logout,
+  protectedTest,
+  getSpecificUser,
+  deleteUser
+} from "../controllers/auth.controller";
+const authRouter = express.Router();
 
 /**
  * This function will get the user from the session
@@ -26,6 +34,25 @@ const authRouter = express.Router()
  *                          type: IUser
  */
 authRouter.get("/getUser", getUser);
+
+/**
+ * This function will get the user from the session
+ * @swagger
+ * /api/authentication/:
+ * get:
+ *     summary: Get specific user
+ *    description: Gets the specific user
+ *   tags:
+ *      - authentication
+ * responses:
+ * 200:
+ *     description: returns IUser
+ *   content:
+ *     application/json:
+ *        schema:
+ *           type: IUser
+ */
+authRouter.post("/getSpecificUser", getSpecificUser);
 
 /**
  * This function will authenticate the user and let them use the app logged in
@@ -139,3 +166,4 @@ authRouter.get("/protected", isAuthenticated, protectedTest);
 authRouter.delete("/getUser", isAuthenticated, deleteUser)
 
 export default authRouter;
+
