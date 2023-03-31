@@ -84,6 +84,7 @@ export const Post = (props: PostProps) => {
               src={post.user.picture}
               alt={`${post.user.username}'s post`}
               onClick={() => {
+                console.log(props.post.user);
                 navigate(`/users/${props.post.user.username}`, {
                   state: { user: props.post.user },
                 });

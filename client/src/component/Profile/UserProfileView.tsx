@@ -13,6 +13,7 @@ import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { IUser } from "../../../../shared";
+import { useLocation } from "react-router";
 
 /**
  * A view containing a user's details, such as username, email, experience, and level
@@ -20,39 +21,35 @@ import { IUser } from "../../../../shared";
  * @returns ProfileView
  */
 const UserProfileView = (props: { email: string }) => {
-  const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<IUser>();
-  // This is a hacky way to force a re-render
-  const [didUserUpdate, setDidUserUpdate] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
   let originalAvatar = useRef<string>();
   let originialUsername = useRef<string>();
+  const { state } = useLocation();
 
   // Get user
   useEffect(() => {
-    console.log("user state: ", user);
-    console.log("props.email", props.email);
-    fetch("/api/authentication/getSpecificUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: props.email }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("data", data);
-        setUser({
-          ...data.user,
-        });
+    console.log("props.email", state.user.email);
+    const getUser = async () => {
+      const res = await fetch("/api/authentication/getSpecificUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: state.user.email }),
+      });
+      const data = await res.json();
+      console.log("user in userprofileView", data);
+      if (data.user !== undefined) {
         originalAvatar.current = data.user.picture;
         originialUsername.current = data.user.username;
-      })
-      .catch((err) => console.log(err));
-    return () => {
-      setUser(undefined);
+        setUser(data.user);
+      }
     };
+
+    getUser().catch((err) => {
+      console.log(err);
+      console.log("Error getting user");
+    });
   }, []);
 
   return (
