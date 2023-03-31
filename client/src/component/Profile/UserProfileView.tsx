@@ -21,7 +21,7 @@ import axios from "axios";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const UserProfileView = (props: {isAdmin:boolean, email: string }) => {
+const UserProfileView = (props: { isAdmin: boolean, currentUserEmail: string, email: string }) => {
   const [user, setUser] = useState<IUser>();
   let originalAvatar = useRef<string>();
   let originialUsername = useRef<string>();
@@ -54,11 +54,11 @@ const UserProfileView = (props: {isAdmin:boolean, email: string }) => {
   }, []);
 
 
-   /**
- * Remove user profile when admin delete user
- * @param user IUser
- */
-   const removeUserProfile = async (e: any) => {
+  /**
+* Remove user profile when admin delete user
+* @param user IUser
+*/
+  const removeUserProfile = async (e: any) => {
     const response = confirm(`${t('delete_profile_confirm')}`);
     if (response) {
       if (user !== undefined) {
@@ -104,7 +104,7 @@ const UserProfileView = (props: {isAdmin:boolean, email: string }) => {
   return (
     <Grid container spacing={2}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
-      {props.isAdmin && <Grid item xs={12}>
+      {(props.isAdmin && props.currentUserEmail !== props.email) && <Grid item xs={12}>
         <Item sx={{ textAlign: "center" }}>
           <Button
             onClick={(e) => { removeUserProfile(e) }}

@@ -45,6 +45,7 @@ const UserProfile = () => {
   const theme = useTheme();
   
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getSpecificUser", {
@@ -89,8 +90,9 @@ const UserProfile = () => {
       if (currentUser.user.isAdmin) {
         setIsAdmin(true);
       } 
+      setCurrentUserEmail(currentUser.user.email)
     }
-  };
+  }; 
 
   /**
    * check if loggin user is admin or not
@@ -105,7 +107,7 @@ const UserProfile = () => {
         <div className="profile content">
           <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={profileWidth}>
-              <UserProfileView isAdmin={isAdmin} email={state.user.email}></UserProfileView>
+              <UserProfileView currentUserEmail={currentUserEmail} isAdmin={isAdmin} email={state.user.email}></UserProfileView>
             </Grid>
 
             <Grid item xs={contentWidth}>
