@@ -43,7 +43,7 @@ const UserProfile = () => {
 
   const currentLevel = getLevelFromXP(experience);
   const theme = useTheme();
-  
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
 
@@ -89,10 +89,10 @@ const UserProfile = () => {
     if (currentUser.user !== undefined) {
       if (currentUser.user.isAdmin) {
         setIsAdmin(true);
-      } 
-      setCurrentUserEmail(currentUser.user.email)
+      }
+      setCurrentUserEmail(currentUser.user.email);
     }
-  }; 
+  };
 
   /**
    * check if loggin user is admin or not
@@ -107,15 +107,17 @@ const UserProfile = () => {
         <div className="profile content">
           <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
             <Grid item xs={profileWidth}>
-              <UserProfileView currentUserEmail={currentUserEmail} isAdmin={isAdmin} email={state.user.email}></UserProfileView>
+              <UserProfileView
+                currentUserEmail={currentUserEmail}
+                isAdmin={isAdmin}
+                email={state.user.email}
+              ></UserProfileView>
             </Grid>
 
             <Grid item xs={contentWidth}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Item
-                    sx={{ border: 8, borderColor: theme.palette.logo.dark }}
-                  >
+                  <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
                     <ExperienceBar
                       xp={experience - prevLevels(currentLevel)}
                       xpNext={nextLevel(experience)}
@@ -170,7 +172,7 @@ const UserProfile = () => {
             padding: "10px",
           }}
         >
-          User Does Not Exist :(
+          User Does Not Exist
         </h1>
       )}
     </>

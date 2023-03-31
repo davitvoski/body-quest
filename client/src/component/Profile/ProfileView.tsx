@@ -1,19 +1,10 @@
-import {
-  Avatar,
-  Button,
-  CircularProgress,
-  Grid,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, Button, CircularProgress, Grid, TextField, Typography, useTheme } from "@mui/material";
 import React, { ChangeEvent, useEffect, useRef } from "react";
 import { useState } from "react";
 import Item from "../modules/Item";
 import { useTranslation } from "react-i18next";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import { IUser, IUserPost } from "../../../../shared";
-import axios from "axios";
+import { IUser } from "../../../../shared";
 import { useNavigate } from "react-router";
 
 /**
@@ -38,16 +29,20 @@ const ProfileView = () => {
     fetch("/api/authentication/getUser")
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data.user);
         setUser({
           ...data.user,
         });
         originalAvatar.current = data.user.picture;
         originialUsername.current = data.user.username;
         setIsAdmin(data.user.isAdmin);
-        setIsAdmin(true)
+        setIsAdmin(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        enqueueSnackbar(`Could not get your information`, {
+          autoHideDuration: 2000,
+          variant: "error",
+        });
+      });
     return () => {
       setUser(undefined);
     };
@@ -67,7 +62,7 @@ const ProfileView = () => {
     });
 
     if (resp.status === 204) {
-      enqueueSnackbar(`${t('no_changes_made')}`, {
+      enqueueSnackbar(`${t("no_changes_made")}`, {
         autoHideDuration: 2000,
         variant: "info",
       });
@@ -75,20 +70,19 @@ const ProfileView = () => {
 
     // Change user
     if (resp.status === 200) {
-      enqueueSnackbar(`${t('changes_saved')}`, {
+      enqueueSnackbar(`${t("changes_saved")}`, {
         autoHideDuration: 2000,
         variant: "success",
       });
       const data = await resp.json();
       const newUser = data.user as IUser;
-      console.log("data", newUser);
       setDidUserUpdate(!didUserUpdate);
       originalAvatar.current = newUser.picture;
       originialUsername.current = newUser.username;
     }
 
     if (!resp.ok) {
-      enqueueSnackbar(`${t('could_not_make_changes')}`, {
+      enqueueSnackbar(`${t("could_not_make_changes")}`, {
         autoHideDuration: 2000,
         variant: "error",
       });
@@ -138,7 +132,7 @@ const ProfileView = () => {
       {isEditing && (
         <Grid item xs={12} height={"100%"}>
           <Item sx={{ height: "100%", textAlign: "center" }}>
-            <Typography>{t('change_profile_picture')}:</Typography>
+            <Typography>{t("change_profile_picture")}:</Typography>
             <input
               id="newImage"
               type="file"
@@ -149,12 +143,10 @@ const ProfileView = () => {
         </Grid>
       )}
       <Grid item xs={12}>
-        <Item
-          sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}
-        >
+        <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>
           {isEditing ? (
             <>
-              <Typography>{t('change_username')}:</Typography>
+              <Typography>{t("change_username")}:</Typography>
               <TextField
                 value={user?.username}
                 variant="standard"
@@ -180,17 +172,15 @@ const ProfileView = () => {
               onClick={() => setIsEditing(!isEditing)}
               sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
             >
-              {t('edit_user')}
+              {t("edit_user")}
             </Button>
           ) : (
             <>
               <Button onClick={saveProfile} sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}>
-                {t('save')}
+                {t("save")}
               </Button>
               <Button
                 onClick={() => {
-                  console.log(originalAvatar.current);
-                  console.log(originialUsername.current);
                   setUser((cur) => {
                     return {
                       ...user,
@@ -203,7 +193,7 @@ const ProfileView = () => {
                 }}
                 sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
               >
-                {t('cancel')}
+                {t("cancel")}
               </Button>
             </>
           )}

@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Button,
-  CircularProgress,
-  Grid,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, Button, CircularProgress, Grid, TextField, Typography, useTheme } from "@mui/material";
 import React, { ChangeEvent, useEffect, useRef } from "react";
 import { useState } from "react";
 import Item from "../modules/Item";
@@ -21,15 +13,15 @@ import axios from "axios";
  * @param props username, email, experience
  * @returns ProfileView
  */
-const UserProfileView = (props: { isAdmin: boolean, currentUserEmail: string, email: string }) => {
+const UserProfileView = (props: { isAdmin: boolean; currentUserEmail: string; email: string }) => {
   const [user, setUser] = useState<IUser>();
   let originalAvatar = useRef<string>();
   let originialUsername = useRef<string>();
   const { state } = useLocation();
   const { t } = useTranslation();
+
   // Get user
   useEffect(() => {
-    console.log("props.email", state.user.email);
     const getUser = async () => {
       const res = await fetch("/api/authentication/getSpecificUser", {
         method: "POST",
@@ -39,7 +31,6 @@ const UserProfileView = (props: { isAdmin: boolean, currentUserEmail: string, em
         body: JSON.stringify({ email: state.user.email }),
       });
       const data = await res.json();
-      console.log("user in userprofileView", data);
       if (data.user !== undefined) {
         originalAvatar.current = data.user.picture;
         originialUsername.current = data.user.username;
@@ -48,73 +39,64 @@ const UserProfileView = (props: { isAdmin: boolean, currentUserEmail: string, em
     };
 
     getUser().catch((err) => {
-      console.log(err);
-      console.log("Error getting user");
+      enqueueSnackbar("Failed to get your information", {
+        autoHideDuration: 2000,
+        variant: "error",
+      });
     });
   }, []);
 
-
   /**
-* Remove user profile when admin delete user
-* @param user IUser
-*/
+   * Remove user profile when admin delete user
+   * @param user IUser
+   */
   const removeUserProfile = async (e: any) => {
-    const response = confirm(`${t('delete_profile_confirm')}`);
+    const response = confirm(`${t("delete_profile_confirm")}`);
     if (response) {
       if (user !== undefined) {
-        deletALLPost(user);
         deletUser(user);
       }
     } else {
       e.preventDefault();
     }
-  }
+  };
   /**
-  * delete user, send request to server
-  * @param user IUser
-  */
+   * delete user, send request to server
+   * @param user IUser
+   */
   const deletUser = async (user: IUser) => {
     try {
       await axios.delete("/api/authentication/getUser", {
         data: {
-          user: user
-        }
+          user: user,
+        },
       });
     } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /**
-   * delete all posts related to the user when user deleted
-   * @param user IUser
-   */
-  const deletALLPost = async (user: IUser) => {
-    try {
-      await axios.delete("/api/posts/deleteallposts", {
-        data: {
-          user: user
-        }
+      enqueueSnackbar("Failed to delete user", {
+        autoHideDuration: 2000,
+        variant: "error",
       });
-    } catch (error) {
-      console.log(error);
     }
   };
 
   return (
     <Grid container spacing={2}>
       <SnackbarProvider autoHideDuration={2000} maxSnack={1} />
-      {(props.isAdmin && props.currentUserEmail !== props.email) && <Grid item xs={12}>
-        <Item sx={{ textAlign: "center" }}>
-          <Button
-            onClick={(e) => { removeUserProfile(e) }}
-            sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
-            href="/"
-          >
-            {t('delete_user')}
-          </Button>
-        </Item>
-      </Grid>}
+      {props.isAdmin && props.currentUserEmail !== props.email && (
+        <Grid item xs={12}>
+          <Item sx={{ textAlign: "center" }}>
+            <Button
+              onClick={(e) => {
+                removeUserProfile(e);
+              }}
+              sx={{ width: "100%", fontFamily: "Silkscreen", fontSize: 18 }}
+              href="/"
+            >
+              {t("delete_user")}
+            </Button>
+          </Item>
+        </Grid>
+      )}
       <Grid item xs={12} height={"100%"}>
         <Item sx={{ height: "100%" }}>
           <Avatar
@@ -132,11 +114,7 @@ const UserProfileView = (props: { isAdmin: boolean, currentUserEmail: string, em
       </Grid>
 
       <Grid item xs={12}>
-        <Item
-          sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}
-        >
-          @{user?.username}
-        </Item>
+        <Item sx={{ fontFamily: "Silkscreen", fontSize: 18, textAlign: "center" }}>@{user?.username}</Item>
       </Grid>
     </Grid>
   );
