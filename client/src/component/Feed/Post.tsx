@@ -190,7 +190,7 @@ export const Post = (props: PostProps) => {
           <CardContent>
             <Typography align="left">{post.caption}</Typography>
           </CardContent>
-          {/* admin user or the owner of post can delete posts */}
+          {/* admin user or the owner of post can R posts */}
           {(isAdmin || currentUserPosts) && (
             <Button
               fullWidth

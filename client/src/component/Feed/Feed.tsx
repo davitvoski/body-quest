@@ -2,7 +2,7 @@ import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import axios, { all } from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IFeedPosts, IPost, IPostLikedUser, IUser } from "../../../../shared";
+import { IAllPostsUser, IFeedPosts, IPost, IPostLikedUser, IUser } from "../../../../shared";
 import { Post } from "./Post";
 import AddIcon from "@mui/icons-material/Add";
 import { enqueueSnackbar } from "notistack";
@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 
 export const Feed = () => {
   const { t } = useTranslation();
-  const [posts, setPosts] = useState<IFeedPosts[]>([]);
+  const [posts, setPosts] = useState<IAllPostsUser[]>([]);
   const [user, setUser] = useState<IPostLikedUser>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -20,6 +20,24 @@ export const Feed = () => {
   });
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+
+  function sortPosts(posts: IFeedPosts[]) {
+    const allFields = posts.reduce((fields, feedPost) => {
+      const { username, email, picture } = feedPost;
+      const postFields = feedPost.posts.map((post) => {
+        const { imageUrl, caption, date, likedUsers } = post;
+        return { username, email, picture, imageUrl, caption, date, likedUsers };
+      }) as IAllPostsUser[];
+
+      return fields.concat(postFields as any);
+    }, []) as IAllPostsUser[];
+
+    const allFieldsSorted = allFields.sort((a, b) => {
+      return new Date(a.date) > new Date(b.date) ? 1 : -1;
+    });
+
+    return allFieldsSorted;
+  }
 
   const getPosts = async () => {
     const res = await fetch("/api/posts/");
@@ -30,23 +48,8 @@ export const Feed = () => {
     }
     setIsLoading(false);
 
-    const sortedPosts = data.sort((a, b) => {
-      const aLatestPostDate = dayjs(
-        a.posts.reduce((latestDate, post) => {
-          const postDate = dayjs(post.date);
-          return postDate.isAfter(latestDate) ? post.date : latestDate;
-        }, "1970-01-01")
-      );
-      const bLatestPostDate = dayjs(
-        b.posts.reduce((latestDate, post) => {
-          const postDate = dayjs(post.date);
-          return postDate.isAfter(latestDate) ? post.date : latestDate;
-        }, "1970-01-01")
-      );
-      return bLatestPostDate.diff(aLatestPostDate); // Sort in descending order based on date
-    });
-    
-    setPosts(sortedPosts);
+    const allFieldsSorted = sortPosts(data);
+    setPosts(allFieldsSorted);
   };
 
   const getUser = async () => {
@@ -79,9 +82,17 @@ export const Feed = () => {
    * if is admin, then user can delete post
    */
   async function removePost(currentPost: IPost, postOwnerEmail: string) {
+    console.log("removePost", currentPost, postOwnerEmail);
+    const postToDelete = {
+      imageUrl: currentPost.imageUrl,
+      caption: currentPost.caption,
+      date: currentPost.date,
+      likedUsers: currentPost.likedUsers,
+    } as IPost;
+    console.log(postToDelete);
     let response = confirm(`${t("confrimDeletePost") as string}`);
     if (response) {
-      await deletePost(currentPost, postOwnerEmail);
+      await deletePost(postToDelete, postOwnerEmail);
     }
   }
 
@@ -98,7 +109,8 @@ export const Feed = () => {
         },
       });
 
-      setPosts((await (await fetch("/api/posts/")).json()) as IFeedPosts[]);
+      const data = (await (await fetch("/api/posts/")).json()) as IFeedPosts[];
+      setPosts(sortPosts(data));
     } catch (error) {
       enqueueSnackbar("Could not delete post", {
         autoHideDuration: 2000,
@@ -138,24 +150,19 @@ export const Feed = () => {
         {posts.length === 0 && isLoading === false && "No posts yet"}
         <div className="feed">
           {posts.length > 0 &&
-            posts
-              .slice(0)
-              .reverse()
-              .map((userPost, index) => {
-                return userPost.posts.map((post, index) => {
-                  return (
-                    <Post
-                      removePost={removePost}
-                      postOwnerUsername={userPost.username}
-                      postOwnerEmail={userPost.email}
-                      postOwnerPicture={userPost.picture}
-                      post={post}
-                      key={index + post.imageUrl}
-                      user={user!}
-                    />
-                  );
-                });
-              })}
+            posts.reverse().map((post, index) => {
+              return (
+                <Post
+                  removePost={removePost}
+                  postOwnerUsername={post.username}
+                  postOwnerEmail={post.email}
+                  postOwnerPicture={post.picture}
+                  post={post}
+                  key={index + post.imageUrl}
+                  user={user!}
+                />
+              );
+            })}
         </div>
       </Box>
     </div>

@@ -33,6 +33,16 @@ export interface IGoal {
 //     picture: string,
 // }
 
+export interface IAllPostsUser {
+    username: string;
+    email: string;
+    picture: string;
+    imageUrl: string;
+    caption: string;
+    date: string;
+    likedUsers: IPostLikedUser[];
+}
+
 export interface IPostLikedUser {
     username: string,
     email: string,

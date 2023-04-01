@@ -69,17 +69,7 @@ export const PostForm = () => {
   };
 
   const getCurrentDate = () => {
-    let options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    let today = new Date();
-    const formattedDate = today.toLocaleDateString("en-US", options as Intl.DateTimeFormatOptions);
-    return formattedDate;
+    return new Date().toLocaleString("en-US");
   };
 
   const handleSubmit = async () => {
