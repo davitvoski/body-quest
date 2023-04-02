@@ -36,6 +36,35 @@ const userRouter = express.Router()
 */
 userRouter.patch("/", isAuthenticated, updateUserInformationPATCH)
 
+/**
+ * This function updates the goal completed to true.
+ * @swagger
+ * /api/users/experience:
+ *  patch:
+ *   summary: Updates a user experience
+ *   description: Updates a user experience (requires authentication)
+ *   tags:
+ *    - User
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       example:
+ *        body: {experience: 100}
+ *   responses:
+ *    204:
+ *     description: No changes needed
+ *    200:
+ *     description: User updated
+ *    400:
+ *     description: Database error
+ *    401:
+ *     description: Not authenticated
+ *    500:
+ *     description: Server failed
+*/
 userRouter.patch("/experience", isAuthenticated, updateUserExperiencePATCH);
 
 export default userRouter

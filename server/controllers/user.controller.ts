@@ -12,6 +12,7 @@ const blobService = new BlobServiceClient(uploadUrl);
 const containerClient = blobService.getContainerClient(containerName);
 
 /**
+ * Router controller
  * Patch method for updating user information
  * @param req Express Request
  * @param res Express Response
@@ -36,7 +37,6 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
         // Change user in database.
         await new Database().updateUserInformation(newUsername, azureImageUrl, req.session.user?.email as string)
         const updatedUser = await new Database().getUser(req.session.user?.email as string)
-        console.log("updated user", updatedUser)
         req.session.user = updatedUser
         res.status(200).json({ user: req.session.user })
     } catch (e) {
@@ -49,20 +49,21 @@ export async function updateUserInformationPATCH(req: Request, res: Response) {
 
 
 /**
+ * Router controller
  * Patch method for updating experience
- *  @param req Express Request
+ * @param req Express Request
  * @param res Express Response
  */
 export async function updateUserExperiencePATCH(req: Request, res: Response) {
     try {
         const newExperience = req.body.experience
-        
+
         if (newExperience === req.session.user?.experience) {
             return res.status(204).send("No changes.")
         }
 
         // Change user in database.
-        new Database().updateUserExperience(newExperience, req.session.user?.email as string)
+        await new Database().updateUserExperience(newExperience, req.session.user?.email as string)
         const updatedUser = await new Database().getUser(req.session.user?.email as string)
         req.session.user = updatedUser
 

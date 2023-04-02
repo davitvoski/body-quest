@@ -25,7 +25,6 @@ export const Exercise = (props: ExerciseProps) => {
 
   const renderImage = (bodyPart: string) => {
     let src = "/body-parts/"
-
     switch(bodyPart) {
       case "waist" : src += "waist.png"; break;
       case "upper legs" : src += "upper-leg.png"; break;
@@ -35,7 +34,7 @@ export const Exercise = (props: ExerciseProps) => {
       case "upper arms" : src += "upper-arm.png"; break;
       case "cardio" : src += "cardio.png"; break;
       case "shoulders" : src += "shoulder.png"; break;
-      case "lower arm" : src += "lower-arm.png"; break;
+      case "lower arms" : src += "lower-arm.png"; break;
       case "neck" : src += "neck.png"; break;
     }
     

@@ -1,4 +1,4 @@
-import { Grid, Tab, Tabs, useTheme } from "@mui/material";
+import { Grid, LinearProgress, Tab, Tabs, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import ProfileView from "./ProfileView";
 import Item from "../modules/Item";
@@ -29,13 +29,12 @@ function a11yProps(index: number) {
  */
 const UserProfile = () => {
   const { t } = useTranslation();
-  const [username, setUsername] = useState("username here");
   const [email, setEmail] = useState("email here");
-  const [picture, setPicture] = useState("");
   const [experience, setExperience] = useState(0);
   const [value, setValue] = useState(0);
   const [goals, setGoals] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
 
   const [profileWidth, setProfileWidth] = useState(3);
@@ -45,7 +44,7 @@ const UserProfile = () => {
 
   const currentLevel = getLevelFromXP(experience);
   const theme = useTheme();
-  
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
 
@@ -57,13 +56,12 @@ const UserProfile = () => {
       },
       body: JSON.stringify({ email: state.user.email }),
     });
+
     const data = await res.json();
-    console.log("user in userprofile", data.user.username);
+
     if (data.user !== undefined) {
-      setUsername(data.user.username);
       setEmail(data.user.email);
       setExperience(0);
-      setPicture(data.user.picture);
       setGoals(data.user.goals);
       setFavourites(data.user.favourites);
       setExperience(data.user.experience);
@@ -71,10 +69,12 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getUser().catch((err) => {
-      console.log(err);
       setNoUser(true);
     });
+    ifAdmin().catch((err) => {});
+    setTimeout(() => setIsLoading(false), 200);
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -91,17 +91,11 @@ const UserProfile = () => {
     if (currentUser.user !== undefined) {
       if (currentUser.user.isAdmin) {
         setIsAdmin(true);
-      } 
-      setCurrentUserEmail(currentUser.user.email)
+      }
+      setCurrentUserEmail(currentUser.user.email);
     }
-  }; 
+  };
 
-  /**
-   * check if loggin user is admin or not
-   */
-  useEffect(() => {
-    ifAdmin();
-  }, []);
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 600px)",
   });
@@ -109,21 +103,24 @@ const UserProfile = () => {
 
   return (
     <>
-      {!noUser ? (
+      {isLoading && <LinearProgress sx={{ width: "60%", margin: "10% auto 5% auto" }} />}
+      {!noUser && isLoading === false ? (
         <>
           {isDesktopOrLaptop && (
             <div className="profile content">
               <Grid container spacing={4} sx={{ padding: "2% 5% 1% 5%" }}>
                 <Grid item xs={profileWidth}>
-                  <UserProfileView email={state.user.email}></UserProfileView>
+                  <UserProfileView
+                    currentUserEmail={currentUserEmail}
+                    isAdmin={isAdmin}
+                    email={state.user.email}
+                  ></UserProfileView>
                 </Grid>
 
                 <Grid item xs={contentWidth}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Item
-                        sx={{ border: 8, borderColor: theme.palette.logo.dark }}
-                      >
+                      <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
                         <ExperienceBar
                           xp={experience - prevLevels(currentLevel)}
                           xpNext={nextLevel(experience)}
@@ -163,10 +160,7 @@ const UserProfile = () => {
                         <UserGoalView userGoals={goals} />
                       </TabPanel>
                       <TabPanel index={1} value={value} {...a11yProps(2)}>
-                        <UserFavouriteView
-                          favourites={favourites}
-                          email={email}
-                        />
+                        <UserFavouriteView favourites={favourites} email={email} />
                       </TabPanel>
                     </Grid>
                   </Grid>
@@ -178,15 +172,17 @@ const UserProfile = () => {
             <div className="profile content">
               <Grid container spacing={5} direction="column">
                 <Grid item xs={profileWidth}>
-                  <UserProfileView email={state.user.email}></UserProfileView>
+                  <UserProfileView
+                    currentUserEmail={currentUserEmail}
+                    isAdmin={isAdmin}
+                    email={state.user.email}
+                  ></UserProfileView>
                 </Grid>
 
                 <Grid item xs={contentWidth}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Item
-                        sx={{ border: 8, borderColor: theme.palette.logo.dark }}
-                      >
+                      <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
                         <ExperienceBar
                           xp={experience - prevLevels(currentLevel)}
                           xpNext={nextLevel(experience)}
@@ -226,10 +222,7 @@ const UserProfile = () => {
                         <UserGoalView userGoals={goals} />
                       </TabPanel>
                       <TabPanel index={1} value={value} {...a11yProps(2)}>
-                        <UserFavouriteView
-                          favourites={favourites}
-                          email={email}
-                        />
+                        <UserFavouriteView favourites={favourites} email={email} />
                       </TabPanel>
                     </Grid>
                   </Grid>
@@ -239,16 +232,20 @@ const UserProfile = () => {
           )}
         </>
       ) : (
-        <h1
-          className="themed-text"
-          style={{
-            margin: "auto",
-            width: "50%",
-            padding: "10px",
-          }}
-        >
-          User Does Not Exist :(
-        </h1>
+        <>
+          {noUser && isLoading === false && (
+            <h1
+              className="themed-text"
+              style={{
+                margin: "auto",
+                width: "50%",
+                padding: "10px",
+              }}
+            >
+              User Does Not Exist
+            </h1>
+          )}
+        </>
       )}
     </>
   );

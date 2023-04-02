@@ -24,8 +24,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "../../styles/NavBar.css";
 import { ThemeNav } from "./ThemeNav";
-import AddIcon from '@mui/icons-material/Add';
-import FeedIcon from '@mui/icons-material/Feed';
+import AddIcon from "@mui/icons-material/Add";
+import FeedIcon from "@mui/icons-material/Feed";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -40,16 +40,13 @@ const Transition = React.forwardRef(function Transition(
  * Nav bar
  * @returns NavBar
  */
-export default function NavBar(props: {
-  Theme: Theme;
-  changeTheme: (current: string) => void;
-}) {
+export default function NavBar(props: { Theme: Theme; changeTheme: (current: string) => void }) {
   const [username, setUsername] = useState("");
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isFeed, setIsFeed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -65,7 +62,7 @@ export default function NavBar(props: {
   };
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
-    setIsLoading(true)
+    setIsLoading(true);
     const res = await fetch("/api/authentication/auth", {
       method: "POST",
       body: JSON.stringify({
@@ -77,7 +74,7 @@ export default function NavBar(props: {
     });
     const data = await res.json();
     setUsername(data.user.Username);
-    setIsLoading(false)
+    setIsLoading(false);
 
     handleClose();
     navigate("/Profile");
@@ -85,8 +82,8 @@ export default function NavBar(props: {
 
   useEffect(() => {
     getUser();
-    //either hide or show add post button    
-    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false)    
+    //either hide or show add post button
+    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false);
   });
 
   const handleError = () => {
@@ -106,17 +103,10 @@ export default function NavBar(props: {
   };
 
   return (
-    <Box id="navBar" 
-      position="fixed"
-      width="100%"
-      zIndex="2"
-    >
+    <Box id="navBar" position="fixed" width="100%" zIndex="2">
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            marginLeft={5}>
+          <Box display="flex" justifyContent="space-between" marginLeft={5}>
             <Box
               display="flex"
               width="60%"
@@ -138,7 +128,7 @@ export default function NavBar(props: {
                     className="logo"
                     src="/logo-light.svg"
                     alt="BodyQuest Logo"
-                    title={t("home") as string }
+                    title={t("home") as string}
                     role="button"
                   />
                 )}
@@ -152,71 +142,45 @@ export default function NavBar(props: {
             alignItems="center"
             justifyContent="space-around"
           >
-            <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to={'/Feed'}
-            >
-              <IconButton
-                sx={{ color: "white" }}
-                title={t("feed") as string}
-                tabIndex={0}
-              >
+            <Link style={{ textDecoration: "none", color: "white" }} to={"/Feed"}>
+              <IconButton sx={{ color: "white" }} title={t("feed") as string} tabIndex={0}>
                 <FeedIcon />
-              </IconButton>              
+              </IconButton>
             </Link>
             <LanguageNav />
             <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme} />
 
             <>
               {username == "" ? (
-                <IconButton
-                  sx={{ color: "white" }}
-                  onClick={handleClickOpen}
-                  title={t("login") as string}
-                >
+                <IconButton sx={{ color: "white" }} onClick={handleClickOpen} title={t("login") as string}>
                   <LoginIcon color="inherit" />
                 </IconButton>
               ) : (
                 <>
                   <Link to="/" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
-                    <IconButton
-                      color="inherit"
-                      onClick={handleLogout}
-                      title={t("logout") as string}
-                      href="/"
-                    >
+                    <IconButton color="inherit" onClick={handleLogout} title={t("logout") as string} href="/">
                       <LogoutIcon color="inherit" />
                     </IconButton>
                   </Link>
 
                   <Link to="/Profile" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
-                    <IconButton
-                      color="inherit"
-                      title={t("go_profile") as string}>
+                    <IconButton color="inherit" title={t("go_profile") as string}>
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>
                 </>
-              )
-              }
+              )}
             </>
-          </Box >
-        </Toolbar >
-      </AppBar >
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-      <Dialog
-        onClose={handleClose}
-        open={open}
-        TransitionComponent={Transition}
-      >
+      <Dialog onClose={handleClose} open={open} TransitionComponent={Transition}>
         <DialogTitle>{t("login_str")}</DialogTitle>
-        <DialogContent sx={{display: "flex", justifyContent: "center"}}>
-          {!isLoading ? 
-            <GoogleLogin onSuccess={handleLogin} onError={handleError} />:
-            <CircularProgress />
-          }
+        <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+          {!isLoading ? <GoogleLogin onSuccess={handleLogin} onError={handleError} /> : <CircularProgress />}
         </DialogContent>
       </Dialog>
-    </Box >
+    </Box>
   );
 }

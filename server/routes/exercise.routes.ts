@@ -74,43 +74,36 @@ exerciseRouter.get("/", getAllExercises);
 exerciseRouter.get("/favourites", isAuthenticated, getAllFavouriteExercises);
 
 /**
- * This function retrieves all the favourite exercises of a user
+ * This function adds the favourited exercise to the users favourites.
  * @swagger
  * /api/exercises/favourites:
- * post:
- * summary: Get all favourite exercises of a specific user
- * description: This endpoint gets all favourite exercises of a specific user by checking their favourites table
- * tags:
- * - Exercises
- * requestBody:
- * required: true
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * email:
- * type: string
- * description: The email of the user
- * responses:
- * 200:
- * description: An array of favourite exercises
- * content:
- * application/json:
- * schema:
- * type: array
- * example:
- * exercises: [{
- * body_part: "waist",
- * equipment: "body weight",
- * gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0001.gif",
- * name: "3/4 sit-up",
- * target: "abs",
- * }]
- * 401:
- * description: Not authenticated
+ *  post:
+ *   summary: Favourite an exercise
+ *   description: This endpoint adds the favourited exercise to the users favourites.
+ *   tags:
+ *    - Exercises
+ *   parameters:
+ *    - in: body
+ *      name: exerciseName
+ *      required: true
+ *      schema:
+ *       type: object
+ *       properties:
+ *        exerciseName:
+ *         type: string
+ *         example: "3/4 sit-up"
+ *   responses:
+ *    200:
+ *     description: Exercise favourited successfully
+ *    401:
+ *     description: Not authenticated
+ *    400:
+ *     description: Database error
+ *    500:
+ *     description: Server failed
+ *          
  */
-exerciseRouter.post("/favourites", getSpecificUserFavouriteExercises);
+exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST);
 
 /**
  * This function gets all goals from the database of a user.
@@ -146,11 +139,7 @@ exerciseRouter.post("/favourites", getSpecificUserFavouriteExercises);
  *     description: Server failed
  *
  */
-exerciseRouter.get(
-  "/favourites/:name",
-  isAuthenticated,
-  getFavourtieExerciseByName
-);
+exerciseRouter.get("/favourites/:name", isAuthenticated, getFavourtieExerciseByName);
 
 /**
  * This function adds the favourited exercise to the users favourites.
@@ -210,10 +199,6 @@ exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST);
  *    500:
  *     description: Server failed
  */
-exerciseRouter.delete(
-  "/favourites/:name",
-  isAuthenticated,
-  favouriteExerciseDELETE
-);
+exerciseRouter.delete("/favourites/:name", isAuthenticated, favouriteExerciseDELETE);
 
 export default exerciseRouter;

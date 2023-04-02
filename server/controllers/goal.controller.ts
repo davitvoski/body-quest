@@ -3,6 +3,7 @@ import { IGoal } from "../../shared";
 import Database from "../database/db";
 
 /**
+ * Router controller
  * This function saves a goal to the database for a user.
  * @param req Express Request
  * @param res Express Response
@@ -26,6 +27,7 @@ export async function saveUserGoalPOST(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function get all the goals for a user.
  * @param req Express Request
  * @param res Express Response
@@ -45,7 +47,8 @@ export async function getUserGoals(req: Request, res: Response) {
 }
 
 /**
- * Tgis function updates a goal to be completed for a user.
+ * Router controller
+ * This function updates a goal to be completed for a user.
  * @param req Express Request
  * @param res Express Response
  */

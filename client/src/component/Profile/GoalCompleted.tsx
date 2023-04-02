@@ -31,11 +31,7 @@ interface State extends SnackbarOrigin {
  *
  * @author Santiago Luna, Davit Voskerchyan
  */
-export const GoalCompleted = (props: {
-  xp: number;
-  handleClose: () => void;
-  open: boolean;
-}) => {
+export const GoalCompleted = (props: { xp: number; handleClose: () => void; open: boolean }) => {
   const { t } = useTranslation();
   const [errorHandling, setErrorHandling] = useState({
     isError: false,
@@ -77,10 +73,7 @@ export const GoalCompleted = (props: {
         fullScreen={fullScreen}
       >
         <DialogTitle>
-          <IconButton
-            sx={{ justifyContent: "right" }}
-            onClick={props.handleClose}
-          >
+          <IconButton sx={{ justifyContent: "right" }} onClick={props.handleClose}>
             <CloseIcon />
           </IconButton>
           {isDesktopOrLaptop ? (
@@ -111,10 +104,7 @@ export const GoalCompleted = (props: {
             </Typography>
           )}
         </DialogTitle>
-        <DialogContent
-          sx={{ overflow: "auto" }}
-          className="scrollbar-container"
-        >
+        <DialogContent sx={{ overflow: "auto" }} className="scrollbar-container">
           <div className="dialog-header">{t("you_gain")}</div>
           <Typography
             variant="h1"

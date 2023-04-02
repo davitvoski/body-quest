@@ -29,10 +29,6 @@ type PopupProps = {
   isLoggedIn: Boolean;
 };
 
-interface State extends SnackbarOrigin {
-  openSnack: boolean;
-}
-
 /**
  * This function ensures that the exercise name is HTTP safe
  * Meaning that when passed through the URL, it is not interpreted as a path
@@ -74,8 +70,8 @@ export const Popup = (props: PopupProps) => {
     }
 
     checkFavourite().catch((err) => {
-      enqueueSnackbar(`${t('addTofavoris') as string }`, {
-        variant: 'error'
+      enqueueSnackbar(`${t("addTofavoris") as string}`, {
+        variant: "error",
       });
     });
   }, []);
@@ -107,28 +103,28 @@ export const Popup = (props: PopupProps) => {
 
     // Handle unathorized
     if (resp.status === 401) {
-      enqueueSnackbar(`${t('addTofavoris') as string }`, {
-        variant: 'error'
+      enqueueSnackbar(`${t("addTofavoris") as string}`, {
+        variant: "error",
       });
       return;
     }
 
     // If code other than in 200 range, return
-    if (!resp.ok){
-      enqueueSnackbar(`${t('popWrongMess') as string }`, {
-        variant: "error"
+    if (!resp.ok) {
+      enqueueSnackbar(`${t("popWrongMess") as string}`, {
+        variant: "error",
       });
       return;
-    } 
+    }
 
     setIsFavourite(!isFavourite);
     if (isFavourite) {
-      enqueueSnackbar(`${t('removeFavoris') as string }`, {
-        variant: "success"
+      enqueueSnackbar(`${t("removeFavoris") as string}`, {
+        variant: "success",
       });
-    }else {
-      enqueueSnackbar(`${t('addedToFavourites') as string }`, {
-        variant: "success"
+    } else {
+      enqueueSnackbar(`${t("addedToFavourites") as string}`, {
+        variant: "success",
       });
     }
   }
@@ -163,10 +159,7 @@ export const Popup = (props: PopupProps) => {
             {exercise.name}
           </Typography>
         </DialogTitle>
-        <DialogContent
-          sx={{ overflow: "auto" }}
-          className="scrollbar-container"
-        >
+        <DialogContent sx={{ overflow: "auto" }} className="scrollbar-container">
           <div className="dialog-header">
             <div className="dialog-text-container">
               <Typography variant="h2" component="h2" sx={{ fontSize: 25 }}>
@@ -186,7 +179,7 @@ export const Popup = (props: PopupProps) => {
                 to={{
                   pathname: "/Goalcreation",
                 }}
-                state={{ exerciseName: exercise.name }}
+                state={{ exerciseName: exercise.name, type: exercise.target }}
               >
                 {t("create_goal")}
               </Link>
@@ -195,26 +188,19 @@ export const Popup = (props: PopupProps) => {
           <div className="img-container">
             <img src={exercise.gifUrl} />
           </div>
-          <div
-            id="dialog-footer"
-            style={{ display: "flex", justifyContent: "right" }}
-          >
+          <div id="dialog-footer" style={{ display: "flex", justifyContent: "right" }}>
             <IconButton sx={{ outline: "none" }} onClick={handleFavourite}>
-              {isFavourite ? (
-                <StarIcon color="warning"/>
-              ) : (
-                <StarBorderIcon sx={{ outline: "none" }} />
-              )}
+              {isFavourite ? <StarIcon color="warning" /> : <StarBorderIcon sx={{ outline: "none" }} />}
             </IconButton>
           </div>
         </DialogContent>
       </Dialog>
 
-      <SnackbarProvider 
-        autoHideDuration={1000} 
-        anchorOrigin={{vertical: "bottom", horizontal: "center"}}
+      <SnackbarProvider
+        autoHideDuration={1000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         maxSnack={1}
-      /> 
+      />
     </>
   );
 };

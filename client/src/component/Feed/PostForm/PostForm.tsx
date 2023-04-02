@@ -12,20 +12,34 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
-import { IPost, IUserPost } from "../../../../../shared";
+import { IPost } from "../../../../../shared";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "@mui/icons-material/Close";
 import "../../../styles/Post.css";
+import { enqueueSnackbar } from "notistack";
 
 export const PostForm = () => {
   const { t } = useTranslation();
   const [image, setImage] = useState<string>();
   const [caption, setCaption] = useState("");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    async function checkUser() {
+      await fetch("/api/authentication/getUser")
+        .then((res) => {
+          if (!res.ok) {
+            navigate("/unauthorized");
+          }
+        })
+        .catch((err) => {});
+    }
+    checkUser();
+  }, []);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -45,51 +59,23 @@ export const PostForm = () => {
 
   const createPost = async (newPost: IPost) => {
     try {
-      await axios.post("/api/posts/createPost", newPost);
+      await axios.post("/api/posts/", newPost);
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Could not create post", {
+        autoHideDuration: 2000,
+        variant: "error",
+      });
     }
   };
 
   const getCurrentDate = () => {
-    let options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    let today = new Date();
-    const formattedDate = today.toLocaleDateString(
-      "en-US",
-      options as Intl.DateTimeFormatOptions
-    );
-    return formattedDate;
-  };
-
-  const getUser = async () => {
-    const res = await fetch("/api/authentication/getUser");
-    const data = await res.json();
-    if (data.user !== undefined) {
-      const userName = data.user.username;
-      const email = data.user.email;
-      const picture = data.user.picture;
-      return {
-        username: userName,
-        email: email,
-        picture: picture,
-      } as IUserPost;
-    }
-    return;
+    return new Date().toLocaleString("en-US");
   };
 
   const handleSubmit = async () => {
     const currentDate = getCurrentDate();
-    const user: IUserPost | undefined = await getUser();
-    if (user && image) {
+    if (image) {
       const newPost: IPost = {
-        user: user,
         imageUrl: image,
         caption: caption,
         date: currentDate,
@@ -108,28 +94,15 @@ export const PostForm = () => {
   };
   return (
     <div className="form-container">
-      <Paper
-        elevation={3}
-        sx={{ width: "50%", maxWidth: "50%", maxHeight: "90%" }}
-      >
+      <Paper elevation={3} sx={{ width: "50%", maxWidth: "50%", maxHeight: "90%" }}>
         <div className="header">
           <Typography variant="h4" component="h4">
             {t("add_post")}
           </Typography>
         </div>
         <form className="goal-form">
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            spacing={5}
-            width="100%"
-          >
-            <Stack
-              justifyContent="center"
-              alignItems="center"
-              spacing={8}
-              width="100%"
-            >
+          <Stack justifyContent="center" alignItems="center" spacing={5} width="100%">
+            <Stack justifyContent="center" alignItems="center" spacing={8} width="100%">
               <FormControl sx={{ m: 1 }} fullWidth>
                 <Button
                   component="label"
@@ -147,13 +120,7 @@ export const PostForm = () => {
                 </Button>
                 {image && (
                   <Box>
-                    <img
-                      width="30%"
-                      height="30%"
-                      id="newUploadImage"
-                      src={image}
-                      alt="uploaded image"
-                    />
+                    <img width="200" height="200" id="newUploadImage" src={image} alt="uploaded image" />
                   </Box>
                 )}
                 <TextField
@@ -180,6 +147,7 @@ export const PostForm = () => {
               {t("create")}
             </Button>
             <Button
+              variant="contained"
               sx={{ color: "white" }}
               title={t("close") as string}
               onClick={closePostForm}

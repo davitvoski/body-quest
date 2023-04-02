@@ -22,21 +22,27 @@ import { useMediaQuery } from "react-responsive";
 type PostProps = {
   post: IPost;
   removePost: Function;
-  user?: IPostLikedUser;
+  user: IPostLikedUser;
+  postOwnerUsername: string;
+  postOwnerEmail: string;
+  postOwnerPicture: string;
 };
 
 export const Post = (props: PostProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
+
   // check if the post belong to current user
   const [currentUserPosts, setCurrentUserPosts] = useState<Boolean>(false);
   const [post, setPost] = useState<IPost>(props.post);
+
   const toggleLikedPost = async () => {
     if (props.user) {
       let response = await axios.post("/api/posts/togglelikedPost", {
         post: post,
         user: props.user,
+        ownerEmail: props.postOwnerEmail,
       });
       setPost(response.data.post);
     } else {
@@ -58,7 +64,7 @@ export const Post = (props: PostProps) => {
       if (checkUser.user.isAdmin) {
         setIsAdmin(true);
       }
-      if (checkUser.user.email === props.post.user.email) {
+      if (checkUser.user.email === props.user.email) {
         setCurrentUserPosts(true);
       }
     }
@@ -81,46 +87,40 @@ export const Post = (props: PostProps) => {
   return (
     <>
       {isDesktopOrLaptop && (
-        <Card
-          sx={{ width: "500px", margin: "auto auto 5% auto" }}
-          elevation={12}
-        >
+        <Card sx={{ width: "500px", margin: "auto auto 5% auto" }} elevation={12}>
           <SnackbarProvider autoHideDuration={2000} />
 
           <CardHeader
             sx={{ textAlign: "left" }}
             avatar={
               <Avatar
-                src={post.user.picture}
-                alt={`${post.user.username}'s post`}
+                src={props.postOwnerPicture}
+                alt={`${props.postOwnerUsername}'s post`}
                 onClick={() => {
-                  console.log(props.post.user);
-                  navigate(`/users/${props.post.user.username}`, {
-                    state: { user: props.post.user },
+                  navigate(`/users/${props.postOwnerUsername}`, {
+                    state: { user: { email: props.postOwnerEmail } },
                   });
                 }}
                 sx={{ cursor: "pointer" }}
               />
             }
-            title={post.user.username}
+            title={props.postOwnerUsername}
             subheader={post.date}
           />
 
           <CardMedia
             component="img"
             image={post.imageUrl}
-            alt={`${post.user.username}'s image`}
+            alt={`${props.postOwnerUsername}'s image`}
             width="100%"
             height="500vh"
           />
 
           <CardActions disableSpacing>
             <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
-              {(post.likedUsers.some(
-                (someUser) => someUser.email === props.user?.email
-              ) && <FavoriteIcon sx={{ color: "red" }} />) || (
-                <FavoriteBorderIcon />
-              )}
+              {(post.likedUsers.some((someUser) => someUser.email === props.user?.email) && (
+                <FavoriteIcon sx={{ color: "red" }} />
+              )) || <FavoriteBorderIcon />}
             </IconButton>
 
             <Typography>
@@ -136,7 +136,7 @@ export const Post = (props: PostProps) => {
             <Button
               fullWidth
               onClick={() => {
-                props.removePost(post);
+                props.removePost(post, props.postOwnerEmail);
               }}
               variant="contained"
             >
@@ -154,36 +154,32 @@ export const Post = (props: PostProps) => {
             sx={{ textAlign: "left" }}
             avatar={
               <Avatar
-                src={post.user.picture}
-                alt={`${post.user.username}'s post`}
+                src={props.postOwnerPicture}
+                alt={`${props.postOwnerUsername}'s post`}
                 onClick={() => {
-                  console.log(props.post.user);
-                  navigate(`/users/${props.post.user.username}`, {
-                    state: { user: props.post.user },
+                  navigate(`/users/${props.postOwnerUsername}`, {
+                    state: { user: { email: props.postOwnerEmail } },
                   });
                 }}
                 sx={{ cursor: "pointer" }}
               />
             }
-            title={post.user.username}
+            title={props.postOwnerUsername}
             subheader={post.date}
           />
-
           <CardMedia
             component="img"
             image={post.imageUrl}
-            alt={`${post.user.username}'s image`}
+            alt={`${props.postOwnerUsername}'s image`}
             width="100%"
             height="200vh"
           />
 
           <CardActions disableSpacing>
             <IconButton aria-label="add to liked" onClick={toggleLikedPost}>
-              {(post.likedUsers.some(
-                (someUser) => someUser.email === props.user?.email
-              ) && <FavoriteIcon sx={{ color: "red" }} />) || (
-                <FavoriteBorderIcon />
-              )}
+              {(post.likedUsers.some((someUser) => someUser.email === props.user?.email) && (
+                <FavoriteIcon sx={{ color: "red" }} />
+              )) || <FavoriteBorderIcon />}
             </IconButton>
 
             <Typography>
@@ -194,12 +190,12 @@ export const Post = (props: PostProps) => {
           <CardContent>
             <Typography align="left">{post.caption}</Typography>
           </CardContent>
-          {/* admin user or the owner of post can delete posts */}
+          {/* admin user or the owner of post can R posts */}
           {(isAdmin || currentUserPosts) && (
             <Button
               fullWidth
               onClick={() => {
-                props.removePost(post);
+                props.removePost(post, props.postOwnerEmail);
               }}
               variant="contained"
             >

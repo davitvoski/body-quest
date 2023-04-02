@@ -11,6 +11,7 @@ import ExperienceBar from "./ExperienceBar";
 import { getLevelFromXP, nextLevel, prevLevels } from "../modules/Experience";
 import { useMediaQuery } from "react-responsive";
 import { IUser } from "../../../../shared";
+import { useNavigate } from "react-router";
 
 function a11yProps(index: number) {
   return {
@@ -24,12 +25,13 @@ function a11yProps(index: number) {
  * @returns Profile Page
  */
 const Profile = () => {
-  const theme = useTheme();
   const { t } = useTranslation();
-  const [username, setUsername] = useState("username");
-  const [email, setEmail] = useState("email");
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("username here");
+  const [email, setEmail] = useState("email here");
   const [picture, setPicture] = useState("");
-  const [experience, setExperience] = useState(0);
+  const [experience, setExperience] = useState(30);
   const [experienceGain, setExperienceGain] = useState(0);
   const [value, setValue] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +41,7 @@ const Profile = () => {
 
   const currentLevel = getLevelFromXP(experience);
 
-  const getUser = async () => {
+  async function getUser() {
     const res = await fetch("/api/authentication/getUser");
     const data = await res.json();
     if (data.user !== undefined) {
@@ -47,12 +49,14 @@ const Profile = () => {
       setEmail(data.user.email);
       setExperience(data.user.experience);
       setPicture(data.user.picture);
+    } else {
+      navigate("/unauthorized");
     }
-  };
+  }
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    getUser();
+    getUser().catch((err) => {});
 
     function handleResize() {
       setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
@@ -60,6 +64,14 @@ const Profile = () => {
       setExperience(experience);
     }
   }, []);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handlePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
   const completeGoal = async (goal: number, type: string) => {
     let xp = 1; // base 1 increase
@@ -77,17 +89,8 @@ const Profile = () => {
       },
       body: JSON.stringify({ experience: experience + xp }),
     });
-    console.log(resp);
   };
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const handlePopup = () => {
-    setIsOpen(!isOpen);
-  };
-
+  
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 700px)",
   });
@@ -106,9 +109,7 @@ const Profile = () => {
             <Grid item xs={contentWidth}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Item
-                    sx={{ border: 8, borderColor: theme.palette.logo.dark }}
-                  >
+                  <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
                     <ExperienceBar
                       xp={experience - prevLevels(currentLevel)}
                       xpNext={nextLevel(experience)}
@@ -155,13 +156,7 @@ const Profile = () => {
             </Grid>
           </Grid>
 
-          {isOpen && (
-            <GoalCompleted
-              handleClose={handlePopup}
-              xp={experienceGain}
-              open={isOpen}
-            />
-          )}
+          {isOpen && <GoalCompleted handleClose={handlePopup} xp={experienceGain} open={isOpen} />}
         </div>
       )}
       {isTabletOrMobile && (
@@ -175,9 +170,7 @@ const Profile = () => {
             <Grid item xs={contentWidth}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Item
-                    sx={{ border: 8, borderColor: theme.palette.logo.dark }}
-                  >
+                  <Item sx={{ border: 8, borderColor: theme.palette.logo.dark }}>
                     <ExperienceBar
                       xp={experience - prevLevels(currentLevel)}
                       xpNext={nextLevel(experience)}
@@ -224,13 +217,7 @@ const Profile = () => {
             </Grid>
           </Grid>
 
-          {isOpen && (
-            <GoalCompleted
-              handleClose={handlePopup}
-              xp={experienceGain}
-              open={isOpen}
-            />
-          )}
+          {isOpen && <GoalCompleted handleClose={handlePopup} xp={experienceGain} open={isOpen} />}
         </div>
       )}
     </>

@@ -9,21 +9,24 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const db = new Database();
 
 /**
+ * Router controller
  * This function returns the user if it is in the session
  * @param req Express Request
  * @param res Express Response
  */
 export function getUser(req: Request, res: Response) {
   try {
-    // console.log(req.session.user)
-    if (req.session) return res.json({ user: req.session.user });
-    res.json("No user in session");
+    if (req.session.user) {
+      return res.send({ user: req.session.user });
+    }
+    res.status(404).send("No user in session");
   } catch (e) {
-    res.status(500).json("No user in session");
+    res.status(500).send("No user in session");
   }
 }
 
 /**
+ * Router controller
  * This function returns the specific user if it is in the database
  * @param req Express Request
  * @param res Express Response
@@ -39,6 +42,7 @@ export async function getSpecificUser(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function authenticates the user when they login
  * @param req Express Request
  * @param res Express Response
@@ -97,16 +101,13 @@ export async function authenticateUser(req: Request, res: Response) {
 }
 
 /**
+ * Router controller
  * This function returns 200 if the user is authenticated or else it returns 401
  * @param req Express Request
  * @param res Express Response
  * @param next Express NextFunction
  */
-export function isAuthenticated(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
   if (!req.session.user) {
     return res.sendStatus(401);
   }
@@ -114,6 +115,7 @@ export function isAuthenticated(
 }
 
 /**
+ * Router controller
  * This function logs out the user if they are logged in
  * @param req Express Request
  * @param res Express Response
@@ -129,24 +131,21 @@ export function logout(req: Request, res: Response) {
 }
 
 /**
- * This function is a test function to see if the user is protected,
- * will be used for administration and guests
- * @param res Express Response
- */
-export function protectedTest(res: Response) {
-  res.sendStatus(200);
-}
-
-/**
+ * Route controller
  * This function delete a user profile 
  * @param req Express Request
+ * @param res Express Response
  */
-export async function deleteUser(req: Request) {
+export async function deleteUser(req: Request, res: Response) {
   try {
     const user = req.body.user as IUser
+    if (!user) throw new Error("No user in request body")
     await db.deleteUser(user);
-    console.log("delete user to the db");
+    res.status(200).send("User deleted");
   } catch (err) {
-    console.log(err);
+    if (err instanceof Error) {
+      return res.status(400).json(err.message);
+    }
+    res.status(500).send("Could not delete user");
   }
 }

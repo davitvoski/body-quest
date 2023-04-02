@@ -40,9 +40,7 @@ const Home = () => {
       method: "GET",
     });
     if (response.status === 404) {
-      throw new Error(
-        `Failed to fetch ${response.status}: ${response.statusText}`
-      );
+      throw new Error(`Failed to fetch ${response.status}: ${response.statusText}`);
     }
     const jsonData = (await response.json()) as IExercise[];
     setIsloading(false);
@@ -61,7 +59,7 @@ const Home = () => {
   useEffect(() => {
     setIsloading(true);
     fetchExercises();
-    getUser();
+    getUser().catch((err) => {});
     if (state?.goalCreated) {
       goalCreationPopup();
     }
@@ -83,11 +81,7 @@ const Home = () => {
     <>
       {isDesktopOrLaptop && (
         <div className="homePage">
-          <SnackbarProvider
-            autoHideDuration={2000}
-            maxSnack={1}
-            preventDuplicate
-          />
+          <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
           <HeaderLayout />
           <Box
@@ -113,36 +107,21 @@ const Home = () => {
                 <h2 id="workout-otd">{t("workout")}</h2>
               </Grid>
               <Grid item xs={3}>
-                <FilterView
-                  allExercises={allExercises}
-                  setExercise={setExercise}
-                />
+                <FilterView allExercises={allExercises} setExercise={setExercise} />
               </Grid>
             </Grid>
           </Box>
           <div className="content profile">
             <div className="exercisesBox">
-              {isLoading && (
-                <LinearProgress
-                  sx={{ width: "60%", margin: "5% auto 5% auto" }}
-                />
-              )}
-              <ExerciseList
-                exercises={exercises}
-                isLoading={isLoading}
-                isLoggedIn={isLoggedIn}
-              />
+              {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+              <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn} />
             </div>
           </div>
         </div>
       )}
       {isTabletOrMobile && (
         <div className="homePage">
-          <SnackbarProvider
-            autoHideDuration={2000}
-            maxSnack={1}
-            preventDuplicate
-          />
+          <SnackbarProvider autoHideDuration={2000} maxSnack={1} preventDuplicate />
 
           <HeaderLayout />
           <Box
@@ -154,18 +133,10 @@ const Home = () => {
           >
             <Stack spacing={2}>
               <Item>
-                <Search
-                  allExercises={allExercises}
-                  setExercise={setExercise}
-                  isMobile={true}
-                />
+                <Search allExercises={allExercises} setExercise={setExercise} isMobile={true} />
               </Item>
               <Item>
-                <FilterView
-                  allExercises={allExercises}
-                  setExercise={setExercise}
-                  isMobile={true}
-                />
+                <FilterView allExercises={allExercises} setExercise={setExercise} isMobile={true} />
               </Item>
 
               <Item>
@@ -177,16 +148,8 @@ const Home = () => {
           </Box>
           <div className="content profile">
             <div className="exercisesBox">
-              {isLoading && (
-                <LinearProgress
-                  sx={{ width: "60%", margin: "5% auto 5% auto" }}
-                />
-              )}
-              <ExerciseList
-                exercises={exercises}
-                isLoading={isLoading}
-                isLoggedIn={isLoggedIn}
-              />
+              {isLoading && <LinearProgress sx={{ width: "60%", margin: "5% auto 5% auto" }} />}
+              <ExerciseList exercises={exercises} isLoading={isLoading} isLoggedIn={isLoggedIn} />
             </div>
           </div>
         </div>
