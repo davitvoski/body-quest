@@ -255,6 +255,7 @@ export const GoalForm = () => {
                       isToday={true}
                       onChange={handleStartDateInput}
                       endAfterStart={true}
+                      readOnly={true}
                     />
                   </FormControl>
 
@@ -264,6 +265,7 @@ export const GoalForm = () => {
                       isToday={false}
                       onChange={handleEndDateInput}
                       endAfterStart={endDateAfterStartDate}
+                      readOnly={false}
                     />
                   </FormControl>
                 </Stack>
@@ -389,6 +391,7 @@ export const GoalForm = () => {
                       isToday={true}
                       onChange={handleStartDateInput}
                       endAfterStart={true}
+                      readOnly={true}
                     />
                   </FormControl>
 
@@ -398,6 +401,7 @@ export const GoalForm = () => {
                       isToday={false}
                       onChange={handleEndDateInput}
                       endAfterStart={endDateAfterStartDate}
+                      readOnly={false}
                     />
                   </FormControl>
                 </Stack>
