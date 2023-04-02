@@ -1,7 +1,14 @@
 import express from "express";
 import { isAuthenticated } from "../controllers/auth.controller";
-import { favouriteExerciseDELETE, favouriteExercisePOST, getAllExercises, getAllFavouriteExercises, getFavourtieExerciseByName } from "../controllers/exercise.controller";
-const exerciseRouter = express.Router()
+import {
+  favouriteExerciseDELETE,
+  favouriteExercisePOST,
+  getAllExercises,
+  getAllFavouriteExercises,
+  getFavourtieExerciseByName,
+  getSpecificUserFavouriteExercises,
+} from "../controllers/exercise.controller";
+const exerciseRouter = express.Router();
 
 /**
  * This function gets all exercises from the database
@@ -29,7 +36,7 @@ const exerciseRouter = express.Router()
  *          400:
  *              description: Error getting all exercises
  */
-exerciseRouter.get("/", getAllExercises)
+exerciseRouter.get("/", getAllExercises);
 
 /**
  * This function gets all goals from the database of a user.
@@ -47,7 +54,7 @@ exerciseRouter.get("/", getAllExercises)
  *     content:
  *      application/json:
  *       schema:
- *        type: array
+ *        type: arrayS
  *        example:
  *         exercises: [{
              body_part: "waist",
@@ -64,7 +71,39 @@ exerciseRouter.get("/", getAllExercises)
  *     description: Server failed
  *          
  */
-exerciseRouter.get("/favourites", isAuthenticated, getAllFavouriteExercises)
+exerciseRouter.get("/favourites", isAuthenticated, getAllFavouriteExercises);
+
+/**
+ * This function adds the favourited exercise to the users favourites.
+ * @swagger
+ * /api/exercises/favourites:
+ *  post:
+ *   summary: Favourite an exercise
+ *   description: This endpoint adds the favourited exercise to the users favourites.
+ *   tags:
+ *    - Exercises
+ *   parameters:
+ *    - in: body
+ *      name: exerciseName
+ *      required: true
+ *      schema:
+ *       type: object
+ *       properties:
+ *        exerciseName:
+ *         type: string
+ *         example: "3/4 sit-up"
+ *   responses:
+ *    200:
+ *     description: Exercise favourited successfully
+ *    401:
+ *     description: Not authenticated
+ *    400:
+ *     description: Database error
+ *    500:
+ *     description: Server failed
+ *          
+ */
+exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST);
 
 /**
  * This function gets all goals from the database of a user.
@@ -98,9 +137,9 @@ exerciseRouter.get("/favourites", isAuthenticated, getAllFavouriteExercises)
  *     description: Database error
  *    500:
  *     description: Server failed
- *          
+ *
  */
-exerciseRouter.get("/favourites/:name", isAuthenticated, getFavourtieExerciseByName)
+exerciseRouter.get("/favourites/:name", isAuthenticated, getFavourtieExerciseByName);
 
 /**
  * This function adds the favourited exercise to the users favourites.
@@ -130,9 +169,9 @@ exerciseRouter.get("/favourites/:name", isAuthenticated, getFavourtieExerciseByN
  *     description: Database error
  *    500:
  *     description: Server failed
- *          
+ *
  */
-exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST)
+exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST);
 
 /**
  * This function adds the favourited exercise to the users favourites.
@@ -160,7 +199,6 @@ exerciseRouter.post("/favourites", isAuthenticated, favouriteExercisePOST)
  *    500:
  *     description: Server failed
  */
-exerciseRouter.delete("/favourites/:name", isAuthenticated, favouriteExerciseDELETE)
+exerciseRouter.delete("/favourites/:name", isAuthenticated, favouriteExerciseDELETE);
 
-
-export default exerciseRouter
+export default exerciseRouter;

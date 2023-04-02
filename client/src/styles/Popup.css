@@ -60,3 +60,12 @@
   color: white;
 }
 
+.dark .img-container {
+  filter: invert(1) hue-rotate(170deg);
+}
+
+.dialogue-header {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}

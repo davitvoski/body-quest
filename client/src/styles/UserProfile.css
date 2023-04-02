@@ -1,0 +1,4 @@
+.themed-text {
+  color: var(--text-primary);
+  -webkit-text-stroke: 1px var(--primary);
+}

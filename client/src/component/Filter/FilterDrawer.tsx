@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FilterList } from './FilterList';
-import { FavoriteBorder } from '@mui/icons-material';
 import { IExercise } from '../../../../shared';
-import { Exercise } from '../Exercise/Exercise';
 import StarBorder from '@mui/icons-material/StarBorder';
 import { useTranslation } from "react-i18next";
 
@@ -20,6 +18,9 @@ type FilterDrawer = {
  * @returns FilterDrawer
  */
 export const FilterDrawer = (props: FilterDrawer) => {
+    const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
+    const [showFavorite, setShowFavorite] = useState(false);
+
     const [targetList, setTargetList] = useState<string[]>([]);
     const [equipments, setEquipements] = useState<string[]>([]);
     const [bodyPart, setBodyPart] = useState<string[]>([]);
@@ -55,25 +56,58 @@ export const FilterDrawer = (props: FilterDrawer) => {
         props.onClose();
     }
 
-
     useEffect(() => {
         getOptions();
     }, [props.allExercises]);
 
+
+    // if user login, can filter their favorite exercises
+    useEffect(() => {
+        /**
+         * This function gets a users favourite exercises
+         */
+        async function getFavourties() {
+            try {
+                // check if authenticated
+                const res = await fetch("/api/authentication/getUser");
+                const checkUser = await res.json();
+                if (checkUser.user !== undefined) {
+                    const resp = await fetch(`/api/exercises/favourites`);
+                    if (resp.status === 200) {
+                        const data = (await resp.json()).exercises as IExercise[];
+                        setFavouriteExercises(data);
+                        setShowFavorite(true);
+                    }
+                }else{
+                    setShowFavorite(false); 
+                    props.setExercise(props.allExercises);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getFavourties();
+    }, []);
+
+
+
     return (
-        <div id='filterDrawer'>
+        <div id='filterDrawer' tabIndex={-1}>
             <Drawer anchor='right' PaperProps={{ sx: { width: 300 } }} open={props.open} onClose={props.onClose} >
                 <FilterList listDataByOption={listDataByOption} filterName={t('target')} filterList={targetList} keyExerercise="target" />
                 <FilterList listDataByOption={listDataByOption} filterName={t('equipement')} filterList={equipments} keyExerercise="equipment" />
                 <FilterList listDataByOption={listDataByOption} filterName={t('body_part')} filterList={bodyPart} keyExerercise="body_part" />
-                <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
+                {showFavorite && <List component="div" disablePadding>
+                    <ListItemButton onClick={() => {
+                        props.setExercise(favouriteExercises);
+                        props.onClose()
+                    }} sx={{ pl: 4 }}>
                         <ListItemIcon>
-                            <StarBorder color="primary"/>
+                            <StarBorder color="primary" />
                         </ListItemIcon>
                         <ListItemText primary={t('Favorites')} />
                     </ListItemButton>
-                </List>
+                </List>}
             </Drawer>
         </div >
     )

@@ -1,5 +1,6 @@
 import "./App.css";
 import {
+  Box,
   createTheme,
   PaletteMode,
   ThemeProvider,
@@ -11,7 +12,10 @@ import NavBar from "./component/NavBar/Nav";
 import Profile from "./component/Profile/Profile";
 import { GoalForm } from "./component/Goal/GoalForm";
 import Home from "./component/Home/Home";
-import { useState } from "react";
+import { Feed } from "./component/Feed/Feed";
+import { PostForm } from "./component/Feed/PostForm/PostForm";
+import { useEffect, useState } from "react";
+import Footer from "./component/Footer";
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -38,13 +42,17 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <div className={Theme.palette.mode + " App"}>
-        <NavBar Theme={Theme} changeTheme={changeTheme} />
-        <Outlet />
+        <NavBar Theme={Theme} changeTheme={changeTheme}/>
+        <Box marginTop="90px" className="main" >
+          <Outlet />
+        </Box>
         {/* <Routes>
           <Route path="/" element={<Home />} />
           <Route path="Profile" element={<Profile />} />
           <Route path="Goalcreation" element={<GoalForm />} />  
+          <Route path="Postcreation" element={<PostForm />} />
         </Routes> */}
+        <Footer />
       </div>
     </ThemeProvider>
   );

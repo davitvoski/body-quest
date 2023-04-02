@@ -6,10 +6,15 @@ import swaggerJSDoc from 'swagger-jsdoc'
 import { allRoutes } from './routes/allroutes.route'
 import session from 'express-session'
 import Database from './database/db'
+import { IUser } from '../shared'
 dotenv.config()
-
 new Database();
 
+declare module 'express-session' {
+    export interface SessionData {
+        user: IUser;
+    }
+}
 
 const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
     openapi: "3.0.0",
@@ -41,10 +46,10 @@ const app = express()
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-app.use(express.json())
+app.use(express.json({limit: '50mb'}))
 app.use(compression())
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 app.use(express.static("../client/build"))
 
 if (process.env.NEED_GOOGLE as string === "true") {

@@ -13,6 +13,8 @@ export interface IUser {
     picture: string,
     goals: IGoal[],
     favourites: [string],
+    isAdmin: boolean,
+    experience: number
 }
 
 export interface IGoal {
@@ -23,4 +25,39 @@ export interface IGoal {
     startDate: string,
     endDate: string,
     completed: boolean = false,
+}
+
+// export interface IUserPost {
+//     username: string,
+//     email: string,
+//     picture: string,
+// }
+
+export interface IAllPostsUser {
+    username: string;
+    email: string;
+    picture: string;
+    imageUrl: string;
+    caption: string;
+    date: string;
+    likedUsers: IPostLikedUser[];
+}
+
+export interface IPostLikedUser {
+    username: string,
+    email: string,
+}
+
+export interface IFeedPosts {
+    username: string,
+    email: string,
+    picture: string,
+    posts: IPost[],
+}
+
+export interface IPost {
+    imageUrl: string,
+    caption: string,
+    date: string,
+    likedUsers: IPostLikedUser[]
 }

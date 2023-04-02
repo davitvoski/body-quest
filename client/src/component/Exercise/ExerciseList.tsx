@@ -1,10 +1,12 @@
-import { IExercise } from "../../../../shared"
-import { Exercise } from "./Exercise"
+import { IExercise } from "../../../../shared";
+import { Exercise } from "./Exercise";
 import "../../styles/Exercises.css";
 import PaginationForExercises from "./Pagination";
 type ExerciseListProps = {
-    exercises: IExercise[]
-}
+  exercises: IExercise[];
+  isLoading: Boolean;
+  isLoggedIn: Boolean;
+};
 /**
  * All exercises data
  * @param props ExerciseListProps
@@ -12,8 +14,8 @@ type ExerciseListProps = {
  */
 export const ExerciseList = (props: ExerciseListProps) => {
     return (
-        <>
-            <PaginationForExercises exercises={props.exercises} />
-        </>
+        <div className="content">
+            <PaginationForExercises isLoading={props.isLoading} exercises={props.exercises} isLoggedIn={props.isLoggedIn}/>
+        </div>
     )
 }

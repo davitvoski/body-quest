@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -23,6 +24,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "../../styles/NavBar.css";
 import { ThemeNav } from "./ThemeNav";
+import AddIcon from "@mui/icons-material/Add";
+import FeedIcon from "@mui/icons-material/Feed";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -37,14 +40,13 @@ const Transition = React.forwardRef(function Transition(
  * Nav bar
  * @returns NavBar
  */
-export default function NavBar(props: {
-  Theme: Theme;
-  changeTheme: (current: string) => void;
-}) {
+export default function NavBar(props: { Theme: Theme; changeTheme: (current: string) => void }) {
   const [username, setUsername] = useState("");
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isFeed, setIsFeed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUser = async () => {
     const res = await fetch("/api/authentication/getUser");
@@ -60,6 +62,7 @@ export default function NavBar(props: {
   };
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
+    setIsLoading(true);
     const res = await fetch("/api/authentication/auth", {
       method: "POST",
       body: JSON.stringify({
@@ -71,10 +74,17 @@ export default function NavBar(props: {
     });
     const data = await res.json();
     setUsername(data.user.Username);
+    setIsLoading(false);
 
     handleClose();
     navigate("/Profile");
   };
+
+  useEffect(() => {
+    getUser();
+    //either hide or show add post button
+    window.location.hash === "#/Feed" ? setIsFeed(true) : setIsFeed(false);
+  });
 
   const handleError = () => {
     console.error("There has been an error");
@@ -93,50 +103,56 @@ export default function NavBar(props: {
   };
 
   return (
-    <Box id="navBar">
+    <Box id="navBar" position="fixed" width="100%" zIndex="2">
       <AppBar className="appbar" position="relative" color="secondary">
         <Toolbar className="toolbar">
-          <Link to={"/"}>
-            {props.Theme.palette.mode === "dark" ? (
-              <img
-                className="logo"
-                src="/logo-dark.svg"
-                alt="BodyQuest Logo"
-                title="Home"
-              />
-            ) : (
-              <img
-                className="logo"
-                src="/logo-light.svg"
-                alt="BodyQuest Logo"
-                title="Home"
-              />
-            )}
-          </Link>
-
+          <Box display="flex" justifyContent="space-between" marginLeft={5}>
+            <Box
+              display="flex"
+              width="60%"
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-around"
+            >
+              <Link to={"/"} tabIndex={0}>
+                {props.Theme.palette.mode === "dark" ? (
+                  <img
+                    className="logo"
+                    src="/logo-dark.svg"
+                    alt="BodyQuest Logo"
+                    title="Home"
+                    role="button"
+                  />
+                ) : (
+                  <img
+                    className="logo"
+                    src="/logo-light.svg"
+                    alt="BodyQuest Logo"
+                    title={t("home") as string}
+                    role="button"
+                  />
+                )}
+              </Link>
+            </Box>
+          </Box>
           <Box
             display="flex"
-            width="10%"
+            marginLeft={5}
             flexDirection="row"
             alignItems="center"
             justifyContent="space-around"
           >
+            <Link style={{ textDecoration: "none", color: "white" }} to={"/Feed"}>
+              <IconButton sx={{ color: "white" }} title={t("feed") as string} tabIndex={0}>
+                <FeedIcon />
+              </IconButton>
+            </Link>
             <LanguageNav />
             <ThemeNav Theme={props.Theme} changeTheme={props.changeTheme} />
 
             <>
               {username == "" ? (
-                <IconButton
-                  style={{
-                    textDecoration: "none",
-                    color: "white",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                    padding: "0",
-                  }}
-                  onClick={handleClickOpen}
-                  title={t("login") as string | undefined}
-                >
+                <IconButton sx={{ color: "white" }} onClick={handleClickOpen} title={t("login") as string}>
                   <LoginIcon color="inherit" />
                 </IconButton>
               ) : (
@@ -179,14 +195,10 @@ export default function NavBar(props: {
         </Toolbar>
       </AppBar>
 
-      <Dialog
-        onClose={handleClose}
-        open={open}
-        TransitionComponent={Transition}
-      >
-        <DialogTitle color="black">{t("login_str")}</DialogTitle>
-        <DialogContent>
-          <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+      <Dialog onClose={handleClose} open={open} TransitionComponent={Transition}>
+        <DialogTitle>{t("login_str")}</DialogTitle>
+        <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+          {!isLoading ? <GoogleLogin onSuccess={handleLogin} onError={handleError} /> : <CircularProgress />}
         </DialogContent>
       </Dialog>
     </Box>

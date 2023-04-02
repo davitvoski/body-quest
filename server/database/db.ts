@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
+import { Db, MongoClient, ObjectId } from "mongodb";
+import { IExercise, IFeedPosts, IGoal, IPost, IPostLikedUser, IUser } from "../../shared";
 import { GetGoalsReturnValue } from "../types";
-import { Db, MongoClient } from "mongodb";
-import { IExercise, IGoal, IUser } from "../../shared";
 dotenv.config();
 
 
@@ -17,6 +17,7 @@ let db: Db;
 export default class Database {
   exercisesCollection = "exercises";
   usersCollection = "users";
+  postsCollection = "posts";
 
   constructor() {
     return instance;
@@ -32,7 +33,6 @@ export default class Database {
       client = new MongoClient(dbUrl);
       await client.connect();
       db = client.db(dbName);
-      console.log("Successfully connected to MongoDB database");
     }
     return instance
   }
@@ -58,6 +58,20 @@ export default class Database {
    */
   public async addUser(user: IUser) {
     await db.collection("users").insertOne(user);
+  }
+
+
+  /**
+   * This function delete a user to the database
+   * @param user The user to delete to the database
+   */
+  public async deleteUser(user: IUser) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      await collection.deleteOne({ email: user.email });
+    } catch (err) {
+      throw new Error("Error deleting user in the db")
+    }
   }
 
   /**
@@ -120,6 +134,25 @@ export default class Database {
     } catch (err) {
       if (err instanceof Error) throw new Error(err.message)
       throw new Error("Error getting the goals")
+    }
+  }
+
+  /**
+   * This function gets all the posts from the db to show to any user
+   * @returns {IPost[]}
+   */
+  async getAllPosts() {
+    try {
+      const collection = db.collection(this.usersCollection)
+
+      const posts = await collection
+        .find({ posts: { $exists: true } }, { projection: { _id: 0, posts: 1, username: 1, email: 1, picture: 1 } })
+        .toArray();
+
+      return posts as unknown as IFeedPosts[]
+    } catch (err) {
+      if (err instanceof Error) throw new Error(err.message)
+      throw new Error("Error getting the feed")
     }
   }
 
@@ -199,6 +232,81 @@ export default class Database {
   }
 
   /**
+   * This function adds a post to the db
+   * @param post post object of the user
+   */
+  async addPost(post: IPost, email: string) {
+    try {
+      const collection = db.collection(this.usersCollection);
+
+      await collection.updateOne({ email: email }, { $push: { posts: post } })
+
+    } catch (err) {
+      throw new Error("Error adding a post in the db")
+    }
+  }
+
+  /**
+  * This function delete a post to the db
+  * @param post post object of the user
+  */
+  async removePost(post: IPost, email: string) {
+    try {
+      const collection = db.collection(this.usersCollection);
+
+      await collection.updateOne({ email: email },
+        { $pull: { posts: post } })
+    } catch (err) {
+      throw new Error("Error deleting a post in the db")
+    }
+  }
+
+  /**
+   * This function adds the user to the liked users list of the post
+   * @param post {IPost} Post to toggle like
+   * @param users Users that liked the post
+   * @param ownerEmail Owner of the post
+   * @returns {IPost} Updated post
+   */
+  async toggleLikedPost(post: IPost, users: IPostLikedUser[], ownerEmail: string) {
+
+    try {
+      const collection = db.collection(this.usersCollection);
+
+      await collection.updateOne(
+        {
+          email: ownerEmail,
+          'posts.imageUrl': post.imageUrl
+        },
+        {
+          $set: {
+            'posts.$.likedUsers': users
+          }
+        }
+      )
+      const response = await collection.findOne(
+        {
+          email: ownerEmail,
+          'posts.imageUrl': post.imageUrl
+        }, { projection: { _id: 0, 'posts.$': 1 } });
+
+      const responsePost = response as unknown as { posts: IPost[] }
+      const updatedPost: IPost = {
+        imageUrl: responsePost.posts[0].imageUrl,
+        caption: responsePost.posts[0].caption,
+        date: responsePost.posts[0].date,
+        likedUsers: responsePost.posts[0].likedUsers
+      }
+
+      return updatedPost;
+
+    } catch (error) {
+      throw new Error("Error adding liking or disliking a post")
+    }
+  }
+
+
+  /**
    * This function removes an exercise from the users favourites
    * @param email Email of the user
    * @param exerciseName Name of Exercise to remove from favourite
@@ -245,7 +353,7 @@ export default class Database {
   }
 
   /**
-   *  This function gets all the exercises that are favourited by a user
+   * This function gets all the exercises that are favourited by a user
    * @param email Email of the user
    * @returns {IExercise[]}
    */
@@ -273,6 +381,65 @@ export default class Database {
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
       throw new Error("Error get favourite exercises")
+    }
+  }
+
+  /**
+   * This function gets the user from the database
+   * @param email Email of the user
+   * @returns {IUser} user object
+   */
+  async getUser(email: string) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      const user: IUser = await collection.findOne({ email: email }) as unknown as IUser;
+      return user;
+    } catch (error) {
+      throw new Error("Cannot fetch user from the db");
+    }
+  }
+
+  /**
+   * This function updates the user information in the database (Username and Profile Picture)
+   * @param newUsername New Username to update to
+   * @param newImage New Profile Picture to update to
+   * @param email Email of the user
+   */
+  async updateUserInformation(newUsername: string, newImage: string, email: string) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      await collection.findOneAndUpdate({
+        email: email,
+      }, {
+        $set: {
+          username: newUsername,
+          picture: newImage
+        }
+      }
+      )
+    } catch (e) {
+      throw new Error("Error while updating user information to the database");
+    }
+  }
+
+  /**
+   * This function updates the user experience in the database
+   * @param newExperience Experience to update to
+   * @param email Email of the user
+   */
+  async updateUserExperience(newExperience: number, email: string) {
+    try {
+      const collection = db.collection(this.usersCollection);
+      await collection.findOneAndUpdate({
+        email: email,
+      }, {
+        $set: {
+          experience: newExperience
+        }
+      }
+      )
+    } catch (e) {
+      throw new Error("Error while updating user experience in the database");
     }
   }
 }

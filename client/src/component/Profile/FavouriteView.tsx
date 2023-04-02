@@ -1,13 +1,17 @@
-import { Checkbox, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Checkbox, Typography } from "@mui/material";
 import { IExercise } from "../../../../shared";
+import { useEffect, useState } from "react";
+import { Popup } from "../Exercise/Popup";
 import Item from "../modules/Item";
+import { t } from "i18next";
 
 /**
  * This component displays a users favourite exercises in a pannel
  */
 const FavouriteView = () => {
   const [favouriteExercises, setFavouriteExercises] = useState<IExercise[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentFav, setCurrentFav] = useState<IExercise>();
 
   // Display Users Favourites
   useEffect(() => {
@@ -30,27 +34,45 @@ const FavouriteView = () => {
     });
   }, []);
 
+  const handlePopup = (fav: IExercise) => {
+    setCurrentFav(fav);
+    setIsOpen(!isOpen);
+  };
+
+  const closePopup = () => setIsOpen(!isOpen);
+
   return (
     <div>
       {/* Real Data */}
-      {/* This part displays a user favourites, I suck at desinging so though to leave it to you Sophia */}
-      {favouriteExercises &&
-        favouriteExercises.map((fav) => (
-          <Item sx={{ m: "1% 0 1% 0", p: 2 }}>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {fav.name}
-            </Typography>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {fav.body_part}
-            </Typography>
-            <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
-              {fav.equipment}
-            </Typography>
-          </Item>
-        ))}
 
-      {/* When User has no favourties tell them */}
-      {favouriteExercises.length === 0 && <>NO FAVOURITES</>}
+      {favouriteExercises.length > 0 ? (
+        favouriteExercises.map((fav) => (
+          <div className="clickableDiv">
+            <Item
+              sx={{ m: "1% 0 1% 0", p: 2 }}
+              onClick={() => handlePopup(fav)}
+              tabIndex={0}
+            >
+              <Typography sx={{ p: "1% 0 1% 0" }} display="inline-block">
+                {fav.name} {fav.body_part} {fav.target}
+              </Typography>
+            </Item>
+          </div>
+        ))
+      ) : (
+        <Item sx={{ p: 2, textAlign: "center", opacity: "60%" }}>
+          {t("no_favourites")}.
+        </Item>
+      )}
+
+      {currentFav != undefined && (
+        <Popup
+          handleClose={closePopup}
+          exercise={currentFav!}
+          open={isOpen}
+          isLoggedIn={true}
+        />
+      )}
     </div>
   );
 };

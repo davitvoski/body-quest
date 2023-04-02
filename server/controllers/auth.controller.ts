@@ -1,66 +1,90 @@
 import express, { Request, Response, NextFunction } from "express";
-import { OAuth2Client } from 'google-auth-library'
+import { OAuth2Client } from "google-auth-library";
 import { IUser } from "../../shared";
 import Database from "../database/db";
-import dotenv from 'dotenv';
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
-declare module 'express-session' {
-  export interface SessionData {
-    user: IUser;
-  }
-}
-
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const db = new Database();
 
 /**
+ * Router controller
  * This function returns the user if it is in the session
  * @param req Express Request
  * @param res Express Response
  */
 export function getUser(req: Request, res: Response) {
   try {
-    if (req.session) return res.json({ user: req.session.user });
-    res.json("No user in session")
+    if (req.session.user) {
+      return res.send({ user: req.session.user });
+    }
+    res.status(404).send("No user in session");
   } catch (e) {
-    res.status(500).json("No user in session")
+    res.status(500).send("No user in session");
   }
 }
 
 /**
+ * Router controller
+ * This function returns the specific user if it is in the database
+ * @param req Express Request
+ * @param res Express Response
+ */
+export async function getSpecificUser(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+    const user = await db.getUser(email);
+    res.status(200).json({ user: user });
+  } catch (e) {
+    res.status(500).json("No user in db");
+  }
+}
+
+/**
+ * Router controller
  * This function authenticates the user when they login
  * @param req Express Request
  * @param res Express Response
  */
 export async function authenticateUser(req: Request, res: Response) {
   try {
-    //TODO: should validate that the token was sent first
     const { token } = req.body;
 
     const ticket = await client.verifyIdToken({
       idToken: token.credential,
-      audience: process.env.GOOGLE_CLIENT_ID
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    if (!ticket)
-      return res.sendStatus(401);
+    if (!ticket) return res.sendStatus(401);
 
     const payLoad = ticket.getPayload();
 
     if (!payLoad || !payLoad.name || !payLoad.email || !payLoad.picture) {
-      return res.status(400).send("Payload does not exist using the ticket. Wrong environment variable most likely.");
+      return res
+        .status(400)
+        .send(
+          "Payload does not exist using the ticket. Wrong environment variable most likely."
+        );
     }
 
-    const user: IUser = { username: payLoad.name, email: payLoad.email, picture: payLoad.picture, goals: [], favourites: [""] }
+    let user: IUser = {
+      username: payLoad.name,
+      email: payLoad.email,
+      picture: payLoad.picture,
+      goals: [],
+      favourites: [""],
+      isAdmin: false,
+      experience: 0,
+    };
 
     const isSignedUp = await db.userIsSignedUp(user.email);
 
     if (!isSignedUp) {
       await db.addUser(user);
       console.log("Added a user to the db");
-    }
-    else {
+    } else {
+      user = await db.getUser(payLoad.email);
       console.log("User is already signed up");
     }
 
@@ -72,16 +96,16 @@ export async function authenticateUser(req: Request, res: Response) {
       res.json({ user: user });
     });
   } catch (e) {
-    res.status(500).send("Error authenticating user")
+    res.status(500).send("Error authenticating user");
   }
-
 }
 
 /**
- * This function returns 200 if the user is authenticated or else it returns 401 
+ * Router controller
+ * This function returns 200 if the user is authenticated or else it returns 401
  * @param req Express Request
  * @param res Express Response
- * @param next Express NextFunction 
+ * @param next Express NextFunction
  */
 export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
   if (!req.session.user) {
@@ -91,6 +115,7 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
 }
 
 /**
+ * Router controller
  * This function logs out the user if they are logged in
  * @param req Express Request
  * @param res Express Response
@@ -100,16 +125,27 @@ export function logout(req: Request, res: Response) {
     if (err) {
       return res.sendStatus(500);
     }
-    res.clearCookie('id');
+    res.clearCookie("id");
     res.sendStatus(200);
   });
 }
 
 /**
- * This function is a test function to see if the user is protected,
- * will be used for administration and guests
+ * Route controller
+ * This function delete a user profile 
+ * @param req Express Request
  * @param res Express Response
  */
-export function protectedTest(res: Response) {
-  res.sendStatus(200);
+export async function deleteUser(req: Request, res: Response) {
+  try {
+    const user = req.body.user as IUser
+    if (!user) throw new Error("No user in request body")
+    await db.deleteUser(user);
+    res.status(200).send("User deleted");
+  } catch (err) {
+    if (err instanceof Error) {
+      return res.status(400).json(err.message);
+    }
+    res.status(500).send("Could not delete user");
+  }
 }

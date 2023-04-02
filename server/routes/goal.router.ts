@@ -57,6 +57,8 @@ goalRouter.post("/", isAuthenticated, saveUserGoalPOST)
  *           ]
  *    400:
  *     description: Database error
+ *    401:
+ *     description: Not authenticated
  *    500:
  *     description: Server failed
  *          
@@ -81,7 +83,17 @@ goalRouter.get("/", isAuthenticated, getUserGoals)
  *       properties:
  *        goal
  *       example:
- *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, reps?: number, sets?: number, weight?: number, completed: boolean, id: number}
+ *        goal: {startDate: 2023-04-1, endDate: 2023-05-01, exercise: string, type: string, goal: number, completed: boolean, id: number}
+ *   responses:
+ *    201:
+ *     description: Goal update
+ *    400:
+ *     description: Database error
+ *    401:
+ *     description: Not authenticated
+ *    500:
+ *     description: Server failed
+ * 
 */
 goalRouter.patch("/completed", isAuthenticated, updateGoalCompletedPATCH)
 
