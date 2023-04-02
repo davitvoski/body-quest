@@ -157,14 +157,34 @@ export default function NavBar(props: { Theme: Theme; changeTheme: (current: str
                 </IconButton>
               ) : (
                 <>
-                  <Link to="/" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
-                    <IconButton color="inherit" onClick={handleLogout} title={t("logout") as string} href="/">
+                  <Link to="/">
+                    <IconButton
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        textTransform: "none",
+                        fontSize: "1rem",
+                        padding: "0",
+                      }}
+                      onClick={handleLogout}
+                      title={t("logout") as string | undefined}
+                      href="/"
+                    >
                       <LogoutIcon color="inherit" />
                     </IconButton>
                   </Link>
 
-                  <Link to="/Profile" style={{ display: "inline-block", color: "white" }} tabIndex={0}>
-                    <IconButton color="inherit" title={t("go_profile") as string}>
+                  <Link to="/Profile">
+                    <IconButton
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        textTransform: "none",
+                        fontSize: "1rem",
+                        padding: "0",
+                      }}
+                      title={t("go_profile") as string | undefined}
+                    >
                       <AccountCircleRoundedIcon />
                     </IconButton>
                   </Link>

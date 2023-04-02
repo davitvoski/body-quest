@@ -56,7 +56,9 @@ const Profile = () => {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    getUser().catch((err) => {});
+    getUser().catch((err) => {
+      navigate("/unauthorized");
+    });
 
     function handleResize() {
       setProfileWidth(window.innerWidth > 750 ? 3.5 : 12);
@@ -90,7 +92,7 @@ const Profile = () => {
       body: JSON.stringify({ experience: experience + xp }),
     });
   };
-  
+
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 700px)",
   });
