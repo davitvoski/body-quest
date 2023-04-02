@@ -61,10 +61,11 @@ export const Post = (props: PostProps) => {
     const res = await fetch("/api/authentication/getUser");
     const checkUser = await res.json();
     if (checkUser.user !== undefined) {
+      console.log("checkUser", checkUser);
       if (checkUser.user.isAdmin) {
         setIsAdmin(true);
       }
-      if (checkUser.user.email === props.user.email) {
+      if (checkUser.user.email === props.postOwnerEmail) {
         setCurrentUserPosts(true);
       }
     }
