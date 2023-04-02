@@ -32,7 +32,6 @@ const GoalView = (props: goalProps) => {
     // NOTE: IF THE GOALS ARE NOT DISPLAYING
     // IT MOST POSSIBLY MEANS THAT THE USER DOEST NOT HAVE ANY GOALS
     getGoals().catch((err) => {
-      console.log(err);
     });
   }, []);
 
@@ -70,7 +69,7 @@ const GoalView = (props: goalProps) => {
             <Typography sx={{ m: "1% 0 1% 0" }} display="inline-block">
               {goal.goal} {goal.type}: {goal.exercise}
             </Typography>
-            <Button onClick={() => completeGoal(goal)}>Complete Goal</Button>
+            <Button onClick={() => completeGoal(goal)}>{t("complete_goal")}</Button>
           </Item>
         ))
       ) : (

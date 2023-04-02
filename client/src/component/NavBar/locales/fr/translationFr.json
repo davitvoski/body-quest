@@ -71,5 +71,6 @@
     "no_changes_made":"Aucune modification",
     "could_not_make_changes":"Impossible de modifier",
     "delete_profile_confirm":"Êtes-vous sûr de supprimer ce profil d'utilisateur ?",
-    "search_exercises":"Rechercher"
+    "search_exercises":"Rechercher",
+    "complete_goal": "But Accomplit"
   }

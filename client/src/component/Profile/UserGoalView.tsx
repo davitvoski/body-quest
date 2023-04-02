@@ -37,14 +37,14 @@ const UserGoalView = (props: goalProps) => {
         <Item
           sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
         >
-          No current goals.
+          {t("no_current_goals")}
         </Item>
       )}
       {props.userGoals.filter(isCompleted).length > 0 && (
         <Item
           sx={{ m: "1% 0 1% 0", p: 2, textAlign: "center", opacity: "60%" }}
         >
-          COMPLETED GOALS
+          {t("completed_goals")}
         </Item>
       )}
       {props.userGoals.filter(isCompleted).length > 0 &&

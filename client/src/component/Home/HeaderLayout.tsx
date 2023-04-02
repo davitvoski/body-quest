@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, Slide } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Slide, useTheme } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { TransitionProps } from "notistack";
 import React, { useEffect } from "react";
@@ -30,6 +30,7 @@ const HeaderLayout = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const theme = useTheme();
 
   const handleClose = () => {
     setOpen(false);
@@ -79,50 +80,51 @@ const HeaderLayout = () => {
 
   return (
     <>
-    {isDesktopOrLaptop && (
-      <div className="outer">
-      {/* left part of the main page, slogan of the webiste*/}
-      <div className="slogan">
-        <p id="make_your">{t("makeyour")}</p>
-        <h1>{t("body_shape")}</h1>
-        <p id="pSlogan">{t("slogan")}</p>
-        {/* when click it will go to login/sign page */}
-        <button id="startBtn" onClick={handleClickOpen} tabIndex={-1}>
-          {t("start_now")}{" "}
-        </button>
-        <Dialog
-          onClose={handleClose}
-          open={open}
-          TransitionComponent={Transition}
-        >
-          <DialogTitle color="black">{t("login_str")}</DialogTitle>
-          <DialogContent>
-            <GoogleLogin onSuccess={handleLogin} onError={handleError} />
-          </DialogContent>
-        </Dialog>
-      </div>
-      {/* rigth side fitness image */}
-      <div className="inner">
-        <img
-          id="fitness"
-          src="/fitness.png"
-          alt="Man holding a dumbbell and woman stretching"
-        />
-      </div>
-    </div>
-    )}
-    {isTabletOrMobile && (
-      <div className="container">
-      <img src="/fitness.png" />
-      <div className="center">
-        <p>{t("makeyour")}</p>
-        <h1>{t("body_shape")}</h1>
-        <p>{t("slogan")}</p>
-      </div>
-    </div>
-    )}
+      {isDesktopOrLaptop && (
+        <div className="outer">
+          {/* left part of the main page, slogan of the webiste*/}
+          <div className="slogan">
+            <p id="make_your">{t("makeyour")}</p>
+            <h1>{t("body_shape")}</h1>
+            <p id="pSlogan">{t("slogan")}</p>
+            {/* when click it will go to login/sign page */}
+            <button id="startBtn" onClick={handleClickOpen} tabIndex={-1}>
+              {t("start_now")}{" "}
+            </button>
+            <Dialog onClose={handleClose} open={open} TransitionComponent={Transition}>
+              <DialogTitle color="black">{t("login_str")}</DialogTitle>
+              <DialogContent>
+                <GoogleLogin onSuccess={handleLogin} onError={handleError} />
+              </DialogContent>
+            </Dialog>
+          </div>
+          {/* rigth side fitness image */}
+          <div className="inner">
+            <img id="fitness" src="/fitness.png" alt="Man holding a dumbbell and woman stretching" />
+          </div>
+        </div>
+      )}
+      {isTabletOrMobile && (
+        <div className="container">
+          <img src="/fitness.png" />
+          <div className="center">
+            {theme.palette.mode === "light" ? (
+              <>
+                <p style={{ color: "#dd3f40" }}>{t("makeyour")}</p>
+                <h1 style={{ color: "#dd3f40" }}>{t("body_shape")}</h1>
+                <p style={{ color: "#dd3f40" }}>{t("slogan")}</p>
+              </>
+            ) : (
+              <>
+                <p>{t("makeyour")}</p>
+                <h1>{t("body_shape")}</h1>
+                <p>{t("slogan")}</p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </>
-    
   );
 };
 
