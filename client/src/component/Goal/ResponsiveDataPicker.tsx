@@ -11,6 +11,7 @@ type DatePickerProps = {
   isToday: boolean;
   onChange: (newValue: Dayjs | null) => void;
   endAfterStart?: boolean;
+  readOnly: boolean;
 };
 
 /**
@@ -21,15 +22,14 @@ type DatePickerProps = {
  *
  */
 export default function ResponsiveDatePicker(props: DatePickerProps) {
-  const {t} = useTranslation();
-  const [value, setValue] = React.useState<Dayjs | null>(
-    props.isToday ? dayjs() : null
-  );
+  const { t } = useTranslation();
+  const [value, setValue] = React.useState<Dayjs | null>(props.isToday ? dayjs() : null);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {props.endAfterStart ? (
         <DatePicker
+          readOnly={props.readOnly}
           label={props.label}
           openTo="day"
           views={["year", "month", "day"]}
@@ -42,6 +42,7 @@ export default function ResponsiveDatePicker(props: DatePickerProps) {
         />
       ) : (
         <DatePicker
+          readOnly={props.readOnly}
           label={props.label}
           openTo="day"
           views={["year", "month", "day"]}
@@ -51,11 +52,7 @@ export default function ResponsiveDatePicker(props: DatePickerProps) {
             setValue(newValue);
           }}
           renderInput={(params) => (
-            <TextField
-              {...params}
-              helperText={t('date_requirement')}
-              sx={{ color: "red" }}
-            />
+            <TextField {...params} helperText={t("date_requirement")} sx={{ color: "red" }} />
           )}
         />
       )}

@@ -1,5 +1,15 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, FormControl, InputBase, InputLabel, OutlinedInputProps, styled, TextField, TextFieldProps, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputBase,
+  InputLabel,
+  OutlinedInputProps,
+  styled,
+  TextField,
+  TextFieldProps,
+  Typography,
+} from "@mui/material";
 import { IExercise } from "../../../../shared";
 import { useTranslation } from "react-i18next";
 import "../../styles/Search.css";
@@ -10,32 +20,30 @@ type searchProps = {
 };
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
-    label: "Filter exercises by key word",
-    '& .MuiInputBase-input': {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.default,
-      border: 'none',
-      fontSize: 20,
-      width: '100%',
-      height: "2.5rem",
-      padding: "0.5rem",
-      fontFamily: [
-        'Silkscreen',
-      ].join(',')
+  label: "Filter exercises by key word",
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: theme.palette.background.default,
+    border: "none",
+    fontSize: 20,
+    width: "100%",
+    height: "2.5rem",
+    padding: "0.5rem",
+    fontFamily: ["Silkscreen"].join(","),
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "none",
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        border: 'none',
-      },
-      '&:hover fieldset': {
-        borderColor: theme.palette.primary.main,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.primary.main,
-      },
-    }
-  }));
+    "&:hover fieldset": {
+      borderColor: theme.palette.primary.main,
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}));
 
 /**
  * This feature allow user to serach exercises they want
@@ -48,7 +56,7 @@ export const Search = (props: searchProps) => {
 
   /**
    * Will list all exercises based on the values entered by the user.
-   * @param event 
+   * @param event
    */
   const getSearchValue = (event: any) => {
     event.preventDefault();
@@ -73,15 +81,16 @@ export const Search = (props: searchProps) => {
   };
 
   return (
-    <Box
-      alignSelf="center"
-      color="background.default"
-      padding={"5%"}
-      width={"100%"}>
-        <StyledTextField 
-        sx={{width: width}}
-          label={<Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>Search exercises...</Typography>}
-          onChange={getSearchValue} />
+    <Box alignSelf="center" color="background.default" padding={"5%"} width={"100%"}>
+      <StyledTextField
+        sx={{ width: width }}
+        label={
+          <Typography fontFamily={"Silkscreen"} fontSize={20} marginTop={-0.5}>
+            {t("search_exercises")}
+          </Typography>
+        }
+        onChange={getSearchValue}
+      />
     </Box>
-  )
-}
+  );
+};
